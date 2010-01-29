@@ -1,0 +1,4 @@
+# Fetch the spam rating as defined by qsf and SpamAssassin
+spam "X-Spam-Status: Yes, hits=([0-9]+.[0-9]*)" "Spam [%1]"
+spam "X-Spam-Rating: ([7-9][0-9]+)" "Spam [%1]"
+

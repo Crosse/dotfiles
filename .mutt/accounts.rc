@@ -1,0 +1,8 @@
+# Log in to crosse.org IMAP at startup
+set spoolfile="imaps://user@domain.com/"
+# Define the = shortcut, and the entry point for the folder browser (c?)
+set folder="imaps://user@domain.com/"
+set record="=Sent"
+set postponed="=Drafts"
+set message_cachedir="~/.mailcache/"
+set header_cache="~/.mailcache/"

@@ -1,0 +1,10 @@
+# Match URLs in mail
+color body blue default "(finger|ftp|hg|http(|s)|news|tel)://[^ ]*"
+color body yellow black "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+# Match dates, both ISO-style and [YY]YY/MM/DD
+color body brightred black "\(19|20\)?[0-9][0-9][/-][01]?[0-9][/-][0123]?[0-9]"
+
+# Highlight qsf and SpamAssassin flagged mail
+color index brightred brightblack "~h '^X-Spam: YES'"
+color index brightmagenta brightblack "~h '^X-Spam-Status: Yes'"
+
