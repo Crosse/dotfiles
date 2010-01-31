@@ -124,7 +124,7 @@ alias cp='cp -i'
 alias ll='ls -lah'
 alias dir='ls -lah'
 alias rdp='rdesktop -g 1280x1024 -a 16'
-alias t='tmux has-session -t main; if [ $? -eq 0 ]; then tmux new-session -t main; else tmux new-session -s main -n zero; fi'
+alias t='tmux attach-session -t main'
 
 #######################################
 #       Clean up the environment      #
