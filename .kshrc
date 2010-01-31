@@ -47,6 +47,16 @@ fi
 # to the same file.
 export HISTFILE=$HOME/.history
 
+#######################################
+#            Key Bindings             #
+#######################################
+if [ ${0#-} == 'ksh' ]; then
+    if [ -o interactive ]; then
+        # Map ^L to clear
+        bind -m ''=clear^J
+    fi
+fi
+
 
 #######################################
 #        Environment Variables        #
@@ -63,6 +73,10 @@ fi
 EDITOR=$VI
 VISUAL=$VI
 export EDITOR VISUAL
+
+# Using ksh, setting EDITOR or VISUAL (above) also sets vi
+# key bindings.  This sets it back to emacs.
+set -o emacs
 
 LESS=$(which less)
 if [ -x ${LESS} ]; then
@@ -126,15 +140,7 @@ unset VI
 if [ -x $(which tmux) ]; then
     if [ -z $TMUX ]; then
         # we're not in tmux
-        # See if the 'main' session already exists.
-        tmux has-session -t main
-        if [ $? -eq 0 ]; then
-            # It does, so enter it.
-            tmux new-session -t main
-        else
-            # no sessions exist; create a new one and enter it
-            tmux new-session -s main -n zero
-        fi
+        tmux attach-session -t main
     fi
 fi
 
