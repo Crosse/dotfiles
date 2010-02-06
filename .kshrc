@@ -140,7 +140,13 @@ unset VI
 if [ -x $(which tmux) ]; then
     if [ -z $TMUX ]; then
         # we're not in tmux
-        tmux attach-session -t main
+        tmux has-session -t main 2> /dev/null
+        if [ $? -ne 0 ]; then
+            # no sessions exist; start up a new one
+            # Otherwise, we'll ignore this section and the 
+            # user can enter the session manually.
+            tmux attach-session -t main
+        fi
     fi
 fi
 
