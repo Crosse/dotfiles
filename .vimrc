@@ -71,9 +71,6 @@ endif
 " Turn syntax highlighting on
 if has('syntax')
     syntax on
-    
-    " Show unprintable chars
-    set list
 
     if has('extra_search')
         " Turn on search highlighting
