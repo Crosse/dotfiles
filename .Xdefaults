@@ -1,5 +1,3 @@
-! $Id$ 
-
 ! Stuff that doesn't go anywhere else.
 Xft*antialias:          true
 ! Process ~/.profile, if it exists.
@@ -33,6 +31,8 @@ XTerm*scrollTtyOutput:  false
 ! Color management
 ! These colors were taken from the Clearlooks-DeepSky
 ! gtk theme.
+XTerm*foreground:       #cccccc
+XTerm*background:       #000000
 XTerm*color0:           #000000
 XTerm*color1:           #cb0000
 XTerm*color2:           #00cb00
