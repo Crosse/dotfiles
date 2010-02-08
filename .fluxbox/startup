@@ -1,47 +1,10 @@
-# fluxbox startup-script:
+# $Id$
 #
-# Lines starting with a '#' are ignored.
-
-# You can set your favourite wallpaper here if you don't want
-# to do it from your style.
-#
-# bsetbg -f ~/pictures/wallpaper.png
-#
-# This sets a black background
-
-#/usr/local/bin/fbsetroot -solid black
-
-# This shows the fluxbox-splash-screen
-# fbsetbg -C /usr/local/share/fluxbox/splash.jpg
-
-# Other examples. Check man xset for details.
-#
-# Turn off beeps:
-# xset -b
-#
-# Increase the keyboard repeat-rate:
-# xset r rate 195 35
-#
-# Your own fonts-dir:
-# xset +fp /home/seth/.font
-#
-# Your favourite mouse cursor:
-# xsetroot -cursor_name right_ptr
-#
-# Change your keymap:
-# xmodmap ~/.Xmodmap
-
-
-
-# Applications you want to run with fluxbox.
-# MAKE SURE THAT APPS THAT KEEP RUNNING HAVE AN ''&'' AT THE END.
+# fluxbox startup-script
 #
 
 #root-tail -f -fn '-*-*-medium-r-*-sans-12-*-*-*-*-*-*-*' -g 800x250+10+640 --wordwrap /var/log/authlog,orange, /var/log/daemon,green, /var/log/messages,gray, &
-#
-# And last but not least we start fluxbox.
-# Because it is the last app you have to run it with ''exec'' before it.
-#
-#exec /usr/local/bin/fluxbox
+
+exec /usr/local/bin/fluxbox
 # or if you want to keep a log:
-exec /usr/local/bin/fluxbox -log ~/.fluxbox/log
+#exec /usr/local/bin/fluxbox -log ~/.fluxbox/log

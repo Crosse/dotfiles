@@ -1,3 +1,6 @@
+# $Id$
+# fluxbox hotkey file
+
 Mod1 Tab                    :NextWindow
 Mod1 Shift Tab              :PrevWindow
 Mod4 F1                     :Workspace 1

@@ -1,3 +1,5 @@
+# $Id$
+
 # Match URLs in mail
 color body blue default "(finger|ftp|hg|http(|s)|news|tel)://[^ ]*"
 color body yellow black "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"

@@ -1,7 +1,0 @@
-# Reread this file on every folder change
-folder-hook . source ~/.mutt/score.rc
-unscore *
-uncolor index *
-# Read our global colours again
-source ~/.mutt/color.rc
-

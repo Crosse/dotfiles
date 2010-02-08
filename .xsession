@@ -1,6 +1,20 @@
-eval "`gnome-keyring-daemon`"
-export GNOME_KEYRING_PID
-export GNOME_KEYRING_SOCKET
-export SSH_AUTH_SOCK
+#!/bin/sh
+#
+# $Id$
+#
+# X startup script
+
+# Load any Xdefaults
+if [ -f ${HOME}/.Xdefaults ]; then
+    xrdb -merge ${HOME}/.Xdefaults
+fi
+
+xscreensaver -no-splash &
+
+# Set the background
+fbsetbg -l
+
+#xterm -geometry 140x50 &
 
 exec /usr/local/bin/startfluxbox
+#exec cwm
