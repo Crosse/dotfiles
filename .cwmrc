@@ -1,0 +1,22 @@
+# ~/.cwmrc
+# $Id$
+#
+
+# Keybindings
+bind C-Up       unmap
+bind C-Down     unmap
+bind C-Left     unmap
+bind C-Right    unmap
+bind M-Left     unmap
+bind M-Right    unmap
+bind CM-Right   cyclegroup
+bind CM-Left    rcyclegroup
+
+# Autogroup definitions
+autogroup 1     "xterm,XTerm"
+autogroup 1     "gnome-terminal,Gnome-terminal"
+autogroup 2     "Navigator,Firefox"
+autogroup 3     "Pidgin,Pidgin"
+
+# use gnome-terminal as the default terminal
+term            gnome-terminal

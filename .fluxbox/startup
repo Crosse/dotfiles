@@ -13,7 +13,6 @@
 
 # This shows the fluxbox-splash-screen
 # fbsetbg -C /usr/local/share/fluxbox/splash.jpg
-fbsetbg -l
 
 # Other examples. Check man xset for details.
 #
@@ -37,8 +36,6 @@ fbsetbg -l
 # Applications you want to run with fluxbox.
 # MAKE SURE THAT APPS THAT KEEP RUNNING HAVE AN ''&'' AT THE END.
 #
-/usr/local/bin/gnome-screensaver &
-/usr/local/bin/gkrellm -w &
 
 #root-tail -f -fn '-*-*-medium-r-*-sans-12-*-*-*-*-*-*-*' -g 800x250+10+640 --wordwrap /var/log/authlog,orange, /var/log/daemon,green, /var/log/messages,gray, &
 #

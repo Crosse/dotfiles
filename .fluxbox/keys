@@ -1,5 +1,9 @@
 Mod1 Tab                    :NextWindow
 Mod1 Shift Tab              :PrevWindow
+Mod4 F1                     :Workspace 1
+Mod4 F2                     :Workspace 2
+Mod4 F3                     :Workspace 3
+Mod4 F4                     :Workspace 4
 Control Mod1 Left           :PrevWorkspace
 Control Mod1 Right          :NextWorkspace
 Control Shift F1            :SendToWorkspace 1
@@ -8,12 +12,12 @@ Control Shift F3            :SendToWorkspace 3
 Control Shift F4            :SendToWorkspace 4
 Control Mod4 Delete         :Reconfigure
 Control Mod4 Shift Delete   :Restart
-Mod4 r                      :Exec fbrun -font Lucida\ Console -title "Run Command:" -w 500
-Mod4 Shift r                :Exec dmenu_run
+Mod4 Shift r                :Exec fbrun -font Monospace -title "Run Command:" -w 500
+Mod4 r                      :Exec dmenu_run
 Mod4 d                      :ShowDesktop
 Mod4 l                      :Exec gnome-screensaver-command -a
 Mod4 e                      :Exec nautilus --no-desktop
-Mod4 x                      :Close
+Mod1 F4                     :Close
 Mod4 m                      :Minimize
-Mod4 t                      :Exec gnome-terminal
+Mod4 t                      :Exec xterm
 Mod4 f                      :Exec firefox35
