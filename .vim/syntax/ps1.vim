@@ -4,8 +4,8 @@
 " Version: 2.7
 " Url: http://www.vim.org/scripts/script.php?script_id=1327
 " 
-" $LastChangedDate: 2007-03-05 21:18:39 -0800 (Mon, 05 Mar 2007) $
-" $Rev: 58 $
+" $LastChangedDate$
+" $Rev$
 "
 " Contributions by:
 " 	Jared Parsons <jaredp@beanseed.org>

@@ -6,7 +6,7 @@
 # options. Put a backslash in before odd chars
 # MY_TERM='Eterm --tint \#123456'
 # MY_TERM='aterm -tint $(random_color)'
-MY_TERM='gnome-terminal'
+MY_TERM='xterm'
 
 # Your favourite browser. You can also specify options.
 MY_BROWSER=firefox35
