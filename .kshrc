@@ -137,16 +137,21 @@ unset VI
 #######################################
 # Start any necessary programs, etc.  #
 #######################################
-if [ -x $(which tmux) ]; then
+if [ -o interactive ]; then
     if [ -z $TMUX ]; then
-        # we're not in tmux
-        tmux has-session -t main 2> /dev/null
-        if [ $? -ne 0 ]; then
-            # no sessions exist; start up a new one
-            # Otherwise, we'll ignore this section and the 
-            # user can enter the session manually.
-            tmux attach-session -t main
+        # we're not in tmux...(easy test)
+        # now check if tmux exists.
+        if [ -x $(which tmux) ]; then
+            tmux has-session -t main 2> /dev/null
+            if [ $? -ne 0 ]; then
+                # no sessions exist; start up a new one
+                # Otherwise, we'll ignore this section and the 
+                # user can enter the session manually.
+                tmux attach-session -t main
+            fi
         fi
     fi
+    if [ -x /usr/games/fortune ]; then
+        /usr/games/fortune
+    fi
 fi
-
