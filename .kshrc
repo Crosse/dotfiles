@@ -152,6 +152,6 @@ if [ -o interactive ]; then
         fi
     fi
     if [ -x /usr/games/fortune ]; then
-        /usr/games/fortune
+        /usr/games/fortune -a
     fi
 fi
