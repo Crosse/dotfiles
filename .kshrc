@@ -138,7 +138,7 @@ unset VI
 # Start any necessary programs, etc.  #
 #######################################
 if [ -o interactive ]; then
-    if [ -z $TMUX ]; then
+    if [ "$TERM" != "screen" ]; then
         # we're not in tmux...(easy test)
         # now check if tmux exists.
         if [ -x $(which tmux) ]; then
@@ -152,6 +152,6 @@ if [ -o interactive ]; then
         fi
     fi
     if [ -x /usr/games/fortune ]; then
-        /usr/games/fortune -a
+        /usr/games/fortune -s
     fi
 fi
