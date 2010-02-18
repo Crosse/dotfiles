@@ -64,7 +64,7 @@ fi
 
 # Look for vim...
 VI=$(which vim)
-if [ -z $VI ]; then
+if [ -z "$VI" ]; then
     # ...but use vi if vim doesn't exist.
     VI=$(which vi)
 fi
@@ -79,7 +79,7 @@ export EDITOR VISUAL
 set -o emacs
 
 LESS=$(which less)
-if [ -x ${LESS} ]; then
+if [ -x "${LESS}" ]; then
     PAGER=${LESS}
 else
     PAGER=$(which more)
@@ -88,7 +88,7 @@ export PAGER
 
 
 UNAME=$(which uname)
-if [ -x $UNAME ]; then
+if [ -x "$UNAME" ]; then
     case $($UNAME) in
         "Linux")
         # Linux uses GNU less, which includes color
@@ -104,7 +104,7 @@ if [ -x $UNAME ]; then
         fi
         # For OpenBSD, if the colorls package has been installed,
         # use it instead of ls.
-        if [ -x $(which colorls) ]; then
+        if [ -x "$(which colorls)" ]; then
             alias ls='colorls -G'
         fi
         ;;
@@ -141,7 +141,7 @@ if [ -o interactive ]; then
     if [ "$TERM" != "screen" ]; then
         # we're not in tmux...(easy test)
         # now check if tmux exists.
-        if [ -x $(which tmux) ]; then
+        if [ -x "$(which tmux)" ]; then
             tmux has-session -t main 2> /dev/null
             if [ $? -ne 0 ]; then
                 # no sessions exist; start up a new one
@@ -151,7 +151,7 @@ if [ -o interactive ]; then
             fi
         fi
     fi
-    if [ -x /usr/games/fortune ]; then
+    if [ -x "$(which fortune)" ]; then
         /usr/games/fortune -s
     fi
 fi
