@@ -16,5 +16,5 @@ fbsetbg -l
 
 #xterm -geometry 140x50 &
 
-exec /usr/local/bin/startfluxbox
-#exec cwm
+#exec /usr/local/bin/startfluxbox
+exec cwm

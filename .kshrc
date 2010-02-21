@@ -78,9 +78,10 @@ export EDITOR VISUAL
 # key bindings.  This sets it back to emacs.
 set -o emacs
 
-LESS=$(which less)
-if [ -x "${LESS}" ]; then
-    PAGER=${LESS}
+LESSCMD=$(which less)
+if [ -x "${LESSCMD}" ]; then
+    PAGER=${LESSCMD}
+    export LESS="-F -i -J -m -X"
 else
     PAGER=$(which more)
 fi
@@ -131,7 +132,7 @@ alias t='tmux attach-session -t main'
 #######################################
 unset UNAME
 unset LS
-unset LESS
+unset LESSCMD
 unset VI
 
 #######################################

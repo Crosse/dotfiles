@@ -11,6 +11,8 @@ bind M-Left     unmap
 bind M-Right    unmap
 bind CM-Right   cyclegroup
 bind CM-Left    rcyclegroup
+bind 4-r        "dmenu_run"
+bind 4-l        lock
 
 # Autogroup definitions
 autogroup 1     "xterm,XTerm"
@@ -18,5 +20,9 @@ autogroup 1     "gnome-terminal,Gnome-terminal"
 autogroup 2     "Navigator,Firefox"
 autogroup 3     "Pidgin,Pidgin"
 
-# use gnome-terminal as the default terminal
-term            gnome-terminal
+# Make new windows part of the currently active group by default
+sticky yes
+
+# Menu entries
+command firefox "firefox35"
+command lock    "xscreensaver-command -l"
