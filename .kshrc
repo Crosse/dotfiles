@@ -124,7 +124,7 @@ alias mv='mv -i'
 alias cp='cp -i'
 alias ll='ls -lah'
 alias dir='ls -lah'
-alias rdp='rdesktop -g 1280x1024 -a 16'
+alias rdp='rdesktop -ANDzP'
 alias t='tmux attach-session -t main'
 
 #######################################
