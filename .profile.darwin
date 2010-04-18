@@ -1,0 +1,18 @@
+# .bash_profile
+# This file is read by interactive login shells
+# and non-interactive shells with the --login option,
+# and also when bash is invoked with the name 'sh'.
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+# User specific environment and startup programs
+PATH=`echo $PATH | sed -e "s/\(.*\)\/usr\/local\/bin:\(.*\)/\/usr\/local\/bin:\1\2/"`
+PATH=$PATH:$HOME/bin
+export PATH
+
+export CCACHE_DIR=${HOME}/.ccache
+#export CCACHE_LOGFILE=${CCACHE_DIR}/ccache.log
+
