@@ -2,7 +2,7 @@
 " 
 " $Id$
 " 
-" Copyright (c) 2009 Seth Wright (wrightst@jmu.edu)
+" Copyright (c) 2009 Seth Wright (seth@crosse.org)
 "
 " Permission to use, copy, modify, and distribute this software for any
 " purpose with or without fee is hereby granted, provided that the above
@@ -27,6 +27,9 @@ set nomodeline
 autocmd!
 
 " Set some variables we'll use a few times
+" Note that these are just my preferences; substitute
+" whatever works for you if you don't like them.
+"
 " The colorscheme to use for GVIM
 let gui_scheme = "torte"
 " The colorscheme to use for vim
@@ -35,7 +38,7 @@ let console_scheme = "slate"
 let ms_font = "Consolas:h11"
 " The font to use in GVIM on Unix
 let unix_font = "Monospace"
-" GVIM window size
+" GVIM default window size
 if has('gui_running')
     set lines=50
     set columns=150
@@ -47,15 +50,16 @@ if has("win32") || has("win16") || has("win95") || has("win64")
     source $VIMRUNTIME/mswin.vim
 
     if has("gui_running")
-        " The font to use
+        " The font to use for GVIM / Windows
         exec "set guifont=".ms_font
     endif 
 else
     " Unix-specific settings
     if has('gui_running')
-        " Set the font
+        " Set the font to use for GVIM
         exec "set guifont=".unix_font
     else
+        " we're not running GVIM
         exec "colorscheme ".console_scheme
     endif
 endif
@@ -68,7 +72,7 @@ if has('gui_running')
     exec "colorscheme ".gui_scheme
 endif
 
-" Turn syntax highlighting on
+" Turn syntax highlighting on, if vim supports it
 if has('syntax')
     syntax on
 
@@ -84,11 +88,14 @@ endif
 " Enable line numbering
 set number
 
+" Flash the window instead of beeping
 set visualbell
 
 " have fifty lines of command-line (etc) history:
 set history=50
 
+" (vestige from the original stolen .vimrc file; don't know if I really
+" need this or not - stw)
 " remember all of these between sessions, but only 10 search terms; also
 " remember info for 10 files, but never any on removable disks, don't remember
 " marks in files, don't rehighlight old search patterns, and only save up to
@@ -108,20 +115,24 @@ if has('cmdline_info')
     " display the current mode and partially-typed commands in the status line:
     set showmode
     set showcmd
-    " show the ruler
+    " Always display the current cursor position in the lower right corner of
+    " the Vim window.
     set ruler
 endif
 
 " Enable the mouse in Visual, Insert, and Command modes
+" This can be weird sometimes.
 if has("mouse")
     set mouse=vic
 endif
 
-" enable spell-checking.
+" enable spell-checking, if we have it.
+" you'll probably want to read ":help spell".
 if has('spell')
     set nospell
     " Map F2 to toggle spell-check mode:
     map <silent> <F2> :set spell!<CR>:set spell?<CR>
+    imap <silent> <F2> <ESC>:set spell!<CR>:set spell?<CR>
 endif
 
 " show matching brackets / parentheses
@@ -130,18 +141,25 @@ set showmatch
 " Disable line-wrapping
 set nowrap
 
-" use indents of 4 spaces, and have them copied down lines:
+" use four spaces for each step of (auto)indent.
 set shiftwidth=4
+" hitting <Tab> will insert four spaces instead.
 set softtabstop=4
+" round indent to multiple of shiftwidth.
 set shiftround
+" use spaces instead of tabs to insert a tab.
 set expandtab
+" Copy indent from current line when starting a new line.
+" Also deletes indents if nothing else is written on the line.
 set autoindent
+" Do smart autoindenting when starting a new line.
+" See ":help smartindent" for more info.
 set smartindent
 
 " normally don't automatically format `text' as it is typed, IE only do this
-" with comments, at 79 characters: 
+" with comments, and reflow at 72 characters: 
 set formatoptions-=t
-set textwidth=79
+set textwidth=72
 
 " get rid of the default style of C comments, and define a style with two stars
 " at the start of `middle' rows which (looks nicer and) avoids asterisks used
@@ -194,20 +212,17 @@ noremap Y y$
 " insertion, and over indentations:
 set backspace=eol,start,indent
 
-" Map F3 to Find Next:
-map <F3> n
-imap <F3> <Esc>n
-
-" Map Shift-F3 to Find Previous:
-map <S-F3> N
-imap <S-F3> <Esc>N
-
 " Toggle List mode using F5
 map <F5> :set list!<CR>:set list?<CR>
-imap <F5> :set list!<CR>:set list?<CR>
+imap <F5> <Esc>:set list!<CR>:set list?<CR>
 
 " Have Control-Enter do the same as 'O'
+" ...that is, insert a line above the current line.
 imap <C-Enter> <Esc>O
+
+" (from Kalish's .vimrc, 2010/4/26 - stw)
+" let ';;' escape insert mode
+imap ;; <Esc>
 
 " Set up an informative status line.
 if has('statusline')
