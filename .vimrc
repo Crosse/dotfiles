@@ -81,7 +81,7 @@ if has('syntax')
         set hlsearch
         " Map F4 to toggle search highlighting:
         map <silent> <F4> :set hlsearch!<CR>:set hlsearch?<CR>
-        imap <silent> <F4> <Esc>:set hlsearch!<CR>:set hlsearch?<CR>
+        imap <silent> <F4> <C-O>:set hlsearch!<CR><C-O>:set hlsearch?<CR>
     endif
 endif
 
@@ -132,7 +132,7 @@ if has('spell')
     set nospell
     " Map F2 to toggle spell-check mode:
     map <silent> <F2> :set spell!<CR>:set spell?<CR>
-    imap <silent> <F2> <ESC>:set spell!<CR>:set spell?<CR>
+    imap <silent> <F2> <C-O>:set spell!<CR><C-O>:set spell?<CR>
 endif
 
 " show matching brackets / parentheses
@@ -184,6 +184,15 @@ if has('autocmd')
     autocmd FileType mail,human set formatoptions+=t textwidth=72
 endif
 
+" Set up an informative status line.
+if has('statusline')
+  if version >= 700
+    set statusline=%-02.2n\ %t\ %y\ %m\ %r\ %L\ lines%=%lL,%cC\ \(%P\)\ 
+    " Enable the status line
+    set laststatus=2
+  endif
+endif
+
 " make searches case-insensitive, unless they contain upper-case letters:
 set ignorecase
 set smartcase
@@ -214,25 +223,33 @@ set backspace=eol,start,indent
 
 " Toggle List mode using F5
 map <F5> :set list!<CR>:set list?<CR>
-imap <F5> <Esc>:set list!<CR>:set list?<CR>
+imap <F5> <C-O>:set list!<CR><C-O>:set list?<CR>
 
 " Have Control-Enter do the same as 'O'
 " ...that is, insert a line above the current line.
 imap <C-Enter> <Esc>O
 
+
 " (from Kalish's .vimrc, 2010/4/26 - stw)
 " let ';;' escape insert mode
 imap ;; <Esc>
 
-" Set up an informative status line.
-if has('statusline')
-  if version >= 700
-    set statusline=%-02.2n\ %t\ %y\ %m\ %r\ %L\ lines%=%lL,%cC\ \(%P\)\ 
-    " Enable the status line
-    set laststatus=2
-  endif
+" Remap PageUp and PageDown such that the keys act like Control-U and
+" Control-D, respectively.
+map <PageUp> <C-U>
+map <PageDown> <C-D>
+imap <PageUp> <C-O><C-U>
+imap <PageDown> <C-O><C-D>
+" Keep the cursor in the same column, if possible, when using C-U and
+" C-D, etc. 
+set nostartofline
 
-endif
+" Use <F6> to call :make
+map <F6> :make<CR>
+imap <F6> :make<CR>
+
+" Automatically save the buffer when performing various commands
+set autowrite
 
 " Avoid some security problems with directory-specific vimrc files
 " This should be the last line of the file.
