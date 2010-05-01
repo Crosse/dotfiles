@@ -8,5 +8,5 @@ PATH=$HOME/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/
 export PATH HOME TERM
 export ENV=${HOME}/.kshrc
 
-export PKG_PATH=http://obsd.cec.mtu.edu/pub/OpenBSD/snapshots/packages/amd64/
+export PKG_PATH=http://obsd.cec.mtu.edu/pub/OpenBSD/snapshots/packages/`arch -s`/
 
