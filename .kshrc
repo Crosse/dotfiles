@@ -148,7 +148,8 @@ if [ -o interactive ]; then
                 # no sessions exist; start up a new one
                 # Otherwise, we'll ignore this section and the 
                 # user can enter the session manually.
-                tmux attach-session -t main
+                #tmux attach-session -t main
+                echo "Enter tmux session by using `t`"
             fi
         fi
     fi
