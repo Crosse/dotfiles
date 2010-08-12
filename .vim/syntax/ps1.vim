@@ -26,14 +26,13 @@ syn sync minlines=100
 
 " Comments and special comment words
 syn keyword ps1CommentTodo TODO FIXME XXX TBD HACK contained
-syn match ps1Comment /#.*/ contains=ps1CommentTodo,@Spell
-syn region ps1Comment start=/<#$/ end=/^#>$/ contains=ps1CommentTodo,ps1CommentHelp,@Spell
+syn match ps1Comment /#.*/ contains=ps1CommentTodo,ps1CommentHelp,@Spell
+syn region ps1Comment start=/<#.*$/ end=/^.*#>$/ contains=ps1CommentTodo,ps1CommentHelp,@Spell
 
 " Comment-Based Help
-syn match ps1CommentHelpStart /\./ nextgroup=ps1CommentHelp
-syn keyword ps1CommentHelp SYNOPSIS DESCRIPTION PARAMETER EXAMPLE INPUTS OUTPUTS NOTES contained
-syn keyword ps1CommentHelp LINK COMPONENT ROLE FUNCTIONALITY FORWARDHELPTARGETNAME contained
-syn keyword ps1CommentHelp FORWARDHELPCATEGORY REMOTEHELPRUNSPACE EXTERNALHELP contained
+syn match ps1CommentHelp /\.\(SYNOPSIS\|DESCRIPTION\|PARAMETER\|EXAMPLE\|INPUTS\|OUTPUTS\|NOTES\)/ contained
+syn match ps1CommentHelp /\.\(LINK\|COMPONENT\|ROLE\|FUNCTIONALITY\|FORWARDHELPTARGETNAME\)/ contained
+syn match ps1CommentHelp /\.\(FORWARDHELPCATEGORY\|REMOTEHELPRUNSPACE\|EXTERNALHELP\)/ contained
 
 " Language keywords and elements
 syn keyword ps1Conditional if else elseif switch
@@ -59,13 +58,14 @@ syn match ps1ScopedVariable /\$\w\+:\w\+/ contains=ps1Scope
 syn match ps1VariableName /\w\+/ contained
 
 " Operators all start w/ dash
-syn match ps1OperatorStart /-c\?/ nextgroup=ps1Operator
-syn keyword ps1Operator eq ne ge gt lt le like notlike match notmatch replace /contains/ notcontains contained
+syn match ps1OperatorStart /-/ nextgroup=ps1Operator
+syn keyword ps1Operator eq ne ge gt lt le like notlike match notmatch replace notcontains contained
 syn keyword ps1Operator ieq ine ige igt ile ilt ilike inotlike imatch inotmatch ireplace icontains inotcontains contained
 syn keyword ps1Operator ceq cne cge cgt clt cle clike cnotlike cmatch cnotmatch creplace ccontains cnotcontains contained
-syn keyword ps1Operator is isnot as
-syn keyword ps1Operator and or band bor not
-syn keyword ps1Operator f
+syn keyword ps1Operator is isnot as contained
+syn keyword ps1Operator and or band bor not contained
+syn keyword ps1Operator f contained
+syn match ps1Operator /contains/ contained
 
 " Regular Strings
 syn region ps1String start=/"/ skip=/`"/ end=/"/ 
