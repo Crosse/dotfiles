@@ -27,6 +27,13 @@ syn sync minlines=100
 " Comments and special comment words
 syn keyword ps1CommentTodo TODO FIXME XXX TBD HACK contained
 syn match ps1Comment /#.*/ contains=ps1CommentTodo,@Spell
+syn region ps1Comment start=/<#$/ end=/^#>$/ contains=ps1CommentTodo,ps1CommentHelp,@Spell
+
+" Comment-Based Help
+syn match ps1CommentHelpStart /\./ nextgroup=ps1CommentHelp
+syn keyword ps1CommentHelp SYNOPSIS DESCRIPTION PARAMETER EXAMPLE INPUTS OUTPUTS NOTES contained
+syn keyword ps1CommentHelp LINK COMPONENT ROLE FUNCTIONALITY FORWARDHELPTARGETNAME contained
+syn keyword ps1CommentHelp FORWARDHELPCATEGORY REMOTEHELPRUNSPACE EXTERNALHELP contained
 
 " Language keywords and elements
 syn keyword ps1Conditional if else elseif switch
@@ -96,6 +103,7 @@ if version >= 508 || !exists("did_ps1_syn_inits")
   HiLink ps1Repeat Repeat
   HiLink ps1RepeatAndCmdlet Repeat
   HiLink ps1Keyword Keyword
+  HiLink ps1CommentHelp Keyword
   HiLink ps1KeywordAndCmdlet Keyword
   HiLink ps1Cmdlet Statement
   delcommand HiLink
