@@ -38,9 +38,9 @@ fi
 
 # Colorized prompt should work on ksh and bash
 if [[ ${USER} == 'root' ]] ; then
-    PS1='\e[1;31m\u@\h\\e[01;34m \W \$\\e[00m '
+    PS1='\[\e[0;31m\]\u@\h\[\e[0;34m\] \w \$\[\e[00m\] '
 else
-    PS1='\e[1;32m\u@\h\e[1;34m \w \$\e[00m '
+    PS1='\[\e[0;32m\]\u@\h\[\e[0;34m\] \w \$\[\e[00m\] '
 fi
 
 # For ksh, enables history.  For both ksh and bash, log
