@@ -1,10 +1,13 @@
 # $Id$
 
 # Log in to crosse.org IMAP at startup
-set spoolfile="imaps://user@domain.com/"
-# Define the = shortcut, and the entry point for the folder browser (c?)
-set folder="imaps://user@domain.com/"
-set record="=Sent"
-set postponed="=Drafts"
+set from="seth@crosse.org"
+set realname="Seth Wright"
+set spoolfile="+INBOX"
+set folder="imaps://imap.gmail.com:993"
+set postponed="+[Gmail]/Drafts"
+set trash="imaps://imap.gmail.com/[Gmail]/Trash"
 set message_cachedir="~/.mailcache/"
-set header_cache="~/.mailcache/"
+set header_cache="~/.mutt/cache/headers"
+set message_cachedir="~/.mutt/cache/bodies"
+set certificate_file="~/.mutt/certificates"
