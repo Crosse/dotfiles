@@ -240,6 +240,13 @@ map <PageUp> <C-U>
 map <PageDown> <C-D>
 imap <PageUp> <C-O><C-U>
 imap <PageDown> <C-O><C-D>
+
+" Map/remap Control-J and Control-K to cycle up and down through tabs
+map <C-J> :tabnext<CR>
+map <C-K> :tabprev<CR>
+imap <C-J> <C-O>:tabnext<CR>
+imap <C-K> <C-O>:tabprev<CR>
+
 " Keep the cursor in the same column, if possible, when using C-U and
 " C-D, etc. 
 set nostartofline
