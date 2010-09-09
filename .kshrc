@@ -43,6 +43,15 @@ else
     PS1='\[\e[0;32m\]\u@\h\[\e[0;34m\] \w \$\[\e[00m\] '
 fi
 
+case $TERM in
+    xterm*|rxvt*)
+    PS1="\[\e]0;\u@\h: \w\a\]$PS1"
+    ;;
+    *)
+    ;;
+esac
+
+
 # For ksh, enables history.  For both ksh and bash, log
 # to the same file.
 export HISTFILE=$HOME/.history
