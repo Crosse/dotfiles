@@ -123,6 +123,8 @@ case $(uname) in
     # use it instead of ls.
     if [ -x "$(which colorls)" ]; then
         alias ls='colorls -G'
+        export CLICOLOR=""
+        export LSCOLORS=gxfxcxdxbxegEdabagacad
     fi
     ;;
 
