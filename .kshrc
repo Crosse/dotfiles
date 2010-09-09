@@ -2,7 +2,7 @@
 # 
 # $Id$
 # 
-# Copyright (c) 2009 Seth Wright (wrightst@jmu.edu)
+# Copyright (c) 2010 Seth Wright (seth@crosse.org)
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -36,8 +36,8 @@ if [ ${0#-} == 'bash' ]; then
     shopt -s histappend
 fi
 
-# Colorized prompt should work on ksh and bash
-if [[ ${USER} == 'root' ]] ; then
+# Colorized prompt that should work in ksh and bash
+if [[ $(id -ru) == 'root' ]] ; then
     PS1='\[\e[0;31m\]\u@\h\[\e[0;34m\] \w \$\[\e[00m\] '
 else
     PS1='\[\e[0;32m\]\u@\h\[\e[0;34m\] \w \$\[\e[00m\] '
@@ -69,7 +69,7 @@ if [ -z "$VI" ]; then
     VI=$(which vi)
 fi
 # Note that setting these in ksh means vi keybindings
-# are also active instead of emacs.
+# are also active instead of emacs...
 EDITOR=$VI
 VISUAL=$VI
 export EDITOR VISUAL
@@ -78,44 +78,53 @@ export EDITOR VISUAL
 # key bindings.  This sets it back to emacs.
 set -o emacs
 
-LESSCMD=$(which less)
-if [ -x "${LESSCMD}" ]; then
-    PAGER=${LESSCMD}
+PAGERCMD=$(which less)
+if [ -x "${PAGERCMD}" ]; then
+    PAGER=${PAGERCMD}
+    # Set options for less so that it:
+    # quits if only one screen;
+    # cause searches to ignore case;
+    # display a status column;
+    # display a more verbose prompt, including % into the file;
+    # don't clear the screen after quitting.
     export LESS="-F -i -J -m -X"
 else
-    PAGER=$(which more)
+    PAGERCMD=$(which more)
+    if [ -x "${PAGERCMD}" ]; then
+        PAGER=${PAGERCMD}
+    fi
 fi
 export PAGER
 
 
-UNAME=$(which uname)
-if [ -x "$UNAME" ]; then
-    case $($UNAME) in
-        "Linux")
-        # Linux uses GNU less, which includes color
-        alias ls='ls --color=auto'
-        # Enable color by default for grep as well
-        alias grep='grep --colour=auto'
-        ;;
+case $(uname) in
+    "Linux")
+    # Linux uses GNU less, which includes color support
+    alias ls='ls --color=auto'
+    # Enable color by default for grep as well
+    alias grep='grep --colour=auto'
+    ;;
 
-        "OpenBSD")
-        # Workaround for OpenBSD not showing colors for TERM=xterm.
-        if [ "$TERM" == "xterm" ]; then
-            export TERM="xterm-xfree86"
-        fi
-        # For OpenBSD, if the colorls package has been installed,
-        # use it instead of ls.
-        if [ -x "$(which colorls)" ]; then
-            alias ls='colorls -G'
-        fi
-        ;;
+    "OpenBSD")
+    # Workaround for OpenBSD not showing colors for TERM=xterm.
+    if [ "$TERM" == "xterm" ]; then
+        export TERM="xterm-xfree86"
+    fi
+    # For OpenBSD, if the colorls package has been installed,
+    # use it instead of ls.
+    if [ -x "$(which colorls)" ]; then
+        alias ls='colorls -G'
+    fi
+    ;;
 
-        "Darwin")
-        alias ls='ls -G'
-        alias grep='grep --colour=auto'
-        ;;
-    esac
-fi
+    "Darwin")
+    # Darwin includes some GNU things and some less-than-GNU
+    # things, but color options exist on the default 
+    # 'ls' and 'grep' commands so enable them.
+    alias ls='ls -G'
+    alias grep='grep --colour=auto'
+    ;;
+esac
 
 #######################################
 # System-Independent Aliases
@@ -130,9 +139,7 @@ alias t='tmux attach-session -t main'
 #######################################
 #       Clean up the environment      #
 #######################################
-unset UNAME
-unset LS
-unset LESSCMD
+unset PAGERCMD
 unset VI
 
 #######################################
@@ -154,6 +161,6 @@ if [ -o interactive ]; then
         fi
     fi
     if [ -x "$(which fortune)" ]; then
-        /usr/games/fortune -s
+        fortune -s
     fi
 fi
