@@ -8,5 +8,6 @@ if exists("did_load_filetypes")
 endif
 augroup filetypedetect
   au! BufRead,BufNewFile *.ps1  setfiletype ps1
+  au! BufRead,BufNewFile *.psm1  setfiletype ps1
 augroup END
 
