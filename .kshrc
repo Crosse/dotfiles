@@ -37,7 +37,7 @@ if [ ${0#-} == 'bash' ]; then
 fi
 
 # Colorized prompt that should work in ksh and bash
-if [[ $(id -ru) == '0' ]] ; then
+if [ $(id -ru) == '0' ] ; then
     PS1='\[\e[0;31m\]\u@\h\[\e[0;34m\] \w \$\[\e[00m\] '
 else
     PS1='\[\e[0;32m\]\u@\h\[\e[0;34m\] \w \$\[\e[00m\] '
@@ -171,8 +171,5 @@ if [ -o interactive ]; then
                 echo "Enter tmux session by using `t`"
             fi
         fi
-    fi
-    if [ -x "$(which fortune)" ]; then
-        fortune -s
     fi
 fi
