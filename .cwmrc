@@ -25,4 +25,3 @@ sticky yes
 
 # Menu entries
 command firefox "firefox35"
-command lock    "xscreensaver-command -l"
