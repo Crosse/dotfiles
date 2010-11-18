@@ -9,7 +9,7 @@ if [ -f ${HOME}/.Xdefaults ]; then
     xrdb -merge ${HOME}/.Xdefaults
 fi
 
-xscreensaver -no-splash &
+xidle &
 
 # Set the background
 fbsetbg -l
