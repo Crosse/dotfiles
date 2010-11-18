@@ -37,20 +37,11 @@ if [ ${0#-} == 'bash' ]; then
 fi
 
 # Colorized prompt that should work in ksh and bash
-if [[ $(id -ru) == 'root' ]] ; then
+if [ $(id -ru) == 0 ] ; then
     PS1='\[\e[0;31m\]\u@\h\[\e[0;34m\] \w \$\[\e[00m\] '
 else
     PS1='\[\e[0;32m\]\u@\h\[\e[0;34m\] \w \$\[\e[00m\] '
 fi
-
-case $TERM in
-    xterm*|rxvt*)
-    PS1="\[\e]0;\u@\h: \w\a\]$PS1"
-    ;;
-    *)
-    ;;
-esac
-
 
 # For ksh, enables history.  For both ksh and bash, log
 # to the same file.
