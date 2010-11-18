@@ -46,7 +46,7 @@ fi
 # This section will set the title of an xterm.
 case $TERM in
     xterm*|rxvt*|screen)
-    PS1="\[\e]0;\]\u@\h: \w\a\]$PS1"
+    PS1="\[\e]0;\]\u@\h: \w$PS1"
     ;;
     *)
     ;;
