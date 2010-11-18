@@ -49,3 +49,26 @@ XTerm*color12:          #4581ae
 XTerm*color13:          #ff00ff
 XTerm*color14:          #00ffff
 XTerm*color15:          #ffffff
+
+! xidle config
+! How long to wait before running the program when the pointer is placed
+! in the hot-corner
+XIdle.Delay:            5
+! The hot-corner
+XIdle.Position:         sw
+! The program to run
+XIdle.Program:          xlock
+! How long to wait before running the Program
+XIdle.Timeout:          900
+
+! XLock config
+! Delay 30 seconds before requiring a password
+XLock.lockdelay:        30
+! The screensaver to use
+XLock.mode:             fzort
+! Show when you're typing
+XLock.echokeys:         on
+! Print *'s instead of ?'s
+XLock.echokey:          *
+! Suspend the monitor after 10 minutes
+XLock.dpmssuspend:      600
