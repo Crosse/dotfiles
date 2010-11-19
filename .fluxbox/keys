@@ -18,9 +18,9 @@ Control Mod4 Shift Delete   :Restart
 Mod4 Shift r                :Exec fbrun -font Monospace -title "Run Command:" -w 500
 Mod4 r                      :Exec dmenu_run
 Mod4 d                      :ShowDesktop
-Mod4 l                      :Exec gnome-screensaver-command -a
+Mod4 l                      :Exec xlock
 Mod4 e                      :Exec nautilus --no-desktop
 Mod1 F4                     :Close
 Mod4 m                      :Minimize
 Mod4 t                      :Exec xterm
-Mod4 f                      :Exec firefox35
+Mod4 f                      :Exec firefox
