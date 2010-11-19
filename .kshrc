@@ -46,7 +46,7 @@ fi
 # This section will set the title of an xterm.
 case $TERM in
     xterm*|rxvt*|screen)
-    PS1="\[\e]0;\]\u@\h: \w$PS1"
+    PS1="\[\e]0;\u@\h: \w\a\]$PS1"
     ;;
     *)
     ;;
@@ -168,7 +168,7 @@ if [ -o interactive ]; then
                 # Otherwise, we'll ignore this section and the 
                 # user can enter the session manually.
                 #tmux attach-session -t main
-                echo "Enter tmux session by using `t`"
+                echo "Enter tmux session by using 't'"
             fi
         fi
     fi
