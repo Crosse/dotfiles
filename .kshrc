@@ -63,7 +63,7 @@ export HISTFILE=$HOME/.history
 if [ ${0#-} == 'ksh' ]; then
     if [ -o interactive ]; then
         # Map ^L to clear
-        bind -m ''=clear^J
+        bind -m ''=clear^J
     fi
 fi
 
@@ -84,19 +84,19 @@ EDITOR=$VI
 VISUAL=$VI
 export EDITOR VISUAL
 
-# Using ksh, setting EDITOR or VISUAL (above) also sets vi
-# key bindings.  This sets it back to emacs.
+# Using ksh, setting EDITOR or VISUAL (above) also sets vi key bindings.
+# This sets it back to emacs, which is what I prefer
 set -o emacs
 
 PAGERCMD=$(which less)
 if [ -x "${PAGERCMD}" ]; then
     PAGER=${PAGERCMD}
     # Set options for less so that it:
-    # quits if only one screen;
-    # cause searches to ignore case;
-    # display a status column;
-    # display a more verbose prompt, including % into the file;
-    # don't clear the screen after quitting.
+    #   quits if only one screen;
+    #   causes searches to ignore case;
+    #   displays a status column;
+    #   displays a more verbose prompt, including % into the file;
+    #   doesn't clear the screen after quitting.
     export LESS="-F -i -J -m -X"
 else
     PAGERCMD=$(which more)
@@ -135,6 +135,8 @@ case $(uname) in
     # 'ls' and 'grep' commands so enable them.
     alias ls='ls -G'
     alias grep='grep --colour=auto'
+    export CLICOLOR=""
+    export LSCOLORS=gxfxcxdxbxegEdabagacad
     ;;
 esac
 
@@ -144,6 +146,7 @@ esac
 alias mv='mv -i'
 alias cp='cp -i'
 alias ll='ls -lah'
+alias la='ls -a'
 alias dir='ls -lah'
 alias rdp='rdesktop -ANDzP'
 alias t='tmux attach-session -t main'
