@@ -229,11 +229,6 @@ imap <F5> <C-O>:set list!<CR><C-O>:set list?<CR>
 " ...that is, insert a line above the current line.
 imap <C-Enter> <Esc>O
 
-
-" (from Kalish's .vimrc, 2010/4/26 - stw)
-" let ';;' escape insert mode
-imap ;; <Esc>
-
 " Remap PageUp and PageDown such that the keys act like Control-U and
 " Control-D, respectively.
 map <PageUp> <C-U>
