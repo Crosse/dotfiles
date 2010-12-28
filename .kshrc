@@ -85,7 +85,7 @@ VISUAL=$VI
 export EDITOR VISUAL
 
 # Using ksh, setting EDITOR or VISUAL (above) also sets vi key bindings.
-# This sets it back to emacs, which is what I prefer
+# This sets it back to emacs, which is what I prefer.
 set -o emacs
 
 PAGERCMD=$(which less)
@@ -141,7 +141,7 @@ case $(uname) in
 esac
 
 #######################################
-# System-Independent Aliases
+#      System-Independent Aliases     #
 #######################################
 alias mv='mv -i'
 alias cp='cp -i'
@@ -160,19 +160,8 @@ unset VI
 #######################################
 # Start any necessary programs, etc.  #
 #######################################
-if [ -o interactive ]; then
-    if [ "$TERM" != "screen" ]; then
-        # we're not in tmux...(easy test)
-        # now check if tmux exists.
-        if [ -x "$(which tmux)" ]; then
-            tmux has-session -t main 2> /dev/null
-            if [ $? -ne 0 ]; then
-                # no sessions exist; start up a new one
-                # Otherwise, we'll ignore this section and the 
-                # user can enter the session manually.
-                #tmux attach-session -t main
-                echo "Enter tmux session by using 't'"
-            fi
-        fi
-    fi
-fi
+
+
+#######################################
+#                 End                 #
+#######################################
