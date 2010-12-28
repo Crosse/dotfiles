@@ -63,7 +63,7 @@ export HISTFILE=$HOME/.history
 if [ ${0#-} == 'ksh' ]; then
     if [ -o interactive ]; then
         # Map ^L to clear
-        bind -m ''=clear^J
+        bind -m ''=clear^J
     fi
 fi
 
