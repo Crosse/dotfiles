@@ -35,7 +35,7 @@ syn match ps1CommentHelp /\.\(LINK\|COMPONENT\|ROLE\|FUNCTIONALITY\|FORWARDHELPT
 syn match ps1CommentHelp /\.\(FORWARDHELPCATEGORY\|REMOTEHELPRUNSPACE\|EXTERNALHELP\)/ contained
 
 " Language keywords and elements
-syn keyword ps1Conditional if else elseif switch
+syn keyword ps1Conditional if else elseif switch try catch
 syn keyword ps1Repeat while default for do until break continue
 syn match ps1Repeat /\<foreach\>/ nextgroup=ps1Cmdlet
 syn keyword ps1Keyword return filter in trap throw param begin process end
