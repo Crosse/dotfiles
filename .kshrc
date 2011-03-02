@@ -92,12 +92,13 @@ PAGERCMD=$(which less)
 if [ -x "${PAGERCMD}" ]; then
     PAGER=${PAGERCMD}
     # Set options for less so that it:
-    #   quits if only one screen;
-    #   causes searches to ignore case;
-    #   displays a status column;
-    #   displays a more verbose prompt, including % into the file;
-    #   doesn't clear the screen after quitting.
-    export LESS="-F -i -J -m -X"
+    #   quits if only one screen (-F);
+    #   causes searches to ignore case (-i);
+    #   displays a status column (-J);
+    #   displays a more verbose prompt, including % into the file (-m);
+    #   interprets ANSI color escape sequences (-R);
+    #   doesn't clear the screen after quitting (-X).
+    export LESS="-FiJmRX"
 else
     PAGERCMD=$(which more)
     if [ -x "${PAGERCMD}" ]; then
