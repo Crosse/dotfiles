@@ -10,7 +10,7 @@ fi
 
 # User specific environment and startup programs
 PATH=`echo $PATH | sed -e "s/\(.*\)\/usr\/local\/bin:\(.*\)/\/usr\/local\/bin:\1\2/"`
-PATH=$PATH:$HOME/bin
+PATH=$HOME/bin:$PATH
 export PATH
 
 export CCACHE_DIR=${HOME}/.ccache

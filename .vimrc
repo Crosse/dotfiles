@@ -36,12 +36,14 @@ let gui_scheme = "torte"
 let console_scheme = "slate"
 " The font to use in GVIM for Windows
 let ms_font = "Consolas:h11"
+" The font to use in MacVim
+let mac_font = "Inconsolata:h16"
 " The font to use in GVIM on Unix
 let unix_font = "Monospace"
 " GVIM default window size
 if has('gui_running')
-    set lines=50
-    set columns=150
+    set lines=60
+    set columns=140
 endif
 
 if has("win32") || has("win16") || has("win95") || has("win64")
@@ -53,14 +55,17 @@ if has("win32") || has("win16") || has("win95") || has("win64")
         " The font to use for GVIM / Windows
         exec "set guifont=".ms_font
     endif 
+elseif has('mac') || has('macvim')
+    " MacVim-specific settings
+    if has("gui_running")
+        " The font to use for MacVim
+        exec "set guifont=".mac_font
+    endif
 else
     " Unix-specific settings
     if has('gui_running')
         " Set the font to use for GVIM
         exec "set guifont=".unix_font
-    else
-        " we're not running GVIM
-        exec "colorscheme ".console_scheme
     endif
 endif
 
@@ -70,6 +75,8 @@ if has('gui_running')
     set guioptions-=T
     " Set a color scheme
     exec "colorscheme ".gui_scheme
+else
+    exec "colorscheme ".console_scheme
 endif
 
 " Turn syntax highlighting on, if vim supports it
