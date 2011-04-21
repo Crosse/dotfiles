@@ -1,0 +1,19 @@
+# Log in to jmu.edu IMAP at startup
+set from="wrightst@jmu.edu"
+set realname="Seth Wright"
+set use_from=yes
+
+set smtp_url="smtp://wrightst@exchange.jmu.edu:587/"
+set smtp_authenticators="GSSAPI:LOGIN"
+
+# Automatically log in to this mailbox at startup
+set spoolfile="imap://exchange.jmu.edu/INBOX"
+
+# Define the = shortcut, and the entry point for the folder browser
+set folder="imap://exchange.jmu.edu/INBOX"
+
+# Define some default folders
+set record="imap://exchange.jmu.edu/Sent Items"
+set postponed="imap://exchange.jmu.edu/Drafts"
+set mbox="+Archive"
+#set trash="imap://exchange.jmu.edu/Deleted Items"

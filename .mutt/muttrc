@@ -1,7 +1,7 @@
 # $Id$
 
-#source ~/.mutt/color.rc
-#source ~/.mutt/misc.rc
+source ~/.mutt/color.rc
+source ~/.mutt/misc.rc
 source ~/.mutt/accounts.rc
 
 push <show-version>
