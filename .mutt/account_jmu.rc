@@ -10,10 +10,12 @@ set smtp_authenticators="GSSAPI:LOGIN"
 set spoolfile="imap://exchange.jmu.edu/INBOX"
 
 # Define the = shortcut, and the entry point for the folder browser
-set folder="imap://exchange.jmu.edu/INBOX"
+set folder="imap://exchange.jmu.edu"
 
 # Define some default folders
-set record="imap://exchange.jmu.edu/Sent Items"
-set postponed="imap://exchange.jmu.edu/Drafts"
-set mbox="+Archive"
-#set trash="imap://exchange.jmu.edu/Deleted Items"
+set record="=Sent Items"
+set postponed="=Drafts"
+set mbox="=INBOX/Archive"
+#set trash="=Deleted Items"
+
+save-hook . "=INBOX/Archive"
