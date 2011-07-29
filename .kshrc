@@ -138,6 +138,8 @@ case $(uname) in
     alias grep='grep --colour=auto'
     export CLICOLOR=""
     export LSCOLORS=gxfxcxdxbxegEdabagacad
+    # Work around a VIM incompatibility with crontab on OSX.
+    alias crontab='VIM_CRONTAB=true crontab'
     ;;
 esac
 

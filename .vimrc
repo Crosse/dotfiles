@@ -92,6 +92,12 @@ if has('syntax')
     endif
 endif
 
+" Disable some things that tick off crontab on at least Mac OSX
+if $VIM_CRONTAB == "true"
+    set nobackup
+    set nowritebackup
+endif
+
 " Enable line numbering
 set number
 
