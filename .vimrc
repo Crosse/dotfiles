@@ -39,7 +39,7 @@ let ms_font = "Consolas:h11"
 let ms_print_font = "Consolas:h8"
 " The font to use in MacVim
 let mac_font = "Inconsolata:h16"
-let mac_print_font="Inconsolata:h10"
+let mac_print_font="Inconsolata:h9"
 " The font to use in GVIM on Unix
 let unix_font = "Monospace"
 " GVIM default window size
@@ -118,7 +118,7 @@ endif
 " Bottom margin:  1in
 " Print line numbers
 " Paper size:  letter (default is A4)
-set printoptions=left:36pt,right:36pt,top:36pt,bottom:1in,number:y,paper:letter
+set printoptions=left:27pt,right:54pt,top:36pt,bottom:36pt,number:y,paper:letter,header:3
 set printheader=%<%F%=\ [Page\ %N]
 
 " Enable line numbering
