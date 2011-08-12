@@ -90,6 +90,9 @@ endif
 if has('syntax')
     syntax on
 
+    " Create a ColorColumn at 76 characters.
+    set colorcolumn=76
+
     if has('extra_search')
         " Turn on search highlighting
         set hlsearch
@@ -189,9 +192,6 @@ set smartindent
 " comments, and reflow at 76 characters: 
 set formatoptions-=t
 set textwidth=76
-
-" Create a ColorColumn at 76 characters.
-set colorcolumn=76
 
 " get rid of the default style of C comments, and define a style with two
 " stars at the start of `middle' rows which (looks nicer and) avoids
