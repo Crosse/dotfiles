@@ -1,4 +1,4 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 
 " $Id$
 " 
@@ -13,9 +13,9 @@
 " MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
 " ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
 " WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-" ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+" IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
 " This file isn't compatible with vi.
 set nocompatible
@@ -122,29 +122,30 @@ set visualbell
 " have fifty lines of command-line (etc) history:
 set history=50
 
-" (vestige from the original stolen .vimrc file; don't know if I really
-" need this or not - stw)
-" remember all of these between sessions, but only 10 search terms; also
-" remember info for 10 files, but never any on removable disks, don't remember
-" marks in files, don't rehighlight old search patterns, and only save up to
-" 100 lines of registers; including @10 in there should restrict input buffer
-" but it causes an error for me:
-set viminfo=/10,'10,r/mnt/zip,r/mnt/floppy,f0,h,\"100
+" Things to save in .viminfo:
+" Save 10 items in the search pattern history;
+" Save marks for the last 10 edited files;
+" Don't save marks for files in /tmp or /Volumes;
+" Do not store file marks;
+" Disable "hlsearch" when loading the viminfo file;
+" Save 100 lines for each register.
+set viminfo=/10,'10,r/tmp,r/Volumes,f0,h,\"100
 
-" have command-line completion <Tab> (for filenames, help topics, option names)
-" first list the available options and complete the longest common part, then
-" have further <Tab>s cycle through the possibilities:
+" have command-line completion <Tab> (for filenames, help topics, option
+" names) first list the available options and complete the longest common
+" part, then have further <Tab>s cycle through the possibilities:
 set wildmode=list:longest,full
 
 " use "[RO]" for "[readonly]" to save space in the message line:
 set shortmess+=r
 
 if has('cmdline_info')
-    " display the current mode and partially-typed commands in the status line:
+    " display the current mode and partially-typed commands in the status
+    " line:
     set showmode
     set showcmd
-    " Always display the current cursor position in the lower right corner of
-    " the Vim window.
+    " Always display the current cursor position in the lower right corner
+    " of the Vim window.
     set ruler
 endif
 
@@ -184,18 +185,18 @@ set autoindent
 " See ":help smartindent" for more info.
 set smartindent
 
-" normally don't automatically format `text' as it is typed, IE only do this
-" with comments, and reflow at 72 characters: 
+" don't automatically format `text' as it is typed; i.e. only do this with
+" comments, and reflow at 76 characters: 
 set formatoptions-=t
 set textwidth=76
 
 " Create a ColorColumn at 76 characters.
 set colorcolumn=76
 
-" get rid of the default style of C comments, and define a style with two stars
-" at the start of `middle' rows which (looks nicer and) avoids asterisks used
-" for bullet lists being treated like C comments; then define a bullet list
-" style for single stars (like already is for hyphens):
+" get rid of the default style of C comments, and define a style with two
+" stars at the start of `middle' rows which (looks nicer and) avoids
+" asterisks used for bullet lists being treated like C comments; then define
+" a bullet list style for single stars (like already is for hyphens):
 set comments-=s1:/*,mb:*,ex:*/
 set comments+=s:/*,mb:**,ex:*/
 set comments+=fb:*
