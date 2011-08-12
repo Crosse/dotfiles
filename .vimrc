@@ -90,8 +90,12 @@ endif
 if has('syntax')
     syntax on
 
-    " Create a ColorColumn at 76 characters.
-    set colorcolumn=76
+    if exists('+colorcolumn')
+        set colorcolumn=76
+    else
+        highlight OverLength ctermbg=darkred ctermfg=white guibg=darkred
+        match OverLength /\%76v.\+/
+    endif
 
     if has('extra_search')
         " Turn on search highlighting
