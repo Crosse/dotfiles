@@ -38,6 +38,7 @@ let console_scheme = "slate"
 let ms_font = "Consolas:h11"
 " The font to use in MacVim
 let mac_font = "Inconsolata:h16"
+let mac_print_font="Inconsolata:h10"
 " The font to use in GVIM on Unix
 let unix_font = "Monospace"
 " GVIM default window size
@@ -51,17 +52,23 @@ if has("win32") || has("win16") || has("win95") || has("win64")
     behave mswin
     source $VIMRUNTIME/mswin.vim
 
+    exec "set printfont=".ms_font
+
     if has("gui_running")
         " The font to use for GVIM / Windows
         exec "set guifont=".ms_font
     endif 
 elseif has('mac') || has('macvim')
     " MacVim-specific settings
+    exec "set printfont=".mac_print_font
+
     if has("gui_running")
         " The font to use for MacVim
         exec "set guifont=".mac_font
     endif
 else
+    exec "set printfont=".unix_font
+
     " Unix-specific settings
     if has('gui_running')
         " Set the font to use for GVIM
@@ -97,6 +104,14 @@ if $VIM_CRONTAB == "true"
     set nobackup
     set nowritebackup
 endif
+
+" Set some printing options.
+" Left/Right/Top margins:  0.5in (1pt = 1/72 inch)
+" Bottom margin:  1in
+" Print line numbers
+" Paper size:  letter (default is A4)
+set printoptions=left:36pt,right:36pt,top:36pt,bottom:1in,number:y,paper:letter
+set printheader=%<%F%=\ [Page\ %N]
 
 " Enable line numbering
 set number
@@ -172,7 +187,10 @@ set smartindent
 " normally don't automatically format `text' as it is typed, IE only do this
 " with comments, and reflow at 72 characters: 
 set formatoptions-=t
-set textwidth=72
+set textwidth=76
+
+" Create a ColorColumn at 76 characters.
+set colorcolumn=76
 
 " get rid of the default style of C comments, and define a style with two stars
 " at the start of `middle' rows which (looks nicer and) avoids asterisks used
