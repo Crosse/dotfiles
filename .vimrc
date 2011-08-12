@@ -36,6 +36,7 @@ let gui_scheme = "torte"
 let console_scheme = "slate"
 " The font to use in GVIM for Windows
 let ms_font = "Consolas:h11"
+let ms_print_font = "Consolas:h8"
 " The font to use in MacVim
 let mac_font = "Inconsolata:h16"
 let mac_print_font="Inconsolata:h10"
@@ -52,7 +53,7 @@ if has("win32") || has("win16") || has("win95") || has("win64")
     behave mswin
     source $VIMRUNTIME/mswin.vim
 
-    exec "set printfont=".ms_font
+    exec "set printfont=".ms_print_font
 
     if has("gui_running")
         " The font to use for GVIM / Windows
