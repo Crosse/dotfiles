@@ -13,6 +13,6 @@ endif
 let b:did_indent = 1
 
 " PS indenting is like indenting C
-setlocal cindent cinoptions& cinoptions+=+0
+setlocal cindent cinoptions& cinoptions+=+0 cinkeys-=0#
 
 let b:undo_indent = "setl cin<"
