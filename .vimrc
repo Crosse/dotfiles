@@ -38,7 +38,7 @@ let console_scheme = "slate"
 let ms_font = "Consolas:h11"
 let ms_print_font = "Consolas:h8"
 " The font to use in MacVim
-let mac_font = "Inconsolata:h16"
+let mac_font = "Consolas:h16,Inconsolata:h16"
 let mac_print_font="Inconsolata:h9"
 " The font to use in GVIM on Unix
 let unix_font = "Monospace"
