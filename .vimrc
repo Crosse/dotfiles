@@ -31,15 +31,15 @@ autocmd!
 " whatever works for you if you don't like them.
 "
 " The colorscheme to use for GVIM
-let gui_scheme = "torte"
+let gui_scheme = "solarized"
 " The colorscheme to use for vim
-let console_scheme = "slate"
+let console_scheme = "solarized"
 " The font to use in GVIM for Windows
 let ms_font = "Consolas:h11"
 let ms_print_font = "Consolas:h8"
 " The font to use in MacVim
-let mac_font = "Consolas:h16,Inconsolata:h16"
-let mac_print_font="Inconsolata:h9"
+let mac_font = "Consolas:h14,Inconsolata:h14"
+let mac_print_font="Consolas:h8"
 " The font to use in GVIM on Unix
 let unix_font = "Monospace"
 " GVIM default window size
@@ -83,8 +83,10 @@ if has('gui_running')
     set guioptions-=T
     " Set a color scheme
     exec "colorscheme ".gui_scheme
+    set background=light
 else
     exec "colorscheme ".console_scheme
+    set background=dark
 endif
 
 " Turn syntax highlighting on, if vim supports it
