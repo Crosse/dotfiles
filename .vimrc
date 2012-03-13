@@ -1,8 +1,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 
-" $Id$
-" 
-" Copyright (c) 2009 Seth Wright (seth@crosse.org)
+" Copyright (c) 2009-2012 Seth Wright (seth@crosse.org)
 "
 " Permission to use, copy, modify, and distribute this software for any
 " purpose with or without fee is hereby granted, provided that the above
@@ -16,7 +14,22 @@
 " ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
 " IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" The following keys and their functions are defined below.  This doesn't
+" include everything; mostly just the 'convenience' keys.  If I remapped a
+" key just to change how it works slightly (like PageUp), but it still works
+" mostly the same way as before, I am not including it here.
 "
+" F2 - toggle spell check
+" F4 - toggle search highlighting
+" F5 - toggle list mode; i.e., 'Show Codes'
+" F6 - execute 'make' in the current directory
+" Ctrl-Enter - same as 'O'; i.e., insert a line above the current line
+" Ctrl-J - mapped to 'tabnext'
+" Ctrl-K - mapped to 'tabprevious'
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " This file isn't compatible with vi.
 set nocompatible
 
@@ -92,6 +105,7 @@ endif
 if has('syntax')
     syntax on
 
+    " This sets up a 'gutter' line at 76 characters.
     if exists('+colorcolumn')
         set colorcolumn=76
     else
@@ -136,7 +150,7 @@ set history=50
 " Save marks for the last 10 edited files;
 " Don't save marks for files in /tmp or /Volumes;
 " Do not store file marks;
-" Disable "hlsearch" when loading the viminfo file;
+" Disable 'hlsearch' when loading the viminfo file;
 " Save 100 lines for each register.
 set viminfo=/10,'10,r/tmp,r/Volumes,f0,h,\"100
 
@@ -176,7 +190,7 @@ endif
 " show matching brackets / parentheses
 set showmatch
 
-" Disable line-wrapping
+" Disable visual line-wrapping.  This does not prevent hard-wraps.
 set nowrap
 
 " use four spaces for each step of (auto)indent.
@@ -259,12 +273,13 @@ noremap Y y$
 " insertion, and over indentations:
 set backspace=eol,start,indent
 
-" Toggle List mode using F5
+" Toggle List mode using F5.  Like 'Show Codes' for WordPerfect...
 map <F5> :set list!<CR>:set list?<CR>
 imap <F5> <C-O>:set list!<CR><C-O>:set list?<CR>
 
 " Have Control-Enter do the same as 'O'
 " ...that is, insert a line above the current line.
+" This comes from Visual Studio key bindings.
 imap <C-Enter> <Esc>O
 
 " Remap PageUp and PageDown such that the keys act like Control-U and
@@ -274,7 +289,7 @@ map <PageDown> <C-D>
 imap <PageUp> <C-O><C-U>
 imap <PageDown> <C-O><C-D>
 
-" Map/remap Control-J and Control-K to cycle up and down through tabs
+" Map/remap Control-J and Control-K to cycle left and right through tabs
 map <C-J> :tabnext<CR>
 map <C-K> :tabprev<CR>
 imap <C-J> <C-O>:tabnext<CR>
