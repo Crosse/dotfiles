@@ -33,7 +33,7 @@ autocmd!
 " The colorscheme to use for GVIM
 let gui_scheme = "solarized"
 " The colorscheme to use for vim
-let console_scheme = "solarized"
+let console_scheme = "slate"
 " The font to use in GVIM for Windows
 let ms_font = "Consolas:h11"
 let ms_print_font = "Consolas:h8"
