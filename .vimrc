@@ -74,6 +74,7 @@ else
     if has('gui_running')
         " Set the font to use for GVIM
         exec "set guifont=".unix_font
+        set background=dark
     endif
 endif
 
@@ -83,10 +84,8 @@ if has('gui_running')
     set guioptions-=T
     " Set a color scheme
     exec "colorscheme ".gui_scheme
-    set background=light
 else
     exec "colorscheme ".console_scheme
-    set background=dark
 endif
 
 " Turn syntax highlighting on, if vim supports it
