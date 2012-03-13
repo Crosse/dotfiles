@@ -33,7 +33,7 @@ autocmd!
 " The colorscheme to use for GVIM
 let gui_scheme = "solarized"
 " The colorscheme to use for vim
-let console_scheme = "slate"
+let console_scheme = "solarized"
 " The font to use in GVIM for Windows
 let ms_font = "Consolas:h11"
 let ms_print_font = "Consolas:h8"
@@ -74,7 +74,6 @@ else
     if has('gui_running')
         " Set the font to use for GVIM
         exec "set guifont=".unix_font
-        set background=dark
     endif
 endif
 
@@ -84,6 +83,7 @@ if has('gui_running')
     set guioptions-=T
     " Set a color scheme
     exec "colorscheme ".gui_scheme
+    set background=light
 else
     exec "colorscheme ".console_scheme
 endif
