@@ -204,9 +204,6 @@ set expandtab
 " Copy indent from current line when starting a new line.
 " Also deletes indents if nothing else is written on the line.
 set autoindent
-" Do smart autoindenting when starting a new line.
-" See ":help smartindent" for more info.
-set smartindent
 
 " don't automatically format `text' as it is typed; i.e. only do this with
 " comments, and reflow at 72 characters:
