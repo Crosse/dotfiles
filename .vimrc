@@ -46,7 +46,7 @@ autocmd!
 " The colorscheme to use for GVIM
 let gui_scheme = "solarized"
 " The colorscheme to use for vim
-let console_scheme = "solarized"
+let console_scheme = "torte"
 " The font to use in GVIM for Windows
 let ms_font = "Consolas:h11"
 let ms_print_font = "Consolas:h8"
@@ -105,12 +105,12 @@ endif
 if has('syntax')
     syntax on
 
-    " This sets up a 'gutter' line at 76 characters.
+    " This sets up a 'gutter' line at 72 characters.
     if exists('+colorcolumn')
-        set colorcolumn=76
+        set colorcolumn=72
     else
         highlight OverLength ctermbg=darkred ctermfg=white guibg=darkred
-        match OverLength /\%76v.\+/
+        match OverLength /\%72v.\+/
     endif
 
     if has('extra_search')
@@ -209,9 +209,9 @@ set autoindent
 set smartindent
 
 " don't automatically format `text' as it is typed; i.e. only do this with
-" comments, and reflow at 76 characters: 
+" comments, and reflow at 72 characters:
 set formatoptions-=t
-set textwidth=76
+set textwidth=72
 
 " get rid of the default style of C comments, and define a style with two
 " stars at the start of `middle' rows which (looks nicer and) avoids
@@ -232,8 +232,9 @@ if has('eval')
 endif
 
 if has('autocmd')
-    " in human-language files, automatically format everything at 72 chars:
-    autocmd FileType mail,human set formatoptions+=t textwidth=72
+    " in human-language files, automatically format everything at 72
+    " chars:
+    autocmd FileType human set formatoptions+=t textwidth=72
 endif
 
 " Set up an informative status line.
