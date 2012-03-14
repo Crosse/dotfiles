@@ -1,5 +1,5 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 
+"
 " Copyright (c) 2009-2012 Seth Wright (seth@crosse.org)
 "
 " Permission to use, copy, modify, and distribute this software for any
@@ -71,7 +71,7 @@ if has("win32") || has("win16") || has("win95") || has("win64")
     if has("gui_running")
         " The font to use for GVIM / Windows
         exec "set guifont=".ms_font
-    endif 
+    endif
 elseif has('mac') || has('macvim')
     " MacVim-specific settings
     exec "set printfont=".mac_print_font
@@ -239,11 +239,11 @@ endif
 
 " Set up an informative status line.
 if has('statusline')
-  if version >= 700
-    set statusline=%-02.2n\ %t\ %y\ %m\ %r\ %L\ lines%=%lL,%cC\ \(%P\)\ 
-    " Enable the status line
-    set laststatus=2
-  endif
+    if version >= 700
+        set statusline=%-02.2n\ %t\ %y\ %m\ %r\ %L\ lines%=%lL,%cC\ \(%P\)\
+        " Enable the status line
+        set laststatus=2
+    endif
 endif
 
 " make searches case-insensitive, unless they contain upper-case letters:
@@ -297,7 +297,7 @@ imap <C-J> <C-O>:tabnext<CR>
 imap <C-K> <C-O>:tabprev<CR>
 
 " Keep the cursor in the same column, if possible, when using C-U and
-" C-D, etc. 
+" C-D, etc.
 set nostartofline
 
 " Use <F6> to call :make
