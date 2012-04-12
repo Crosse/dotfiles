@@ -243,6 +243,33 @@ if has('statusline')
     endif
 endif
 
+" Enable folding.  This uses syntax folding (so your syntax file must
+" support folding).  It doesn't start folded by default, and sets up a
+" left-hand gutter of three columns dedicated to the folding structure.
+if has('folding')
+    set foldmethod=syntax
+    set foldnestmax=10
+    set foldenable
+    set foldcolumn=0
+    set foldlevel=255
+
+    " This toggles the nearest fold open and closed.
+    map <F9> za
+    imap <F9> <C-O>za
+    " This does the same thing, but with Control-Space.
+    nmap <silent> <C-Space> @=(foldlevel('.')?'za':"\<C-Space>")<CR>
+
+    " A function to toggle the fold column.
+    map <F10> :call FoldColumnToggle()<CR>
+    function! FoldColumnToggle()
+        if &foldcolumn
+            setlocal foldcolumn=0
+        else
+            setlocal foldcolumn=4
+        endif
+    endfunction
+endif
+
 " make searches case-insensitive, unless they contain upper-case letters:
 set ignorecase
 set smartcase

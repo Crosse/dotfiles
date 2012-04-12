@@ -4,8 +4,8 @@
 " Version: 2.7
 " Url: http://www.vim.org/scripts/script.php?script_id=1327
 " 
-" $LastChangedDate$
-" $Rev$
+" $LastChangedDate: 2011-01-19 16:30:29 -0500 (Wed, 19 Jan 2011) $
+" $Rev: 314 $
 "
 " Contributions by:
 " 	Jared Parsons <jaredp@beanseed.org>
@@ -74,6 +74,8 @@ syn region ps1String start=/'/ end=/'/
 " Here-Strings
 syn region ps1String start=/@"$/ end=/^"@$/
 syn region ps1String start=/@'$/ end=/^'@$/
+
+syn region ps1Region start="{" end="}" transparent fold
 
 " Numbers
 syn match ps1Number /\<[0-9]\+/
