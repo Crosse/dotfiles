@@ -146,8 +146,8 @@ esac
 #######################################
 #      System-Independent Aliases     #
 #######################################
-alias mv='mv -i'
-alias cp='cp -i'
+#alias mv='mv -i'
+#alias cp='cp -i'
 alias ll='ls -lah'
 alias la='ls -a'
 alias dir='ls -lah'
