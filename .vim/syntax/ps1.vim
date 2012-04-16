@@ -75,7 +75,7 @@ syn region ps1String start=/'/ end=/'/
 syn region ps1String start=/@"$/ end=/^"@$/
 syn region ps1String start=/@'$/ end=/^'@$/
 
-syn region ps1Region start="{" end="}" transparent fold
+syn region ps1Region start=/[({]/ end=/[)}]/ transparent fold
 
 " Numbers
 syn match ps1Number /\<[0-9]\+/
