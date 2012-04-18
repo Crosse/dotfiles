@@ -52,9 +52,8 @@ syn match ps1StandaloneType /[a-z0-9_.]\+/ contained
 syn keyword ps1Scope global local private script contained
 
 " Variables and other user defined items
-syn match ps1Variable /\$\w\+/	
-syn match ps1Variable /\${\w\+:\\\w\+}/ 
-syn match ps1ScopedVariable /\$\w\+:\w\+/ contains=ps1Scope
+syn match ps1Variable /\$[{]\?\w\+[}]\?/
+syn match ps1ScopedVariable /\$[{]\?\w\+:\w\+[}]\?/ contains=ps1Scope
 syn match ps1VariableName /\w\+/ contained
 
 " Operators all start w/ dash
