@@ -27,7 +27,8 @@ syn sync minlines=100
 " Comments and special comment words
 syn keyword ps1CommentTodo TODO FIXME XXX TBD HACK contained
 syn match ps1Comment /#.*/ contains=ps1CommentTodo,ps1CommentHelp,@Spell
-syn region ps1Comment start=/<#.*$/ end=/^.*#>$/ contains=ps1CommentTodo,ps1CommentHelp,@Spell
+syn region ps1Comment start=/<#.*$/ end=/^.*#>$/ contains=ps1CommentTodo,ps1CommentHelp,@Spell fold
+syn region ps1Comment start=/^##.*/ end=/^##.*/ contains=ps1CommentTodo,ps1CommentHelp,@Spell fold
 
 " Comment-Based Help
 syn match ps1CommentHelp /\.\(SYNOPSIS\|DESCRIPTION\|PARAMETER\|EXAMPLE\|INPUTS\|OUTPUTS\|NOTES\)/ contained
