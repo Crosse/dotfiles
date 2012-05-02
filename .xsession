@@ -5,7 +5,7 @@
 # X startup script
 
 # Load any Xdefaults
-if [ -f ${HOME}/.Xdefaults ]; then
+if [ -f ${HOME}/.Xresources ]; then
     xrdb -merge ${HOME}/.Xresources
 fi
 
