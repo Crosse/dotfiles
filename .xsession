@@ -6,15 +6,16 @@
 
 # Load any Xdefaults
 if [ -f ${HOME}/.Xdefaults ]; then
-    xrdb -merge ${HOME}/.Xdefaults
+    xrdb -merge ${HOME}/.Xresources
 fi
 
 xidle &
 
 # Set the background
-fbsetbg -l
+xsetroot -solid steelblue
 
 #xterm -geometry 140x50 &
 
-#exec /usr/local/bin/startfluxbox
-exec cwm
+#exec /usr/X11R6/bin/twm
+#exec /usr/X11R6/bin/cwm
+exec /usr/X11R6/bin/fvwm
