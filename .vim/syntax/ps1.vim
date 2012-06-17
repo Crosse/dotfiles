@@ -27,7 +27,8 @@ syn sync minlines=100
 " Comments and special comment words
 syn keyword ps1CommentTodo TODO FIXME XXX TBD HACK contained
 syn match ps1Comment /#.*/ contains=ps1CommentTodo,ps1CommentHelp,@Spell
-syn region ps1Comment start=/<#.*$/ end=/^.*#>$/ contains=ps1CommentTodo,ps1CommentHelp,@Spell
+syn region ps1Comment start=/<#.*$/ end=/^.*#>$/ contains=ps1CommentTodo,ps1CommentHelp,@Spell fold
+syn region ps1Comment start=/^##.*/ end=/^##.*/ contains=ps1CommentTodo,ps1CommentHelp,@Spell fold
 
 " Comment-Based Help
 syn match ps1CommentHelp /\.\(SYNOPSIS\|DESCRIPTION\|PARAMETER\|EXAMPLE\|INPUTS\|OUTPUTS\|NOTES\)/ contained
@@ -35,7 +36,7 @@ syn match ps1CommentHelp /\.\(LINK\|COMPONENT\|ROLE\|FUNCTIONALITY\|FORWARDHELPT
 syn match ps1CommentHelp /\.\(FORWARDHELPCATEGORY\|REMOTEHELPRUNSPACE\|EXTERNALHELP\)/ contained
 
 " Language keywords and elements
-syn keyword ps1Conditional if else elseif switch try catch
+syn keyword ps1Conditional if else elseif switch try catch finally
 syn keyword ps1Repeat while default for do until break continue
 syn match ps1Repeat /\<foreach\>/ nextgroup=ps1Cmdlet
 syn keyword ps1Keyword return filter in trap throw param begin process end
@@ -52,9 +53,8 @@ syn match ps1StandaloneType /[a-z0-9_.]\+/ contained
 syn keyword ps1Scope global local private script contained
 
 " Variables and other user defined items
-syn match ps1Variable /\$\w\+/	
-syn match ps1Variable /\${\w\+:\\\w\+}/ 
-syn match ps1ScopedVariable /\$\w\+:\w\+/ contains=ps1Scope
+syn match ps1Variable /\$[{]\?\w\+[}]\?/
+syn match ps1ScopedVariable /\$[{]\?\w\+:\w\+[}]\?/ contains=ps1Scope
 syn match ps1VariableName /\w\+/ contained
 
 " Operators all start w/ dash
@@ -75,7 +75,7 @@ syn region ps1String start=/'/ end=/'/
 syn region ps1String start=/@"$/ end=/^"@$/
 syn region ps1String start=/@'$/ end=/^'@$/
 
-syn region ps1Region start="{" end="}" transparent fold
+syn region ps1Region start=/[({]/ end=/[)}]/ transparent fold
 
 " Numbers
 syn match ps1Number /\<[0-9]\+/
