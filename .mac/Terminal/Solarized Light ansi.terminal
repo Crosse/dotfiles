@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BackgroundAlphaInactive</key>
+	<real>0.75</real>
+	<key>BackgroundBlur</key>
+	<real>0.0</real>
+	<key>BackgroundBlurInactive</key>
+	<real>0.5</real>
 	<key>BackgroundColor</key>
 	<data>
 	YnBsaXN0MDDUAQIDBAUGFRZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
@@ -11,7 +17,11 @@
 	QXJjaGl2ZXLRFxhUcm9vdIABCBEaIy0yNztBSE9cYmRmlZqlrra5wtTX3AAAAAAAAAEB
 	AAAAAAAAABkAAAAAAAAAAAAAAAAAAADe
 	</data>
+	<key>BackgroundSettingsForInactiveWindows</key>
+	<false/>
 	<key>BlinkText</key>
+	<true/>
+	<key>CursorBlink</key>
 	<false/>
 	<key>CommandString</key>
 	<string></string>
@@ -24,23 +34,27 @@
 	ZXLRFxhUcm9vdIABCBEaIy0yNztBSE9cYmRmj5SfqLCzvM7R1gAAAAAAAAEBAAAAAAAA
 	ABkAAAAAAAAAAAAAAAAAAADY
 	</data>
+	<key>CursorType</key>
+	<integer>0</integer>
+	<key>DisableANSIColor</key>
+	<false/>
 	<key>Font</key>
 	<data>
 	YnBsaXN0MDDUAQIDBAUGGBlYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
 	AAGGoKQHCBESVSRudWxs1AkKCwwNDg8QViRjbGFzc1ZOU05hbWVWTlNTaXplWE5TZkZs
-	YWdzgAOAAiNAJgAAAAAAABAQXU1lbmxvLVJlZ3VsYXLSExQVFlokY2xhc3NuYW1lWCRj
-	bGFzc2VzVk5TRm9udKIVF1hOU09iamVjdF8QD05TS2V5ZWRBcmNoaXZlctEaG1Ryb290
-	gAEIERojLTI3PEJLUllgaWttdniGi5afpqmyxMfMAAAAAAAAAQEAAAAAAAAAHAAAAAAA
-	AAAAAAAAAAAAAM4=
+	YWdzgAOAAiNAMAAAAAAAABAQW0luY29uc29sYXRh0hMUFRZaJGNsYXNzbmFtZVgkY2xh
+	c3Nlc1ZOU0ZvbnSiFRdYTlNPYmplY3RfEA9OU0tleWVkQXJjaGl2ZXLRGhtUcm9vdIAB
+	CBEaIy0yNzxCS1JZYGlrbXZ4hImUnaSnsMLFygAAAAAAAAEBAAAAAAAAABwAAAAAAAAA
+	AAAAAAAAAADM
 	</data>
 	<key>FontAntialias</key>
 	<true/>
 	<key>FontWidthSpacing</key>
 	<real>1.004032258064516</real>
-	<key>ProfileCurrentVersion</key>
-	<real>2.0099999999999998</real>
-	<key>RunCommandAsShell</key>
+	<key>Linewrap</key>
 	<true/>
+	<key>ProfileCurrentVersion</key>
+	<real>2.02</real>
 	<key>SelectionColor</key>
 	<data>
 	YnBsaXN0MDDUAQIDBAUGFRZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
@@ -50,8 +64,20 @@
 	dmVy0RcYVHJvb3SAAQgRGiMtMjc7QUhPXGJkZpCVoKmxtL3P0tcAAAAAAAABAQAAAAAA
 	AAAZAAAAAAAAAAAAAAAAAAAA2Q==
 	</data>
+	<key>ShowActiveProcessInTitle</key>
+	<false/>
+	<key>ShowCommandKeyInTitle</key>
+	<false/>
+	<key>ShowDimensionsInTitle</key>
+	<false/>
+	<key>ShowShellCommandInTitle</key>
+	<false/>
+	<key>ShowTTYNameInTitle</key>
+	<false/>
+	<key>ShowWindowSettingsNameInTitle</key>
+	<false/>
 	<key>TerminalType</key>
-	<string>ansi</string>
+	<string>xterm-256color</string>
 	<key>TextBoldColor</key>
 	<data>
 	YnBsaXN0MDDUAQIDBAUGFRZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
@@ -124,6 +150,8 @@
 	BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISECE5TT2JqZWN0AIWEAWMBhARm
 	ZmZmg1MTpj6DeHnQPoPQg+A+AYY=
 	</data>
+	<key>columnCount</key>
+	<integer>150</integer>
 	<key>cyanColour</key>
 	<data>
 	BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISECE5TT2JqZWN0AIWEAWMBhARm
@@ -134,6 +162,117 @@
 	BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISECE5TT2JqZWN0AIWEAWMBhARm
 	ZmZmg9lI5j6DIYkKP4PVjKU8AYY=
 	</data>
+	<key>keyMapBoundKeys</key>
+	<dict>
+		<key>$F708</key>
+		<string>[25~</string>
+		<key>$F709</key>
+		<string>[26~</string>
+		<key>$F70A</key>
+		<string>[28~</string>
+		<key>$F70B</key>
+		<string>[29~</string>
+		<key>$F70C</key>
+		<string>[31~</string>
+		<key>$F70D</key>
+		<string>[22~</string>
+		<key>$F70E</key>
+		<string>[33~</string>
+		<key>$F70F</key>
+		<string>[34~</string>
+		<key>$F729</key>
+		<string>[H</string>
+		<key>$F72B</key>
+		<string>[F</string>
+		<key>$F72C</key>
+		<string>scrollPageUp:</string>
+		<key>$F72D</key>
+		<string>scrollPageDown:</string>
+		<key>F704</key>
+		<string>OP</string>
+		<key>F705</key>
+		<string>OQ</string>
+		<key>F706</key>
+		<string>OR</string>
+		<key>F707</key>
+		<string>OS</string>
+		<key>F708</key>
+		<string>[15~</string>
+		<key>F709</key>
+		<string>[17~</string>
+		<key>F70A</key>
+		<string>[18~</string>
+		<key>F70B</key>
+		<string>[19~</string>
+		<key>F70C</key>
+		<string>[20~</string>
+		<key>F70D</key>
+		<string>[21~</string>
+		<key>F70E</key>
+		<string>[23~</string>
+		<key>F70F</key>
+		<string>[24~</string>
+		<key>F710</key>
+		<string>[25~</string>
+		<key>F711</key>
+		<string>[26~</string>
+		<key>F712</key>
+		<string>[28~</string>
+		<key>F713</key>
+		<string>[29~</string>
+		<key>F714</key>
+		<string>[31~</string>
+		<key>F715</key>
+		<string>[32~</string>
+		<key>F716</key>
+		<string>[33~</string>
+		<key>F717</key>
+		<string>[34~</string>
+		<key>F728</key>
+		<string>[3~</string>
+		<key>F729</key>
+		<string>[1~</string>
+		<key>F72B</key>
+		<string>[4~</string>
+		<key>F72C</key>
+		<string>[5~</string>
+		<key>F72D</key>
+		<string>[6~</string>
+		<key>^F702</key>
+		<string>[5D</string>
+		<key>^F703</key>
+		<string>[5C</string>
+		<key>~F704</key>
+		<string>[17~</string>
+		<key>~F705</key>
+		<string>[18~</string>
+		<key>~F706</key>
+		<string>[19~</string>
+		<key>~F707</key>
+		<string>[20~</string>
+		<key>~F708</key>
+		<string>[21~</string>
+		<key>~F709</key>
+		<string>[23~</string>
+		<key>~F70A</key>
+		<string>[24~</string>
+		<key>~F70B</key>
+		<string>[25~</string>
+		<key>~F70C</key>
+		<string>[26~</string>
+		<key>~F70D</key>
+		<string>[28~</string>
+		<key>~F70E</key>
+		<string>[29~</string>
+		<key>~F70F</key>
+		<string>[31~</string>
+		<key>~F710</key>
+		<string>[32~</string>
+		<key>~F711</key>
+		<string>[33~</string>
+		<key>~F712</key>
+		<string>[34~</string>
+	</dict>
 	<key>magentaColour</key>
 	<data>
 	BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISECE5TT2JqZWN0AIWEAWMBhARm
@@ -146,8 +285,14 @@
 	BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISECE5TT2JqZWN0AIWEAWMBhARm
 	ZmZmg6i7UT+DUATePYMl2hA+AYY=
 	</data>
+	<key>rowCount</key>
+	<integer>50</integer>
+	<key>shellExitAction</key>
+	<integer>1</integer>
 	<key>type</key>
 	<string>Window Settings</string>
+	<key>useOptionAsMetaKey</key>
+	<true/>
 	<key>whiteColour</key>
 	<data>
 	BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISECE5TT2JqZWN0AIWEAWMBhARm
