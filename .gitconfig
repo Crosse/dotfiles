@@ -12,3 +12,5 @@
 	interactive = auto
 	status = auto
 	ui = true
+[credential]
+	helper = cache
