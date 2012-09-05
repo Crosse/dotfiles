@@ -108,9 +108,6 @@ if has('syntax')
     " This sets up a 'gutter' line at 72 characters.
     if exists('+colorcolumn')
         set colorcolumn=72
-    else
-        highlight OverLength ctermbg=darkred ctermfg=white guibg=darkred
-        match OverLength /\%72v.\+/
     endif
 
     if has('extra_search')
