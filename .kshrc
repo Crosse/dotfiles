@@ -87,10 +87,10 @@ fi
 #######################################
 
 # Look for vim...
-VI=$(which vim)
+VI="$(which vim 2>/dev/null)"
 if [ -z "$VI" ]; then
     # ...but use vi if vim doesn't exist.
-    VI=$(which vi)
+    VI=$(which vi 2>/dev/null)
 fi
 # Note that setting these in ksh means vi keybindings
 # are also active instead of emacs...
@@ -102,7 +102,7 @@ export EDITOR VISUAL
 # This sets it back to emacs, which is what I prefer.
 set -o emacs
 
-PAGERCMD=$(which less)
+PAGERCMD="$(which less 2>/dev/null)"
 if [ -x "${PAGERCMD}" ]; then
     PAGER=${PAGERCMD}
     # Set options for less so that it:
@@ -114,7 +114,7 @@ if [ -x "${PAGERCMD}" ]; then
     #   doesn't clear the screen after quitting (-X).
     export LESS="-FiJmRX"
 else
-    PAGERCMD=$(which more)
+    PAGERCMD="$(which more 2>/dev/null)"
     if [ -x "${PAGERCMD}" ]; then
         PAGER=${PAGERCMD}
     fi
