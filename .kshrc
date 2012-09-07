@@ -36,12 +36,26 @@ if [ ${0#-} == 'bash' ]; then
     shopt -s histappend
 fi
 
+if [ -x "$(which git 2>/dev/null)" ]; then
+    function parse_git_branch_and_add_brackets {
+        if [ -z "$NOPATHBRANCHES" ]; then
+            git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\ \[\1\]/'
+        fi
+    }
+else
+    function parse_git_branch_and_add_brackets {
+        return
+    }
+fi
+
 # Colorized prompt that should work in ksh and bash
 if [ $(id -ru) == '0' ] ; then
-    PS1='\[\e[0;31m\]\u@\h\[\e[0;34m\] \w \$\[\e[00m\] '
+    HOSTCOLOR="\[\e[0;31m\]"
 else
-    PS1='\[\e[0;32m\]\u@\h\[\e[0;34m\] \w \$\[\e[00m\] '
+    HOSTCOLOR="\[\e[0;32m\]"
 fi
+
+PS1="${HOSTCOLOR}\u@\h\$(parse_git_branch_and_add_brackets)\[\e[0;34m\] \w \$\[\e[00m\] "
 
 # This section will set the title of an xterm.
 case $TERM in
