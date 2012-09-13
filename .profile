@@ -10,18 +10,12 @@ HOMEBIN=${HOME}/bin
 [[ -d "$HOMEBIN" && "$PATH" != *${HOMEBIN}* ]] && PATH=$HOMEBIN:$PATH
 
 case $(uname) in
-    "OpenBSD")
-        PATH=$PATH:/usr/games
-        export PKG_PATH=http://mirrors.24-7-solutions.net/pub/OpenBSD/snapshots/packages/`arch -s`/
-    ;;
-
     "Darwin")
         # Added to support git on Mac OSX.
         if [ -d /usr/local/git/bin ]; then
             PATH=$PATH:/usr/local/git/bin
         fi
     ;;
-
 esac
 
 # ccache stuff, if ever needed.
