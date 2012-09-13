@@ -1,8 +1,6 @@
 ################################################################################
-# 
-# $Id$
-# 
-# Copyright (c) 2010 Seth Wright (seth@crosse.org)
+#
+# Copyright (c) 2010-2012 Seth Wright (seth@crosse.org)
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -20,7 +18,7 @@
 # .{ksh,bash}rc
 # This file is read by interactive shells.
 #
-# 
+#
 # For bash, this file should be renamed to ~/.bashrc
 # For ksh, this file should be renamed to ~/.kshrc and
 # the following line should be placed in your ~/.profile file:
@@ -80,99 +78,6 @@ if [ ${0#-} == 'ksh' ]; then
         bind -m ''=clear^J
     fi
 fi
-
-
-#######################################
-#        Environment Variables        #
-#######################################
-
-# Look for vim...
-VI="$(which vim 2>/dev/null)"
-if [ -z "$VI" ]; then
-    # ...but use vi if vim doesn't exist.
-    VI=$(which vi 2>/dev/null)
-fi
-# Note that setting these in ksh means vi keybindings
-# are also active instead of emacs...
-EDITOR=$VI
-VISUAL=$VI
-export EDITOR VISUAL
-
-# Using ksh, setting EDITOR or VISUAL (above) also sets vi key bindings.
-# This sets it back to emacs, which is what I prefer.
-set -o emacs
-
-PAGERCMD="$(which less 2>/dev/null)"
-if [ -x "${PAGERCMD}" ]; then
-    PAGER=${PAGERCMD}
-    # Set options for less so that it:
-    #   quits if only one screen (-F);
-    #   causes searches to ignore case (-i);
-    #   displays a status column (-J);
-    #   displays a more verbose prompt, including % into the file (-m);
-    #   interprets ANSI color escape sequences (-R);
-    #   doesn't clear the screen after quitting (-X).
-    export LESS="-FiJmRX"
-else
-    PAGERCMD="$(which more 2>/dev/null)"
-    if [ -x "${PAGERCMD}" ]; then
-        PAGER=${PAGERCMD}
-    fi
-fi
-export PAGER
-
-
-case $(uname) in
-    "Linux")
-    # Linux uses GNU less, which includes color support
-    alias ls='ls --color=auto'
-    # Enable color by default for grep as well
-    alias grep='grep --colour=auto'
-    ;;
-
-    "OpenBSD")
-    # Workaround for OpenBSD not showing colors for TERM=xterm.
-    if [ "$TERM" == "xterm" ]; then
-        export TERM="xterm-xfree86"
-    fi
-    # For OpenBSD, if the colorls package has been installed,
-    # use it instead of ls.
-    if [ -x "$(which colorls)" ]; then
-        alias ls='colorls -G'
-        export CLICOLOR=""
-        export LSCOLORS=gxfxcxdxbxegEdabagacad
-    fi
-    ;;
-
-    "Darwin")
-    # Darwin includes some GNU things and some less-than-GNU
-    # things, but color options exist on the default 
-    # 'ls' and 'grep' commands so enable them.
-    alias ls='ls -G'
-    alias grep='grep --colour=auto'
-    export CLICOLOR=""
-    export LSCOLORS=gxfxcxdxbxegEdabagacad
-    # Work around a VIM incompatibility with crontab on OSX.
-    alias crontab='VIM_CRONTAB=true crontab'
-    ;;
-esac
-
-#######################################
-#      System-Independent Aliases     #
-#######################################
-#alias mv='mv -i'
-#alias cp='cp -i'
-alias ll='ls -lah'
-alias la='ls -a'
-alias dir='ls -lah'
-alias rdp='rdesktop -ANDzP'
-alias t='tmux attach-session -t main'
-
-#######################################
-#       Clean up the environment      #
-#######################################
-unset PAGERCMD
-unset VI
 
 #######################################
 #                 End                 #
