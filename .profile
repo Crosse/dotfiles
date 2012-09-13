@@ -4,8 +4,10 @@
 # and non-interactive shells with the --login option,
 # and also when bash is invoked with the name 'sh'.
 
-PATH=`echo $PATH | sed -e "s/\(.*\)\/usr\/local\/bin:\(.*\)/\/usr\/local\/bin:\1\2/"`
-PATH=$PATH:$HOME/bin
+# Only add ~/bin to the path if it exists, and if it doesn't already
+# exist in $PATH.
+HOMEBIN=${HOME}/bin
+[[ -d "$HOMEBIN" && "$PATH" != *${HOMEBIN}* ]] && PATH=$HOMEBIN:$PATH
 
 case $(uname) in
     "OpenBSD")
