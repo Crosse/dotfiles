@@ -23,39 +23,79 @@
 # the name 'sh'.
 ########################################################################
 
-
-# Only add ~/bin to the path if it exists, and if it doesn't already
-# exist in $PATH.
-HOMEBIN=${HOME}/bin
-[[ -d "$HOMEBIN" && "$PATH" != *${HOMEBIN}* ]] && PATH=$HOMEBIN:$PATH
-
-case $(uname) in
-    "Darwin")
-        # Added to support git on Mac OSX.
-        if [ -d /usr/local/git/bin ]; then
-            PATH=$PATH:/usr/local/git/bin
+# Some shell-specific things
+case ${0#-} in
+    "bash")
+        # Run various non-interactive scripts.
+        if [ -f "${HOME}/.bashrc" ]; then
+            . "${HOME}/.bashrc"
         fi
+
+        # Enable history appending instead of overwriting.
+        shopt -s histappend
+        ;;
+    "ksh")
+        if [ -o interactive ]; then
+            # Map ^L to clear
+            bind -m ''=clear^J
+        fi
+
+        # As per ksh(1): "If the ENV parameter is set when an
+        # interactive shell starts (or, in the case of login shells,
+        # after any profiles are processed), its value is subjected to
+        # parameter, command, arithmetic, and tilde (`~') substitution
+        # and the resulting file (if any) is read and executed."
+        if [ -f "${HOME}/.kshrc" ]; then
+            export ENV="${HOME}/.kshrc"
+        fi
+        ;;
+esac
+
+# For ksh, enables history.  For both ksh and bash, log to the same
+# file.
+export HISTFILE=$HOME/.history
+
+# Function used to add the git branch name to PS1.
+if [ -x "$(which git 2>/dev/null)" ]; then
+    function add_git_branch {
+        if [ -z "$NOPATHBRANCHES" ]; then
+            git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\ \[\1\]/'
+        fi
+    }
+else
+    function add_git_branch {
+        return
+    }
+fi
+
+# Change the prompt color depending on whether the real uid is root or a
+# regular user.
+if [ $(id -ru) == '0' ] ; then
+    HOSTCOLOR="\[\e[0;31m\]"
+else
+    HOSTCOLOR="\[\e[0;32m\]"
+fi
+
+# Set the title of an xterm.
+case $TERM in
+    xterm*|rxvt*|screen)
+    TERMTITLE="\[\e]0;\u@\h: \w\a\]"
     ;;
 esac
 
-# ccache stuff, if ever needed.
-export CCACHE_DIR=${HOME}/.ccache
-#export CCACHE_LOGFILE=${CCACHE_DIR}/ccache.log
-
-export PATH HOME TERM
-
-#######################################
-#        Environment Variables        #
-#######################################
+# Build a colorized prompt that should work in ksh and bash.
+export PS1="${TERMTITLE}${HOSTCOLOR}\u@\h\$(add_git_branch)\[\e[0;34m\] \w \$\[\e[00m\] "
 
 # Look for vim...
 VI="$(which vim 2>/dev/null)"
 if [ -z "$VI" ]; then
-    # ...but use vi if vim doesn't exist.
-    VI=$(which vi 2>/dev/null)
+    # ...but use vi if vim doesn't exist.  Don't use which(1) since any
+    # system that conforms to POSIX is supposed to include vi.
+    VI=vi
 fi
-# Note that setting these in ksh means vi keybindings
-# are also active instead of emacs...
+
+# Note that setting these in ksh means vi keybindings are also active
+# instead of emacs...
 EDITOR=$VI
 VISUAL=$VI
 unset VI
@@ -92,25 +132,23 @@ case $(uname) in
         # Enable color by default for grep as well
         alias grep='grep --colour=auto'
         ;;
-
     "OpenBSD")
         # Workaround for OpenBSD not showing colors for TERM=xterm.
         if [ "$TERM" == "xterm" ]; then
             export TERM="xterm-xfree86"
         fi
-        # For OpenBSD, if the colorls package has been installed,
-        # use it instead of ls.
+        # For OpenBSD, if the colorls package has been installed, use it
+        # instead of ls.
         if [ -x "$(which colorls)" ]; then
             alias ls='colorls -G'
             export CLICOLOR=""
             export LSCOLORS=gxfxcxdxbxegEdabagacad
         fi
         ;;
-
     "Darwin")
-        # Darwin includes some GNU things and some less-than-GNU
-        # things, but color options exist on the default
-        # 'ls' and 'grep' commands so enable them.
+        # Darwin includes some GNU things and some less-than-GNU things,
+        # but color options exist on the default 'ls' and 'grep'
+        # commands so enable them.
         alias ls='ls -G'
         alias grep='grep --colour=auto'
         export CLICOLOR=""
@@ -120,9 +158,10 @@ case $(uname) in
         ;;
 esac
 
-#######################################
-#      System-Independent Aliases     #
-#######################################
+# ccache stuff, if ever needed.
+export CCACHE_DIR=${HOME}/.ccache
+#export CCACHE_LOGFILE=${CCACHE_DIR}/ccache.log
+
 alias cls='clear'
 alias ll='ls -lah'
 alias la='ls -a'
@@ -130,19 +169,4 @@ alias dir='ls -lah'
 alias rdp='rdesktop -ANDzP'
 alias t='tmux attach-session -t main'
 
-# As per ksh(1): "If the ENV parameter is set when an interactive shell
-# starts (or, in the case of login shells, after any profiles are
-# processed), its value is subjected to parameter, command, arithmetic,
-# and tilde (`~') substitution and the resulting file (if any) is read
-# and executed."
-case ${0#-} in
-    "bash")
-        if [ -f "${HOME}/.kshrc" ]; then
-            . "${HOME}/.kshrc"
-        fi
-    ;;
-
-    "ksh")
-        export ENV="${HOME}/.kshrc"
-    ;;
-esac
+echo "end .profile"
