@@ -47,5 +47,3 @@ if [ ${0#-} == 'bash' ]; then
     # Source global definitions, if they exist
     if [ -f /etc/bashrc ]; then . /etc/bashrc; fi
 fi
-
-echo "end .kshrc"

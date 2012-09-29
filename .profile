@@ -168,5 +168,3 @@ alias la='ls -a'
 alias dir='ls -lah'
 alias rdp='rdesktop -ANDzP'
 alias t='tmux attach-session -t main'
-
-echo "end .profile"
