@@ -37,7 +37,7 @@ case $(uname) in
     "Darwin")
         # Added to support git on Mac OSX.
         if [ -d /usr/local/git/bin ]; then
-            PATH=$PATH:/usr/local/git/bin
+            PATH=/usr/local/git/bin:$PATH
         fi
     ;;
 esac
