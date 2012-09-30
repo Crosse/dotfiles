@@ -56,7 +56,7 @@ esac
 export HISTFILE=$HOME/.history
 
 # Function used to add the git branch name to PS1.
-if [ -x "$(which git 2>/dev/null)" ]; then
+if [ -x "$(command -v git)" ]; then
     function add_git_branch {
         if [ -z "$NOPATHBRANCHES" ]; then
             git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\ \[\1\]/'
@@ -87,10 +87,9 @@ esac
 export PS1="${TERMTITLE}${HOSTCOLOR}\u@\h\$(add_git_branch)\[\e[0;34m\] \w \$\[\e[00m\] "
 
 # Look for vim...
-VI="$(which vim 2>/dev/null)"
+VI="$(command -v vim)"
 if [ -z "$VI" ]; then
-    # ...but use vi if vim doesn't exist.  Don't use which(1) since any
-    # system that conforms to POSIX is supposed to include vi.
+    # ...but use vi if vim doesn't exist.
     VI=vi
 fi
 
@@ -105,7 +104,7 @@ export EDITOR VISUAL
 # This sets it back to emacs, which is what I prefer.
 set -o emacs
 
-PAGERCMD="$(which less 2>/dev/null)"
+PAGERCMD="$(command -v less)"
 if [ -x "${PAGERCMD}" ]; then
     PAGER=${PAGERCMD}
     # Set options for less so that it:
@@ -117,7 +116,7 @@ if [ -x "${PAGERCMD}" ]; then
     #   doesn't clear the screen after quitting (-X).
     export LESS="-FiJmRX"
 else
-    PAGERCMD="$(which more 2>/dev/null)"
+    PAGERCMD="$(command -v more)"
     if [ -x "${PAGERCMD}" ]; then
         PAGER=${PAGERCMD}
     fi
@@ -139,7 +138,7 @@ case $(uname) in
         fi
         # For OpenBSD, if the colorls package has been installed, use it
         # instead of ls.
-        if [ -x "$(which colorls)" ]; then
+        if [ -x "$(command -v colorls)" ]; then
             alias ls='colorls -G'
             export CLICOLOR=""
             export LSCOLORS=gxfxcxdxbxegEdabagacad
