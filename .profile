@@ -168,7 +168,7 @@ if [ -x "$(command -v gpg-agent)" ]; then
         export GPG_AGENT_INFO SSH_AUTH_SOCK SSH_AGENT_PID
     fi
 
-    if [ ! -S "$SSH_AUTH_SOCK" ]; then
+    if [ ! -S "$(echo $GPG_AGENT_INFO | cut -f1 -d':')" ]; then
         eval $(gpg-agent --enable-ssh-support --daemon --write-env-file)
     fi
 fi
