@@ -162,6 +162,18 @@ esac
 export CCACHE_DIR=${HOME}/.ccache
 #export CCACHE_LOGFILE=${CCACHE_DIR}/ccache.log
 
+# start gpg-agent, if installed.
+if [ -x "$(command -v gpg-agent)" ]; then
+    if [ -f "${HOME}/.gpg-agent-info" ]; then
+        . "${HOME}/.gpg-agent-info"
+        export GPG_AGENT_INFO SSH_AUTH_SOCK SSH_AGENT_PID
+    fi
+
+    if [ ! -S "$SSH_AUTH_SOCK" ]; then
+        eval $(gpg-agent --enable-ssh-support --daemon --write-env-file)
+    fi
+fi
+
 alias cls='clear'
 alias ll='ls -lah'
 alias la='ls -a'

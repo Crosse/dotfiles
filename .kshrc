@@ -48,4 +48,8 @@ if [ ${0#-} == 'bash' ]; then
     if [ -f /etc/bashrc ]; then . /etc/bashrc; fi
 fi
 
+if [ -f "${HOME}/.gpg-agent-info" ]; then
+    . "${HOME}/.gpg-agent-info"
+    export GPG_AGENT_INFO SSH_AUTH_SOCK SSH_AGENT_PID
+fi
 echo "end .kshrc"
