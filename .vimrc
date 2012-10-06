@@ -119,9 +119,10 @@ endif
 if has('syntax')
     syntax on
 
-    " This sets up a 'gutter' line at 72 characters.
+    " This sets up a 'gutter' line at 76 characters.
     if exists('+colorcolumn')
-        set colorcolumn=72
+        set colorcolumn=76
+        highlight ColorColumn ctermbg=gray guibg=gray
     endif
 
     if has('extra_search')
