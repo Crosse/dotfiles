@@ -128,14 +128,21 @@ case $(uname) in
     "Linux")
         # Linux uses GNU less, which includes color support
         alias ls='ls --color=auto'
-        # Enable color by default for grep as well
+
+        # Enable color by default for grep and variants
         alias grep='grep --colour=auto'
+        alias egrep='egrep --colour=auto'
+        alias fgrep='fgrep --colour=auto'
+        alias zgrep='zgrep --colour=auto'
+        alias zegrep='zegrep --colour=auto'
+        alias zfgrep='zfgrep --colour=auto'
         ;;
     "OpenBSD")
         # Workaround for OpenBSD not showing colors for TERM=xterm.
         if [ "$TERM" == "xterm" ]; then
             export TERM="xterm-xfree86"
         fi
+
         # For OpenBSD, if the colorls package has been installed, use it
         # instead of ls.
         if [ -x "$(command -v colorls)" ]; then
@@ -149,9 +156,17 @@ case $(uname) in
         # but color options exist on the default 'ls' and 'grep'
         # commands so enable them.
         alias ls='ls -G'
-        alias grep='grep --colour=auto'
         export CLICOLOR=""
         export LSCOLORS=gxfxcxdxbxegEdabagacad
+
+        # Enable color by default for grep and variants
+        alias grep='grep --colour=auto'
+        alias egrep='egrep --colour=auto'
+        alias fgrep='fgrep --colour=auto'
+        alias zgrep='zgrep --colour=auto'
+        alias zegrep='zegrep --colour=auto'
+        alias zfgrep='zfgrep --colour=auto'
+
         # Work around a VIM incompatibility with crontab on OSX.
         alias crontab='VIM_CRONTAB=true crontab'
         ;;
@@ -173,6 +188,7 @@ if [ -x "$(command -v gpg-agent)" ]; then
     fi
 fi
 
+# Miscellaneous aliased commands.
 alias cls='clear'
 alias ll='ls -lah'
 alias la='ls -a'
