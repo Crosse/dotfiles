@@ -16,18 +16,32 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" The following keys and their functions are defined below.  This doesn't
-" include everything; mostly just the 'convenience' keys.  If I remapped a
-" key just to change how it works slightly (like PageUp), but it still works
-" mostly the same way as before, I am not including it here.
+" Things to note:
+" * If you 'export EDITOR=vim' in your shell startup scripts and want to
+"   be able to edit crontabs ('crontab -e'), you'll want to add the
+"   following line to your .profile:
 "
-" F2 - toggle spell check
-" F4 - toggle search highlighting
-" F5 - toggle list mode; i.e., 'Show Codes'
-" F6 - execute 'make' in the current directory
-" Ctrl-Enter - same as 'O'; i.e., insert a line above the current line
-" Ctrl-J - mapped to 'tabnext'
-" Ctrl-K - mapped to 'tabprevious'
+"   alias crontab="VIM_CRONTAB=true crontab"
+"
+"   This will disable some backup features that crontab (at least on Mac
+"   OS X) does not like.  See http://goo.gl/LP6X0 for more information.
+
+" * The following keys and their functions are defined below.  This
+"   doesn't include everything; mostly just the 'convenience' keys.  If I
+"   remapped a key just to change how it works slightly (like PageUp), but
+"   it still works mostly the same way as before, I am not including it
+"   here.
+"
+"   F2 - toggle spell check
+"   F4 - toggle search highlighting
+"   F5 - toggle list mode; i.e., 'Show Codes'
+"   F6 - execute 'make' in the current directory
+"   F9 - toggle nearest fold open and closed
+"   F10 - toggle the fold column
+"   Ctrl-Space - toggle nearest fold open and closed
+"   Ctrl-Enter - same as 'O'; i.e., insert a line above the current line
+"   Ctrl-J - mapped to 'tabnext'
+"   Ctrl-K - mapped to 'tabprevious'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " This file isn't compatible with vi.
@@ -119,7 +133,8 @@ if has('syntax')
     endif
 endif
 
-" Disable some things that tick off crontab on at least Mac OSX
+" Disable some things that tick off crontab on at least Mac OSX.  See
+" http://goo.gl/LP6X0 for more information.
 if $VIM_CRONTAB == "true"
     set nobackup
     set nowritebackup
@@ -176,7 +191,7 @@ if has("mouse")
 endif
 
 " enable spell-checking, if we have it.
-" you'll probably want to read ":help spell".
+" you'll probably want to read ':help spell'.
 if has('spell')
     set nospell
     " Map F2 to toggle spell-check mode:
