@@ -231,6 +231,9 @@ set comments-=s1:/*,mb:*,ex:*/
 set comments+=s:/*,mb:**,ex:*/
 set comments+=fb:*
 
+" Look in the current directory and work upwards for a tags file.
+set tags=./tags;/
+
 " Lower the timeout when pressing <Esc>
 set timeout timeoutlen=3000 ttimeoutlen=100
 
