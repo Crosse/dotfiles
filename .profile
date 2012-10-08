@@ -27,9 +27,7 @@
 case ${0#-} in
     "bash")
         # Run various non-interactive scripts.
-        if [ -f "${HOME}/.bashrc" ]; then
-            . "${HOME}/.bashrc"
-        fi
+        [[ -f "${HOME}/.bashrc" ]] && . "${HOME}/.bashrc"
 
         # Enable history appending instead of overwriting.
         shopt -s histappend
@@ -45,9 +43,7 @@ case ${0#-} in
         # after any profiles are processed), its value is subjected to
         # parameter, command, arithmetic, and tilde (`~') substitution
         # and the resulting file (if any) is read and executed."
-        if [ -f "${HOME}/.kshrc" ]; then
-            export ENV="${HOME}/.kshrc"
-        fi
+        [[ -f "${HOME}/.kshrc" ]] && export ENV="${HOME}/.kshrc"
         ;;
 esac
 
@@ -93,20 +89,21 @@ if [ -z "$VI" ]; then
     VI=vi
 fi
 
-# Note that setting these in ksh means vi keybindings are also active
-# instead of emacs...
-EDITOR=$VI
-VISUAL=$VI
-unset VI
+# Look for Vim...
+EDITOR="$(command -v vim)"
+if [ -z "$EDITOR" ]; then
+    # ...but use vi if Vim doesn't exist.
+    EDITOR=vi
+fi
+VISUAL=$EDITOR
 export EDITOR VISUAL
 
 # Using ksh, setting EDITOR or VISUAL (above) also sets vi key bindings.
 # This sets it back to emacs, which is what I prefer.
 set -o emacs
 
-PAGERCMD="$(command -v less)"
-if [ -x "${PAGERCMD}" ]; then
-    PAGER=${PAGERCMD}
+PAGER="$(command -v less)"
+if [ -x "${PAGER}" ]; then
     # Set options for less so that it:
     #   quits if only one screen (-F);
     #   causes searches to ignore case (-i);
@@ -116,18 +113,15 @@ if [ -x "${PAGERCMD}" ]; then
     #   doesn't clear the screen after quitting (-X).
     export LESS="-FiJmRX"
 else
-    PAGERCMD="$(command -v more)"
-    if [ -x "${PAGERCMD}" ]; then
-        PAGER=${PAGERCMD}
-    fi
+    PAGER="$(command -v more)"
 fi
-unset PAGERCMD
 export PAGER
 
 case $(uname) in
     "Linux")
         # Linux uses GNU less, which includes color support
         alias ls='ls --color=auto'
+        [[ -x "$(command -v dircolors)" ]] && eval $(dircolors)
 
         # Enable color by default for grep and variants
         alias grep='grep --colour=auto'
