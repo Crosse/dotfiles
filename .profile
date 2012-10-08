@@ -126,7 +126,16 @@ fi
 if [ -x "$(command -v git)" ]; then
     function parse_git_status {
         if [ -z "$NOPATHBRANCHES" ]; then
-            git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\ \[\1\]/'
+            local branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+            [[ -z $branch ]] && return
+
+            local status=$(git status 2> /dev/null)
+            local result=$branch
+
+            [[ "$status" = *deleted:* ]] && result=${result}-
+            [[ "$status" = *modified:* ]] && result=${result}*
+            [[ "$status" = *Untracked\ files:* ]] && result=${result}+
+            printf " [$result]"
         fi
     }
 else
