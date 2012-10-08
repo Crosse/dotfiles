@@ -51,42 +51,111 @@ esac
 # file.
 export HISTFILE=$HOME/.history
 
+if [ "$TERM" = "xterm" ] ; then
+    if [ -z "$COLORTERM" ] ; then
+        if [ -z "$XTERM_VERSION" ] ; then
+            echo "Warning: Terminal wrongly calling itself 'xterm'."
+        else
+            case "$XTERM_VERSION" in
+                "XTerm(256)")
+                    TERM="xterm-256color"
+                    ;;
+                "XTerm(88)")
+                    TERM="xterm-88color"
+                    ;;
+                "XTerm")
+                    ;;
+                *)
+                    echo "Warning: Unrecognized XTERM_VERSION: $XTERM_VERSION"
+                    ;;
+            esac
+        fi
+    else
+        case "$COLORTERM" in
+            gnome-terminal)
+                # Those crafty Gnome folks require you to check COLORTERM,
+                # but don't allow you to just *favor* the setting over TERM.
+                # Instead you need to compare it and perform some guesses
+                # based upon the value. This is, perhaps, too simplistic.
+                TERM="gnome-256color"
+                ;;
+            *)
+                echo "Warning: Unrecognized COLORTERM: $COLORTERM"
+                ;;
+        esac
+    fi
+fi
+
+SCREEN_COLORS="`tput colors`"
+if [ -z "$SCREEN_COLORS" ] ; then
+    case "$TERM" in
+        screen-*color-bce)
+            echo "Unknown terminal $TERM. Falling back to 'screen-bce'."
+            export TERM=screen-bce
+            ;;
+        *-88color)
+            echo "Unknown terminal $TERM. Falling back to 'xterm-88color'."
+            export TERM=xterm-88color
+            ;;
+        *-256color)
+            echo "Unknown terminal $TERM. Falling back to 'xterm-256color'."
+            export TERM=xterm-256color
+            ;;
+    esac
+    SCREEN_COLORS=`tput colors`
+    if [ -z "$SCREEN_COLORS" ] ; then
+        case "$TERM" in
+            gnome*|xterm*|konsole*|aterm|[Ee]term)
+                echo "Unknown terminal $TERM. Falling back to 'xterm'."
+                export TERM=xterm
+                ;;
+            rxvt*)
+                echo "Unknown terminal $TERM. Falling back to 'rxvt'."
+                export TERM=rxvt
+                ;;
+            screen*)
+                echo "Unknown terminal $TERM. Falling back to 'screen'."
+                export TERM=screen
+                ;;
+        esac
+        SCREEN_COLORS=`tput colors`
+    fi
+fi
+
 # Function used to add the git branch name to PS1.
 if [ -x "$(command -v git)" ]; then
-    function add_git_branch {
+    function parse_git_status {
         if [ -z "$NOPATHBRANCHES" ]; then
             git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\ \[\1\]/'
         fi
     }
 else
-    function add_git_branch {
+    function parse_git_status {
         return
     }
 fi
 
 # Change the prompt color depending on whether the real uid is root or a
 # regular user.
-if [ $(id -ru) == '0' ] ; then
-    HOSTCOLOR="\[\e[0;31m\]"
+if [ $SCREEN_COLORS -gt 0 ]; then
+    if [ $(id -ru) == '0' ] ; then
+        HOSTCOLOR="\[\e[0;31m\]"
+    else
+        HOSTCOLOR="\[\e[0;32m\]"
+    fi
+
+    # Set the title of an xterm.
+    case $TERM in
+        xterm*|rxvt*|screen*)
+            TERMTITLE="\[\e]0;\u@\h: \w\a\]"
+            ;;
+    esac
+
+    # Build a colorized prompt.
+    export PS1="${TERMTITLE}${HOSTCOLOR}\u@\h\$(parse_git_status)\[\e[0;34m\] \w \$\[\e[00m\] "
 else
-    HOSTCOLOR="\[\e[0;32m\]"
-fi
-
-# Set the title of an xterm.
-case $TERM in
-    xterm*|rxvt*|screen)
-    TERMTITLE="\[\e]0;\u@\h: \w\a\]"
-    ;;
-esac
-
-# Build a colorized prompt that should work in ksh and bash.
-export PS1="${TERMTITLE}${HOSTCOLOR}\u@\h\$(add_git_branch)\[\e[0;34m\] \w \$\[\e[00m\] "
-
-# Look for vim...
-VI="$(command -v vim)"
-if [ -z "$VI" ]; then
-    # ...but use vi if vim doesn't exist.
-    VI=vi
+    # Build a "dumb" prompt that should work everywhere.
+    export PS1="\u@\h\$(parse_git_status) \w \$ "
 fi
 
 # Look for Vim...
@@ -132,11 +201,6 @@ case $(uname) in
         alias zfgrep='zfgrep --colour=auto'
         ;;
     "OpenBSD")
-        # Workaround for OpenBSD not showing colors for TERM=xterm.
-        if [ "$TERM" == "xterm" ]; then
-            export TERM="xterm-xfree86"
-        fi
-
         # For OpenBSD, if the colorls package has been installed, use it
         # instead of ls.
         if [ -x "$(command -v colorls)" ]; then
