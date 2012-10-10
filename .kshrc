@@ -27,20 +27,18 @@
 #       export ENV=${HOME}/.kshrc
 ########################################################################
 
-# Only add ~/bin to the path if it exists, and if it doesn't already
-# exist in $PATH.
-HOMEBIN=${HOME}/bin
-[[ -d "$HOMEBIN" && "$PATH" != *${HOMEBIN}* ]] && PATH=$HOMEBIN:$PATH
-export PATH
+# These two functions will only add a path to the PATH if it exists.
+function prepend-to-path {
+    [[ -d "$1" && "$PATH" != *${1}* ]] && PATH=$1:$PATH
+}
 
-case $(uname) in
-    "Darwin")
-        # Added to support git on Mac OSX.
-        if [ -d /usr/local/git/bin ]; then
-            PATH=/usr/local/git/bin:$PATH
-        fi
-    ;;
-esac
+function append-to-path {
+    [[ -d "$1" && "$PATH" != *${1}* ]] && PATH=$PATH:$1
+}
+
+prepend-to-path "${HOME}/bin"
+prepend-to-path "/usr/local/git/bin"
+export PATH
 
 # Some bash-specific things
 if [ ${0#-} == 'bash' ]; then
