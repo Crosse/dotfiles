@@ -37,6 +37,7 @@ function append-to-path {
 }
 
 prepend-to-path "${HOME}/bin"
+prepend-to-path "${HOME}/.rbenv/bin"
 prepend-to-path "/usr/local/git/bin"
 export PATH
 
@@ -50,4 +51,8 @@ if [ -f "${HOME}/.gpg-agent-info" ]; then
     . "${HOME}/.gpg-agent-info"
     export GPG_AGENT_INFO SSH_AUTH_SOCK SSH_AGENT_PID
     export GPG_TTY=$(tty)
+fi
+
+if [ -x "$(command -v rbenv)" ]; then
+    eval "$(rbenv init -)"
 fi
