@@ -6,6 +6,7 @@
 [user]
 	name = Seth Wright
 	email = seth@crosse.org
+	signingkey = F2F1E388
 [color]
 	branch = auto
 	diff = auto
