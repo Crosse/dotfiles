@@ -12,5 +12,6 @@ augroup filetypedetect
     au! BufRead,BufNewFile *.markdown setfiletype octopress
     " human-readable files
     au! BufRead,BufNewFile *.txt setfiletype human
+    au! BufRead,BufNewFile COMMIT_EDITMSG setlocal formatoptions+=t textwidth=72
 augroup END
 
