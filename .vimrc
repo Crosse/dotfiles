@@ -116,7 +116,7 @@ else
 endif
 
 " Turn syntax highlighting on, if vim supports it
-if has('syntax')
+if has('syntax') && (&t_Co > 2 || has('gui_running'))
     syntax on
 
     " This sets up a 'gutter' line at 76 characters.
