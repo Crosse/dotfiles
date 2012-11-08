@@ -310,13 +310,20 @@ vmap <S-Tab> <C-D>
 " already done by yy):
 noremap Y y$
 
+" Yank/paste to the OS clipboard
+nnoremap <leader>y "+y
+nnoremap <leader>Y "+yy
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+
 " allow <BkSpc> to delete line breaks, beyond the start of the current
 " insertion, and over indentations:
 set backspace=eol,start,indent
 
-" Toggle List mode using F5.  Like 'Show Codes' for WordPerfect...
+" Toggle List mode using F5.  Like 'Show Codes' for WordPerfect.
 map <F5> :set list!<CR>:set list?<CR>
 imap <F5> <C-O>:set list!<CR><C-O>:set list?<CR>
+set listchars=tab:▸·,eol:¬
 
 " Have Control-Enter do the same as 'O'
 " ...that is, insert a line above the current line.
@@ -340,12 +347,65 @@ imap <C-K> <C-O>:tabprev<CR>
 " C-D, etc.
 set nostartofline
 
+" Indicates a fast terminal connection.  More characters will be sent to
+" the screen for redrawing, instead of using insert/delete line
+" commands.  Improves smoothness of redrawing when there are multiple
+" windows and the terminal does not support a scrolling region.
+set ttyfast
+
+" Do not redraw screen while executing macros, registers and other
+" commands that have not been typed.
+set lazyredraw
+
+" Control the behavior when switching between buffers:
+" * Jump to the first open window that contains the specified buffer (if
+"   there is one).
+" * Also consider windows in other tab pages.
+" * Open a new tab before loading a buffer for a quickfix command that
+" display errors.
+set switchbuf=useopen,usetab,newtab
+
+" Minimal number of screen lines to keep above and below the cursor.
+set scrolloff=3
+
 " Use <F6> to call :make
 map <F6> :make<CR>
 imap <F6> :make<CR>
 
+" Strip all trailing whitespace in the current file
+nnoremap <leader>W :%s/\s\+$//<CR>:let @/=''<CR>
+
+" Comment a line in C.
+nnoremap <leader>c :s/\v^(\s*)(.+)$/\1\/* \2 *\//<CR>:let @/=''<CR>
+" Uncomment a line.
+nnoremap <leader>u :s#\v^(\s*)/\*\s*(.+[^\s])\s*\*/*$#\1\2#<CR>:let @/=''<CR>
+
+
+" Open a new vertical split and switch over to it.
+nnoremap <leader>w <C-w>v<C-w>l
+
 " Automatically save the buffer when performing various commands
 set autowrite
+
+" Do not use a swapfile for buffers.
+set noswapfile
+
+" Set the terminal title, if possible
+set title
+
+" Toggle the quickfix window.
+nnoremap <leader>q :call QuickfixToggle()<CR>
+
+let g:quickfix_is_open = 0
+function! QuickfixToggle()
+    if g:quickfix_is_open
+        cclose
+        let g:quickfix_is_open = 0
+    else
+        copen
+        let g:quickfix_is_open = 1
+    endif
+endfunction
 
 " Avoid some security problems with directory-specific vimrc files
 " This should be the last line of the file.
