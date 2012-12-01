@@ -63,7 +63,12 @@ if [ "$TERM" = "xterm" ] ; then
                 "XTerm(88)")
                     TERM="xterm-88color"
                     ;;
-                "XTerm")
+                XTerm/OpenBSD*)
+                    # OpenBSD's xterm can handle 256 colors, but doesn't
+                    # seem to advertise it.
+                    TERM="xterm-256color"
+                    ;;
+                XTerm)
                     ;;
                 *)
                     echo "Warning: Unrecognized XTERM_VERSION: $XTERM_VERSION"
