@@ -399,9 +399,6 @@ endfunction
 " Automatically save the buffer when performing various commands
 set autowrite
 
-" Do not use a swapfile for buffers.
-set noswapfile
-
 " Set the terminal title, if possible
 set title
 
