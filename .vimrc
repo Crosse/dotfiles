@@ -141,6 +141,12 @@ if $VIM_CRONTAB == "true"
     set nowritebackup
 endif
 
+" Add Go's vim bits to the runtimepath so that syntax, indentation, etc.
+" works properly for the Go language.
+if exists("$GOROOT")
+    set rtp+=$GOROOT/misc/vim
+endif
+
 " Set some printing options.
 " Left/Right/Top margins:  0.5in (1pt = 1/72 inch)
 " Bottom margin:  1in
