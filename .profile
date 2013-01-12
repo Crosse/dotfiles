@@ -213,6 +213,13 @@ case $(uname) in
         alias zgrep='zgrep --colour=auto'
         alias zegrep='zegrep --colour=auto'
         alias zfgrep='zfgrep --colour=auto'
+
+        # Linux uses GNU grep.  Set options such that color support is
+        # enabled, binary files will be ignored, and files named "tags"
+        # will not be searched.
+        export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
+
+        [[ -x "$(command -v dircolors)" ]] && eval $(dircolors)
         ;;
     "OpenBSD")
         # For OpenBSD, if the colorls package has been installed, use it
@@ -238,6 +245,13 @@ case $(uname) in
         alias zgrep='zgrep --colour=auto'
         alias zegrep='zegrep --colour=auto'
         alias zfgrep='zfgrep --colour=auto'
+
+        # Darwin uses BSD grep, but it seems to respect options set via
+        # GREP_OPTIONS just like GNU grep, even though it is not
+        # mentioned in the man page.  Set options such that color
+        # support is enabled, binary files will be ignored, and files
+        # named "tags" will not be searched.
+        export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
 
         # Work around a VIM incompatibility with crontab on OSX.
         alias crontab='VIM_CRONTAB=true crontab'
