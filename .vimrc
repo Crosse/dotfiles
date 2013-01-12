@@ -389,6 +389,18 @@ nnoremap <leader>u :s#\v^(\s*)/\*\s*(.+[^\s])\s*\*/*$#\1\2#<CR>:let @/=''<CR>
 
 " Open a new vertical split and switch over to it.
 nnoremap <leader>w <C-w>v<C-w>l
+nnoremap <leader>C :call OpenComplementaryFile()<CR>
+
+function! OpenComplementaryFile()
+    let l:ext = expand("%:e")
+    if ext == "c"
+        let l:f = expand("%:r") . ".h"
+        exec "vertical botright split " . l:f
+    elseif ext == "h"
+        let l:f = expand("%:r") . ".c"
+        exec "vsplit " . l:f
+    endif
+endfunction
 
 " Automatically save the buffer when performing various commands
 set autowrite
