@@ -260,6 +260,11 @@ if [ -x "$(command -v gpg-agent)" ]; then
     fi
 fi
 
+if [ -x "$(command -v go)" ]; then
+    eval $(go env)
+    export GOROOT
+fi
+
 # Miscellaneous aliased commands.
 alias cls='clear'
 alias ll='ls -lah'
