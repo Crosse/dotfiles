@@ -376,7 +376,7 @@ set scrolloff=3
 
 " Use <F6> to call :make
 map <F6> :make<CR>
-imap <F6> :make<CR>
+imap <F6> <C-O>:make<CR>
 
 " Strip all trailing whitespace in the current file
 nnoremap <leader>W :%s/\s\+$//<CR>:let @/=''<CR>
@@ -388,7 +388,7 @@ nnoremap <leader>u :s#\v^(\s*)/\*\s*(.+[^\s])\s*\*/*$#\1\2#<CR>:let @/=''<CR>
 
 
 " Open a new vertical split and switch over to it.
-nnoremap <leader>w <C-w>v<C-w>l
+nnoremap <leader>w :vertical botright new<CR>
 nnoremap <leader>C :call OpenComplementaryFile()<CR>
 
 function! OpenComplementaryFile()
