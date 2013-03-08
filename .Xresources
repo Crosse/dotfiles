@@ -30,28 +30,6 @@ XTerm*scrollKey:        true
 ! Don't scroll on output
 XTerm*scrollTtyOutput:  false
 
-! Color management
-! These colors were taken from the Clearlooks-DeepSky
-! gtk theme.
-!XTerm*foreground:       #cccccc
-!XTerm*background:       #000000
-!XTerm*color0:           #000000
-!XTerm*color1:           #cb0000
-!XTerm*color2:           #00cb00
-!XTerm*color3:           #cbcb00
-!XTerm*color4:           #1a8fff
-!XTerm*color5:           #cb00cb
-!XTerm*color6:           #00cbcb
-!XTerm*color7:           #e2e2e2
-!XTerm*color8:           #cccccc
-!XTerm*color9:           #ff0000
-!XTerm*color10:          #00ff00
-!XTerm*color11:          #ffff00
-!XTerm*color12:          #4581ae
-!XTerm*color13:          #ff00ff
-!XTerm*color14:          #00ffff
-!XTerm*color15:          #ffffff
-
 ! xidle config
 ! How long to wait before running the program when the pointer is placed
 ! in the hot-corner
@@ -74,7 +52,7 @@ XLock.echokeys:         on
 XLock.echokey:          *
 ! Suspend the monitor after 10 minutes
 XLock.dpmssuspend:      600
-!
+
 !! drop in Solarized colorscheme for Xresources/Xdefaults
 
 !!SOLARIZED HEX     16/8 TERMCOL  XTERM/HEX   L*A*B      RGB         HSB
