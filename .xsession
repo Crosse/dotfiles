@@ -22,4 +22,5 @@ else
     #exec /usr/X11R6/bin/twm
     exec /usr/X11R6/bin/cwm
     #exec /usr/X11R6/bin/fvwm
+    #exec /usr/local/bin/gnome-shell
 fi
