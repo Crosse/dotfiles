@@ -15,7 +15,7 @@ XTerm*cursorOffTime:    750
 XTerm*cursorOnTime:     750
 
 ! Font stuff
-XTerm*faceName:         Monospace
+XTerm*faceName:         Source Code Pro
 XTerm*faceSize:         10
 
 ! Hide the pointer when typing
