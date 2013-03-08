@@ -6,6 +6,8 @@ XTerm*loginShell:       true
 XTerm*eightBitInput:    true
 ! Send DEL instead of ^?
 XTerm*deleteIsDEL:      false
+! Automatically use *-color resource files if they exist.
+*customization: -color
 
 ! Cursor tweaks
 XTerm*cursorBlink:      true
