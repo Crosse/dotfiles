@@ -1,7 +1,5 @@
 #!/bin/sh
 #
-# $Id$
-#
 # X startup script
 
 # Load any Xdefaults
