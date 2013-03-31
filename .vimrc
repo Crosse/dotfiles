@@ -329,7 +329,7 @@ set backspace=eol,start,indent
 " Toggle List mode using F5.  Like 'Show Codes' for WordPerfect.
 map <F5> :set list!<CR>:set list?<CR>
 imap <F5> <C-O>:set list!<CR><C-O>:set list?<CR>
-set listchars=tab:â–¸Â·,eol:Â¬
+set listchars=tab:»·,eol:¬
 
 " Have Control-Enter do the same as 'O'
 " ...that is, insert a line above the current line.
