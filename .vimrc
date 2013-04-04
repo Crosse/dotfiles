@@ -369,7 +369,11 @@ set lazyredraw
 " * Also consider windows in other tab pages.
 " * Open a new tab before loading a buffer for a quickfix command that
 " display errors.
-set switchbuf=useopen,usetab,newtab
+if version <= 700
+    set switchbuf=useopen,usetab
+else
+    set switchbuf=useopen,usetab,newtab
+endif
 
 " Minimal number of screen lines to keep above and below the cursor.
 set scrolloff=3
