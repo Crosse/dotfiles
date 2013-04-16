@@ -4,6 +4,8 @@
 	si = commit -S
 	co = checkout
 	br = branch
+	first = log --reverse
+	ls = log --oneline --graph
 [user]
 	name = Seth Wright
 	email = seth@crosse.org
