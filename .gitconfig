@@ -17,7 +17,7 @@
 	status = auto
 	ui = true
 [credential]
-	helper = !~/AppData/Roaming/GitCredStore/git-credential-winstore
+	helper = cache
 [credential "https://git.crosse.org"]
 	username = seth
 [push]
