@@ -131,7 +131,7 @@ fi
 if [ -x "$(command -v git)" ]; then
     function parse_git_status {
         if [ -z "$NOPATHBRANCHES" ]; then
-            local branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+            local branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
             [[ -z $branch ]] && return
 
             local status=$(git status 2> /dev/null)
