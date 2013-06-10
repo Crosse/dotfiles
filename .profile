@@ -23,7 +23,10 @@
 # with the name 'sh'.
 ########################################################################
 
-# Some shell-specific things
+# Use UTF-8.  It's the 21st century.
+export LANG=en_US.UTF-8
+
+# Some shell-specific things.
 case ${0#-} in
     "bash")
         # Run various non-interactive scripts.
@@ -33,11 +36,6 @@ case ${0#-} in
         shopt -s histappend
         ;;
     "ksh")
-        if [ -o interactive ]; then
-            # Map ^L to clear
-            bind -m ''=clear^J
-        fi
-
         # As per ksh(1): "If the ENV parameter is set when an
         # interactive shell starts (or, in the case of login shells,
         # after any profiles are processed), its value is subjected to
@@ -91,7 +89,9 @@ if [ "$TERM" = "xterm" ] ; then
     fi
 fi
 
-SCREEN_COLORS="`tput colors`"
+# ...and now, try to figure out how many colors $TERM supports, along
+# with more $TERM sanitization.
+export SCREEN_COLORS="`tput colors`"
 if [ -z "$SCREEN_COLORS" ] ; then
     case "$TERM" in
         screen-*color-bce)
@@ -127,51 +127,6 @@ if [ -z "$SCREEN_COLORS" ] ; then
     fi
 fi
 
-# Function used to add the git branch name to PS1.
-if [ -x "$(command -v git)" ]; then
-    function parse_git_status {
-        if [ -z "$NOPATHBRANCHES" ]; then
-            local branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-            [[ -z $branch ]] && return
-
-            local status=$(git status 2> /dev/null)
-            local result=$branch
-
-            [[ "$status" = *deleted:* ]] && result=${result}-
-            [[ "$status" = *modified:* ]] && result=${result}*
-            [[ "$status" = *Untracked\ files:* ]] && result=${result}+
-            printf " [$result]"
-        fi
-    }
-else
-    function parse_git_status {
-        return
-    }
-fi
-
-# Change the prompt color depending on whether the real uid is root or a
-# regular user.
-if [ $SCREEN_COLORS -gt 0 ]; then
-    if [ $(id -ru) == '0' ] ; then
-        HOSTCOLOR="\[\e[0;31m\]"
-    else
-        HOSTCOLOR="\[\e[0;32m\]"
-    fi
-
-    # Set the title of an xterm.
-    case $TERM in
-        xterm*|rxvt*|screen*)
-            TERMTITLE="\[\e]0;\u@\h: \w\a\]"
-            ;;
-    esac
-
-    # Build a colorized prompt.
-    export PS1="${TERMTITLE}${HOSTCOLOR}\u@\h\$(parse_git_status)\[\e[0;34m\] \w \$\[\e[00m\] "
-else
-    # Build a "dumb" prompt that should work everywhere.
-    export PS1="\u@\h\$(parse_git_status) \w \$ "
-fi
-
 # Look for Vim...
 EDITOR="$(command -v vim)"
 if [ -z "$EDITOR" ]; then
@@ -180,10 +135,6 @@ if [ -z "$EDITOR" ]; then
 fi
 VISUAL=$EDITOR
 export EDITOR VISUAL
-
-# Using ksh, setting EDITOR or VISUAL (above) also sets vi key bindings.
-# This sets it back to emacs, which is what I prefer.
-set -o emacs
 
 PAGER="$(command -v less)"
 if [ -x "${PAGER}" ]; then
@@ -199,68 +150,6 @@ else
     PAGER="$(command -v more)"
 fi
 export PAGER
-
-case $(uname) in
-    "Linux")
-        # Linux uses GNU less, which includes color support
-        alias ls='ls --color=auto'
-        [[ -x "$(command -v dircolors)" ]] && eval $(dircolors)
-
-        # Enable color by default for grep and variants
-        alias grep='grep --colour=auto'
-        alias egrep='egrep --colour=auto'
-        alias fgrep='fgrep --colour=auto'
-        alias zgrep='zgrep --colour=auto'
-        alias zegrep='zegrep --colour=auto'
-        alias zfgrep='zfgrep --colour=auto'
-
-        # Linux uses GNU grep.  Set options such that color support is
-        # enabled, binary files will be ignored, and files named "tags"
-        # will not be searched.
-        export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
-
-        [[ -x "$(command -v dircolors)" ]] && eval $(dircolors)
-        ;;
-    "OpenBSD")
-        # For OpenBSD, if the colorls package has been installed, use it
-        # instead of ls.
-        if [ -x "$(command -v colorls)" ]; then
-            alias ls='colorls -G'
-            export CLICOLOR=""
-            export LSCOLORS=gxfxcxdxbxegEdabagacad
-        fi
-        ;;
-    "Darwin")
-        # Darwin includes some GNU things and some less-than-GNU things,
-        # but color options exist on the default 'ls' and 'grep'
-        # commands so enable them.
-        alias ls='ls -G'
-        export CLICOLOR=""
-        export LSCOLORS=gxfxcxdxbxegEdabagacad
-
-        # Enable color by default for grep and variants
-        alias grep='grep --colour=auto'
-        alias egrep='egrep --colour=auto'
-        alias fgrep='fgrep --colour=auto'
-        alias zgrep='zgrep --colour=auto'
-        alias zegrep='zegrep --colour=auto'
-        alias zfgrep='zfgrep --colour=auto'
-
-        # Darwin uses BSD grep, but it seems to respect options set via
-        # GREP_OPTIONS just like GNU grep, even though it is not
-        # mentioned in the man page.  Set options such that color
-        # support is enabled, binary files will be ignored, and files
-        # named "tags" will not be searched.
-        export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
-
-        # Work around a VIM incompatibility with crontab on OSX.
-        alias crontab='VIM_CRONTAB=true crontab'
-        ;;
-esac
-
-# ccache stuff, if ever needed.
-export CCACHE_DIR=${HOME}/.ccache
-#export CCACHE_LOGFILE=${CCACHE_DIR}/ccache.log
 
 # start gpg-agent, if installed.
 if [ -x "$(command -v gpg-agent)" ]; then
@@ -280,12 +169,6 @@ if [ -x "$(command -v go)" ]; then
     export GOROOT
 fi
 
-# Miscellaneous aliased commands.
-alias cls='clear'
-alias ll='ls -lah'
-alias la='ls -a'
-alias dir='ls -lah'
-alias rdp='rdesktop -ANDzP'
-alias t='tmux attach-session -t main'
-
-unset SCREEN_COLORS
+if [ -x "$(command -v rbenv)" ]; then
+    eval "$(rbenv init -)"
+fi
