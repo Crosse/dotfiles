@@ -335,7 +335,6 @@ imap <F5> <C-O>:set list!<CR><C-O>:set list?<CR>
 " multi-byte character sets, and b) set UTF-8 as vim's encoding.  This
 " doesn't change the encoding of files, though.
 if has("multi_byte")
-    set encoding=utf8
     set listchars=tab:»·,eol:¬
 endif
 
