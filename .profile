@@ -24,7 +24,7 @@
 ########################################################################
 
 # Use UTF-8.  It's the 21st century.
-export LANG=en_US.UTF-8
+[[ -n "$LANG" ]] && export LANG=en_US.UTF-8
 
 # Some shell-specific things.
 case ${0#-} in
@@ -91,7 +91,7 @@ fi
 
 # ...and now, try to figure out how many colors $TERM supports, along
 # with more $TERM sanitization.
-export SCREEN_COLORS="`tput colors`"
+SCREEN_COLORS="`tput colors`"
 if [ -z "$SCREEN_COLORS" ] ; then
     case "$TERM" in
         screen-*color-bce)

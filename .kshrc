@@ -75,7 +75,8 @@ else
     }
 fi
 
-if [ "$SCREEN_COLORS" -gt 0 ]; then
+SCREEN_COLORS=$(tput colors)
+if [ $SCREEN_COLORS -gt 0 ]; then
     # Force 256-color in tmux if the "real" terminal supports 256
     # colors.
     if [ "$TERM" == "screen" -a "$SCREEN_COLORS" == 256 ]; then
