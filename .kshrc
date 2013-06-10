@@ -22,8 +22,7 @@
 #
 #
 # * For bash, this file could be renamed to ~/.bashrc.
-# * For ksh, this file should be renamed to ~/.kshrc and
-#   the following line should be placed in your ~/.profile file:
+# * For ksh, the following line should be placed in your ~/.profile:
 #       export ENV=${HOME}/.kshrc
 ########################################################################
 

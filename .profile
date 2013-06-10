@@ -19,8 +19,8 @@
 # ~/.profile
 #
 # This file is read by interactive login shells and non-interactive
-# shells with the -l/--login option, and also when bash is invoked with
-# the name 'sh'.
+# shells with the -l/--login option, and also when bash/ksh is invoked
+# with the name 'sh'.
 ########################################################################
 
 # Some shell-specific things
@@ -47,10 +47,10 @@ case ${0#-} in
         ;;
 esac
 
-# For ksh, enables history.  For both ksh and bash, log to the same
-# file.
+# For ksh, enable history.  For both ksh and bash, log to the same file.
 export HISTFILE=$HOME/.history
 
+# Attempt to sanitize TERM.
 if [ "$TERM" = "xterm" ] ; then
     if [ -z "$COLORTERM" ] ; then
         if [ -z "$XTERM_VERSION" ] ; then
@@ -274,6 +274,7 @@ if [ -x "$(command -v gpg-agent)" ]; then
     fi
 fi
 
+# If Go is installed, let it set whatever variables it wants to.
 if [ -x "$(command -v go)" ]; then
     eval $(go env)
     export GOROOT
