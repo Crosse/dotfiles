@@ -172,3 +172,10 @@ fi
 if [ -x "$(command -v rbenv)" ]; then
     eval "$(rbenv init -)"
 fi
+
+# If Python's virtualenvwrapper is installed, initialize it.
+if [ -x $(command -v virtualenvwrapper.sh) ]; then
+    export WORKON_HOME=${HOME}/.virtualenvs
+    export PROJECT_HOME=${HOME}/code
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
