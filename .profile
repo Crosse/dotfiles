@@ -169,6 +169,7 @@ if [ -x "$(command -v go)" ]; then
     export GOROOT
 fi
 
+# If Rbenv is installed (http://rbenv.org), initialize it.
 if [ -x "$(command -v rbenv)" ]; then
     eval "$(rbenv init -)"
 fi
