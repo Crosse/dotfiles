@@ -14,5 +14,8 @@ augroup filetypedetect
     au! BufRead,BufNewFile *.txt setfiletype human
     au! BufRead,BufNewFile *.tex setfiletype human
     au! BufRead,BufNewFile COMMIT_EDITMSG setlocal formatoptions+=t textwidth=72
+
+    au! BUfRead,BufNewFile *.ino setfiletype cpp
+    au! BUfRead,BufNewFile *.pde setfiletype cpp
 augroup END
 
