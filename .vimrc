@@ -81,7 +81,7 @@ let print_font_size = "h8"
 " GVim default window size
 if has('gui_running') && !exists('g:loaded_WindowSizes')
     set lines=60
-    set columns=140
+    set columns=120
 
     " Use this to not have GVim reset the window size every time you
     " reload this file (":so ~/.vimrc").
