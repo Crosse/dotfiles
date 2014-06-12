@@ -47,17 +47,26 @@
 " This file isn't compatible with vi.
 set nocompatible
 
-" don't have files trying to override this .vimrc:
+" don't have files trying to override this .vimrc.  If you like adding
+" modelines to files you edit, you may want to unset this.
 set nomodeline
 
 " Clear any existing autocommands
 autocmd!
 
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""
+"                                               "
+"     Colorschemes, Fonts, and Window Sizes     "
+"                                               "
+"""""""""""""""""""""""""""""""""""""""""""""""""
+
 " Set some variables we'll use a few times
 " Note that these are just my preferences; substitute
 " whatever works for you if you don't like them.
 "
-" The colorscheme to use for GVIM
+" The colorscheme to use for GVim/MacVim
 let gui_scheme = "solarized"
 " The colorscheme to use for vim
 let console_scheme = "default"
@@ -416,6 +425,15 @@ set title
 " Toggle the quickfix window.
 nnoremap <leader>q :call QuickfixToggle()<CR>
 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                                "
+"                   Functions                    "
+"                                                "
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Used to toggle the QuickFix window open and closed. Mapped to
+" <leader>q (see below).
 let g:quickfix_is_open = 0
 function! QuickfixToggle()
     if g:quickfix_is_open
