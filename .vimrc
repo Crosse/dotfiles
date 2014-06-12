@@ -200,7 +200,10 @@ if has('cmdline_info')
     set showmode
     set showcmd
     " Always display the current cursor position in the lower right corner
-    " of the Vim window.
+    " of the Vim window.  Note that 'statusline' (below) takes precendence
+    " over this option, but if you have a Vim that was not compiled with
+    " 'statusline' at least you'll have a ruler...if it was compiled with
+    " 'cmdline_info'.
     set ruler
 endif
 
