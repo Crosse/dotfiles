@@ -225,6 +225,9 @@ endif
 " show matching brackets / parentheses
 set showmatch
 
+" show which mode you're currently in.
+set showmode
+
 " Disable visual line-wrapping.  This does not prevent hard-wraps.
 set nowrap
 
