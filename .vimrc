@@ -70,50 +70,43 @@ autocmd!
 let gui_scheme = "solarized"
 " The colorscheme to use for vim
 let console_scheme = "default"
-" The font to use in GVIM for Windows
-let ms_font = "Consolas:h11"
-let ms_print_font = "Consolas:h8"
-" The font to use in MacVim
-let mac_font = "Consolas:h14,Inconsolata:h14"
-let mac_print_font="Consolas:h8"
-" The font to use in GVIM on Unix
-let unix_font = "Monospace"
-" GVIM default window size
-if has('gui_running')
+
+" Fonts section.  First, create a list of desired fonts for GUI vims.
+let fonts = ["Source\\ Code\\ Pro", "Consolas", "Inconsolata", "Monospace"]
+let win_font_size = "h11"
+let mac_font_size = "h14"
+let unix_font_size = "h11"
+let print_font_size = "h8"
+
+" GVim default window size
+if has('gui_running') && !exists('g:loaded_WindowSizes')
     set lines=60
     set columns=140
+
+    " Use this to not have GVim reset the window size every time you
+    " reload this file (":so ~/.vimrc").
+    let g:loaded_WindowSizes = 1
 endif
 
 if has("win32") || has("win16") || has("win95") || has("win64")
     " Windows-specific settings
     behave mswin
     source $VIMRUNTIME/mswin.vim
-
-    exec "set printfont=".ms_print_font
-
-    if has("gui_running")
-        " The font to use for GVIM / Windows
-        exec "set guifont=".ms_font
-    endif
+    let font_size=win_font_size
 elseif has('mac') || has('macvim')
     " MacVim-specific settings
-    exec "set printfont=".mac_print_font
-
-    if has("gui_running")
-        " The font to use for MacVim
-        exec "set guifont=".mac_font
-    endif
+    let font_size=mac_font_size
 else
-    exec "set printfont=".unix_font
-
     " Unix-specific settings
-    if has('gui_running')
-        " Set the font to use for GVIM
-        exec "set guifont=".unix_font
-    endif
+    let font_size=unix_font_size
 endif
 
-" GVIM options for all platforms
+if has("gui_running")
+    " The font to use for MacVim
+    let &guifont = join(fonts, ":".font_size.",")
+endif
+
+" GVim options for all platforms
 if has('gui_running')
     " Turn off the toolbar
     set guioptions-=T
@@ -123,6 +116,25 @@ if has('gui_running')
 else
     exec "colorscheme ".console_scheme
 endif
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                                "
+"                    Printing                    "
+"                                                "
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Set some printing options.
+" Left/Right/Top margins:  0.5in (1pt = 1/72 inch)
+" Bottom margin:  1in
+" Print line numbers
+" Paper size:  letter (default is A4)
+set printoptions=left:27pt,right:54pt,top:36pt,bottom:36pt,number:y,paper:letter,header:3
+set printheader=%<%F%=\ [Page\ %N]
+
+" Use the same fonts for printing as for the GUI.
+let &printfont = join(fonts, ":".print_font_size.",")
 
 " Turn syntax highlighting on, if vim supports it
 if has('syntax') && (&t_Co > 2 || has('gui_running'))
@@ -155,14 +167,6 @@ endif
 if exists("$GOROOT")
     set rtp+=$GOROOT/misc/vim
 endif
-
-" Set some printing options.
-" Left/Right/Top margins:  0.5in (1pt = 1/72 inch)
-" Bottom margin:  1in
-" Print line numbers
-" Paper size:  letter (default is A4)
-set printoptions=left:27pt,right:54pt,top:36pt,bottom:36pt,number:y,paper:letter,header:3
-set printheader=%<%F%=\ [Page\ %N]
 
 " Enable line numbering
 set number
