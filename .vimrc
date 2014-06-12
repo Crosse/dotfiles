@@ -365,7 +365,9 @@ set backspace=eol,start,indent
 " multi-byte character sets, and b) set UTF-8 as vim's encoding.  This
 " doesn't change the encoding of files, though.
 if has("multi_byte") && matchstr($LANG, "UTF-8") == "UTF-8"
+    scriptencoding utf-8
     set listchars=tab:»·,eol:¬
+    scriptencoding
 endif
 
 " Keep the cursor in the same column, if possible, when using C-U and
