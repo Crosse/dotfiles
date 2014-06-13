@@ -76,7 +76,11 @@ let gui_scheme = "solarized"
 let console_scheme = "default"
 
 " Fonts section.  First, create a list of desired fonts for GUI vims.
-let fonts = ["Source\\ Code\\ Pro", "Consolas", "Inconsolata", "Monospace"]
+let powerline_fonts = ['Source Code Pro for Powerline', 'Inconsolata for Powerline']
+let fonts = powerline_fonts + ['Source Code Pro', 'Inconsolata', 'Consolas', 'Lucida Console', 'Monospace']
+
+let print_fonts = fonts
+
 let win_font_size = "h11"
 let mac_font_size = "h14"
 let unix_font_size = "h11"
@@ -106,8 +110,12 @@ else
 endif
 
 if has("gui_running")
-    " The font to use for MacVim
-    let &guifont = join(fonts, ":".font_size.",")
+    " The font to use for GVim/MacVim
+    let gui_fonts = []
+    for font in fonts
+        let gui_fonts += [font . ":" . font_size]
+    endfor
+    let &guifont = join(gui_fonts, ",")
 endif
 
 " GVim options for all platforms
@@ -138,7 +146,7 @@ set printoptions=left:27pt,right:54pt,top:36pt,bottom:36pt,number:y,paper:letter
 set printheader=%<%F%=\ [Page\ %N]
 
 " Use the same fonts for printing as for the GUI.
-let &printfont = join(fonts, ":".print_font_size.",")
+let &printfont = join(print_fonts, ":".print_font_size.",")
 
 
 
