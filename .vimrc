@@ -145,6 +145,21 @@ let &printfont = join(fonts, ":".print_font_size.",")
 "                                                "
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
+" Enable line numbering
+set number
+
+" Flash the window instead of beeping
+set visualbell
+
+" show matching brackets / parentheses
+set showmatch
+
+" show which mode you're currently in.
+set showmode
+
+" Disable visual line-wrapping.  This does not prevent hard-wraps.
+set nowrap
+
 " Turn syntax highlighting on, if vim supports it
 if has('syntax') && (&t_Co > 2 || has('gui_running'))
     syntax on
@@ -161,46 +176,6 @@ if has('syntax') && (&t_Co > 2 || has('gui_running'))
         " Map F4 to toggle search highlighting:
         map <silent> <F4> :set hlsearch!<CR>:set hlsearch?<CR>
         imap <silent> <F4> <C-O>:set hlsearch!<CR><C-O>:set hlsearch?<CR>
-    endif
-endif
-
-" Enable line numbering
-set number
-
-" Flash the window instead of beeping
-set visualbell
-
-" use "[RO]" for "[readonly]" to save space in the message line:
-set shortmess+=r
-
-if has('cmdline_info')
-    " display the current mode and partially-typed commands in the status
-    " line:
-    set showmode
-    set showcmd
-    " Always display the current cursor position in the lower right corner
-    " of the Vim window.  Note that 'statusline' (below) takes precendence
-    " over this option, but if you have a Vim that was not compiled with
-    " 'statusline' at least you'll have a ruler...if it was compiled with
-    " 'cmdline_info'.
-    set ruler
-endif
-
-" show matching brackets / parentheses
-set showmatch
-
-" show which mode you're currently in.
-set showmode
-
-" Disable visual line-wrapping.  This does not prevent hard-wraps.
-set nowrap
-
-" Set up an informative status line.
-if has('statusline')
-    if version >= 700
-        set statusline=%-02.2n\ %t\ %y\ %m\ %r\ %L\ lines%=%([%{b:cstd}]\%)\ %lL,%cC\ \(%P\)
-        " Always show the status line
-        set laststatus=2
         " Use Enter in Normal mode to disable highlighing after searching
         nmap <silent> <CR> :nohlsearch<CR>
     endif
@@ -231,6 +206,40 @@ if has('folding')
             setlocal foldcolumn=4
         endif
     endfunction
+endif
+
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                                "
+"                  Status Line                   "
+"                                                "
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" use "[RO]" for "[readonly]" to save space in the message line:
+set shortmess+=r
+
+if has('cmdline_info')
+    " display the current mode and partially-typed commands in the status
+    " line:
+    set showmode
+    set showcmd
+    " Always display the current cursor position in the lower right corner
+    " of the Vim window.  Note that 'statusline' (below) takes precendence
+    " over this option, but if you have a Vim that was not compiled with
+    " 'statusline' at least you'll have a ruler...if it was compiled with
+    " 'cmdline_info'.
+    set ruler
+endif
+
+" Set up an informative status line.
+if has('statusline')
+    if version >= 700
+        set statusline=%-02.2n\ %t\ %y\ %m\ %r\ %L\ lines%=%([%{b:cstd}]\%)\ %lL,%cC\ \(%P\)
+        " Always show the status line
+        set laststatus=2
+    endif
 endif
 
 
