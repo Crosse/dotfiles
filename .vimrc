@@ -279,14 +279,6 @@ set formatoptions-=t
 set formatoptions+=c
 set textwidth=72
 
-" get rid of the default style of C comments, and define a style with two
-" stars at the start of `middle' rows which (looks nicer and) avoids
-" asterisks used for bullet lists being treated like C comments; then define
-" a bullet list style for single stars (like already is for hyphens):
-set comments-=s1:/*,mb:*,ex:*/
-set comments+=s:/*,mb:**,ex:*/
-set comments+=fb:*
-
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
