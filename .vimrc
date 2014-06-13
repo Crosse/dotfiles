@@ -276,6 +276,7 @@ set autoindent
 " don't automatically format 'text' as it is typed; i.e. only do this with
 " comments, and reflow at 72 characters:
 set formatoptions-=t
+set formatoptions+=c
 set textwidth=72
 
 " get rid of the default style of C comments, and define a style with two
