@@ -34,6 +34,7 @@
 "
 "   F2 - toggle spell check
 "   F4 - toggle search highlighting
+"   Enter - in normal mode, disable search highlighting temporarily
 "   F5 - toggle list mode; i.e., 'Show Codes'
 "   F6 - execute 'make' in the current directory
 "   F9 - toggle nearest fold open and closed
@@ -200,6 +201,8 @@ if has('statusline')
         set statusline=%-02.2n\ %t\ %y\ %m\ %r\ %L\ lines%=%([%{b:cstd}]\%)\ %lL,%cC\ \(%P\)
         " Always show the status line
         set laststatus=2
+        " Use Enter in Normal mode to disable highlighing after searching
+        nmap <silent> <CR> :nohlsearch<CR>
     endif
 endif
 
