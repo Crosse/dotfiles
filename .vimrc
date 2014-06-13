@@ -317,7 +317,7 @@ set viminfo=/10,'10,r/tmp,r/Volumes,f0,h,\"100
 " have command-line completion <Tab> (for filenames, help topics, option
 " names) first list the available options and complete the longest common
 " part, then have further <Tab>s cycle through the possibilities:
-set wildmode=longest:full
+set wildmode=longest,full
 set wildmenu
 
 " Ignore case when completing file names and directories.
