@@ -62,6 +62,64 @@ endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""
 "                                               "
+"            Vundle and Vim plugins             "
+"                                               "
+"""""""""""""""""""""""""""""""""""""""""""""""""
+
+if !empty(glob("~/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
+    filetype off
+    set runtimepath+=~/.vim/bundle/Vundle.vim
+    call vundle#begin()
+
+    " Let Vundle manage Vundle.  This is required.
+    Plugin 'gmarik/Vundle.vim'
+
+    " Load plugins here.
+
+    " lean & mean status/tabline for vim that's light as air
+    " https://github.com/bling/vim-airline
+    Plugin 'bling/vim-airline'
+    let g:airline_powerline_fonts = 1
+
+    " a Git wrapper so awesome, it should be illegal
+    " https://github.com/tpope/vim-fugitive
+    Plugin 'tpope/vim-fugitive'
+
+    " A vim plugin to display the indention levels with thin vertical lines
+    " https://github.com/Yggdroot/indentLine
+    Plugin 'Yggdroot/indentLine'
+
+    " gitk for Vim
+    " https://github.com/gregsexton/gitv
+    Plugin 'gregsexton/gitv'
+
+    " Syntax checking hacks for vim
+    " https://github.com/scrooloose/syntastic
+    Plugin 'scrooloose/syntastic'
+
+    " A code-completion engine for Vim
+    " https://github.com/Valloric/YouCompleteMe
+    Plugin 'Valloric/YouCompleteMe'
+    let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<Enter>']
+
+    " All plugins must be added before the following line.
+    call vundle#end()
+    "
+    " Brief help
+    " :PluginList          - list configured plugins
+    " :PluginInstall(!)    - install (update) plugins
+    " :PluginSearch(!) foo - search (or refresh cache first) for foo
+    " :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
+    "
+    " see :h vundle for more details or wiki for FAQ
+endif
+
+filetype plugin indent on
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""
+"                                               "
 "     Colorschemes, Fonts, and Window Sizes     "
 "                                               "
 """""""""""""""""""""""""""""""""""""""""""""""""
@@ -245,7 +303,7 @@ if has('cmdline_info')
 endif
 
 " Set up an informative status line.
-if has('statusline')
+if has('statusline') && !(exists('g:loaded_airline') && g:loaded_airline)
     if version >= 700
         set statusline=%-02.2n\ %t\ %y\ %m\ %r\ %L\ lines%=%([%{b:cstd}]\%)\ %lL,%cC\ \(%P\)
         " Always show the status line
@@ -343,13 +401,6 @@ set tags=./tags;/
 
 " Lower the timeout when pressing <Esc>
 set timeout timeoutlen=3000 ttimeoutlen=100
-
-" enable filetype detection:
-if has('eval')
-    filetype on
-    filetype indent on
-    filetype plugin on
-endif
 
 " make searches case-insensitive, unless they contain upper-case letters:
 set ignorecase
