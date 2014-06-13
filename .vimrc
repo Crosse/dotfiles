@@ -343,11 +343,6 @@ if has('eval')
     filetype plugin on
 endif
 
-" I like BSD style by default.
-if !exists('g:cstd')
-    let g:cstd="BSD"
-endif
-
 " make searches case-insensitive, unless they contain upper-case letters:
 set ignorecase
 set smartcase
