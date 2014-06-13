@@ -396,10 +396,10 @@ endif
 " Minimal number of screen lines to keep above and below the cursor.
 set scrolloff=3
 
-" Automatically save the buffer when performing various commands
+" Automatically save the buffer when performing various commands.
 set autowrite
 
-" Set the terminal title, if possible
+" Set the terminal title, if possible.
 set title
 
 
