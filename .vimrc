@@ -350,12 +350,6 @@ if has('eval')
     filetype plugin on
 endif
 
-if has('autocmd')
-    " in human-language files, automatically format everything at 72
-    " chars:
-    autocmd FileType human set formatoptions+=t textwidth=72
-endif
-
 " I like BSD style by default.
 if !exists('g:cstd')
     let g:cstd="BSD"
