@@ -289,7 +289,7 @@ set textwidth=72
 
 " Disable some things that tick off crontab on at least Mac OSX.  See
 " http://goo.gl/LP6X0 for more information.
-if $VIM_CRONTAB == "true"
+if exists('$VIM_CRONTAB')
     set nobackup
     set nowritebackup
 endif
