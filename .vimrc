@@ -53,7 +53,10 @@ set nocompatible
 set nomodeline
 
 " Clear any existing autocommands
-autocmd!
+if has('autocmd')
+    autocmd!
+endif
+
 
 
 
