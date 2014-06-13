@@ -220,7 +220,7 @@ endif
 "                                                "
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
-" use "[RO]" for "[readonly]" to save space in the message line:
+" use '[RO]' for '[readonly]' to save space in the message line:
 set shortmess+=r
 
 if has('cmdline_info')
@@ -273,7 +273,7 @@ set autoindent
 "                                                "
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
-" don't automatically format `text' as it is typed; i.e. only do this with
+" don't automatically format 'text' as it is typed; i.e. only do this with
 " comments, and reflow at 72 characters:
 set formatoptions-=t
 set textwidth=72
@@ -359,7 +359,7 @@ endif
 set ignorecase
 set smartcase
 
-" show the `best match so far' as search strings are typed:
+" show the 'best match so far' as search strings are typed:
 set incsearch
 
 " assume the /g flag on :s substitutions to replace all matches in a line:
