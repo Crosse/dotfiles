@@ -79,7 +79,27 @@ if !empty(glob("~/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
     " lean & mean status/tabline for vim that's light as air
     " https://github.com/bling/vim-airline
     Plugin 'bling/vim-airline'
-    let g:airline_powerline_fonts = 1
+    let g:airline_left_sep = ''
+    let g:airline_left_alt_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline_right_alt_sep = ''
+
+    " '' is \u2106
+    "let g:airline_symbols.linenr = '№'
+    " '¶' is \u00b6
+    let g:airline_symbols.linenr = '¶'
+    " '⎇' is \u2387
+    let g:airline_symbols.branch = '⎇'
+    " '✎' is \u270e
+    "let g:airline_symbols.paste = '✎'
+    let g:airline_symbols.paste = '[paste]'
+    " '✘' is \u2708
+    let g:airline_symbols.readonly = '[✘]'
+    " 'Ξ' is \u039E
+    let g:airline_symbols.whitespace = 'Ξ'
+
+    let g:airline_section_x = '%{airline#util#wrap(airline#parts#filetype(),0)}'
+    let g:airline_section_y = '%{airline#util#wrap(airline#parts#ffenc(),0)}'
 
     " a Git wrapper so awesome, it should be illegal
     " https://github.com/tpope/vim-fugitive
@@ -134,8 +154,7 @@ let gui_scheme = "solarized"
 let console_scheme = "default"
 
 " Fonts section.  First, create a list of desired fonts for GUI vims.
-let powerline_fonts = ['Source Code Pro for Powerline', 'Inconsolata for Powerline']
-let fonts = powerline_fonts + ['Source Code Pro', 'Inconsolata', 'Consolas', 'Lucida Console', 'Monospace']
+let fonts = ['Source_Code_Pro', 'Inconsolata', 'Consolas', 'Lucida_Console', 'Monospace']
 
 let print_fonts = fonts
 
