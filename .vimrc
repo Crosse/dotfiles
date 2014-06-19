@@ -109,9 +109,17 @@ endfunction
 "                                               "
 """""""""""""""""""""""""""""""""""""""""""""""""
 
-if !empty(glob("~/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
+if g:os.is_windows
+    let s:vimdir = glob("$HOME/vimfiles")
+elseif g:os.is_unix || g:os.is_mac
+    let s:vimdir = glob("$HOME/.vim")
+else
+    echom "Unable to determine the location of Vundle!"
+endif
+let s:vundle_path = glob(s:vimdir . "/bundle/Vundle.vim")
+if !empty(glob(s:vundle_path. "/autoload/vundle.vim"))
     filetype off
-    set runtimepath+=~/.vim/bundle/Vundle.vim
+    let &runtimepath = s:vundle_path . "," . &runtimepath
     call vundle#begin()
 
     " Let Vundle manage Vundle.  This is required.
