@@ -102,8 +102,6 @@ if !empty(glob("~/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
     let g:airline_right_sep = ""
     let g:airline_right_alt_sep = ""
 
-    " '' is \u2106
-    "let g:airline_symbols.linenr = '№'
     " '¶' is \u00b6
     let g:airline_symbols.linenr = '¶'
     " '⎇' is \u2387
@@ -115,9 +113,6 @@ if !empty(glob("~/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
     let g:airline_symbols.readonly = '[✘]'
     " 'Ξ' is \u039E
     let g:airline_symbols.whitespace = 'Ξ'
-
-    let g:airline_section_x = '%{airline#util#wrap(airline#parts#filetype(),0)}'
-    let g:airline_section_y = '%{airline#util#wrap(airline#parts#ffenc(),0)}'
 
     " a Git wrapper so awesome, it should be illegal
     " https://github.com/tpope/vim-fugitive
@@ -298,8 +293,6 @@ if has("folding")
     " This toggles the nearest fold open and closed.
     map <F9> za
     imap <F9> <C-O>za
-    " This does the same thing, but with Control-Space.
-    nmap <silent> <C-Space> @=(foldlevel('.')?'za':"\<C-Space>")<CR>
 
     " A function to toggle the fold column.
     map <F10> :call FoldColumnToggle()<CR>
