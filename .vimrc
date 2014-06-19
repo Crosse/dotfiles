@@ -53,7 +53,7 @@ set nocompatible
 set nomodeline
 
 " Clear any existing autocommands
-if has('autocmd')
+if has("autocmd")
     autocmd!
 endif
 
@@ -68,7 +68,7 @@ endif
 " Determine the operating system once, so we don't have to do it over
 
 function! HasColorScheme(name)
-     let pat = 'colors/' . a:name . '.vim'
+     let pat = "colors/" . a:name . ".vim"
      return !empty(globpath(&runtimepath, pat))
 endfunction
 
@@ -86,21 +86,21 @@ if !empty(glob("~/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
     call vundle#begin()
 
     " Let Vundle manage Vundle.  This is required.
-    Plugin 'gmarik/Vundle.vim'
+    Plugin "gmarik/Vundle.vim"
 
     " Load plugins here.
 
     " lean & mean status/tabline for vim that's light as air
     " https://github.com/bling/vim-airline
-    Plugin 'bling/vim-airline'
-    if !exists('g:airline_symbols')
+    Plugin "bling/vim-airline"
+    if !exists("g:airline_symbols")
         let g:airline_symbols = {}
     endif
 
-    let g:airline_left_sep = ''
-    let g:airline_left_alt_sep = ''
-    let g:airline_right_sep = ''
-    let g:airline_right_alt_sep = ''
+    let g:airline_left_sep = ""
+    let g:airline_left_alt_sep = ""
+    let g:airline_right_sep = ""
+    let g:airline_right_alt_sep = ""
 
     " '' is \u2106
     "let g:airline_symbols.linenr = '№'
@@ -121,23 +121,23 @@ if !empty(glob("~/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
 
     " a Git wrapper so awesome, it should be illegal
     " https://github.com/tpope/vim-fugitive
-    Plugin 'tpope/vim-fugitive'
+    Plugin "tpope/vim-fugitive"
 
     " A vim plugin to display the indention levels with thin vertical lines
     " https://github.com/Yggdroot/indentLine
-    Plugin 'Yggdroot/indentLine'
+    Plugin "Yggdroot/indentLine"
 
     " gitk for Vim
     " https://github.com/gregsexton/gitv
-    Plugin 'gregsexton/gitv'
+    Plugin "gregsexton/gitv"
 
     " Syntax checking hacks for vim
     " https://github.com/scrooloose/syntastic
-    Plugin 'scrooloose/syntastic'
+    Plugin "scrooloose/syntastic"
 
     " A code-completion engine for Vim
     " https://github.com/Valloric/YouCompleteMe
-    Plugin 'Valloric/YouCompleteMe'
+    Plugin "Valloric/YouCompleteMe"
     let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<Enter>']
 
     " All plugins must be added before the following line.
@@ -170,7 +170,7 @@ filetype plugin indent on
 let s:schemes = ["solarized", "torte", "desert", "koehler", "slate"]
 
 " Fonts section.  First, create a list of desired fonts for GUI vims.
-let s:fonts = ['Source_Code_Pro', 'Consolas', 'Inconsolata', 'Lucida_Console', 'Monospace']
+let s:fonts = ["Source_Code_Pro", "Consolas", "Inconsolata", "Lucida_Console", "Monospace"]
 let s:win_font_size = "h11"
 let s:mac_font_size = "h14"
 let s:unix_font_size = "h11"
@@ -179,7 +179,7 @@ let s:print_fonts = fonts
 let s:print_font_size = "h8"
 
 " GVim default window size
-if has('gui_running') && !exists('g:loaded_WindowSizes')
+if has("gui_running") && !exists("g:loaded_WindowSizes")
     set lines=60
     set columns=120
 
@@ -265,16 +265,16 @@ set showmode
 set nowrap
 
 " Turn syntax highlighting on, if vim supports it
-if has('syntax') && (&t_Co > 2 || has('gui_running'))
+if has("syntax") && (&t_Co > 2 || has("gui_running"))
     syntax on
 
     " This sets up a 'gutter' line at 76 characters.
-    if exists('+colorcolumn')
+    if exists("+colorcolumn")
         set colorcolumn=76
         highlight ColorColumn ctermbg=gray guibg=gray
     endif
 
-    if has('extra_search')
+    if has("extra_search")
         " Turn on search highlighting
         set hlsearch
         " Map F4 to toggle search highlighting:
@@ -288,7 +288,7 @@ endif
 " Enable folding.  This uses syntax folding (so your syntax file must
 " support folding).  It doesn't start folded by default, and sets up a
 " left-hand gutter of three columns dedicated to the folding structure.
-if has('folding')
+if has("folding")
     set foldmethod=syntax
     set foldnestmax=10
     set foldenable
@@ -324,7 +324,7 @@ endif
 " use '[RO]' for '[readonly]' to save space in the message line:
 set shortmess+=r
 
-if has('cmdline_info')
+if has("cmdline_info")
     " display the current mode and partially-typed commands in the status
     " line:
     set showmode
@@ -338,7 +338,7 @@ if has('cmdline_info')
 endif
 
 " Set up an informative status line.
-if has('statusline') && !(exists('g:loaded_airline') && g:loaded_airline)
+if has("statusline") && !(exists("g:loaded_airline") && g:loaded_airline)
     if version >= 700
         set statusline=%-02.2n\ %t\ %y\ %m\ %r\ %L\ lines%=\ %lL,%cC\ \(%P\)
         " Always show the status line
@@ -390,7 +390,7 @@ set textwidth=72
 
 " Disable some things that tick off crontab on at least Mac OSX.  See
 " http://goo.gl/LP6X0 for more information.
-if exists('$VIM_CRONTAB')
+if exists("$VIM_CRONTAB")
     set nobackup
     set nowritebackup
 endif
@@ -424,7 +424,7 @@ endif
 
 " enable spell-checking, if we have it.
 " you'll probably want to read ':help spell'.
-if has('spell')
+if has("spell")
     set nospell
     " Map F2 to toggle spell-check mode:
     map <silent> <F2> :set spell!<CR>:set spell?<CR>
