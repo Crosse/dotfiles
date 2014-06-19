@@ -158,7 +158,7 @@ let gui_scheme = "solarized"
 let console_scheme = "default"
 
 " Fonts section.  First, create a list of desired fonts for GUI vims.
-let fonts = ['Source_Code_Pro', 'Inconsolata', 'Consolas', 'Lucida_Console', 'Monospace']
+let fonts = ['Source_Code_Pro', 'Consolas', 'Inconsolata', 'Lucida_Console', 'Monospace']
 
 let print_fonts = fonts
 
