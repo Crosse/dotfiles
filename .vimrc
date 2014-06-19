@@ -170,14 +170,13 @@ filetype plugin indent on
 let s:schemes = ["solarized", "torte", "desert", "koehler", "slate"]
 
 " Fonts section.  First, create a list of desired fonts for GUI vims.
-let fonts = ['Source_Code_Pro', 'Consolas', 'Inconsolata', 'Lucida_Console', 'Monospace']
+let s:fonts = ['Source_Code_Pro', 'Consolas', 'Inconsolata', 'Lucida_Console', 'Monospace']
+let s:win_font_size = "h11"
+let s:mac_font_size = "h14"
+let s:unix_font_size = "h11"
 
-let print_fonts = fonts
-
-let win_font_size = "h11"
-let mac_font_size = "h14"
-let unix_font_size = "h11"
-let print_font_size = "h8"
+let s:print_fonts = fonts
+let s:print_font_size = "h8"
 
 " GVim default window size
 if has('gui_running') && !exists('g:loaded_WindowSizes')
@@ -193,20 +192,20 @@ if has("win32") || has("win16") || has("win95") || has("win64")
     " Windows-specific settings
     behave mswin
     source $VIMRUNTIME/mswin.vim
-    let font_size=win_font_size
+    let s:font_size=win_font_size
 elseif has('mac') || has('macvim')
     " MacVim-specific settings
-    let font_size=mac_font_size
+    let s:font_size=mac_font_size
 else
-    " Unix-specific settings
-    let font_size=unix_font_size
+    " Unix-specific settings for everthing else.
+    let s:font_size=unix_font_size
 endif
 
 if has("gui_running")
     " The font to use for GVim/MacVim
-    let gui_fonts = []
+    let s:gui_fonts = []
     for font in fonts
-        let gui_fonts += [font . ":" . font_size]
+        let s:gui_fonts += [font . ":" . font_size]
     endfor
     let &guifont = join(gui_fonts, ",")
 
