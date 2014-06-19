@@ -125,13 +125,13 @@ if !empty(glob(s:vundle_path. "/autoload/vundle.vim"))
     call vundle#begin()
 
     " Let Vundle manage Vundle.  This is required.
-    Plugin "gmarik/Vundle.vim"
+    Plugin 'gmarik/Vundle.vim'
 
     " Load plugins here.
 
     " lean & mean status/tabline for vim that's light as air
     " https://github.com/bling/vim-airline
-    Plugin "bling/vim-airline"
+    Plugin 'bling/vim-airline'
     if !exists("g:airline_symbols")
         let g:airline_symbols = {}
     endif
@@ -155,23 +155,23 @@ if !empty(glob(s:vundle_path. "/autoload/vundle.vim"))
 
     " a Git wrapper so awesome, it should be illegal
     " https://github.com/tpope/vim-fugitive
-    Plugin "tpope/vim-fugitive"
+    Plugin 'tpope/vim-fugitive'
 
     " A vim plugin to display the indention levels with thin vertical lines
     " https://github.com/Yggdroot/indentLine
-    Plugin "Yggdroot/indentLine"
+    Plugin 'Yggdroot/indentLine'
 
     " gitk for Vim
     " https://github.com/gregsexton/gitv
-    Plugin "gregsexton/gitv"
+    Plugin 'gregsexton/gitv'
 
     " Syntax checking hacks for vim
     " https://github.com/scrooloose/syntastic
-    Plugin "scrooloose/syntastic"
+    Plugin 'scrooloose/syntastic'
 
     " A code-completion engine for Vim
     " https://github.com/Valloric/YouCompleteMe
-    Plugin "Valloric/YouCompleteMe"
+    Plugin 'Valloric/YouCompleteMe'
     let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<Enter>']
 
     " All plugins must be added before the following line.
