@@ -79,6 +79,10 @@ if !empty(glob("~/.vim/bundle/Vundle.vim/autoload/vundle.vim"))
     " lean & mean status/tabline for vim that's light as air
     " https://github.com/bling/vim-airline
     Plugin 'bling/vim-airline'
+    if !exists('g:airline_symbols')
+        let g:airline_symbols = {}
+    endif
+
     let g:airline_left_sep = ''
     let g:airline_left_alt_sep = ''
     let g:airline_right_sep = ''
