@@ -209,7 +209,7 @@ let s:win_font_size = "h11"
 let s:mac_font_size = "h14"
 let s:unix_font_size = "h11"
 
-let s:print_fonts = fonts
+let s:print_fonts = s:fonts
 let s:print_font_size = "h8"
 
 " GVim default window size
@@ -226,22 +226,22 @@ if g:os.is_windows
     " Windows-specific settings
     behave mswin
     source $VIMRUNTIME/mswin.vim
-    let s:font_size=win_font_size
+    let s:font_size=s:win_font_size
 elseif g:os.is_mac
     " MacVim-specific settings
-    let s:font_size=mac_font_size
+    let s:font_size=s:mac_font_size
 else
     " Unix-specific settings for everthing else.
-    let s:font_size=unix_font_size
+    let s:font_size=s:unix_font_size
 endif
 
 if has("gui_running")
     " The font to use for GVim/MacVim
     let s:gui_fonts = []
-    for font in fonts
-        let s:gui_fonts += [font . ":" . font_size]
+    for s:font in s:fonts
+        let s:gui_fonts += [s:font . ":" . s:font_size]
     endfor
-    let &guifont = join(gui_fonts, ",")
+    let &guifont = join(s:gui_fonts, ",")
 
     " Turn off the toolbar
     set guioptions-=T
@@ -273,7 +273,7 @@ set printoptions=left:27pt,right:54pt,top:36pt,bottom:36pt,number:y,paper:letter
 set printheader=%<%F%=\ [Page\ %N]
 
 " Use the same fonts for printing as for the GUI.
-let &printfont = join(print_fonts, ":".print_font_size.",")
+let &printfont = join(s:print_fonts, ":" . s:print_font_size . ",")
 
 
 
