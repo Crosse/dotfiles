@@ -66,6 +66,35 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
 " Determine the operating system once, so we don't have to do it over
+" and over again
+function! GetOperatingSystem()
+    let g:os = {}
+    let l:os_types = {}
+    let l:os_types.win    = ["win16", "win32", "win32unix", "win64", "win95"]
+    let l:os_types.mac    = ["mac", "macunix"]
+    let l:os_types.unix   = ["unix"]  " Note that MacVim also identifies as unix
+    let l:os_types.other  = ["amiga", "beos", "dos16", "dos32", "os2", "qnx", "vms"]
+    let l:os_types.all    = l:os_types.win + l:os_types.mac + l:os_types.unix + l:os_types.other
+
+    for g:os.fullname in l:os_types.all
+        if has(g:os.fullname)
+            break
+        endif
+    endfor
+    if index(l:os_types.win, g:os.fullname)
+        let g:os.name = "windows"
+        let g:os.is_windows = 1
+    elseif index(l:os_types.mac, g:os.fullname)
+        let g:os.name = "mac"
+        let g:os.is_mac = 1
+    elseif index(l:os_types.unix, g:os.fullname)
+        let g:os.name = "unix"
+        let g:os.is_unix = 1
+    else
+        let g:os.name = "other"
+    endif
+endfunction
+call GetOperatingSystem()
 
 function! HasColorScheme(name)
      let pat = "colors/" . a:name . ".vim"
@@ -183,12 +212,12 @@ if has("gui_running") && !exists("g:loaded_WindowSizes")
     let g:loaded_WindowSizes = 1
 endif
 
-if has("win32") || has("win16") || has("win95") || has("win64")
+if g:os.is_windows
     " Windows-specific settings
     behave mswin
     source $VIMRUNTIME/mswin.vim
     let s:font_size=win_font_size
-elseif has('mac') || has('macvim')
+elseif g:os.is_mac
     " MacVim-specific settings
     let s:font_size=mac_font_size
 else
