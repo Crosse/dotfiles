@@ -328,7 +328,7 @@ endif
 " Set up an informative status line.
 if has('statusline') && !(exists('g:loaded_airline') && g:loaded_airline)
     if version >= 700
-        set statusline=%-02.2n\ %t\ %y\ %m\ %r\ %L\ lines%=%([%{b:cstd}]\%)\ %lL,%cC\ \(%P\)
+        set statusline=%-02.2n\ %t\ %y\ %m\ %r\ %L\ lines%=\ %lL,%cC\ \(%P\)
         " Always show the status line
         set laststatus=2
     endif
