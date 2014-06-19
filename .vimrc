@@ -439,14 +439,18 @@ set gdefault
 " insertion, and over indentations:
 set backspace=eol,start,indent
 
-" Change the characters used in list mode, but since one of the
-" characters is a UTF-8 character, make sure that vim a) can handle
-" multi-byte character sets, and b) set UTF-8 as vim's encoding.  This
-" doesn't change the encoding of files, though.
-if has("multi_byte") && matchstr($LANG, "UTF-8") == "UTF-8"
-    scriptencoding utf-8
+" Encoding-related things
+if has("multi_byte")
+    if &termencoding == ""
+        let &termencoding = &encoding
+    endif
+    set encoding=utf-8
+    setglobal fileencoding=utf-8
+    set fileencodings=ucs-bom,utf-8,latin1,default
+
+    " Change the characters used in list mode to some utf-8 characters,
+    " if available.
     set listchars=tab:»·,eol:¬
-    scriptencoding
 endif
 
 " Keep the cursor in the same column, if possible, when using C-U and
