@@ -59,6 +59,20 @@ endif
 
 
 
+""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                                "
+"       Functions Required for this File         "
+"                                                "
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Determine the operating system once, so we don't have to do it over
+
+function! HasColorScheme(name)
+     let pat = 'colors/' . a:name . '.vim'
+     return !empty(globpath(&runtimepath, pat))
+endfunction
+
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""
 "                                               "
@@ -152,10 +166,8 @@ filetype plugin indent on
 " Note that these are just my preferences; substitute
 " whatever works for you if you don't like them.
 "
-" The colorscheme to use for GVim/MacVim
-let gui_scheme = "solarized"
-" The colorscheme to use for vim
-let console_scheme = "default"
+" A list of color schemes to use, in the order you want to use them
+let s:schemes = ["solarized", "torte", "desert", "koehler", "slate"]
 
 " Fonts section.  First, create a list of desired fonts for GUI vims.
 let fonts = ['Source_Code_Pro', 'Consolas', 'Inconsolata', 'Lucida_Console', 'Monospace']
@@ -197,18 +209,19 @@ if has("gui_running")
         let gui_fonts += [font . ":" . font_size]
     endfor
     let &guifont = join(gui_fonts, ",")
-endif
 
-" GVim options for all platforms
-if has('gui_running')
     " Turn off the toolbar
     set guioptions-=T
-    " Set a color scheme
-    exec "colorscheme ".gui_scheme
-    set background=light
-else
-    exec "colorscheme ".console_scheme
 endif
+
+" Set a color scheme, only if it is found in the runtimepath.
+for s:scheme in s:schemes
+    if HasColorScheme(s:scheme)
+        exec "colorscheme " . s:scheme
+        break
+    endif
+endfor
+set background=light
 
 
 
