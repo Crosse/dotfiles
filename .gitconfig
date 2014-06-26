@@ -6,6 +6,7 @@
 	br = branch
 	first = log --reverse
 	ls = log --graph --pretty='%C(yellow)%h%Creset [%aN, %ar] %Cblue%s%Creset'
+	sl = log -20 --graph --pretty='%C(yellow)%h%Creset [%aN, %ar] %Cblue%s%Creset'
 
 [user]
 	name = Seth Wright
