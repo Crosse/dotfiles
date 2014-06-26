@@ -26,27 +26,41 @@
 
 RC_PATH=${HOME}/.rc
 [[ -r "$RC_PATH/functions" ]] && source "${RC_PATH}/functions"
-if [ ${0#-} == 'bash' ]; then
-    # Source global definitions, if they exist.
+
+case "${0#-}" in
+    bash)
+    # Source global bashrc files, if they exist.
     if [ -f /etc/bashrc ]; then . /etc/bashrc; fi
-fi
+        ;;
+    ksh*)
+        if [ "${-}" == *i* ]; then
+            # Things to do if the shell is interactive.
 
-if [ -o interactive ]; then
-    # Map ^L to clear.
-    bind -m '^L'='^Uclear^J^Y'
+            # Map ^L to clear.
+            bind -m '^L'='^Uclear^J^Y'
 
-    # Create tracked aliases for all commands.  This is the
-    # equivalent of "hashall" in bash.
-    set -o trackall
+            # Create tracked aliases for all commands.  This is the
+            # equivalent of "hashall" in bash.
+            set -o trackall
+        fi
+        ;;
+esac
+
+if [ "${-}" == *i* ]; then
+    # Shell-agnostic things to do if the shell is interactive.
 
     # Using ksh, setting EDITOR or VISUAL (above) also sets vi key bindings.
     # This sets it back to emacs, which is what I prefer.
+    # In other shells, it doesn't hurt to set it as well.
     set -o emacs
+
+    # For ksh, enable history.  For both ksh and bash, log to the same file.
+    export HISTFILE=$HOME/.history
+
+    # Set $PS1 to something pretty.
+    [[ -r "${RC_PATH}/prompt" ]] && source "${RC_PATH}/prompt"
 fi
 
-
-# Set $PS1 to something pretty.
-[[ -r "${RC_PATH}/prompt" ]] && source "${RC_PATH}/prompt"
 
 # OS-specific stuff can be found in .rc/<uname>; for instance:
 # - OpenBSD:    .rc/OpenBSD
