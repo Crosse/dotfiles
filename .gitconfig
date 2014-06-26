@@ -12,15 +12,19 @@
 	name = Seth Wright
 	email = seth@crosse.org
 	signingkey = F2F1E388
+
 [color]
 	branch = auto
 	diff = auto
 	interactive = auto
 	status = auto
 	ui = true
+
 [credential]
 	helper = cache
+
 [credential "https://git.crosse.org"]
 	username = seth
+
 [push]
 	default = simple
