@@ -26,6 +26,8 @@
 #       export ENV=${HOME}/.kshrc
 ########################################################################
 
+RC_PATH=${HOME}/.rc
+[[ -r "$RC_PATH/functions" ]] && source "${RC_PATH}/functions"
 if [ ${0#-} == 'bash' ]; then
     # Source global definitions, if they exist.
     if [ -f /etc/bashrc ]; then . /etc/bashrc; fi
@@ -44,8 +46,6 @@ if [ -o interactive ]; then
     set -o emacs
 fi
 
-RC_PATH=${HOME}/.rc
-[[ -r "$RC_PATH/functions" ]] && source "${RC_PATH}/functions"
 
 # Set $PS1 to something pretty.
 [[ -r "${RC_PATH}/prompt" ]] && source "${RC_PATH}/prompt"
