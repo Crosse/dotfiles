@@ -32,9 +32,6 @@ fi
 # Some shell-specific things.
 case ${0#-} in
     "bash")
-        # Run various non-interactive scripts.
-        [[ -f "${HOME}/.bashrc" ]] && . "${HOME}/.bashrc"
-
         # Enable history appending instead of overwriting.
         shopt -s histappend
         ;;
@@ -47,9 +44,6 @@ case ${0#-} in
         [[ -f "${HOME}/.kshrc" ]] && export ENV="${HOME}/.kshrc"
         ;;
 esac
-
-# For ksh, enable history.  For both ksh and bash, log to the same file.
-export HISTFILE=$HOME/.history
 
 # Attempt to sanitize TERM.
 if [ "$TERM" = "xterm" ] ; then
