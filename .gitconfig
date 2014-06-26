@@ -5,7 +5,8 @@
 	co = checkout
 	br = branch
 	first = log --reverse
-	ls = log --oneline --graph
+	ls = log --graph --pretty='%C(yellow)%h%Creset [%aN, %ar] %Cblue%s%Creset'
+
 [user]
 	name = Seth Wright
 	email = seth@crosse.org
