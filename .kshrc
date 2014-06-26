@@ -63,3 +63,4 @@ prepend-to-path "${HOME}/bin"
 export PATH
 
 [[ -r "${RC_PATH}/aliases" ]] && source "${RC_PATH}/aliases"
+[[ -r "${RC_PATH}/local" ]] && source "${RC_PATH}/local"
