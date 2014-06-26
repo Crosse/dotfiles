@@ -102,11 +102,4 @@ prepend-to-path "${HOME}/.rbenv/bin"
 prepend-to-path "/usr/local/git/bin"
 export PATH
 
-# Miscellaneous aliased commands.
-alias cls='clear'
-alias ll='ls -lah'
-alias la='ls -a'
-alias dir='ls -lah'
-alias rdp='rdesktop -ANDzP'
-alias t='tmux attach-session -t main'
-[[ -z "$(command -v hd)" ]] && alias hd='hexdump -C'
+[[ -r "${RC_PATH}/aliases" ]] && source "${RC_PATH}/aliases"
