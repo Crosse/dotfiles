@@ -50,52 +50,12 @@ RC_PATH=${HOME}/.rc
 # Set $PS1 to something pretty.
 [[ -r "${RC_PATH}/prompt" ]] && source "${RC_PATH}/prompt"
 
-case $(uname) in
-    "Linux")
-        # Linux uses GNU less, which includes color support
-        alias ls='ls --color=auto'
-        [[ -x "$(command -v dircolors)" ]] && eval $(dircolors)
-
-        # Linux uses GNU grep.  Set options such that color support is
-        # enabled, binary files will be ignored, and files named "tags"
-        # will not be searched.
-        export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
-
-        [[ -x "$(command -v dircolors)" ]] && eval $(dircolors)
-        ;;
-    "OpenBSD")
-        # For OpenBSD, if the colorls package has been installed, use it
-        # instead of ls.
-        if [ -x "$(command -v colorls)" ]; then
-            alias ls='colorls -G'
-            export CLICOLOR=""
-            export LSCOLORS=gxfxcxdxbxegEdabagacad
-        fi
-
-        # Ignore binary files by default.  This is the only option that
-        # BSD grep supports that is the same as GNU grep.
-        alias grep='grep --binary-files=without-match'
-        ;;
-    "Darwin")
-        # Darwin/OSX includes some GNU things and some less-than-GNU
-        # things, but color options exist on the default 'ls' and 'grep'
-        # commands so enable them.
-        alias ls='ls -G'
-        export CLICOLOR=""
-        export LSCOLORS=gxfxcxdxbxegEdabagacad
-
-        # Darwin uses BSD grep, but it seems to respect options set via
-        # GREP_OPTIONS just like GNU grep, even though it is not
-        # mentioned in the man page.  Set options such that color
-        # support is enabled, binary files will be ignored, and files
-        # named "tags" will not be searched.
-        export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
-
-        # Work around a VIM incompatibility with crontab on OSX.  This
-        # requires settings in .vimrc as well.
-        alias crontab='VIM_CRONTAB=true crontab'
-        ;;
-esac
+# OS-specific stuff can be found in .rc/<uname>; for instance:
+# - OpenBSD:    .rc/OpenBSD
+# - Linux:      .rc/Linux
+# - OSX:        .rc/Darwin
+OS_RCFILE="${RC_PATH}/$(uname)"
+[[ -r "$OS_RCFILE" ]] && source "$OS_RCFILE"
 
 prepend-to-path "${HOME}/bin"
 prepend-to-path "${HOME}/.rbenv/bin"
