@@ -47,35 +47,8 @@ fi
 RC_PATH=${HOME}/.rc
 [[ -r "$RC_PATH/functions" ]] && source "${RC_PATH}/functions"
 
-SCREEN_COLORS=$(tput colors)
-if [ $SCREEN_COLORS -gt 0 ]; then
-    # Force 256-color in tmux if the "real" terminal supports 256
-    # colors.
-    if [ "$TERM" == "screen" -a "$SCREEN_COLORS" == 256 ]; then
-        TERM=screen-256color
-    fi
-
-    # Change the prompt color depending on whether the real uid is root
-    # or a regular user.
-    if [ $(id -ru) == '0' ] ; then
-        HOSTCOLOR="\[\e[0;31m\]"
-    else
-        HOSTCOLOR="\[\e[0;32m\]"
-    fi
-
-    # Set the title of an xterm.
-    case $TERM in
-        xterm*|rxvt*|screen*)
-            TERMTITLE="\[\e]0;\u@\h: \w\a\]"
-            ;;
-    esac
-
-    # Build a colorized prompt.
-    export PS1="${TERMTITLE}${HOSTCOLOR}\u@\h\$(parse-git-status)\[\e[0;34m\] \w \$\[\e[00m\] "
-else
-    # Build a "dumb" prompt that should work everywhere.
-    export PS1="\u@\h\$(parse-git-status) \w \$ "
-fi
+# Set $PS1 to something pretty.
+[[ -r "${RC_PATH}/prompt" ]] && source "${RC_PATH}/prompt"
 
 case $(uname) in
     "Linux")
