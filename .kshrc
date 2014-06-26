@@ -18,10 +18,8 @@
 #
 # ~/.kshrc
 #
-# This file is read by interactive shells.
-#
-#
-# * For bash, this file could be renamed to ~/.bashrc.
+# * For bash, this file could be renamed to ~/.bashrc, or simply
+#   symlinked.
 # * For ksh, the following line should be placed in your ~/.profile:
 #       export ENV=${HOME}/.kshrc
 ########################################################################
