@@ -1,46 +1,46 @@
 [alias]
-	dc = diff --cached
-	st = status
-	ci = commit
-	si = commit -S
-	co = checkout
-	br = branch
-	first = log --reverse
-	ls = log --graph --pretty='%C(yellow)%h%Creset [%aN, %ar] %Cblue%s%Creset'
-	sl = log -20 --graph --pretty='%C(yellow)%h%Creset [%aN, %ar] %Cblue%s%Creset'
+    dc = diff --cached
+    st = status
+    ci = commit
+    si = commit -S
+    co = checkout
+    br = branch
+    first = log --reverse
+    ls = log --graph --pretty='%C(yellow)%h%Creset [%aN, %ar] %Cblue%s%Creset'
+    sl = log -20 --graph --pretty='%C(yellow)%h%Creset [%aN, %ar] %Cblue%s%Creset'
 
 [user]
-	name = Seth Wright
-	email = seth@crosse.org
-	signingkey = F2F1E388
+    name = Seth Wright
+    email = seth@crosse.org
+    signingkey = F2F1E388
 
 [color]
-	branch = auto
-	diff = auto
-	interactive = auto
-	status = auto
-	ui = true
+    branch = auto
+    diff = auto
+    interactive = auto
+    status = auto
+    ui = true
 
 [credential]
-	helper = cache
+    helper = cache
 
 [credential "https://git.crosse.org"]
-	username = seth
+    username = seth
 
 [push]
-	default = simple
+    default = simple
 
 [gui]
-	fontdiff = -family \"Source Code Pro\" -size 13 -weight normal -slant roman -underline 0 -overstrike 0
-	diffopts = --patience
+    fontdiff = -family \"Source Code Pro\" -size 13 -weight normal -slant roman -underline 0 -overstrike 0
+    diffopts = --patience
 
 [core]
-	excludesfile = ~/.gitignore_global
+    excludesfile = ~/.gitignore_global
 
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
+    cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+    path =
 
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+    cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+    trustExitCode = true
