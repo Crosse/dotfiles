@@ -57,9 +57,9 @@ fi
 OS_RCFILE="${RC_PATH}/$(uname)"
 [[ -r "$OS_RCFILE" ]] && source "$OS_RCFILE"
 
-prepend-to-path "${HOME}/bin"
 prepend-to-path "${HOME}/.rbenv/bin"
 prepend-to-path "/usr/local/git/bin"
+prepend-to-path "${HOME}/bin"
 export PATH
 
 [[ -r "${RC_PATH}/aliases" ]] && source "${RC_PATH}/aliases"
