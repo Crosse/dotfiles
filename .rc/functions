@@ -1,0 +1,84 @@
+# vim: set ft=sh:
+
+function echoerr {
+    # Prints its arguments to standard error.
+    echo "$@" 1>&2
+}
+
+function remove-from-path {
+    # Remove a path from a path variable.
+    #
+    # Usage:
+    #   $ remove-from-path path/to/remove [PATH_VAR_NAME]
+    #
+    # (Note the lack of "$" on PATH_VAR_NAME)
+    # If PATH_VAR_NAME isn't provided, PATH is assumed.
+    local IFS=':'
+    local NEWPATH
+    local DIR
+    local PATHVARIABLE=${2:-PATH}
+    for DIR in ${!PATHVARIABLE} ; do
+        if [ "$DIR" != "$1" ] ; then
+            NEWPATH=${NEWPATH:+$NEWPATH:}$DIR
+        fi
+    done
+    export $PATHVARIABLE="$NEWPATH"
+}
+
+function prepend-to-path {
+    # Prepend a path to a path variable.  If the path already exists, it
+    # will be removed first.
+    #
+    # Usage:
+    #   $ prepend-to-path path/to/prepend [PATH_VAR_NAME]
+    #
+    # (Note the lack of "$" on PATH_VAR_NAME)
+    # If PATH_VAR_NAME isn't provided, PATH is assumed.
+    remove-from-path $1 $2
+    local PATHVARIABLE=${2:-PATH}
+    [[ -d "$1" ]] && export $PATHVARIABLE="$1${!PATHVARIABLE:+:${!PATHVARIABLE}}"
+}
+
+function append-to-path {
+    # Append a path to a path variable.  If the path already exists, it
+    # will be removed first.
+    #
+    # Usage:
+    #   $ append-to-path path/to/append [PATH_VAR_NAME]
+    #
+    # (Note the lack of "$" on PATH_VAR_NAME)
+    # If PATH_VAR_NAME isn't provided, PATH is assumed.
+    remove-from-path $1 $2
+    local PATHVARIABLE=${2:-PATH}
+    [[ -d "$1" ]] && export $PATHVARIABLE="${!PATHVARIABLE:+${!PATHVARIABLE}:}$1"
+}
+
+if [ -x "$(command -v git)" ]; then
+    # If the "git" command exists on this system, define a function that
+    # can be used in the $PS1 prompt to show the user relevant
+    # information about a git repository, if the user is currently in
+    # one.
+    function parse-git-status {
+        # Sometimes git repositories are large, and calculating
+        # this information takes too long.  In that case, the user can
+        # define $NOPATHBRANCHES, which will stop this function from
+        # parsing the git repo.
+        if [ -z "$NOPATHBRANCHES" ]; then
+            local branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+            [[ -z $branch ]] && return
+
+            local status=$(git status 2> /dev/null)
+            local result=$branch
+
+            [[ "$status" = *deleted:* ]] && result=${result}-
+            [[ "$status" = *modified:* ]] && result=${result}*
+            [[ "$status" = *Untracked\ files:* ]] && result=${result}+
+            printf " [$result]"
+        fi
+    }
+else
+    # "git" wasn't found on the system.
+    function parse_git_status {
+        return
+    }
+fi

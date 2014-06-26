@@ -44,36 +44,8 @@ if [ -o interactive ]; then
     set -o emacs
 fi
 
-# These two functions will only add a path to the PATH if it exists.
-function prepend-to-path {
-    [[ -d "$1" && "$PATH" != *${1}* ]] && PATH=$1:$PATH
-}
-
-function append-to-path {
-    [[ -d "$1" && "$PATH" != *${1}* ]] && PATH=$PATH:$1
-}
-
-# Function used to add the git branch name to PS1.
-if [ -x "$(command -v git)" ]; then
-    function parse_git_status {
-        if [ -z "$NOPATHBRANCHES" ]; then
-            local branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-            [[ -z $branch ]] && return
-
-            local status=$(git status 2> /dev/null)
-            local result=$branch
-
-            [[ "$status" = *deleted:* ]] && result=${result}-
-            [[ "$status" = *modified:* ]] && result=${result}*
-            [[ "$status" = *Untracked\ files:* ]] && result=${result}+
-            printf " [$result]"
-        fi
-    }
-else
-    function parse_git_status {
-        return
-    }
-fi
+RC_PATH=${HOME}/.rc
+[[ -r "$RC_PATH/functions" ]] && source "${RC_PATH}/functions"
 
 SCREEN_COLORS=$(tput colors)
 if [ $SCREEN_COLORS -gt 0 ]; then
@@ -99,10 +71,10 @@ if [ $SCREEN_COLORS -gt 0 ]; then
     esac
 
     # Build a colorized prompt.
-    export PS1="${TERMTITLE}${HOSTCOLOR}\u@\h\$(parse_git_status)\[\e[0;34m\] \w \$\[\e[00m\] "
+    export PS1="${TERMTITLE}${HOSTCOLOR}\u@\h\$(parse-git-status)\[\e[0;34m\] \w \$\[\e[00m\] "
 else
     # Build a "dumb" prompt that should work everywhere.
-    export PS1="\u@\h\$(parse_git_status) \w \$ "
+    export PS1="\u@\h\$(parse-git-status) \w \$ "
 fi
 
 case $(uname) in
