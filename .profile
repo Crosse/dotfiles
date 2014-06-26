@@ -24,7 +24,10 @@
 ########################################################################
 
 # Use UTF-8.  It's the 21st century.
-[[ -n "$LANG" ]] && export LANG=en_US.UTF-8
+if [ -n "$LANG" ]; then
+    export LANG=en_US.UTF-8
+    export LC_ALL="$LANG"
+fi
 
 # Some shell-specific things.
 case ${0#-} in
