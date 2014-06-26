@@ -1,6 +1,6 @@
 ########################################################################
 #
-# Copyright (c) 2010-2013 Seth Wright (seth@crosse.org)
+# Copyright (c) 2010-2014 Seth Wright (seth@crosse.org)
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
