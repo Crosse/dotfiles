@@ -2,23 +2,29 @@
 
 # OSX-specific configuration can go in here.
 
-# Darwin/OSX includes some GNU things and some less-than-GNU
-# things, but color options exist on the default 'ls' and 'grep'
-# commands so enable them.
-alias ls='ls -G'
-export CLICOLOR=""
-export LSCOLORS=gxfxcxdxbxegEdabagacad
+if [ "${-}" == *i* ]; then
+    # Things that only need to be processed for an interactive shell.
 
-# Darwin uses BSD grep, but it seems to respect options set via
-# GREP_OPTIONS just like GNU grep, even though it is not
-# mentioned in the man page.  Set options such that color
-# support is enabled, binary files will be ignored, and files
-# named "tags" will not be searched.
-export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
+    # Darwin/OSX includes some GNU things and some less-than-GNU
+    # things, but color options exist on the default 'ls' and 'grep'
+    # commands so enable them.
+    alias ls='ls -G'
+    export CLICOLOR=""
+    export LSCOLORS=gxfxcxdxbxegEdabagacad
 
-# Work around a VIM incompatibility with crontab on OSX.  This
-# requires settings in .vimrc as well.
-alias crontab='VIM_CRONTAB=true crontab'
+    # Darwin uses BSD grep, but it seems to respect options set via
+    # GREP_OPTIONS just like GNU grep, even though it is not
+    # mentioned in the man page.  Set options such that color
+    # support is enabled, binary files will be ignored, and files
+    # named "tags" will not be searched.
+    export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
+
+    # Work around a VIM incompatibility with crontab on OSX.  This
+    # requires settings in .vimrc as well.
+    alias crontab='VIM_CRONTAB=true crontab'
+fi
+
+# Things that should always be available go after here.
 
 # Apple includes an older version of git with Xcode; if git has been
 # installed manually by the user, then prepend it to the path so that

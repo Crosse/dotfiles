@@ -2,13 +2,19 @@
 
 # Linux-specific configuration can go in here.
 
-# Linux uses GNU less, which includes color support
-alias ls='ls --color=auto'
+if [ "${-}" == *i* ]; then
+    # Things that only need to be processed for an interactive shell.
 
-# set DIRCOLORS, if the "dircolors" command is available.
-[[ -x "$(command -v dircolors)" ]] && eval $(dircolors)
+    # Linux uses GNU less, which includes color support.
+    alias ls='ls --color=auto'
 
-# Linux uses GNU grep.  Set options such that color support is
-# enabled, binary files will be ignored, and files named "tags"
-# will not be searched.
-export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
+    # set DIRCOLORS, if the "dircolors" command is available.
+    [[ -x "$(command -v dircolors)" ]] && eval $(dircolors)
+
+    # Linux uses GNU grep.  Set options such that color support is
+    # enabled, binary files will be ignored, and files named "tags"
+    # will not be searched.
+    export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
+fi
+
+# Things that should always be available go after here.

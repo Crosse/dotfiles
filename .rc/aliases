@@ -1,14 +1,14 @@
 # vim: set ft=sh:
 
-# Aliases are only useful during an interactive shell.
-if [ "${-}" == *i* ]; then
-    # Miscellaneous aliased commands.
-    alias cls='clear'
-    alias dir='ls -lah'
-    alias la='ls -a'
-    alias ll='ls -lah'
-    alias t='tmux attach-session -t main'
+# None of this matters if the shell isn't interactive.
+[[ "${-}" != *i* ]] && return
 
-    # Only alias 'hd' if the binary doesn't exist.
-    [[ -z "$(command -v hd)" ]] && alias hd='hexdump -C'
-fi
+# Miscellaneous aliased commands.
+alias cls='clear'
+alias dir='ls -lah'
+alias la='ls -a'
+alias ll='ls -lah'
+alias t='tmux attach-session -t main'
+
+# Only alias 'hd' if the binary doesn't exist.
+[[ -z "$(command -v hd)" ]] && alias hd='hexdump -C'
