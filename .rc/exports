@@ -5,6 +5,12 @@
 # None of this matters if the shell isn't interactive.
 [[ "${-}" != *i* ]] && return
 
+# Use UTF-8.  It's the 21st century.
+if [ -n "$LANG" ]; then
+    export LANG=en_US.UTF-8
+    export LC_ALL="$LANG"
+fi
+
 # Look for Vim...
 EDITOR="$(command -v vim)"
 if [ -z "$EDITOR" ]; then

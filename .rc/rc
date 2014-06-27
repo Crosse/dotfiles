@@ -31,12 +31,6 @@
 RC_PATH=${HOME}/.rc
 [[ -r "$RC_PATH/functions" ]] && . "${RC_PATH}/functions"
 
-# Use UTF-8.  It's the 21st century.
-if [ -n "$LANG" ]; then
-    export LANG=en_US.UTF-8
-    export LC_ALL="$LANG"
-fi
-
 case "${0#-}" in
     bash)
         # Source global bashrc files, if they exist.
@@ -60,6 +54,8 @@ case "${0#-}" in
         esac
         ;;
 esac
+
+[[ -r "${RC_PATH}/exports" ]] && . "${RC_PATH}/exports"
 
 case "$-" in
     *i*)
@@ -93,7 +89,6 @@ prepend-to-path "${HOME}/.rbenv/bin"
 prepend-to-path "${HOME}/bin"
 export PATH
 
-[[ -r "${RC_PATH}/exports" ]] && . "${RC_PATH}/exports"
 [[ -r "${RC_PATH}/aliases" ]] && . "${RC_PATH}/aliases"
 [[ -r "${RC_PATH}/local" ]] && . "${RC_PATH}/local"
 
