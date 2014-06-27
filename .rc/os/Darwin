@@ -2,6 +2,8 @@
 
 # OSX-specific configuration can go in here.
 
+[[ -n "$RC_VERBOSE" ]] && echo "running .rc/os/Darwin"
+
 if [ "${-}" == *i* ]; then
     # Things that only need to be processed for an interactive shell.
 

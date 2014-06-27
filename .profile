@@ -23,6 +23,10 @@
 # with the name 'sh'.
 ########################################################################
 
+RC_VERBOSE=1
+
+[[ -n "$RC_VERBOSE" ]] && echo "running .profile"
+
 # Some shell-specific things.
 if [ ${0#-} == "ksh" ]; then
     # As per ksh(1): "If the ENV parameter is set when an

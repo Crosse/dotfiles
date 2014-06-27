@@ -24,6 +24,8 @@
 #       export ENV=${HOME}/.kshrc
 ########################################################################
 
+[[ -n "$RC_VERBOSE" ]] && echo "running .rc/rc"
+
 RC_PATH=${HOME}/.rc
 [[ -r "$RC_PATH/functions" ]] && . "${RC_PATH}/functions"
 
