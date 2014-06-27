@@ -44,36 +44,40 @@ case "${0#-}" in
         shopt -s histappend
         ;;
     ksh*)
-        if [ "${-}" == *i* ]; then
-            # Things to do if the shell is interactive.
+        case "$-" in
+            *i*)
+                # Things to do if the shell is interactive.
 
-            # Map ^L to clear.
-            bind -m '^L'='^Uclear^J^Y'
+                # Map ^L to clear.
+                bind -m '^L'='^Uclear^J^Y'
 
-            # Create tracked aliases for all commands.  This is the
-            # equivalent of "hashall" in bash.
-            set -o trackall
-        fi
+                # Create tracked aliases for all commands.  This is the
+                # equivalent of "hashall" in bash.
+                set -o trackall
+                ;;
+        esac
         ;;
 esac
 
-if [ "${-}" == *i* ]; then
-    # Shell-agnostic things to do if the shell is interactive.
+case "$-" in
+    *i*)
+        # Shell-agnostic things to do if the shell is interactive.
 
-    # Using ksh, setting EDITOR or VISUAL (above) also sets vi key bindings.
-    # This sets it back to emacs, which is what I prefer.
-    # In other shells, it doesn't hurt to set it as well.
-    set -o emacs
+        # Using ksh, setting EDITOR or VISUAL (above) also sets vi key bindings.
+        # This sets it back to emacs, which is what I prefer.
+        # In other shells, it doesn't hurt to set it as well.
+        set -o emacs
 
-    # For ksh, enable history.  For both ksh and bash, log to the same file.
-    export HISTFILE=$HOME/.history
+        # For ksh, enable history.  For both ksh and bash, log to the same file.
+        export HISTFILE=$HOME/.history
 
-    # Set up the terminal.
-    [[ -r "${RC_PATH}/term" ]] && . "${RC_PATH}/term"
+        # Set up the terminal.
+        [[ -r "${RC_PATH}/term" ]] && . "${RC_PATH}/term"
 
-    # Set $PS1 to something pretty.
-    [[ -r "${RC_PATH}/prompt" ]] && . "${RC_PATH}/prompt"
-fi
+        # Set $PS1 to something pretty.
+        [[ -r "${RC_PATH}/prompt" ]] && . "${RC_PATH}/prompt"
+        ;;
+esac
 
 
 # OS-specific stuff can be found in .rc/os/<uname>; for instance:

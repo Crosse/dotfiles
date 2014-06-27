@@ -1,30 +1,31 @@
 # vim: set ft=sh:
 
-# OSX-specific configuration can go in here.
-
 [[ -n "$RC_VERBOSE" ]] && echo "running .rc/os/Darwin"
 
-if [ "${-}" == *i* ]; then
-    # Things that only need to be processed for an interactive shell.
+# OSX-specific configuration can go in here.
+case "$-" in
+    *i*)
+        # Things that only need to be processed for an interactive shell.
 
-    # Darwin/OSX includes some GNU things and some less-than-GNU
-    # things, but color options exist on the default 'ls' and 'grep'
-    # commands so enable them.
-    alias ls='ls -G'
-    export CLICOLOR=""
-    export LSCOLORS=gxfxcxdxbxegEdabagacad
+        # Darwin/OSX includes some GNU things and some less-than-GNU
+        # things, but color options exist on the default 'ls' and 'grep'
+        # commands so enable them.
+        alias ls='ls -G'
+        export CLICOLOR=""
+        export LSCOLORS=gxfxcxdxbxegEdabagacad
 
-    # Darwin uses BSD grep, but it seems to respect options set via
-    # GREP_OPTIONS just like GNU grep, even though it is not
-    # mentioned in the man page.  Set options such that color
-    # support is enabled, binary files will be ignored, and files
-    # named "tags" will not be searched.
-    export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
+        # Darwin uses BSD grep, but it seems to respect options set via
+        # GREP_OPTIONS just like GNU grep, even though it is not
+        # mentioned in the man page.  Set options such that color
+        # support is enabled, binary files will be ignored, and files
+        # named "tags" will not be searched.
+        export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
 
-    # Work around a VIM incompatibility with crontab on OSX.  This
-    # requires settings in .vimrc as well.
-    alias crontab='VIM_CRONTAB=true crontab'
-fi
+        # Work around a VIM incompatibility with crontab on OSX.  This
+        # requires settings in .vimrc as well.
+        alias crontab='VIM_CRONTAB=true crontab'
+        ;;
+esac
 
 # Things that should always be available go after here.
 

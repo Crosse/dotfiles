@@ -1,23 +1,24 @@
 # vim: set ft=sh:
 
-# OpenBSD-specific configuration can go in here.
-
 [[ -n "$RC_VERBOSE" ]] && echo "running .rc/os/OpenBSD"
 
-if [ "${-}" == *i* ]; then
-    # Things that only need to be processed for an interactive shell.
+# OpenBSD-specific configuration can go in here.
+case "$-" in
+    *i*)
+        # Things that only need to be processed for an interactive shell.
 
-    # For OpenBSD, if the colorls package has been installed, use it
-    # instead of ls.
-    if [ -x "$(command -v colorls)" ]; then
-        alias ls='colorls -G'
-        export CLICOLOR=""
-        export LSCOLORS=gxfxcxdxbxegEdabagacad
-    fi
+        # For OpenBSD, if the colorls package has been installed, use it
+        # instead of ls.
+        if [ -x "$(command -v colorls)" ]; then
+            alias ls='colorls -G'
+            export CLICOLOR=""
+            export LSCOLORS=gxfxcxdxbxegEdabagacad
+        fi
 
-    # Ignore binary files by default.  This is the only option that
-    # BSD grep supports that is the same as GNU grep.
-    alias grep='grep --binary-files=without-match'
-fi
+        # Ignore binary files by default.  This is the only option that
+        # BSD grep supports that is the same as GNU grep.
+        alias grep='grep --binary-files=without-match'
+        ;;
+esac
 
 # Things that should always be available go after here.

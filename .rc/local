@@ -6,31 +6,28 @@
 
 [[ -n "$RC_VERBOSE" ]] && echo "running .rc/local"
 
-if [ "${-}" == *i* ]; then
-    # Things that only need to be processed for an interactive shell.
+case "$-" in
+    *i*)
+        # Things that only need to be processed for an interactive shell.
 
-    # Examples of things that could be placed in this file:
+        # Examples of things that could be placed in this file:
 
-    # If Go is installed, let it set whatever variables it wants to.
-    #if [ -x "$(command -v go)" ]; then
-    #    eval $(go env)
-    #    export GOROOT
-    #fi
+        # If Go is installed, let it set whatever variables it wants to.
+        #if [ -x "$(command -v go)" ]; then
+        #    eval $(go env)
+        #    export GOROOT
+        #fi
 
-    # If Rbenv is installed (http://rbenv.org), initialize it.
-    #if [ -x "$(command -v rbenv)" ]; then
-    #    eval "$(rbenv init -)"
-    #fi
+        # If Rbenv is installed (http://rbenv.org), initialize it.
+        #if [ -x "$(command -v rbenv)" ]; then
+        #    eval "$(rbenv init -)"
+        #fi
 
-    # If Python's virtualenvwrapper is installed, initialize it.
-    #if [ -x $(command -v virtualenvwrapper.sh) ]; then
-    #    export WORKON_HOME=${HOME}/.virtualenvs
-    #    export PROJECT_HOME=${HOME}/code
-    #    source /usr/local/bin/virtualenvwrapper.sh
-    #fi
-
-    # Since the entire body of this if-statment is commented out,
-    # something innocuous needs to be here.  Otherwise, you'll get
-    # "syntax error near unexpected token `fi'".
-    true
-fi
+        # If Python's virtualenvwrapper is installed, initialize it.
+        #if [ -x $(command -v virtualenvwrapper.sh) ]; then
+        #    export WORKON_HOME=${HOME}/.virtualenvs
+        #    export PROJECT_HOME=${HOME}/code
+        #    source /usr/local/bin/virtualenvwrapper.sh
+        #fi
+        ;;
+esac
