@@ -93,5 +93,6 @@ prepend-to-path "${HOME}/.rbenv/bin"
 prepend-to-path "${HOME}/bin"
 export PATH
 
+[[ -r "${RC_PATH}/exports" ]] && . "${RC_PATH}/exports"
 [[ -r "${RC_PATH}/aliases" ]] && . "${RC_PATH}/aliases"
 [[ -r "${RC_PATH}/local" ]] && . "${RC_PATH}/local"
