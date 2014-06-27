@@ -15,16 +15,17 @@ function remove-from-path {
     #
     # (Note the lack of "$" on PATH_VAR_NAME)
     # If PATH_VAR_NAME isn't provided, PATH is assumed.
-    local IFS=':'
     local NEWPATH
     local DIR
     local PATHVARIABLE=${2:-PATH}
-    for DIR in ${!PATHVARIABLE} ; do
+    eval "local TEMPPATH=\"\$$PATHVARIABLE\""
+    local IFS=":"
+    for DIR in $TEMPPATH; do
         if [ "$DIR" != "$1" ] ; then
-            NEWPATH=${NEWPATH:+$NEWPATH:}$DIR
+            NEWPATH="${NEWPATH:+$NEWPATH:}$DIR"
         fi
     done
-    export $PATHVARIABLE="$NEWPATH"
+    export $PATHVARIABLE="${NEWPATH%%:}"
 }
 
 function prepend-to-path {
@@ -38,7 +39,11 @@ function prepend-to-path {
     # If PATH_VAR_NAME isn't provided, PATH is assumed.
     remove-from-path $1 $2
     local PATHVARIABLE=${2:-PATH}
-    [[ -d "$1" ]] && export $PATHVARIABLE="$1${!PATHVARIABLE:+:${!PATHVARIABLE}}"
+    if [ -d "$1" ]; then
+        eval "local TEMP=\"$1:\$$PATHVARIABLE\""
+        TEMP="${TEMP%%:}"
+        export $PATHVARIABLE=$TEMP
+    fi
 }
 
 function append-to-path {
@@ -52,7 +57,11 @@ function append-to-path {
     # If PATH_VAR_NAME isn't provided, PATH is assumed.
     remove-from-path $1 $2
     local PATHVARIABLE=${2:-PATH}
-    [[ -d "$1" ]] && export $PATHVARIABLE="${!PATHVARIABLE:+${!PATHVARIABLE}:}$1"
+    if [ -d "$1" ]; then
+        eval "local TEMP=\"\$$PATHVARIABLE:$1\""
+        TEMP="${TEMP##:}"
+        export $PATHVARIABLE=$TEMP
+    fi
 }
 
 if [ -x "$(command -v git)" ]; then
