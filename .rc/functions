@@ -42,7 +42,7 @@ function prepend-to-path {
     if [ -d "$1" ]; then
         eval "local TEMP=\"$1:\$$PATHVARIABLE\""
         TEMP="${TEMP%%:}"
-        export $PATHVARIABLE=$TEMP
+        export $PATHVARIABLE="$TEMP"
     fi
 }
 
@@ -60,7 +60,7 @@ function append-to-path {
     if [ -d "$1" ]; then
         eval "local TEMP=\"\$$PATHVARIABLE:$1\""
         TEMP="${TEMP##:}"
-        export $PATHVARIABLE=$TEMP
+        export $PATHVARIABLE="$TEMP"
     fi
 }
 
