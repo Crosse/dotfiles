@@ -25,7 +25,7 @@
 ########################################################################
 
 RC_PATH=${HOME}/.rc
-[[ -r "$RC_PATH/functions" ]] && source "${RC_PATH}/functions"
+[[ -r "$RC_PATH/functions" ]] && . "${RC_PATH}/functions"
 
 # Use UTF-8.  It's the 21st century.
 if [ -n "$LANG" ]; then
@@ -67,7 +67,7 @@ if [ "${-}" == *i* ]; then
     export HISTFILE=$HOME/.history
 
     # Set $PS1 to something pretty.
-    [[ -r "${RC_PATH}/prompt" ]] && source "${RC_PATH}/prompt"
+    [[ -r "${RC_PATH}/prompt" ]] && . "${RC_PATH}/prompt"
 fi
 
 
@@ -76,11 +76,11 @@ fi
 # - Linux:      .rc/os/Linux
 # - OSX:        .rc/os/Darwin
 OS_RCFILE="${RC_PATH}/os/$(uname)"
-[[ -r "$OS_RCFILE" ]] && source "$OS_RCFILE"
+[[ -r "$OS_RCFILE" ]] && . "$OS_RCFILE"
 
 prepend-to-path "${HOME}/.rbenv/bin"
 prepend-to-path "${HOME}/bin"
 export PATH
 
-[[ -r "${RC_PATH}/aliases" ]] && source "${RC_PATH}/aliases"
-[[ -r "${RC_PATH}/local" ]] && source "${RC_PATH}/local"
+[[ -r "${RC_PATH}/aliases" ]] && . "${RC_PATH}/aliases"
+[[ -r "${RC_PATH}/local" ]] && . "${RC_PATH}/local"
