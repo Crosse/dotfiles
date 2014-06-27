@@ -66,6 +66,9 @@ if [ "${-}" == *i* ]; then
     # For ksh, enable history.  For both ksh and bash, log to the same file.
     export HISTFILE=$HOME/.history
 
+    # Set up the terminal.
+    [[ -r "${RC_PATH}/term" ]] && . "${RC_PATH}/term"
+
     # Set $PS1 to something pretty.
     [[ -r "${RC_PATH}/prompt" ]] && . "${RC_PATH}/prompt"
 fi
