@@ -80,7 +80,7 @@ if [ -x "$(command -v git)" ]; then
     }
 else
     # "git" wasn't found on the system.
-    function parse_git_status {
+    function parse-git-status {
         return
     }
 fi
