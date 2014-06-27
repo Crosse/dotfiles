@@ -27,6 +27,12 @@
 RC_PATH=${HOME}/.rc
 [[ -r "$RC_PATH/functions" ]] && source "${RC_PATH}/functions"
 
+# Use UTF-8.  It's the 21st century.
+if [ -n "$LANG" ]; then
+    export LANG=en_US.UTF-8
+    export LC_ALL="$LANG"
+fi
+
 case "${0#-}" in
     bash)
     # Source global bashrc files, if they exist.

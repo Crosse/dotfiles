@@ -23,12 +23,6 @@
 # with the name 'sh'.
 ########################################################################
 
-# Use UTF-8.  It's the 21st century.
-if [ -n "$LANG" ]; then
-    export LANG=en_US.UTF-8
-    export LC_ALL="$LANG"
-fi
-
 # Some shell-specific things.
 case ${0#-} in
     "bash")
