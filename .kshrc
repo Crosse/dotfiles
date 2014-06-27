@@ -71,11 +71,11 @@ if [ "${-}" == *i* ]; then
 fi
 
 
-# OS-specific stuff can be found in .rc/<uname>; for instance:
-# - OpenBSD:    .rc/OpenBSD
-# - Linux:      .rc/Linux
-# - OSX:        .rc/Darwin
-OS_RCFILE="${RC_PATH}/$(uname)"
+# OS-specific stuff can be found in .rc/os/<uname>; for instance:
+# - OpenBSD:    .rc/os/OpenBSD
+# - Linux:      .rc/os/Linux
+# - OSX:        .rc/os/Darwin
+OS_RCFILE="${RC_PATH}/os/$(uname)"
 [[ -r "$OS_RCFILE" ]] && source "$OS_RCFILE"
 
 prepend-to-path "${HOME}/.rbenv/bin"
