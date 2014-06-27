@@ -35,8 +35,11 @@ fi
 
 case "${0#-}" in
     bash)
-    # Source global bashrc files, if they exist.
-    if [ -f /etc/bashrc ]; then . /etc/bashrc; fi
+        # Source global bashrc files, if they exist.
+        if [ -f /etc/bashrc ]; then . /etc/bashrc; fi
+
+        # Enable history appending instead of overwriting.
+        shopt -s histappend
         ;;
     ksh*)
         if [ "${-}" == *i* ]; then

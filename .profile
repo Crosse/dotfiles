@@ -24,20 +24,14 @@
 ########################################################################
 
 # Some shell-specific things.
-case ${0#-} in
-    "bash")
-        # Enable history appending instead of overwriting.
-        shopt -s histappend
-        ;;
-    "ksh")
-        # As per ksh(1): "If the ENV parameter is set when an
-        # interactive shell starts (or, in the case of login shells,
-        # after any profiles are processed), its value is subjected to
-        # parameter, command, arithmetic, and tilde (`~') substitution
-        # and the resulting file (if any) is read and executed."
-        [[ -f "${HOME}/.kshrc" ]] && export ENV="${HOME}/.kshrc"
-        ;;
-esac
+if [ ${0#-} == "ksh" ]; then
+    # As per ksh(1): "If the ENV parameter is set when an
+    # interactive shell starts (or, in the case of login shells,
+    # after any profiles are processed), its value is subjected to
+    # parameter, command, arithmetic, and tilde (`~') substitution
+    # and the resulting file (if any) is read and executed."
+    [[ -f "${HOME}/.kshrc" ]] && export ENV="${HOME}/.kshrc"
+fi
 
 # Attempt to sanitize TERM.
 if [ "$TERM" = "xterm" ] ; then
