@@ -25,6 +25,15 @@
 
 RC_VERBOSE=1
 
+if [ -z "$RC_TIMED" -a -n "$RC_VERBOSE" ]; then
+    # If RC_VERBOSE is specified, then time the execution of .profile
+    # and all other rc scripts.
+    export RC_TIMED=1
+    echo "Resourcing ${HOME}/.profile..."
+    time . "${HOME}/.profile"
+    return
+fi
+
 [[ -n "$RC_VERBOSE" ]] && echo "running .profile"
 
 # Some shell-specific things.
