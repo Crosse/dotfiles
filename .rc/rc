@@ -28,8 +28,15 @@
 
 [[ -n "$RC_VERBOSE" ]] && echo "running .rc/rc"
 
+function source-file {
+    if [ -r "$1" ]; then
+        [[ -n "$RC_VERBOSE" ]] && echo "sourcing $1"
+        . "$1"
+    fi
+}
+
 RC_PATH=${HOME}/.rc
-[[ -r "$RC_PATH/functions" ]] && . "${RC_PATH}/functions"
+source-file "${RC_PATH}/functions"
 
 case "${0#-}" in
     bash)
@@ -55,7 +62,7 @@ case "${0#-}" in
         ;;
 esac
 
-[[ -r "${RC_PATH}/exports" ]] && . "${RC_PATH}/exports"
+source-file "${RC_PATH}/exports"
 
 case "$-" in
     *i*)
@@ -70,10 +77,10 @@ case "$-" in
         export HISTFILE=$HOME/.history
 
         # Set up the terminal.
-        [[ -r "${RC_PATH}/term" ]] && . "${RC_PATH}/term"
+        source-file "${RC_PATH}/term"
 
         # Set $PS1 to something pretty.
-        [[ -r "${RC_PATH}/prompt" ]] && . "${RC_PATH}/prompt"
+        source-file "${RC_PATH}/prompt"
         ;;
 esac
 
@@ -83,13 +90,13 @@ esac
 # - Linux:      .rc/os/Linux
 # - OSX:        .rc/os/Darwin
 OS_RCFILE="${RC_PATH}/os/$(uname)"
-[[ -r "$OS_RCFILE" ]] && . "$OS_RCFILE"
+source-file "$OS_RCFILE"
 
 prepend-to-path "${HOME}/.rbenv/bin"
 prepend-to-path "${HOME}/bin"
 export PATH
 
-[[ -r "${RC_PATH}/aliases" ]] && . "${RC_PATH}/aliases"
-[[ -r "${RC_PATH}/local" ]] && . "${RC_PATH}/local"
+source-file "${RC_PATH}/aliases"
+source-file "${RC_PATH}/local"
 
 unset RC_INTERACTIVE OS_RCFILE

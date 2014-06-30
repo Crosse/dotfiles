@@ -1,6 +1,5 @@
 # vim: set ft=sh:
 
-[[ -n "$RC_VERBOSE" ]] && echo "running .rc/aliases"
 
 # None of this matters if the shell isn't interactive.
 [[ "${-}" != *i* ]] && return

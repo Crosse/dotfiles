@@ -1,7 +1,5 @@
 # vim: set ft=sh:
 
-[[ -n "$RC_VERBOSE" ]] && echo "running .rc/os/OpenBSD"
-
 # OpenBSD-specific configuration can go in here.
 case "$-" in
     *i*)

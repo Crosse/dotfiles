@@ -1,7 +1,5 @@
 # vim: set ft=sh:
 
-[[ -n "$RC_VERBOSE" ]] && echo "running .rc/exports"
-
 # None of this matters if the shell isn't interactive.
 [[ "${-}" != *i* ]] && return
 

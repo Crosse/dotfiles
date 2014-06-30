@@ -1,7 +1,5 @@
 # vim: set ft=sh:
 
-[[ -n "$RC_VERBOSE" ]] && echo "running .rc/functions"
-
 function echoerr {
     # Prints its arguments to standard error.
     echo "$@" 1>&2
