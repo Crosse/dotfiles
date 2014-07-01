@@ -34,7 +34,7 @@ if [ -z "$RC_TIMED" -a -n "$RC_VERBOSE" ]; then
     return
 fi
 
-[[ -n "$RC_VERBOSE" ]] && echo "running .profile"
+[[ -n "$RC_VERBOSE" ]] && echo "running .profile" 1>&2
 
 # Some shell-specific things.
 case "${0#-}" in

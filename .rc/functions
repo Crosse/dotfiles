@@ -1,9 +1,5 @@
 # vim: set ft=sh:
 
-function echoerr {
-    # Prints its arguments to standard error.
-    echo "$@" 1>&2
-}
 
 function remove_from_path {
     # Remove a path from a path variable.

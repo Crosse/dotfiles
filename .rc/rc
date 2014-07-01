@@ -26,11 +26,23 @@
 #       export ENV=${HOME}/.kshrc
 ########################################################################
 
-[[ -n "$RC_VERBOSE" ]] && echo "running .rc/rc"
+RC_FILENAME=".rc/rc"
+
+function log {
+    # Prints its arguments to standard error.
+    # Usage:  log script_name "message ..."
+
+    [[ -z "$RC_FILENAME" ]] && echo "RC_FILENAME not set!" 1>&2
+    if [ -n "$RC_VERBOSE" ]; then
+        echo "$RC_FILENAME: $@" 1>&2
+    fi
+}
+
+log "running $RC_FILENAME"
 
 function source_file {
     if [ -r "$1" ]; then
-        [[ -n "$RC_VERBOSE" ]] && echo "sourcing $1"
+        log "sourcing $1"
         if [ -n "$RC_TIMED" ]; then
             time . "$1"
         else
