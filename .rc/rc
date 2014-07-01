@@ -114,4 +114,4 @@ export PATH
 source_file "${RC_PATH}/aliases"
 source_file "${RC_PATH}/local"
 
-unset RC_INTERACTIVE OS_RCFILE
+unset RC_FILENAME RC_INTERACTIVE RC_PATH RC_VERBOSE
