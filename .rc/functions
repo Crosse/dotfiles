@@ -1,4 +1,43 @@
 # vim: set ft=sh:
+########################################################################
+#
+# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+# WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+# AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+# DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+# PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+########################################################################
+#
+# ~/.rc/functions
+#
+# This file is sourced from ~/.rc/rc.  It is sourced before any other
+# files in the ~/.rc directory, because many of the functions defined
+# here are used in other files in ~/.rc.
+#
+# All global functions should be defined here.  However, note the
+# following:
+#
+# - Functions that are required only on certain platforms should be
+#   defined in that platform's respective ~/.rc/os/$(uname) file.  Note
+#   that the ~/.rc/os/* files are not sourced until almost the end of
+#   ~/.rc/rc; this is okay, though, because OS-dependent functions
+#   should probably only be used in the OS-dependent rc script.
+#
+# - Functions that are required only on the local machine should be
+#   defined in ~/.rc/local.  Note that ~/.rc/local is not sourced until
+#   the very end of ~/.rc/rc, but like OS-specific functions, this
+#   should also be okay since machine-specific functions should only be
+#   used in ~/.rc/local.
+########################################################################
 
 
 function remove_from_path {
