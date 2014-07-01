@@ -23,7 +23,7 @@
 # with the name 'sh'.
 ########################################################################
 
-RC_VERBOSE=1
+#RC_VERBOSE=1
 #RC_TIME_EXECUTION=1
 
 if [ -n "$RC_TIME_EXECUTION" -a -z "$RC_TIMED" ]; then
