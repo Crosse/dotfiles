@@ -24,13 +24,14 @@
 ########################################################################
 
 RC_VERBOSE=1
+#RC_TIME_EXECUTION=1
 
-if [ -z "$RC_TIMED" -a -n "$RC_VERBOSE" ]; then
-    # If RC_VERBOSE is specified, then time the execution of .profile
-    # and all other rc scripts.
-    export RC_TIMED=1
-    echo "Resourcing ${HOME}/.profile..."
-    time . "${HOME}/.profile"
+if [ -n "$RC_TIME_EXECUTION" -a -z "$RC_TIMED" ]; then
+    # If RC_TIME_EXECUTION is specified, then time the execution of
+    # .profile and all other rc scripts.
+    RC_TIMED=1
+    echo "Resourcing .profile..." 1>&2
+    time . ".profile"
     return
 fi
 
@@ -50,3 +51,5 @@ case "${0#-}" in
         [[ -f "${HOME}/.kshrc" ]] && export ENV="${HOME}/.kshrc"
         ;;
 esac
+
+unset RC_VERBOSE RC_TIME_EXECUTION RC_TIMED
