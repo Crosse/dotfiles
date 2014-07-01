@@ -30,4 +30,4 @@ esac
 # Apple includes an older version of git with Xcode; if git has been
 # installed manually by the user, then prepend it to the path so that
 # calls to "git" use the user-installed version instead.
-prepend-to-path "/usr/local/git/bin"
+prepend_to_path "/usr/local/git/bin"

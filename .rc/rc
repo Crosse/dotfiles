@@ -28,7 +28,7 @@
 
 [[ -n "$RC_VERBOSE" ]] && echo "running .rc/rc"
 
-function source-file {
+function source_file {
     if [ -r "$1" ]; then
         [[ -n "$RC_VERBOSE" ]] && echo "sourcing $1"
         if [ -n "$RC_TIMED" ]; then
@@ -40,12 +40,12 @@ function source-file {
 }
 
 RC_PATH=${HOME}/.rc
-source-file "${RC_PATH}/functions"
+source_file "${RC_PATH}/functions"
 
 case "${0#-}" in
     bash)
         # Source global bashrc files, if they exist.
-        if [ -f /etc/bashrc ]; then . /etc/bashrc; fi
+        source_file /etc/bashrc
 
         # Enable history appending instead of overwriting.
         shopt -s histappend
@@ -66,7 +66,7 @@ case "${0#-}" in
         ;;
 esac
 
-source-file "${RC_PATH}/exports"
+source_file "${RC_PATH}/exports"
 
 case "$-" in
     *i*)
@@ -81,10 +81,10 @@ case "$-" in
         export HISTFILE=$HOME/.history
 
         # Set up the terminal.
-        source-file "${RC_PATH}/term"
+        source_file "${RC_PATH}/term"
 
         # Set $PS1 to something pretty.
-        source-file "${RC_PATH}/prompt"
+        source_file "${RC_PATH}/prompt"
         ;;
 esac
 
@@ -93,14 +93,13 @@ esac
 # - OpenBSD:    .rc/os/OpenBSD
 # - Linux:      .rc/os/Linux
 # - OSX:        .rc/os/Darwin
-OS_RCFILE="${RC_PATH}/os/$(uname)"
-source-file "$OS_RCFILE"
+source_file "${RC_PATH}/os/$(uname)"
 
-prepend-to-path "${HOME}/.rbenv/bin"
-prepend-to-path "${HOME}/bin"
+prepend_to_path "${HOME}/.rbenv/bin"
+prepend_to_path "${HOME}/bin"
 export PATH
 
-source-file "${RC_PATH}/aliases"
-source-file "${RC_PATH}/local"
+source_file "${RC_PATH}/aliases"
+source_file "${RC_PATH}/local"
 
 unset RC_INTERACTIVE OS_RCFILE

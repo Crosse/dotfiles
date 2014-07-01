@@ -5,7 +5,7 @@ function echoerr {
     echo "$@" 1>&2
 }
 
-function remove-from-path {
+function remove_from_path {
     # Remove a path from a path variable.
     #
     # Usage:
@@ -26,7 +26,7 @@ function remove-from-path {
     export $PATHVARIABLE="${NEWPATH%%:}"
 }
 
-function prepend-to-path {
+function prepend_to_path {
     # Prepend a path to a path variable.  If the path already exists, it
     # will be removed first.
     #
@@ -35,7 +35,7 @@ function prepend-to-path {
     #
     # (Note the lack of "$" on PATH_VAR_NAME)
     # If PATH_VAR_NAME isn't provided, PATH is assumed.
-    remove-from-path $1 $2
+    remove_from_path $1 $2
     local PATHVARIABLE=${2:-PATH}
     if [ -d "$1" ]; then
         eval "local TEMP=\"$1:\$$PATHVARIABLE\""
@@ -44,7 +44,7 @@ function prepend-to-path {
     fi
 }
 
-function append-to-path {
+function append_to_path {
     # Append a path to a path variable.  If the path already exists, it
     # will be removed first.
     #
@@ -53,7 +53,7 @@ function append-to-path {
     #
     # (Note the lack of "$" on PATH_VAR_NAME)
     # If PATH_VAR_NAME isn't provided, PATH is assumed.
-    remove-from-path $1 $2
+    remove_from_path $1 $2
     local PATHVARIABLE=${2:-PATH}
     if [ -d "$1" ]; then
         eval "local TEMP=\"\$$PATHVARIABLE:$1\""
@@ -67,7 +67,7 @@ if [ -x "$(command -v git)" ]; then
     # can be used in the $PS1 prompt to show the user relevant
     # information about a git repository, if the user is currently in
     # one.
-    function parse-git-status {
+    function parse_git_status {
         # Sometimes git repositories are large, and calculating
         # this information takes too long.  In that case, the user can
         # define $NOPATHBRANCHES, which will stop this function from
@@ -87,7 +87,7 @@ if [ -x "$(command -v git)" ]; then
     }
 else
     # "git" wasn't found on the system.
-    function parse-git-status {
+    function parse_git_status {
         return
     }
 fi
