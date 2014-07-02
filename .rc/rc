@@ -20,11 +20,6 @@
 #
 # ~/.rc/rc
 #
-# * For bash, this file could be renamed to ~/.bashrc, or simply
-#   symlinked.
-# * For ksh, the following line should be placed in your ~/.profile:
-#       export ENV=${HOME}/.kshrc
-#
 # Remember, when testing changes in this file or any file in the .rc/
 # directory, make sure you make the change to the "real" file, not the
 # one in the VCS repository.  Alternatively, make changes to the
