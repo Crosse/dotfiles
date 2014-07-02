@@ -30,7 +30,7 @@
 
 RC_FILENAME=".rc/os/Darwin"
 
-log "starting up"
+rc_log "starting up"
 
 case "$-" in
     *i*)
@@ -63,4 +63,4 @@ esac
 # calls to "git" use the user-installed version instead.
 prepend_to_path "/usr/local/git/bin"
 
-log "done."
+rc_log "done."

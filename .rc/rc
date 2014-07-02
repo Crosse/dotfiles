@@ -29,7 +29,7 @@
 RC_FILENAME=".rc/rc"
 
 # Functions required to bootstrap the rest of the rc process.
-function log {
+function rc_log {
     # Prints its arguments to standard error.
     # Usage:  log script_name "message ..."
 
@@ -42,13 +42,13 @@ function log {
     fi
 }
 
-log "starting up"
+rc_log "starting up"
 
-function source_file {
+function rc_source_file {
     if [ -r "$1" ]; then
 
         typeset OLD_RC_FILENAME="$RC_FILENAME"
-        log "sourcing $1"
+        rc_log "sourcing $1"
         typeset RC_INDENT=$(($RC_INDENT+4))
         if [ -n "$RC_TIMED" ]; then
             time . "$1"
@@ -61,19 +61,19 @@ function source_file {
 }
 
 RC_PATH=${HOME}/.rc
-source_file "${RC_PATH}/functions"
+rc_source_file "${RC_PATH}/functions"
 
 case "${0#-}" in
     bash)
-        log "shell identifies as bash"
+        rc_log "shell identifies as bash"
         # Source global bashrc files, if they exist.
-        source_file /etc/bashrc
+        rc_source_file /etc/bashrc
 
         # Enable history appending instead of overwriting.
         shopt -s histappend
         ;;
     ksh*)
-        log "shell identifies as ksh"
+        rc_log "shell identifies as ksh"
         case "$-" in
             *i*)
                 # Things to do if the shell is interactive.
@@ -89,13 +89,13 @@ case "${0#-}" in
         ;;
 esac
 
-source_file "${RC_PATH}/exports"
+rc_source_file "${RC_PATH}/exports"
 
 case "$-" in
     *i*)
         # Shell-agnostic things to do if the shell is interactive.
 
-        log "shell is interactive"
+        rc_log "shell is interactive"
 
         # Using ksh, setting EDITOR or VISUAL (above) also sets vi key bindings.
         # This sets it back to emacs, which is what I prefer.
@@ -106,10 +106,10 @@ case "$-" in
         export HISTFILE=$HOME/.history
 
         # Set up the terminal.
-        source_file "${RC_PATH}/term"
+        rc_source_file "${RC_PATH}/term"
 
         # Set $PS1 to something pretty.
-        source_file "${RC_PATH}/prompt"
+        rc_source_file "${RC_PATH}/prompt"
         ;;
 esac
 
@@ -118,14 +118,14 @@ esac
 # - OpenBSD:    .rc/os/OpenBSD
 # - Linux:      .rc/os/Linux
 # - OSX:        .rc/os/Darwin
-source_file "${RC_PATH}/os/$(uname)"
+rc_source_file "${RC_PATH}/os/$(uname)"
 
 prepend_to_path "${HOME}/.rbenv/bin"
 prepend_to_path "${HOME}/bin"
 export PATH
 
-source_file "${RC_PATH}/aliases"
-source_file "${RC_PATH}/local"
+rc_source_file "${RC_PATH}/aliases"
+rc_source_file "${RC_PATH}/local"
 
-log "done."
+rc_log "done."
 unset RC_FILENAME RC_INTERACTIVE RC_PATH RC_TIMED RC_VERBOSE

@@ -41,7 +41,7 @@
 
 RC_FILENAME=".rc/functions"
 
-log "starting up"
+rc_log "starting up"
 
 function remove_from_path {
     # Remove a path from a path variable.
@@ -130,4 +130,4 @@ else
     }
 fi
 
-log "done."
+rc_log "done."

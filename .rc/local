@@ -28,7 +28,7 @@
 
 RC_FILENAME=".rc/local"
 
-log "starting up"
+rc_log "starting up"
 case "$-" in
     *i*)
         # Things that only need to be processed for an interactive shell.
@@ -55,4 +55,4 @@ case "$-" in
         ;;
 esac
 
-log "done."
+rc_log "done."

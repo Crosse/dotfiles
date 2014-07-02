@@ -29,7 +29,7 @@
 
 RC_FILENAME=".rc/os/Linux"
 
-log "starting up"
+rc_log "starting up"
 
 case "$-" in
     *i*)
@@ -50,4 +50,4 @@ esac
 
 # Things that should always be available go after here.
 
-log "done."
+rc_log "done."

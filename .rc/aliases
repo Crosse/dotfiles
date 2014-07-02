@@ -26,7 +26,7 @@
 
 RC_FILENAME=".rc/aliases"
 
-log "starting up"
+rc_log "starting up"
 
 # None of this matters if the shell isn't interactive.
 [[ "${-}" != *i* ]] && return
@@ -43,4 +43,4 @@ alias ll='ls -lah'
 # Only alias 'hd' if the binary doesn't exist.
 [[ -z "$(command -v hd)" ]] && alias hd='hexdump -C'
 
-log "done."
+rc_log "done."
