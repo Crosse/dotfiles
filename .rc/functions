@@ -52,11 +52,11 @@ function remove_from_path {
     #
     # (Note the lack of "$" on PATH_VAR_NAME)
     # If PATH_VAR_NAME isn't provided, PATH is assumed.
-    local NEWPATH
-    local DIR
-    local PATHVARIABLE=${2:-PATH}
-    eval "local TEMPPATH=\"\$$PATHVARIABLE\""
-    local IFS=":"
+    typeset NEWPATH
+    typeset DIR
+    typeset PATHVARIABLE=${2:-PATH}
+    eval "typeset TEMPPATH=\"\$$PATHVARIABLE\""
+    typeset IFS=":"
     for DIR in $TEMPPATH; do
         if [ "$DIR" != "$1" ] ; then
             NEWPATH="${NEWPATH:+$NEWPATH:}$DIR"
@@ -89,9 +89,9 @@ function prepend_to_path {
     # (Note the lack of "$" on PATH_VAR_NAME)
     # If PATH_VAR_NAME isn't provided, PATH is assumed.
     remove_from_path $1 $2
-    local PATHVARIABLE=${2:-PATH}
+    typeset PATHVARIABLE=${2:-PATH}
     if [ -d "$1" ]; then
-        eval "local TEMP=\"$1:\$$PATHVARIABLE\""
+        eval "typeset TEMP=\"$1:\$$PATHVARIABLE\""
         TEMP="${TEMP%%:}"
         export $PATHVARIABLE="$TEMP"
     fi
@@ -107,9 +107,9 @@ function append_to_path {
     # (Note the lack of "$" on PATH_VAR_NAME)
     # If PATH_VAR_NAME isn't provided, PATH is assumed.
     remove_from_path $1 $2
-    local PATHVARIABLE=${2:-PATH}
+    typeset PATHVARIABLE=${2:-PATH}
     if [ -d "$1" ]; then
-        eval "local TEMP=\"\$$PATHVARIABLE:$1\""
+        eval "typeset TEMP=\"\$$PATHVARIABLE:$1\""
         TEMP="${TEMP##:}"
         export $PATHVARIABLE="$TEMP"
     fi
@@ -126,11 +126,11 @@ if [ -x "$(command -v git)" ]; then
         # define $NOPATHBRANCHES, which will stop this function from
         # parsing the git repo.
         if [ -z "$NOPATHBRANCHES" ]; then
-            local branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+            typeset branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
             [[ -z $branch ]] && return
 
-            local status=$(git status 2> /dev/null)
-            local result=$branch
+            typeset status=$(git status 2> /dev/null)
+            typeset result=$branch
 
             [[ "$status" = *deleted:* ]] && result=${result}-
             [[ "$status" = *modified:* ]] && result=${result}*
