@@ -42,16 +42,18 @@
 #RC_VERBOSE=1
 #RC_TIME_EXECUTION=1
 
+RC_FILENAME="${HOME}/.profile"
+
+# Can't use log() here since it's defined in .rc/rc.
+[[ -n "$RC_VERBOSE" ]] && echo "${RC_FILENAME}: starting up" 1>&2
+
 if [ -n "$RC_TIME_EXECUTION" -a -z "$RC_TIMED" ]; then
     # If RC_TIME_EXECUTION is specified, then time the execution of
     # .profile and all other rc scripts.
     RC_TIMED=1
-    echo "Resourcing .profile..." 1>&2
-    time . ".profile"
-    return
+    echo "Resourcing ${RC_FILENAME}..." 1>&2
+    time . "${RC_FILENAME}"
 fi
-
-[[ -n "$RC_VERBOSE" ]] && echo "running .profile" 1>&2
 
 # Some shell-specific things.
 case "${0#-}" in
