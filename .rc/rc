@@ -71,6 +71,7 @@ source_file "${RC_PATH}/functions"
 
 case "${0#-}" in
     bash)
+        log "shell identifies as bash"
         # Source global bashrc files, if they exist.
         source_file /etc/bashrc
 
@@ -78,6 +79,7 @@ case "${0#-}" in
         shopt -s histappend
         ;;
     ksh*)
+        log "shell identifies as ksh"
         case "$-" in
             *i*)
                 # Things to do if the shell is interactive.
@@ -98,6 +100,8 @@ source_file "${RC_PATH}/exports"
 case "$-" in
     *i*)
         # Shell-agnostic things to do if the shell is interactive.
+
+        log "shell is interactive"
 
         # Using ksh, setting EDITOR or VISUAL (above) also sets vi key bindings.
         # This sets it back to emacs, which is what I prefer.
@@ -129,5 +133,5 @@ export PATH
 source_file "${RC_PATH}/aliases"
 source_file "${RC_PATH}/local"
 
-unset RC_FILENAME RC_INTERACTIVE RC_PATH RC_VERBOSE
 log "done."
+unset RC_FILENAME RC_INTERACTIVE RC_PATH RC_VERBOSE
