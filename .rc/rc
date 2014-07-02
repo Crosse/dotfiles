@@ -38,6 +38,9 @@ function log {
     # Prints its arguments to standard error.
     # Usage:  log script_name "message ..."
 
+    # Don't even attempt to log anything if the shell isn't interactive.
+    [[ "${-}" != *i* ]] && return
+
     [[ -z "$RC_FILENAME" ]] && echo "RC_FILENAME not set!" 1>&2
     if [ -n "$RC_VERBOSE" ]; then
         echo "$RC_FILENAME: $@" 1>&2
