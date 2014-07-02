@@ -21,17 +21,17 @@
 #
 # This file is sourced from .rc/rc.
 # 
-# Configuration specific to the Apple Mac OSX or Darwin operating
+# Configuration specific to the Apple Mac OS X or Darwin operating
 # systems should go in here.  It will only be sourced if uname(1)
 # returns "Darwin".
 ########################################################################
 
-# OSX-specific configuration can go in here.
+# OS X-specific configuration can go in here.
 case "$-" in
     *i*)
         # Things that only need to be processed for an interactive shell.
 
-        # Darwin/OSX includes some GNU things and some less-than-GNU
+        # Darwin/OS X includes some GNU things and some less-than-GNU
         # things, but color options exist on the default 'ls' and 'grep'
         # commands so enable them.
         alias ls='ls -G'
@@ -45,7 +45,7 @@ case "$-" in
         # named "tags" will not be searched.
         export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
 
-        # Work around a VIM incompatibility with crontab on OSX.  This
+        # Work around a Vim incompatibility with crontab on OS X.  This
         # requires settings in .vimrc as well.
         alias crontab='VIM_CRONTAB=true crontab'
         ;;

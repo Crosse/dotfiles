@@ -37,7 +37,7 @@ if [ $SCREEN_COLORS -gt 0 ]; then
         TERM=screen-256color
     fi
 
-    # Change the prompt color depending on whether the real uid is root
+    # Change the prompt color depending on whether the real UID is root
     # or a regular user.
     if [ $(id -ru) == '0' ] ; then
         HOSTCOLOR="\[\e[0;31m\]"
