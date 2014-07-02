@@ -133,4 +133,4 @@ source_file "${RC_PATH}/aliases"
 source_file "${RC_PATH}/local"
 
 log "done."
-unset RC_FILENAME RC_INTERACTIVE RC_PATH RC_VERBOSE
+unset RC_FILENAME RC_INTERACTIVE RC_PATH RC_TIMED RC_VERBOSE
