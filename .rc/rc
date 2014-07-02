@@ -87,7 +87,7 @@ case "${0#-}" in
 
         RC_MODULES=()
         ;;
-    ksh*)
+    ksh)
         rc_log "shell identifies as ksh"
         case "$-" in
             *i*)
