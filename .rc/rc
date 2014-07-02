@@ -43,7 +43,7 @@ function log {
 
     [[ -z "$RC_FILENAME" ]] && echo "RC_FILENAME not set!" 1>&2
     if [ -n "$RC_VERBOSE" ]; then
-        echo "$RC_FILENAME: $@" 1>&2
+        printf "%${RC_INDENT}s%s\n" "" "$RC_FILENAME: $@" 1>&2
     fi
 }
 
@@ -52,12 +52,17 @@ log "starting up"
 
 function source_file {
     if [ -r "$1" ]; then
+
+        typeset OLD_RC_FILENAME="$RC_FILENAME"
         log "sourcing $1"
+        typeset RC_INDENT=$(($RC_INDENT+4))
         if [ -n "$RC_TIMED" ]; then
             time . "$1"
         else
             . "$1"
         fi
+        typeset RC_INDENT=$(($RC_INDENT-4))
+        RC_FILENAME="$OLD_RC_FILENAME"
     fi
 }
 
