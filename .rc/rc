@@ -60,6 +60,19 @@ function rc_source_file {
     fi
 }
 
+function rc_get_module {
+    return in_path "$1" RC_MODULES
+}
+
+function rc_set_module {
+    append_to_path "$1" RC_MODULES
+}
+
+function rc_del_module {
+    remove_from_path "$1" RC_MODULES
+}
+
+
 RC_PATH=${HOME}/.rc
 rc_source_file "${RC_PATH}/functions"
 
@@ -71,6 +84,8 @@ case "${0#-}" in
 
         # Enable history appending instead of overwriting.
         shopt -s histappend
+
+        RC_MODULES=()
         ;;
     ksh*)
         rc_log "shell identifies as ksh"
@@ -86,6 +101,7 @@ case "${0#-}" in
                 set -o trackall
                 ;;
         esac
+        set -A RC_MODULES
         ;;
 esac
 
@@ -127,5 +143,8 @@ export PATH
 rc_source_file "${RC_PATH}/aliases"
 rc_source_file "${RC_PATH}/local"
 
+rc_set_module rc
 rc_log "done."
+
+export RC_MODULES
 unset RC_FILENAME RC_INTERACTIVE RC_PATH RC_TIMED RC_VERBOSE

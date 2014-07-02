@@ -39,7 +39,8 @@
 #   used in ~/.rc/local.
 ########################################################################
 
-RC_FILENAME=".rc/functions"
+RC_MODULE=functions
+RC_FILENAME=".rc/${RC_MODULE}"
 
 rc_log "starting up"
 
@@ -62,6 +63,20 @@ function remove_from_path {
         fi
     done
     export $PATHVARIABLE="${NEWPATH%%:}"
+}
+
+function in_path {
+    typeset DIR
+    typeset PATHVARIABLE=${2:-PATH}
+    eval "typeset TEMPPATH=\"\$$PATHVARIABLE\""
+    typeset IFS=":"
+    for DIR in $TEMPPATH; do
+        if [ "$DIR" == "$1" ] ; then
+            typeset FOUND=1
+            break
+        fi
+    done
+    [[ -n "$FOUND" ]] && true || false
 }
 
 function prepend_to_path {
@@ -130,4 +145,5 @@ else
     }
 fi
 
+rc_set_module $RC_MODULE
 rc_log "done."

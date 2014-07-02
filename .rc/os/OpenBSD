@@ -27,7 +27,8 @@
 
 # OpenBSD-specific configuration can go in here.
 
-RC_FILENAME=".rc/os/OpenBSD"
+RC_MODULE=os/OpenBSD
+RC_FILENAME=".rc/${RC_MODULE}"
 
 rc_log "starting up"
 
@@ -51,4 +52,5 @@ esac
 
 # Things that should always be available go after here.
 
+rc_set_module $RC_MODULE
 rc_log "done"

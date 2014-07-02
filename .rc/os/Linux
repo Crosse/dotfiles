@@ -27,7 +27,8 @@
 
 # Linux-specific configuration can go in here.
 
-RC_FILENAME=".rc/os/Linux"
+RC_MODULE=os/Linux
+RC_FILENAME=".rc/${RC_MODULE}"
 
 rc_log "starting up"
 
@@ -50,4 +51,5 @@ esac
 
 # Things that should always be available go after here.
 
+rc_set_module $RC_MODULE
 rc_log "done."

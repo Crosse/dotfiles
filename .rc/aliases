@@ -24,7 +24,8 @@
 # All aliases should be defined here.
 ########################################################################
 
-RC_FILENAME=".rc/aliases"
+RC_MODULE=aliases
+RC_FILENAME=".rc/${RC_MODULE}"
 
 rc_log "starting up"
 
@@ -43,4 +44,5 @@ alias ll='ls -lah'
 # Only alias 'hd' if the binary doesn't exist.
 [[ -z "$(command -v hd)" ]] && alias hd='hexdump -C'
 
+rc_set_module $RC_MODULE
 rc_log "done."

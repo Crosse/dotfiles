@@ -26,7 +26,8 @@
 # are given below of what sort of things could go in here.
 ########################################################################
 
-RC_FILENAME=".rc/local"
+RC_MODULE=local
+RC_FILENAME=".rc/${RC_MODULE}"
 
 rc_log "starting up"
 case "$-" in
@@ -55,4 +56,5 @@ case "$-" in
         ;;
 esac
 
+rc_set_module $RC_MODULE
 rc_log "done."

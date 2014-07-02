@@ -28,7 +28,8 @@
 
 # OS X-specific configuration can go in here.
 
-RC_FILENAME=".rc/os/Darwin"
+RC_MODULE=os/Darwin
+RC_FILENAME=".rc/${RC_MODULE}"
 
 rc_log "starting up"
 
@@ -63,4 +64,5 @@ esac
 # calls to "git" use the user-installed version instead.
 prepend_to_path "/usr/local/git/bin"
 
+rc_set_module $RC_MODULE
 rc_log "done."

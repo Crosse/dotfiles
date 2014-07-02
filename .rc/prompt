@@ -25,7 +25,8 @@
 # in here.
 ########################################################################
 
-RC_FILENAME=".rc/prompt"
+RC_MODULE=prompt
+RC_FILENAME=".rc/${RC_MODULE}"
 
 rc_log "starting up"
 
@@ -62,4 +63,5 @@ else
     export PS1="\u@\h\$(parse_git_status) \w \$ "
 fi
 
+rc_set_module $RC_MODULE
 rc_log "done."

@@ -24,7 +24,8 @@
 # Terminal configuration and sanitation goes in this file.
 ########################################################################
 
-RC_FILENAME=".rc/term"
+RC_MODULE=term
+RC_FILENAME=".rc/${RC_MODULE}"
 
 rc_log "starting up"
 
@@ -112,4 +113,5 @@ if [ -z "$SCREEN_COLORS" ] ; then
     fi
 fi
 
+rc_set_module $RC_MODULE
 rc_log "done."
