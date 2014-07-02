@@ -24,6 +24,9 @@
 # Terminal configuration and sanitation goes in this file.
 ########################################################################
 
+RC_FILENAME=".rc/term"
+
+log "starting up"
 # None of this matters if the shell isn't interactive.
 [[ "${-}" != *i* ]] && return
 
@@ -107,3 +110,4 @@ if [ -z "$SCREEN_COLORS" ] ; then
         SCREEN_COLORS=`tput colors`
     fi
 fi
+log "done."

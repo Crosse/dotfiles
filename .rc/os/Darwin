@@ -26,6 +26,10 @@
 # returns "Darwin".
 ########################################################################
 
+RC_FILENAME=".rc/os/Darwin"
+
+log "starting up"
+
 # OS X-specific configuration can go in here.
 case "$-" in
     *i*)
@@ -57,3 +61,5 @@ esac
 # installed manually by the user, then prepend it to the path so that
 # calls to "git" use the user-installed version instead.
 prepend_to_path "/usr/local/git/bin"
+
+log "done."

@@ -38,7 +38,8 @@ function log {
     fi
 }
 
-log "running $RC_FILENAME"
+log "starting up"
+
 
 function source_file {
     if [ -r "$1" ]; then
@@ -115,3 +116,4 @@ source_file "${RC_PATH}/aliases"
 source_file "${RC_PATH}/local"
 
 unset RC_FILENAME RC_INTERACTIVE RC_PATH RC_VERBOSE
+log "done."

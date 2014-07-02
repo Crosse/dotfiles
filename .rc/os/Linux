@@ -26,6 +26,10 @@
 ########################################################################
 
 # Linux-specific configuration can go in here.
+
+RC_FILENAME=".rc/os/Linux"
+
+log "starting up"
 case "$-" in
     *i*)
         # Things that only need to be processed for an interactive shell.
@@ -44,3 +48,5 @@ case "$-" in
 esac
 
 # Things that should always be available go after here.
+
+log "done."

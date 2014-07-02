@@ -25,6 +25,9 @@
 # in here.
 ########################################################################
 
+RC_FILENAME=".rc/prompt"
+
+log "starting up"
 
 # None of this matters if the shell isn't interactive.
 [[ "${-}" != *i* ]] && return
@@ -59,3 +62,4 @@ else
     export PS1="\u@\h\$(parse_git_status) \w \$ "
 fi
 
+log "done."
