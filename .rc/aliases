@@ -36,7 +36,9 @@ alias cls='clear'
 alias dir='ls -lah'
 alias la='ls -a'
 alias ll='ls -lah'
-alias t='tmux attach-session -t main'
+
+# Only alias 't' if tmux is installed on the system.
+[[ -n "$(command -v tmux)" ]] && alias t='tmux attach-session -t main'
 
 # Only alias 'hd' if the binary doesn't exist.
 [[ -z "$(command -v hd)" ]] && alias hd='hexdump -C'
