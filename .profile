@@ -58,7 +58,7 @@ fi
 # Some shell-specific things.
 case "${0#-}" in
     bash)
-        [[ -r "${HOME}/.bashrc" ]] && . "${HOME}/.bashrc"
+        [[ -r "${HOME}/.rc/rc" ]] && . "${HOME}/.rc/rc"
         ;;
     ksh*)
         # As per ksh(1): "If the ENV parameter is set when an
@@ -66,7 +66,7 @@ case "${0#-}" in
         # after any profiles are processed), its value is subjected to
         # parameter, command, arithmetic, and tilde (`~') substitution
         # and the resulting file (if any) is read and executed."
-        [[ -f "${HOME}/.kshrc" ]] && export ENV="${HOME}/.kshrc"
+        [[ -f "${HOME}/.rc/rc" ]] && export ENV="${HOME}/.rc/rc"
         ;;
 esac
 
