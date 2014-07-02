@@ -53,21 +53,22 @@ if [ -n "$RC_TIME_EXECUTION" -a -z "$RC_TIMED" ]; then
     RC_TIMED=1
     echo "Resourcing ${RC_FILENAME}..." 1>&2
     time . "${RC_FILENAME}"
+else
+    # Some shell-specific things.
+    case "${0#-}" in
+        bash)
+            [[ -r "${HOME}/.rc/rc" ]] && . "${HOME}/.rc/rc"
+            ;;
+        ksh*)
+            # As per ksh(1): "If the ENV parameter is set when an
+            # interactive shell starts (or, in the case of login shells,
+            # after any profiles are processed), its value is subjected to
+            # parameter, command, arithmetic, and tilde (`~') substitution
+            # and the resulting file (if any) is read and executed."
+            [[ -f "${HOME}/.rc/rc" ]] && export ENV="${HOME}/.rc/rc"
+            ;;
+    esac
 fi
 
-# Some shell-specific things.
-case "${0#-}" in
-    bash)
-        [[ -r "${HOME}/.rc/rc" ]] && . "${HOME}/.rc/rc"
-        ;;
-    ksh*)
-        # As per ksh(1): "If the ENV parameter is set when an
-        # interactive shell starts (or, in the case of login shells,
-        # after any profiles are processed), its value is subjected to
-        # parameter, command, arithmetic, and tilde (`~') substitution
-        # and the resulting file (if any) is read and executed."
-        [[ -f "${HOME}/.rc/rc" ]] && export ENV="${HOME}/.rc/rc"
-        ;;
-esac
 
 unset RC_VERBOSE RC_TIME_EXECUTION RC_TIMED
