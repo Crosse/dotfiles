@@ -49,7 +49,6 @@ function log {
 
 log "starting up"
 
-
 function source_file {
     if [ -r "$1" ]; then
 

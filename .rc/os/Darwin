@@ -26,11 +26,12 @@
 # returns "Darwin".
 ########################################################################
 
+# OS X-specific configuration can go in here.
+
 RC_FILENAME=".rc/os/Darwin"
 
 log "starting up"
 
-# OS X-specific configuration can go in here.
 case "$-" in
     *i*)
         # Things that only need to be processed for an interactive shell.

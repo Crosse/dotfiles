@@ -30,6 +30,7 @@
 RC_FILENAME=".rc/os/Linux"
 
 log "starting up"
+
 case "$-" in
     *i*)
         # Things that only need to be processed for an interactive shell.

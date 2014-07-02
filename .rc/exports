@@ -72,4 +72,5 @@ if [ -x "$(command -v gpg-agent)" ]; then
         eval $(gpg-agent --enable-ssh-support --daemon --write-env-file)
     fi
 fi
+
 log "done."
