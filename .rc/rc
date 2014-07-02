@@ -93,8 +93,10 @@ case "${0#-}" in
             *i*)
                 # Things to do if the shell is interactive.
 
-                # Map ^L to clear.
-                bind -m '^L'='^Uclear^J^Y'
+                # Map ^L to clear, but only for pdksh.
+                if [[ "$KSH_VERSION" == *PD* ]]; then
+                    bind -m '^L'='^Uclear^J^Y'
+                fi
 
                 # Create tracked aliases for all commands.  This is the
                 # equivalent of "hashall" in bash.
