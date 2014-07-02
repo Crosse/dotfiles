@@ -47,7 +47,7 @@ RC_FILENAME="${HOME}/.profile"
 # Can't use log() here since it's defined in .rc/rc.
 [[ -n "$RC_VERBOSE" ]] && echo "${RC_FILENAME}: starting up" 1>&2
 
-if [ -n "$RC_TIME_EXECUTION" -a -z "$RC_TIMED" ]; then
+if [ -n "$RC_VERBOSE" -a -n "$RC_TIME_EXECUTION" -a -z "$RC_TIMED" ]; then
     # If RC_TIME_EXECUTION is specified, then time the execution of
     # .profile and all other rc scripts.
     RC_TIMED=1
