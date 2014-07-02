@@ -20,7 +20,7 @@
 # ~/.rc/os/Darwin
 #
 # This file is sourced from .rc/rc.
-# 
+#
 # Configuration specific to the Apple Mac OS X or Darwin operating
 # systems should go in here.  It will only be sourced if uname(1)
 # returns "Darwin".

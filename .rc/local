@@ -20,7 +20,7 @@
 # ~/.rc/local
 #
 # This file is sourced from .rc/rc.
-# 
+#
 # Any local setup should go in here.  This file is not tracked by git.
 ########################################################################
 

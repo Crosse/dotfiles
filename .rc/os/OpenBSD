@@ -20,7 +20,7 @@
 # ~/.rc/os/OpenBSD
 #
 # This file is sourced from .rc/rc.
-# 
+#
 # Configuration specific to the OpenBSD operating system should go in
 # here.  It will only be sourced if uname(1) returns "OpenBSD".
 ########################################################################

@@ -20,7 +20,7 @@
 # ~/.rc/term
 #
 # This file is sourced from .rc/rc.
-# 
+#
 # Terminal configuration and sanitation goes in this file.
 ########################################################################
 

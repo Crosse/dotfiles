@@ -20,7 +20,7 @@
 # ~/.rc/prompt
 #
 # This file is sourced from .rc/rc.
-# 
+#
 # All configuration to setup the shell prompt ($PS1, etc.) should go
 # in here.
 ########################################################################
