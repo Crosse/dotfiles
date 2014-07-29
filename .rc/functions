@@ -44,12 +44,6 @@ RC_FILENAME=".rc/${RC_MODULE}"
 
 rc_log "starting up"
 
-if rc_get_module $RC_MODULE; then
-    rc_log "not re-running $RC_MODULE."
-    rc_log "Run \"rc_del_module $RC_MODULE; . $RC_FILENAME\" to re-source this file."
-    return
-fi
-
 function remove_from_path {
     # Remove a path from a path variable.
     #
