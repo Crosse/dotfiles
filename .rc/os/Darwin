@@ -64,5 +64,7 @@ esac
 # calls to "git" use the user-installed version instead.
 prepend_to_path "/usr/local/git/bin"
 
+prepend_to_path "${HOME}/Library/Python/2.7/bin/"
+
 rc_set_module $RC_MODULE
 rc_log "done."
