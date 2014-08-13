@@ -81,15 +81,15 @@ SCREEN_COLORS="`tput colors`"
 if [ -z "$SCREEN_COLORS" ] ; then
     case "$TERM" in
         screen-*color-bce)
-            echoerr "Unknown terminal $TERM. Falling back to 'screen-bce'."
+            rc_log "Unknown terminal $TERM. Falling back to 'screen-bce'."
             export TERM=screen-bce
             ;;
         *-88color)
-            echoerr "Unknown terminal $TERM. Falling back to 'xterm-88color'."
+            rc_log "Unknown terminal $TERM. Falling back to 'xterm-88color'."
             export TERM=xterm-88color
             ;;
         *-256color)
-            echoerr "Unknown terminal $TERM. Falling back to 'xterm-256color'."
+            rc_log "Unknown terminal $TERM. Falling back to 'xterm-256color'."
             export TERM=xterm-256color
             ;;
     esac
