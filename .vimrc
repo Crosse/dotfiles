@@ -82,6 +82,7 @@ function! GetOperatingSystem()
             break
         endif
     endfor
+    let g:os.realname = substitute(system("uname"), "\n", "", "")
     let g:os.name = "other"
     let g:os.is_windows = 0
     let g:os.is_mac = 0
