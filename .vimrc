@@ -166,6 +166,10 @@ if !empty(glob(s:vundle_path. "/autoload/vundle.vim"))
     " https://github.com/gregsexton/gitv
     "Plugin 'gregsexton/gitv'
 
+    " Go development plugin for Vim
+    " https://github.com/fatih/vim-go
+    Plugin 'fatih/vim-go'
+
     " Syntax checking hacks for vim
     " https://github.com/scrooloose/syntastic
     Plugin 'scrooloose/syntastic'
