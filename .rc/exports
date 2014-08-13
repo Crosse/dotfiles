@@ -33,7 +33,7 @@ rc_log "starting up"
 [[ "${-}" != *i* ]] && return
 
 # Use UTF-8.  It's the 21st century.
-if [ -n "$LANG" ]; then
+if [ -z "$LANG" ]; then
     export LANG=en_US.UTF-8
     export LC_ALL="$LANG"
 fi
