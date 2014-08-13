@@ -567,6 +567,31 @@ function! QuickfixToggle()
 endfunction
 nnoremap <leader>q :call QuickfixToggle()<CR>
 
+function! CycleColorScheme(dir)
+    if !exists("g:schemes") || len(g:schemes) == 0
+        let g:schemes = []
+        for f in split(globpath(&runtimepath, "colors/*.vim"), "\n")
+            let g:schemes = g:schemes + [fnamemodify(f, ":t:r")]
+        endfor
+    endif
+    if a:dir == 0
+        let s:schemes = g:schemes
+    else
+        let s:schemes = reverse(copy(g:schemes))
+    endif
+    for f in s:schemes
+        if exists("s:found")
+            exec "colorscheme " . f
+            unlet s:found
+            break
+        endif
+        if f == g:colors_name
+            let s:found = 1
+        endif
+    endfor
+endfunction
+map <leader><Right> :call CycleColorScheme(0)<CR>
+map <leader><Left> :call CycleColorScheme(1)<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
