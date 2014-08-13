@@ -215,7 +215,7 @@ filetype plugin indent on
 " whatever works for you if you don't like them.
 "
 " A list of color schemes to use, in the order you want to use them
-let s:schemes = ["solarized", "torte", "desert", "koehler", "slate"]
+let s:schemes = ["molokai", "default", "solarized", "torte", "desert", "koehler", "slate"]
 
 " Fonts section.  First, create a list of desired fonts for GUI vims.
 let s:fonts = ["Source_Code_Pro", "Consolas", "Inconsolata", "Lucida_Console", "Monospace"]
@@ -268,7 +268,6 @@ for s:scheme in s:schemes
         break
     endif
 endfor
-set background=light
 
 
 
