@@ -164,7 +164,7 @@ if !empty(glob(s:vundle_path. "/autoload/vundle.vim"))
 
     " gitk for Vim
     " https://github.com/gregsexton/gitv
-    Plugin 'gregsexton/gitv'
+    "Plugin 'gregsexton/gitv'
 
     " Syntax checking hacks for vim
     " https://github.com/scrooloose/syntastic
