@@ -77,8 +77,31 @@ fi
 
 # ...and now, try to figure out how many colors $TERM supports, along
 # with more $TERM sanitization.
-SCREEN_COLORS="`tput colors`"
+
+function get_best_term {
+    T=${1:%-*color}
+
+    for term in "${T}-256color" "${T}-88color" "${T}"; do
+        COLORS="$(tput -T ${term} colors 2>/dev/null)"
+        if [ -n "$COLORS" ] ; then
+            echo "$term" 
+            return
+        else
+            echo "Unknown terminal \"$1\"." 1>&2
+        fi
+    done
+
+    echo "Unknown terminal type/class '$1'. Things may not work right." 1>&2
+    echo "$1"
+}
+
+TERM="$(get_best_term $TERM)"
+
+SCREEN_COLORS="$(tput colors)"
 if [ -z "$SCREEN_COLORS" ] ; then
+    # A 256-color version of this terminal must not exist.
+    TERM=${TERM:%-*color}
+
     case "$TERM" in
         screen-*color-bce)
             rc_log "Unknown terminal $TERM. Falling back to 'screen-bce'."
