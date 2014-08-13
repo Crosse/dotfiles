@@ -177,8 +177,11 @@ if !empty(glob(s:vundle_path. "/autoload/vundle.vim"))
 
     " A code-completion engine for Vim
     " https://github.com/Valloric/YouCompleteMe
-    Plugin 'Valloric/YouCompleteMe'
-    let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+    if g:os.realname != "OpenBSD"
+        " ...that unfortunately won't compile on OpenBSD.
+        Plugin 'Valloric/YouCompleteMe'
+        let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+    endif
 
     " Vim plugin that displays tags in a window, ordered by scope
     " https://github.com/majutsushi/tagbar
