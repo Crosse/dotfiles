@@ -50,7 +50,7 @@ set nocompatible
 
 " don't have files trying to override this .vimrc.  If you like adding
 " modelines to files you edit, you may want to unset this.
-set nomodeline
+"set nomodeline
 
 " Clear any existing autocommands
 if has("autocmd")
