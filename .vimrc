@@ -37,6 +37,7 @@
 "   Enter - in normal mode, disable search highlighting temporarily
 "   F5 - toggle list mode; i.e., 'Show Codes'
 "   F6 - execute 'make' in the current directory
+"   F8 - toggle Tagbar
 "   F9 - toggle nearest fold open and closed
 "   F10 - toggle the fold column
 "   Ctrl-Space - toggle nearest fold open and closed
@@ -173,6 +174,11 @@ if !empty(glob(s:vundle_path. "/autoload/vundle.vim"))
     " https://github.com/Valloric/YouCompleteMe
     Plugin 'Valloric/YouCompleteMe'
     let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<Enter>']
+
+    " Vim plugin that displays tags in a window, ordered by scope
+    " https://github.com/majutsushi/tagbar
+    Plugin 'majutsushi/tagbar'
+    nmap <leader>t :TagbarToggle<CR>
 
     " All plugins must be added before the following line.
     call vundle#end()
