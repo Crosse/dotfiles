@@ -184,6 +184,10 @@ if !empty(glob(s:vundle_path. "/autoload/vundle.vim"))
     Plugin 'majutsushi/tagbar'
     nmap <leader>t :TagbarToggle<CR>
 
+    " UltiSnips - The ultimate snippet solution for Vim
+    Plugin 'SirVer/ultisnips'
+    Plugin 'honza/vim-snippets'
+
     " All plugins must be added before the following line.
     call vundle#end()
     "
