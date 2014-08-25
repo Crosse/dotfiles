@@ -51,7 +51,7 @@ case "$-" in
         #if [ -x $(command -v virtualenvwrapper.sh) ]; then
         #    export WORKON_HOME=${HOME}/.virtualenvs
         #    export PROJECT_HOME=${HOME}/code
-        #    source /usr/local/bin/virtualenvwrapper.sh
+        #   . virtualenvwrapper.sh
         #fi
         ;;
 esac
