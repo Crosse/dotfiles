@@ -1,0 +1,48 @@
+# vim: set ft=sh:
+########################################################################
+#
+# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+# WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+# AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+# DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+# PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+########################################################################
+#
+# ~/.rc/aliases
+#
+# This file is sourced from .rc/rc.
+#
+# All aliases should be defined here.
+########################################################################
+
+RC_MODULE=aliases
+RC_FILENAME=".rc/${RC_MODULE}"
+
+rc_log "starting up"
+
+# None of this matters if the shell isn't interactive.
+[[ "${-}" != *i* ]] && return
+
+# Miscellaneous aliased commands.
+alias cls='clear'
+alias dir='ls -lah'
+alias la='ls -a'
+alias ll='ls -lah'
+
+# Only alias 't' if tmux is installed on the system.
+[[ -n "$(command -v tmux)" ]] && alias t='tmux attach-session -t main'
+
+# Only alias 'hd' if the binary doesn't exist.
+[[ -z "$(command -v hd)" ]] && alias hd='hexdump -C'
+
+rc_set_module $RC_MODULE
+rc_log "done."

@@ -1,1 +1,0 @@
-/usr/share/vim/addons/ftplugin/go/import.vim

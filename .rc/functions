@@ -1,0 +1,149 @@
+# vim: set ft=sh:
+########################################################################
+#
+# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+# WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+# AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+# DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+# PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+########################################################################
+#
+# ~/.rc/functions
+#
+# This file is sourced from ~/.rc/rc.  It is sourced before any other
+# files in the ~/.rc directory, because many of the functions defined
+# here are used in other files in ~/.rc.
+#
+# All global functions should be defined here.  However, note the
+# following:
+#
+# - Functions that are required only on certain platforms should be
+#   defined in that platform's respective ~/.rc/os/$(uname) file.  Note
+#   that the ~/.rc/os/* files are not sourced until almost the end of
+#   ~/.rc/rc; this is okay, though, because OS-dependent functions
+#   should probably only be used in the OS-dependent rc script.
+#
+# - Functions that are required only on the local machine should be
+#   defined in ~/.rc/local.  Note that ~/.rc/local is not sourced until
+#   the very end of ~/.rc/rc, but like OS-specific functions, this
+#   should also be okay since machine-specific functions should only be
+#   used in ~/.rc/local.
+########################################################################
+
+RC_MODULE=functions
+RC_FILENAME=".rc/${RC_MODULE}"
+
+rc_log "starting up"
+
+function remove_from_path {
+    # Remove a path from a path variable.
+    #
+    # Usage:
+    #   $ remove-from-path path/to/remove [PATH_VAR_NAME]
+    #
+    # (Note the lack of "$" on PATH_VAR_NAME)
+    # If PATH_VAR_NAME isn't provided, PATH is assumed.
+    typeset NEWPATH
+    typeset DIR
+    typeset PATHVARIABLE=${2:-PATH}
+    eval "typeset TEMPPATH=\"\$$PATHVARIABLE\""
+    typeset IFS=":"
+    for DIR in $TEMPPATH; do
+        if [ "$DIR" != "$1" ] ; then
+            NEWPATH="${NEWPATH:+$NEWPATH:}$DIR"
+        fi
+    done
+    export $PATHVARIABLE="${NEWPATH%%:}"
+}
+
+function in_path {
+    typeset DIR
+    typeset PATHVARIABLE=${2:-PATH}
+    eval "typeset TEMPPATH=\"\$$PATHVARIABLE\""
+    typeset IFS=":"
+    for DIR in $TEMPPATH; do
+        if [ "$DIR" == "$1" ] ; then
+            typeset FOUND=1
+            break
+        fi
+    done
+    [[ -n "$FOUND" ]] && true || false
+}
+
+function prepend_to_path {
+    # Prepend a path to a path variable.  If the path already exists, it
+    # will be removed first.
+    #
+    # Usage:
+    #   $ prepend-to-path path/to/prepend [PATH_VAR_NAME]
+    #
+    # (Note the lack of "$" on PATH_VAR_NAME)
+    # If PATH_VAR_NAME isn't provided, PATH is assumed.
+    remove_from_path $1 $2
+    typeset PATHVARIABLE=${2:-PATH}
+    if [ -d "$1" ]; then
+        eval "typeset TEMP=\"$1:\$$PATHVARIABLE\""
+        TEMP="${TEMP%%:}"
+        export $PATHVARIABLE="$TEMP"
+    fi
+}
+
+function append_to_path {
+    # Append a path to a path variable.  If the path already exists, it
+    # will be removed first.
+    #
+    # Usage:
+    #   $ append-to-path path/to/append [PATH_VAR_NAME]
+    #
+    # (Note the lack of "$" on PATH_VAR_NAME)
+    # If PATH_VAR_NAME isn't provided, PATH is assumed.
+    remove_from_path $1 $2
+    typeset PATHVARIABLE=${2:-PATH}
+    if [ -d "$1" ]; then
+        eval "typeset TEMP=\"\$$PATHVARIABLE:$1\""
+        TEMP="${TEMP##:}"
+        export $PATHVARIABLE="$TEMP"
+    fi
+}
+
+if [ -x "$(command -v git)" ]; then
+    # If the "git" command exists on this system, define a function that
+    # can be used in the $PS1 prompt to show the user relevant
+    # information about a git repository, if the user is currently in
+    # one.
+    function parse_git_status {
+        # Sometimes git repositories are large, and calculating
+        # this information takes too long.  In that case, the user can
+        # define $NOPATHBRANCHES, which will stop this function from
+        # parsing the git repo.
+        if [ -z "$NOPATHBRANCHES" ]; then
+            typeset branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+            [[ -z $branch ]] && return
+
+            typeset status=$(git status 2> /dev/null)
+            typeset result=$branch
+
+            [[ "$status" = *deleted:* ]] && result=${result}-
+            [[ "$status" = *modified:* ]] && result=${result}*
+            [[ "$status" = *Untracked\ files:* ]] && result=${result}+
+            printf " [$result]"
+        fi
+    }
+else
+    # "git" wasn't found on the system.
+    function parse_git_status {
+        return
+    }
+fi
+
+rc_set_module $RC_MODULE
+rc_log "done."

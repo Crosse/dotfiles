@@ -1,0 +1,70 @@
+# vim: set ft=sh:
+########################################################################
+#
+# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+# WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+# AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+# DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+# PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+########################################################################
+#
+# ~/.rc/os/Darwin
+#
+# This file is sourced from .rc/rc.
+#
+# Configuration specific to the Apple Mac OS X or Darwin operating
+# systems should go in here.  It will only be sourced if uname(1)
+# returns "Darwin".
+########################################################################
+
+# OS X-specific configuration can go in here.
+
+RC_MODULE=os/Darwin
+RC_FILENAME=".rc/${RC_MODULE}"
+
+rc_log "starting up"
+
+case "$-" in
+    *i*)
+        # Things that only need to be processed for an interactive shell.
+
+        # Darwin/OS X includes some GNU things and some less-than-GNU
+        # things, but color options exist on the default 'ls' and 'grep'
+        # commands so enable them.
+        alias ls='ls -G'
+        export CLICOLOR=""
+        export LSCOLORS=gxfxcxdxbxegEdabagacad
+
+        # Darwin uses BSD grep, but it seems to respect options set via
+        # GREP_OPTIONS just like GNU grep, even though it is not
+        # mentioned in the man page.  Set options such that color
+        # support is enabled, binary files will be ignored, and files
+        # named "tags" will not be searched.
+        export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
+
+        # Work around a Vim incompatibility with crontab on OS X.  This
+        # requires settings in .vimrc as well.
+        alias crontab='VIM_CRONTAB=true crontab'
+        ;;
+esac
+
+# Things that should always be available go after here.
+
+# Apple includes an older version of git with Xcode; if git has been
+# installed manually by the user, then prepend it to the path so that
+# calls to "git" use the user-installed version instead.
+prepend_to_path "/usr/local/git/bin"
+
+prepend_to_path "${HOME}/Library/Python/2.7/bin/"
+
+rc_set_module $RC_MODULE
+rc_log "done."

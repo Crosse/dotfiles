@@ -37,6 +37,7 @@
 "   Enter - in normal mode, disable search highlighting temporarily
 "   F5 - toggle list mode; i.e., 'Show Codes'
 "   F6 - execute 'make' in the current directory
+"   F8 - toggle Tagbar
 "   F9 - toggle nearest fold open and closed
 "   F10 - toggle the fold column
 "   Ctrl-Space - toggle nearest fold open and closed
@@ -50,7 +51,7 @@ set nocompatible
 
 " don't have files trying to override this .vimrc.  If you like adding
 " modelines to files you edit, you may want to unset this.
-set nomodeline
+"set nomodeline
 
 " Clear any existing autocommands
 if has("autocmd")
@@ -81,6 +82,7 @@ function! GetOperatingSystem()
             break
         endif
     endfor
+    let g:os.realname = substitute(system("uname"), "\n", "", "")
     let g:os.name = "other"
     let g:os.is_windows = 0
     let g:os.is_mac = 0
@@ -163,7 +165,11 @@ if !empty(glob(s:vundle_path. "/autoload/vundle.vim"))
 
     " gitk for Vim
     " https://github.com/gregsexton/gitv
-    Plugin 'gregsexton/gitv'
+    "Plugin 'gregsexton/gitv'
+
+    " Go development plugin for Vim
+    " https://github.com/fatih/vim-go
+    Plugin 'fatih/vim-go'
 
     " Syntax checking hacks for vim
     " https://github.com/scrooloose/syntastic
@@ -171,8 +177,20 @@ if !empty(glob(s:vundle_path. "/autoload/vundle.vim"))
 
     " A code-completion engine for Vim
     " https://github.com/Valloric/YouCompleteMe
-    Plugin 'Valloric/YouCompleteMe'
-    let g:ycm_key_list_select_completion = ['<TAB>', '<Down>', '<Enter>']
+    if g:os.realname != "OpenBSD"
+        " ...that unfortunately won't compile on OpenBSD.
+        Plugin 'Valloric/YouCompleteMe'
+        let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+    endif
+
+    " Vim plugin that displays tags in a window, ordered by scope
+    " https://github.com/majutsushi/tagbar
+    Plugin 'majutsushi/tagbar'
+    nmap <leader>t :TagbarToggle<CR>
+
+    " UltiSnips - The ultimate snippet solution for Vim
+    Plugin 'SirVer/ultisnips'
+    Plugin 'honza/vim-snippets'
 
     " All plugins must be added before the following line.
     call vundle#end()
@@ -201,7 +219,7 @@ filetype plugin indent on
 " whatever works for you if you don't like them.
 "
 " A list of color schemes to use, in the order you want to use them
-let s:schemes = ["solarized", "torte", "desert", "koehler", "slate"]
+let s:schemes = ["molokai", "default", "solarized", "torte", "desert", "koehler", "slate"]
 
 " Fonts section.  First, create a list of desired fonts for GUI vims.
 let s:fonts = ["Source_Code_Pro", "Consolas", "Inconsolata", "Lucida_Console", "Monospace"]
@@ -254,7 +272,6 @@ for s:scheme in s:schemes
         break
     endif
 endfor
-set background=light
 
 
 
@@ -554,6 +571,31 @@ function! QuickfixToggle()
 endfunction
 nnoremap <leader>q :call QuickfixToggle()<CR>
 
+function! CycleColorScheme(dir)
+    if !exists("g:schemes") || len(g:schemes) == 0
+        let g:schemes = []
+        for f in split(globpath(&runtimepath, "colors/*.vim"), "\n")
+            let g:schemes = g:schemes + [fnamemodify(f, ":t:r")]
+        endfor
+    endif
+    if a:dir == 0
+        let s:schemes = g:schemes
+    else
+        let s:schemes = reverse(copy(g:schemes))
+    endif
+    for f in s:schemes
+        if exists("s:found")
+            exec "colorscheme " . f
+            unlet s:found
+            break
+        endif
+        if f == g:colors_name
+            let s:found = 1
+        endif
+    endfor
+endfunction
+map <leader><Right> :call CycleColorScheme(0)<CR>
+map <leader><Left> :call CycleColorScheme(1)<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""

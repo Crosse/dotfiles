@@ -1,0 +1,60 @@
+# vim: set ft=sh:
+########################################################################
+#
+# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+# WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+# AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+# DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+# PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+########################################################################
+#
+# ~/.rc/local
+#
+# This file is sourced from .rc/rc.
+#
+# Any local setup should go in here.  This file is not tracked by git.
+# Put things in here that only apply to the local computer.  Examples
+# are given below of what sort of things could go in here.
+########################################################################
+
+RC_MODULE=local
+RC_FILENAME=".rc/${RC_MODULE}"
+
+rc_log "starting up"
+case "$-" in
+    *i*)
+        # Things that only need to be processed for an interactive shell.
+
+        # Examples of things that could be placed in this file:
+
+        # If Go is installed, let it set whatever variables it wants to.
+        #if [ -x "$(command -v go)" ]; then
+        #    eval $(go env)
+        #    export GOROOT
+        #fi
+
+        # If Rbenv is installed (http://rbenv.org), initialize it.
+        #if [ -x "$(command -v rbenv)" ]; then
+        #    eval "$(rbenv init -)"
+        #fi
+
+        # If Python's virtualenvwrapper is installed, initialize it.
+        #if [ -x $(command -v virtualenvwrapper.sh) ]; then
+        #    export WORKON_HOME=${HOME}/.virtualenvs
+        #    export PROJECT_HOME=${HOME}/code
+        #   . virtualenvwrapper.sh
+        #fi
+        ;;
+esac
+
+rc_set_module $RC_MODULE
+rc_log "done."

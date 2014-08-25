@@ -1,0 +1,159 @@
+# vim: set ft=sh:
+
+########################################################################
+#
+# Copyright (c) 2010-2014 Seth Wright (seth@crosse.org)
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+# WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+# AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+# DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+# PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+########################################################################
+#
+# ~/.rc/rc
+#
+# Remember, when testing changes in this file or any file in the .rc/
+# directory, make sure you make the change to the "real" file, not the
+# one in the VCS repository.  Alternatively, make changes to the
+# tracked file, then copy it to ~/.rc/* for testing.
+########################################################################
+
+RC_FILENAME=".rc/rc"
+
+# Functions required to bootstrap the rest of the rc process.
+function rc_log {
+    # Prints its arguments to standard error.
+    # Usage:  log script_name "message ..."
+
+    # Don't even attempt to log anything if the shell isn't interactive.
+    [[ "${-}" != *i* ]] && return
+
+    [[ -z "$RC_FILENAME" ]] && echo "RC_FILENAME not set!" 1>&2
+    if [ -n "$RC_VERBOSE" ]; then
+        printf "%${RC_INDENT}s%s\n" "" "$RC_FILENAME: $@" 1>&2
+    fi
+}
+
+rc_log "starting up"
+
+function rc_source_file {
+    if [ -r "$1" ]; then
+
+        typeset OLD_RC_FILENAME="$RC_FILENAME"
+        rc_log "sourcing $1"
+        typeset RC_INDENT=$(($RC_INDENT+4))
+        if [ -n "$RC_TIMED" ]; then
+            time . "$1"
+        else
+            . "$1"
+        fi
+        typeset RC_INDENT=$(($RC_INDENT-4))
+        RC_FILENAME="$OLD_RC_FILENAME"
+    fi
+}
+
+function rc_get_module {
+    typeset MODULE
+    typeset IFS=":"
+    for MODULE in $RC_MODULES; do
+        if [ "$MODULE" == "$1" ] ; then
+            typeset FOUND=1
+            break
+        fi
+    done
+    [[ -n "$FOUND" ]] && true || false
+}
+
+function rc_set_module {
+    remove_from_path $1 $2
+    RC_MODULES="${RC_MODULES##:}:$1"
+}
+
+function rc_del_module {
+    remove_from_path "$1" RC_MODULES
+}
+
+
+typeset RC_MODULES
+RC_PATH=${HOME}/.rc
+rc_source_file "${RC_PATH}/functions"
+
+case "${0#-}" in
+    bash)
+        rc_log "shell identifies as bash"
+        # Source global bashrc files, if they exist.
+        rc_source_file /etc/bashrc
+
+        # Enable history appending instead of overwriting.
+        shopt -s histappend
+        ;;
+    ksh)
+        rc_log "shell identifies as ksh"
+        case "$-" in
+            *i*)
+                # Things to do if the shell is interactive.
+
+                # Map ^L to clear, but only for pdksh.
+                if [[ "$KSH_VERSION" == *PD* ]]; then
+                    bind -m '^L'='^Uclear^J^Y'
+                fi
+
+                # Create tracked aliases for all commands.  This is the
+                # equivalent of "hashall" in bash.
+                set -o trackall
+                ;;
+        esac
+        ;;
+esac
+
+rc_source_file "${RC_PATH}/exports"
+
+case "$-" in
+    *i*)
+        # Shell-agnostic things to do if the shell is interactive.
+
+        rc_log "shell is interactive"
+
+        # Using ksh, setting EDITOR or VISUAL (above) also sets vi key bindings.
+        # This sets it back to emacs, which is what I prefer.
+        # In other shells, it doesn't hurt to set it as well.
+        set -o emacs
+
+        # For ksh, enable history.  For both ksh and bash, log to the same file.
+        export HISTFILE=$HOME/.history
+
+        # Set up the terminal.
+        rc_source_file "${RC_PATH}/term"
+
+        # Set $PS1 to something pretty.
+        rc_source_file "${RC_PATH}/prompt"
+        ;;
+esac
+
+
+# OS-specific stuff can be found in .rc/os/<uname>; for instance:
+# - OpenBSD:    .rc/os/OpenBSD
+# - Linux:      .rc/os/Linux
+# - OSX:        .rc/os/Darwin
+rc_source_file "${RC_PATH}/os/$(uname)"
+
+prepend_to_path "${HOME}/.rbenv/bin"
+prepend_to_path "${HOME}/bin"
+export PATH
+
+rc_source_file "${RC_PATH}/aliases"
+rc_source_file "${RC_PATH}/local"
+
+rc_set_module rc
+rc_log "done."
+
+export RC_MODULES
+unset RC_FILENAME RC_INTERACTIVE RC_MODULE RC_PATH RC_TIMED RC_VERBOSE

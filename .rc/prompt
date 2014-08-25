@@ -1,0 +1,67 @@
+# vim: set ft=sh:
+########################################################################
+#
+# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+# WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+# AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+# DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+# PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+########################################################################
+#
+# ~/.rc/prompt
+#
+# This file is sourced from .rc/rc.
+#
+# All configuration to setup the shell prompt ($PS1, etc.) should go
+# in here.
+########################################################################
+
+RC_MODULE=prompt
+RC_FILENAME=".rc/${RC_MODULE}"
+
+rc_log "starting up"
+
+# None of this matters if the shell isn't interactive.
+[[ "${-}" != *i* ]] && return
+
+[[ -z "$SCREEN_COLORS" ]] && SCREEN_COLORS=$(tput colors)
+if [ $SCREEN_COLORS -gt 0 ]; then
+    # Force 256-color in tmux if the "real" terminal supports 256
+    # colors.
+    if [ "$TERM" == "screen" -a "$SCREEN_COLORS" == 256 ]; then
+        TERM=screen-256color
+    fi
+
+    # Change the prompt color depending on whether the real UID is root
+    # or a regular user.
+    if [ $(id -ru) == '0' ] ; then
+        HOSTCOLOR="\[\e[0;31m\]"
+    else
+        HOSTCOLOR="\[\e[0;32m\]"
+    fi
+
+    # Set the title of an xterm.
+    case $TERM in
+        xterm*|rxvt*|screen*)
+            TERMTITLE="\[\e]0;\u@\h: \w\a\]"
+            ;;
+    esac
+
+    # Build a colorized prompt.
+    export PS1="${TERMTITLE}${HOSTCOLOR}\u@\h\$(parse_git_status)\[\e[0;34m\] \w \$\[\e[00m\] "
+else
+    # Build a "dumb" prompt that should work everywhere.
+    export PS1="\u@\h\$(parse_git_status) \w \$ "
+fi
+
+rc_set_module $RC_MODULE
+rc_log "done."
