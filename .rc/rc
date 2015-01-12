@@ -114,6 +114,10 @@ case "${0#-}" in
         ;;
 esac
 
+prepend_to_path "${HOME}/.rbenv/bin"
+prepend_to_path "${HOME}/bin"
+export PATH
+
 rc_source_file "${RC_PATH}/exports"
 
 case "$-" in
@@ -139,17 +143,13 @@ case "$-" in
 esac
 
 
+rc_source_file "${RC_PATH}/aliases"
+
 # OS-specific stuff can be found in .rc/os/<uname>; for instance:
 # - OpenBSD:    .rc/os/OpenBSD
 # - Linux:      .rc/os/Linux
 # - OSX:        .rc/os/Darwin
 rc_source_file "${RC_PATH}/os/$(uname)"
-
-prepend_to_path "${HOME}/.rbenv/bin"
-prepend_to_path "${HOME}/bin"
-export PATH
-
-rc_source_file "${RC_PATH}/aliases"
 rc_source_file "${RC_PATH}/local"
 
 rc_set_module rc
