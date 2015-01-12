@@ -79,7 +79,7 @@ fi
 # with more $TERM sanitization.
 
 function get_best_term {
-    T=${1:%-*color}
+    T=${1%-*color}
 
     for term in "${T}-256color" "${T}-88color" "${T}"; do
         COLORS="$(tput -T ${term} colors 2>/dev/null)"
