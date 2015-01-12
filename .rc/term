@@ -86,8 +86,6 @@ function get_best_term {
         if [ -n "$COLORS" ] ; then
             echo "$term" 
             return
-        else
-            echo "Unknown terminal \"$1\"." 1>&2
         fi
     done
 
