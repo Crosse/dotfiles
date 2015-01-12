@@ -40,6 +40,7 @@ case "$-" in
         #if [ -x "$(command -v go)" ]; then
         #    eval $(go env)
         #    export GOROOT
+        #    export GOPATH=~/code/go
         #fi
 
         # If Rbenv is installed (http://rbenv.org), initialize it.
@@ -48,10 +49,11 @@ case "$-" in
         #fi
 
         # If Python's virtualenvwrapper is installed, initialize it.
-        #if [ -x $(command -v virtualenvwrapper.sh) ]; then
+        #WRAPPER=$(command -v virtualenvwrapper.sh)
+        #if [ -x "$WRAPPER" ]; then
         #    export WORKON_HOME=${HOME}/.virtualenvs
         #    export PROJECT_HOME=${HOME}/code
-        #   . virtualenvwrapper.sh
+        #    . "$WRAPPER"
         #fi
         ;;
 esac
