@@ -1,3 +1,8 @@
+[user]
+    name = Seth Wright
+    email = seth@crosse.org
+    signingkey = F2F1E388
+
 [alias]
     dc = diff --cached
     st = status
@@ -6,26 +11,34 @@
     co = checkout
     br = branch
     first = log --reverse
-    ls = log --graph --pretty='%C(yellow)%h%Creset [%aN, %ar] %Cblue%s%Creset'
-    sl = log -20 --graph --pretty='%C(yellow)%h%Creset [%aN, %ar] %Cblue%s%Creset'
 
-[user]
-    name = Seth Wright
-    email = seth@crosse.org
-    signingkey = F2F1E388
+    # 'ls' and 'sl' use special colors, so they're defined in
+    # .gitconfig_extra.
 
-[color]
-    branch = auto
-    diff = auto
-    interactive = auto
-    status = auto
-    ui = true
+    # From http://michaelwales.com/articles/make-gitconfig-work-for-you/
+    #   Show all of my configured aliases
+    aliases = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\t => \\2/' | sort
+
+    #   Start a new local repository and perform initial commit
+    this = !git init && git add . && git commit -m \"Initial commit.\"
+
+    #   Thin out older metadata within the repository, reduceses filesystem footprint
+    trim = !git reflog expire --expire=now --all && git gc --prune=now
 
 [credential]
     helper = cache
 
 [credential "https://git.crosse.org"]
     username = seth
+
+[credential "https://bitbucket.org"]
+    username = crosse3
+
+[credential "https://github.com"]
+    username = crosse
+
+[help]
+    format = man
 
 [push]
     default = simple
@@ -37,10 +50,11 @@
 [core]
     excludesfile = ~/.gitignore_global
 
-[difftool "sourcetree"]
-    cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-    path =
+[url "https://github.com/"]
+    insteadOf = github:
 
-[mergetool "sourcetree"]
-    cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-    trustExitCode = true
+[url "https://bitbucket.org/"]
+    insteadOf = bb:
+
+[include]
+    path = ~/.gitconfig_extra
