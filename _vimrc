@@ -177,7 +177,7 @@ if !empty(glob(s:vundle_path. "/autoload/vundle.vim"))
 
     " A code-completion engine for Vim
     " https://github.com/Valloric/YouCompleteMe
-    if g:os.realname != "OpenBSD"
+    if g:os.realname != "OpenBSD" && g:os.is_windows == 0
         " ...that unfortunately won't compile on OpenBSD.
         Plugin 'Valloric/YouCompleteMe'
         let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
