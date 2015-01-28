@@ -53,8 +53,8 @@ case "$-" in
 esac
 
 # Things that should always be available go after here.
-append_to_path /opt/local/bin
-append_to_path /opt/local/sbin
+prepend_to_path /opt/local/sbin
+prepend_to_path /opt/local/bin
 
 rc_set_module $RC_MODULE
 rc_log "done"
