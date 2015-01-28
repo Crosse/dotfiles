@@ -463,7 +463,9 @@ set wildmode=longest,full
 set wildmenu
 
 " Ignore case when completing file names and directories.
-set wildignorecase
+if exists("&wildignorecase")
+    set wildignorecase
+endif
 
 " Enable the mouse in Visual, Insert, and Command modes
 " This can be weird sometimes.
