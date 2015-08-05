@@ -94,6 +94,9 @@ case "${0#-}" in
 
         # Enable history appending instead of overwriting.
         shopt -s histappend
+        # Do not append duplicate lines and lines that begin with a
+        # space to history
+        export HISTCONTROL=ignoreboth
         ;;
     ksh)
         rc_log "shell identifies as ksh"
