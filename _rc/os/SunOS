@@ -46,8 +46,7 @@ case "$-" in
         # enabled, binary files will be ignored, and files named "tags"
         # will not be searched.
         if [ -x "$(command -v ggrep)" ]; then
-            alias grep='ggrep'
-            export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
+            alias grep='ggrep --colour=auto --binary-files=without-match --exclude=tags'
         fi
         ;;
 esac
