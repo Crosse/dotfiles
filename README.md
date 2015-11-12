@@ -17,8 +17,9 @@ and call it a day.  This will
 * symlink bin/* to ${HOME}/bin/, and
 * symlink .* to ${HOME}/
 
-There's another `make` target to recompile YouCompleteMe because I'm
-that lazy.
+There's another `make` target to recompile
+[YouCompleteMe](https://github.com/Valloric/YouCompleteMe/)
+because I'm that lazy.
 
 
 ## Attribution
