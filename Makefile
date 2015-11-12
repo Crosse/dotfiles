@@ -1,6 +1,9 @@
 .PHONY: submodules bin dotfiles
 
-all: submodules bin dotfiles
+all: update submodules bin dotfiles
+
+update:
+	@git pull --rebase
 
 submodules:
 	@echo Updating submodules
