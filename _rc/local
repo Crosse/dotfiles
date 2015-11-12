@@ -38,9 +38,8 @@ case "$-" in
 
         # If Go is installed, let it set whatever variables it wants to.
         #if [ -x "$(command -v go)" ]; then
-        #    eval $(go env)
-        #    export GOROOT
-        #    export GOPATH=~/code/go
+        #    export GOPATH="${HOME}/code/go"
+        #    append_to_path "${GOPATH}/bin"
         #fi
 
         # If Rbenv is installed (http://rbenv.org), initialize it.
