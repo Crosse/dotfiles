@@ -187,7 +187,7 @@ if !empty(glob(s:vundle_path. "/autoload/vundle.vim"))
     if g:os.realname != "OpenBSD" && g:os.is_windows == 0
         " ...that unfortunately won't compile on OpenBSD.
         Plugin 'Valloric/YouCompleteMe'
-        let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+        let g:ycm_key_list_select_completion = ['<Down>']
     endif
 
     " Vim plugin that displays tags in a window, ordered by scope
