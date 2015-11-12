@@ -1,0 +1,17 @@
+#!/usr/bin/expect --
+
+set helo [exec hostname]
+set host [lrange $argv 0 0]
+
+spawn telnet $host 25
+
+expect {
+    "220 " { 
+        send "EHLO $helo\n"
+        exp_continue
+    }
+    "250 " {
+        send "QUIT\n"
+        exit
+    }
+}
