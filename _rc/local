@@ -55,6 +55,11 @@ case "$-" in
         #    export PROJECT_HOME=${HOME}/code
         #    . "$WRAPPER"
         #fi
+
+        # If Node.js is installed, append its bin path to $PATH.
+        #if [ -x "$(command -v npm)" ]; then
+        #    append_to_path $(npm bin)
+        #fi
         ;;
 esac
 
