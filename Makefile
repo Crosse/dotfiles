@@ -32,6 +32,7 @@ dotfiles:
 	@for file in $(shell find "$(CURDIR)"		\
 				-mindepth 1 -maxdepth 1	\
 				-not -name 'Makefile'	\
+				-not -name 'README.md'	\
 				-not -name 'bin'	\
 				-not -name 'per-os'	\
 				-not -name '.gitignore'	\
