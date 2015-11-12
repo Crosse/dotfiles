@@ -10,6 +10,13 @@ submodules:
 	@echo "==> Updating submodules"
 	@git submodule update --init --recursive
 
+ycm:
+	@echo "==> Building YouCompleteMe"
+	@$(CURDIR)/.vim/bundle/YouCompleteMe/install.py	\
+			--clang-completer		\
+			--gocode-completer		\
+			--omnisharp-completer
+
 bin:
 	@echo "==> Creating symlinks in $(HOME)/bin"
 	@for file in $(shell find "$(CURDIR)/bin"	\
