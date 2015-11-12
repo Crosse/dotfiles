@@ -199,6 +199,11 @@ if !empty(glob(s:vundle_path. "/autoload/vundle.vim"))
     Plugin 'SirVer/ultisnips'
     Plugin 'honza/vim-snippets'
 
+    " vim-systemd-syntax - because I hate myself, but not that much
+    Plugin 'Matt-Deacalion/vim-systemd-syntax'
+
+    " Vim syntax file for Docker's Dockerfile and snippets for snipMate
+    Plugin 'ekalinin/Dockerfile.vim'
     " All plugins must be added before the following line.
     call vundle#end()
     "
