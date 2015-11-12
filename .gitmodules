@@ -1,0 +1,36 @@
+[submodule "_vim/bundle/Vundle.vim"]
+	path = _vim/bundle/Vundle.vim
+	url = https://github.com/gmarik/Vundle.vim
+[submodule "_vim/bundle/vim-airline"]
+	path = _vim/bundle/vim-airline
+	url = https://github.com/bling/vim-airline
+[submodule "_vim/bundle/vim-fugitive"]
+	path = _vim/bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
+[submodule "_vim/bundle/indentLine"]
+	path = _vim/bundle/indentLine
+	url = https://github.com/Yggdroot/indentLine
+[submodule "_vim/bundle/vim-go"]
+	path = _vim/bundle/vim-go
+	url = https://github.com/fatih/vim-go
+[submodule "_vim/bundle/syntastic"]
+	path = _vim/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic
+[submodule "_vim/bundle/YouCompleteMe"]
+	path = _vim/bundle/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe
+[submodule "_vim/bundle/tagbar"]
+	path = _vim/bundle/tagbar
+	url = https://github.com/majutsushi/tagbar
+[submodule "_vim/bundle/ultisnips"]
+	path = _vim/bundle/ultisnips
+	url = https://github.com/SirVer/ultisnips
+[submodule "_vim/bundle/vim-snippets"]
+	path = _vim/bundle/vim-snippets
+	url = https://github.com/honza/vim-snippets
+[submodule "_vim/bundle/vim-systemd-syntax"]
+	path = _vim/bundle/vim-systemd-syntax
+	url = https://github.com/Matt-Deacalion/vim-systemd-syntax
+[submodule "_vim/bundle/Dockerfile.vim"]
+	path = _vim/bundle/Dockerfile.vim
+	url = https://github.com/ekalinin/Dockerfile.vim
