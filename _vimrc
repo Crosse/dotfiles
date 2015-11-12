@@ -170,6 +170,13 @@ if !empty(glob(s:vundle_path. "/autoload/vundle.vim"))
     " Go development plugin for Vim
     " https://github.com/fatih/vim-go
     Plugin 'fatih/vim-go'
+    let g:go_fmt_command = "goimports"
+    let g:go_highlight_functions = 1
+    let g:go_highlight_methods = 1
+    let g:go_highlight_structs = 1
+    let g:go_highlight_operators = 1
+    let g:go_highlight_build_constraints = 1
+    au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
 
     " Syntax checking hacks for vim
     " https://github.com/scrooloose/syntastic
