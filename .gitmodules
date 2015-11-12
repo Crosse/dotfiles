@@ -1,36 +1,36 @@
-[submodule "_vim/bundle/Vundle.vim"]
-	path = _vim/bundle/Vundle.vim
+[submodule ".vim/bundle/Vundle.vim"]
+	path = .vim/bundle/Vundle.vim
 	url = https://github.com/gmarik/Vundle.vim
-[submodule "_vim/bundle/vim-airline"]
-	path = _vim/bundle/vim-airline
+[submodule ".vim/bundle/vim-airline"]
+	path = .vim/bundle/vim-airline
 	url = https://github.com/bling/vim-airline
-[submodule "_vim/bundle/vim-fugitive"]
-	path = _vim/bundle/vim-fugitive
+[submodule ".vim/bundle/vim-fugitive"]
+	path = .vim/bundle/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive
-[submodule "_vim/bundle/indentLine"]
-	path = _vim/bundle/indentLine
+[submodule ".vim/bundle/indentLine"]
+	path = .vim/bundle/indentLine
 	url = https://github.com/Yggdroot/indentLine
-[submodule "_vim/bundle/vim-go"]
-	path = _vim/bundle/vim-go
+[submodule ".vim/bundle/vim-go"]
+	path = .vim/bundle/vim-go
 	url = https://github.com/fatih/vim-go
-[submodule "_vim/bundle/syntastic"]
-	path = _vim/bundle/syntastic
+[submodule ".vim/bundle/syntastic"]
+	path = .vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic
-[submodule "_vim/bundle/YouCompleteMe"]
-	path = _vim/bundle/YouCompleteMe
+[submodule ".vim/bundle/YouCompleteMe"]
+	path = .vim/bundle/YouCompleteMe
 	url = https://github.com/Valloric/YouCompleteMe
-[submodule "_vim/bundle/tagbar"]
-	path = _vim/bundle/tagbar
+[submodule ".vim/bundle/tagbar"]
+	path = .vim/bundle/tagbar
 	url = https://github.com/majutsushi/tagbar
-[submodule "_vim/bundle/ultisnips"]
-	path = _vim/bundle/ultisnips
+[submodule ".vim/bundle/ultisnips"]
+	path = .vim/bundle/ultisnips
 	url = https://github.com/SirVer/ultisnips
-[submodule "_vim/bundle/vim-snippets"]
-	path = _vim/bundle/vim-snippets
+[submodule ".vim/bundle/vim-snippets"]
+	path = .vim/bundle/vim-snippets
 	url = https://github.com/honza/vim-snippets
-[submodule "_vim/bundle/vim-systemd-syntax"]
-	path = _vim/bundle/vim-systemd-syntax
+[submodule ".vim/bundle/vim-systemd-syntax"]
+	path = .vim/bundle/vim-systemd-syntax
 	url = https://github.com/Matt-Deacalion/vim-systemd-syntax
-[submodule "_vim/bundle/Dockerfile.vim"]
-	path = _vim/bundle/Dockerfile.vim
+[submodule ".vim/bundle/Dockerfile.vim"]
+	path = .vim/bundle/Dockerfile.vim
 	url = https://github.com/ekalinin/Dockerfile.vim
