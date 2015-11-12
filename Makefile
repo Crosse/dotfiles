@@ -1,4 +1,5 @@
-.PHONY: submodules bin dotfiles
+GO_VERSION := 1.5.1
+GO_SRC := /usr/local/go
 
 all: update submodules bin dotfiles
 
@@ -43,3 +44,9 @@ dotfiles:
 		f=$$(basename $$file);			\
 		ln -sfn "$$file" "$(HOME)/$$f";		\
 	done
+
+install_go:
+	@echo ==> Downloading Go $(GO_VERSION)
+
+
+.PHONY: submodules bin dotfiles
