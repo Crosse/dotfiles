@@ -3,14 +3,15 @@
 all: update submodules bin dotfiles
 
 update:
+	@echo "==> Updating local repo"
 	@git pull --rebase
 
 submodules:
-	@echo Updating submodules
+	@echo "==> Updating submodules"
 	@git submodule update --init --recursive
 
 bin:
-	@echo Creating symlinks in $(HOME)/bin
+	@echo "==> Creating symlinks in $(HOME)/bin"
 	@for file in $(shell find "$(CURDIR)/bin"	\
 				-mindepth 1		\
 				-not -name '.*.swp'	\
@@ -20,7 +21,7 @@ bin:
 	done
 
 dotfiles:
-	@echo Symlinking dotfiles into $(HOME)
+	@echo "==> Symlinking dotfiles into $(HOME)"
 	@for file in $(shell find "$(CURDIR)"		\
 				-mindepth 1 -maxdepth 1	\
 				-not -name 'Makefile'	\
