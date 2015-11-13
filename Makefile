@@ -1,22 +1,12 @@
-.PHONY: update submodules bin dotfiles remove_go install_go
-all: update submodules bin dotfiles install_go install_gotools
+.PHONY: default bin dotfiles update_git update_repo submodules		\
+	go install_go install_gotools install update_git default	\
+	install_personal
 
-update:
-	@echo "==> Updating local repo"
-	@git pull --rebase
+default: bin dotfiles
 
-
-submodules:
-	@echo "==> Updating submodules"
-	@git submodule update --init --recursive
-
-
-ycm:
-	@echo "==> Building YouCompleteMe"
-	@$(CURDIR)/.vim/bundle/YouCompleteMe/install.py	\
-			--clang-completer		\
-			--gocode-completer		\
-			--omnisharp-completer
+update_git: update_repo submodules
+go: install_go install_gotools
+install: update_git default go install_personal
 
 
 bin:
@@ -46,6 +36,25 @@ dotfiles:
 		f=$$(basename $$file);			\
 		ln -sfn "$$file" "$(HOME)/$$f";		\
 	done
+
+update_repo:
+	@echo "==> Updating local repo"
+	@git pull --rebase
+
+
+submodules:
+	@echo "==> Updating submodules"
+	@git submodule update --init --recursive
+
+
+ycm:
+	@echo "==> Building YouCompleteMe"
+	@$(CURDIR)/.vim/bundle/YouCompleteMe/install.py	\
+			--clang-completer		\
+			--gocode-completer		\
+			--omnisharp-completer
+
+
 
 
 GO_VERSION := 1.5.1
@@ -85,6 +94,7 @@ else
 endif
 
 remove_go:
+	@echo "==> Removing /usr/local/go"
 	@if [ -d /usr/local/go ]; then 		\
 		echo ==> Removing Go install;	\
 		sudo $(RM) -rf /usr/local/go;	\
