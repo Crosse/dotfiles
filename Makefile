@@ -47,16 +47,6 @@ submodules:
 	@git submodule update --init --recursive
 
 
-ycm:
-	@echo "==> Building YouCompleteMe"
-	@$(CURDIR)/.vim/bundle/YouCompleteMe/install.py	\
-			--clang-completer		\
-			--gocode-completer		\
-			--omnisharp-completer
-
-
-
-
 GO_VERSION := 1.5.1
 UNAME := $(shell uname)
 ARCH := $(shell uname -m)
