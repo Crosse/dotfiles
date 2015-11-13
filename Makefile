@@ -101,3 +101,9 @@ install_gotools: /usr/local/go
 	go get -u github.com/golang/lint/golint
 	go get -u golang.org/x/tools/cmd/cover
 	go get -u golang.org/x/tools/cmd/vet
+
+install_personal:
+	go get -u github.com/crosse/sshsrv
+	@if [ -n "$(shell command -v gem)" ]; then		\
+		sudo gem install pwhois;			\
+	fi
