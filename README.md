@@ -5,21 +5,22 @@ mine.
 
 ## Installing/Updating
 
-Just run
+For a new, "I don't have anything set up" install, use
 
 ```
-make
+$ make install
 ```
 
 and call it a day.  This will
-* update the repo,
-* initialize and update all submodules (so far just Vim plugins),
-* symlink bin/* to ${HOME}/bin/, and
-* symlink .* to ${HOME}/
+* `git update` the repo,
+* initialize and update all git submodules (so far just Vim plugins),
+* symlink bin/* to ${HOME}/bin/,
+* symlink .* to ${HOME}/,
+* install Go and some useful tools, and
+* install some personal projects.
 
-There's another `make` target to recompile
-[YouCompleteMe](https://github.com/Valloric/YouCompleteMe/)
-because I'm that lazy.
+There are other `make` targets; see the [Makefile](./Makefile) for a
+list of them.
 
 
 ## Attribution
@@ -29,8 +30,6 @@ The Makefile and symlinking ideas were borrowed from the most-excellent
 
 
 ## License
-*Because it's better to be explicit, I guess...*
-
     Copyright (c) 2015, Seth Wright <seth@crosse.org>
 
     Permission to use, copy, modify, and/or distribute this software for
