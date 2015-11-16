@@ -1,6 +1,6 @@
 .PHONY: default bin dotfiles update_git update_repo submodules		\
 	go install_go install_gotools install update_git default	\
-	install_personal
+	install_personal vim
 
 default: bin dotfiles
 
@@ -36,6 +36,10 @@ dotfiles:
 		f=$$(basename $$file);			\
 		ln -sfn "$$file" "$(HOME)/$$f";		\
 	done
+
+vim: submodules
+	@git submodule update --init .vim
+	@cd .vim && $(MAKE) install
 
 update_repo:
 	@echo "==> Updating local repo"
