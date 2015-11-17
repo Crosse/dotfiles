@@ -8,10 +8,10 @@ bootstrap:
 	@cd $(CURDIR)/dotfiles/build && $(MAKE) install
 
 bin:
-	$(CURDIR)/build/symlink.sh
+	$(CURDIR)/symlink.sh
 
 dotfiles:
-	$(CURDIR)/build/dotfiles.sh
+	$(CURDIR)/dotfiles.sh
 
 vim:
 	@git clone git@github.com:Crosse/vimfiles.git $(HOME)/.vim
