@@ -1,8 +1,9 @@
 #!/bin/sh
 
 BINDIR=$(cd "$(dirname "$0")/../bin" && pwd -P)
-cd $BINDIR
-for file in $(find . -mindepth 1 -not -name '.*.swp'); do
+cd "$BINDIR"
+
+for file in $(find "$BINDIR" -maxdepth 1 -mindepth 1 -not -name '.*.swp'); do
     f=$(basename $file)
     if [ -e "${HOME}/$f" -a ! -L "${HOME}/$f" ]; then
         echo "Backing up ${HOME}/$f to ${HOME}/backup/$f"
