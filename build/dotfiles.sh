@@ -1,7 +1,5 @@
 #!/bin/sh
 
-echo "==> Symlinking dotfiles into ${HOME}"
-
 WRKDIR=$(cd "$(dirname "$0")/.." && pwd -P)
 cd "$WRKDIR"
 

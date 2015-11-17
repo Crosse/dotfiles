@@ -5,8 +5,6 @@ BOOTSTRAP_FILE=bootstrap-2015Q3-x86_64.tar.gz
 SHASUM=c150c0db1daddb4ec49592a7563c2838760bfb8b
 ######################################################
 
-echo "==> Installing pkgsrc"
-
 . funcs.sh
 
 PKGSRC_SITE=https://pkgsrc.joyent.com/packages/Darwin/bootstrap/
