@@ -42,7 +42,7 @@ install_personal:
 	fi
 
 install_pkgsrc: /opt/pkg
-	@$(CURDIR)/build/install_pkgsrc.sh
+	@$(CURDIR)/install_pkgsrc.sh
 
 clean_pkgsrc:
 	$(RM) -f /opt/pkg /var/db/pkgin
