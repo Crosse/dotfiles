@@ -1,13 +1,11 @@
-.PHONY: default bin dotfiles update_git update_repo submodules		\
-	go install_go install_gotools install update_git default	\
-	install_personal vim
-
 default: bin dotfiles
-
-update_git: update_repo submodules
 go: install_go install_gotools
-install: update_git default go install_personal
+install: default go install_personal install_pkgsrc vim
 
+bootstrap:
+	@echo "==> Cloning dotfiles into $(CURDIR)/dotfiles"
+	@git clone git@github.com/crosse/dotfiles.git $(CURDIR)/dotfiles
+	@cd $(CURDIR)/dotfiles && $(MAKE) install
 
 bin:
 	@echo "==> Creating symlinks in $(HOME)/bin"
@@ -18,7 +16,6 @@ bin:
 		f=$$(basename $$file);			\
 		ln -sfn "$$file" "${HOME}/bin/$$f";	\
 	done
-
 
 dotfiles:
 	@echo "==> Symlinking dotfiles into $(HOME)"
@@ -37,69 +34,22 @@ dotfiles:
 		ln -sfn "$$file" "$(HOME)/$$f";		\
 	done
 
-vim: submodules
-	@git submodule update --init .vim
-	@cd .vim && $(MAKE) install
-
-update_repo:
-	@echo "==> Updating local repo"
-	@git pull --rebase
-
-
-submodules:
-	@echo "==> Updating submodules"
-	@git submodule update --init --recursive
-
-
-GO_VERSION := 1.5.1
-UNAME := $(shell uname)
-ARCH := $(shell uname -m)
-
-GOFILE = go$(GO_VERSION)
-ifeq ($(UNAME),Linux)
-	GOFILE := $(GOFILE).linux
-else ifeq ($(UNAME),Darwin)
-	GOFILE := $(GOFILE).darwin
-else
-	@echo "Platform isn't Linux or Darwin"
-	exit
-endif
-
-ifeq ($(ARCH),x86_64)
-	GOFILE := $(GOFILE)-amd64.tar.gz
-else ifeq ($(ARCH),i386)
-	GOFILE := $(GOFILE)-386.tar.gz
-else
-	@echo "Arch isn't x86_64 or i386"
-	exit
-endif
-
-GO_URI := https://storage.googleapis.com/golang/$(GOFILE)
-WGET := $(shell command -v wget)
-CURL := $(shell command -v curl)
-
-ifdef WGET
-	DLCMD := $(WGET) -O-
-else ifdef CURL
-	DLCMD := $(CURL) -L
-else
-	@echo "Neither curl nor wget are installed"
-	exit
-endif
-
-remove_go:
-	@echo "==> Removing /usr/local/go"
-	@if [ -d /usr/local/go ]; then 		\
-		echo ==> Removing Go install;	\
-		sudo $(RM) -rf /usr/local/go;	\
-	fi
+vim:
+	@git clone git@github.com/crosse/vimfiles.git $(HOME)/.vim
+	@cd $(HOME)/.vim && $(MAKE) install
 
 install_go: /usr/local/go
 
 /usr/local/go:
-	@echo "==> Downloading Go $(GO_VERSION)"
-	@sudo -v
-	@$(DLCMD) $(GO_URI) | sudo tar xzf - -C /usr/local
+	@sudo $(CURDIR)/build/install_go.sh
+
+clean_go:
+	@if [ -d /usr/local/go ]; then 			\
+		@echo "==> Removing /usr/local/go";	\
+		sudo $(RM) -rf /usr/local/go;		\
+	else						\
+		echo "Go is not installed";		\
+	fi
 
 install_gotools: /usr/local/go
 	go get -u github.com/golang/lint/golint
@@ -111,3 +61,15 @@ install_personal:
 	@if [ -n "$(shell command -v gem)" ]; then		\
 		sudo gem install pwhois;			\
 	fi
+
+install_pkgsrc: /opt/pkg
+	@$(CURDIR)/build/install_pkgsrc.sh
+
+clean_pkgsrc:
+	$(RM) -f /opt/pkg /var/db/pkgin
+
+clean_all: clean_go clean_pkgsrc
+
+.PHONY: default bin dotfiles go install_go install_gotools 	\
+    	install default install_personal vim clean_go		\
+	install_pkgsrc clean_pkgsrc clean_all bootstrap
