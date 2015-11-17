@@ -26,6 +26,10 @@ case "$ARCH" in
     i386)
         GOFILE="${GOFILE}-386"
         ;;
+    *)
+        echo "Unexpected ARCH: $ARCH"
+        exit
+        ;;
 esac
 GOFILE="${GOFILE}.tar.gz"
 
