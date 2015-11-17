@@ -12,8 +12,8 @@ else
 fi
 
 
-UNAME=$(uname)
-ARCH=$(uname -m | tr [A-Z] [a-z])
+UNAME=$(uname | tr [A-Z] [a-z])
+ARCH=$(uname -m)
 GOFILE="go$VERSION"
 
 # This only works for Linux and Darwin.
