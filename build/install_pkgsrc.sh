@@ -38,7 +38,7 @@ shasum -c cksumfile
 # Verify PGP signature (optional, requires gpg to be installed)
 if [ -n "$(command -v gpg)" ]; then
     echo "==> Verifying GPG signature"
-    $DOWNLOADER "${PKGSRC_SITE}${BOOTSTRAP_FILE}.asc" > $BOOTSTRAP_FILE
+    $DOWNLOADER "${PKGSRC_SITE}${BOOTSTRAP_FILE}.asc" > ${BOOTSTRAP_FILE}.asc
     gpg --recv-keys 0xDE817B8E
     gpg --verify ${BOOTSTRAP_FILE}{.asc,}
     [[ $? == 0 ]] || exit
