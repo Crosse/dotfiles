@@ -14,7 +14,7 @@ dotfiles:
 	$(CURDIR)/build/dotfiles.sh
 
 vim:
-	@git clone git@github.com/crosse/vimfiles.git $(HOME)/.vim
+	@git clone git@github.com:Crosse/vimfiles.git $(HOME)/.vim
 	@cd $(HOME)/.vim && $(MAKE) install
 
 install_go: /usr/local/go
