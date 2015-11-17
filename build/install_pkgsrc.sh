@@ -30,7 +30,7 @@ $DOWNLOADER "${PKGSRC_SITE}${BOOTSTRAP_FILE}" > $BOOTSTRAP_FILE
 # Verify the download. Kind of hacky right now.
 echo "==> Verifying SHA hash"
 echo "$SHASUM  $BOOTSTRAP_FILE" > cksumfile
-shasum -c cksumfile 
+shasum -c cksumfile
 [[ $? == 0 ]] || exit
 
 # Verify PGP signature (optional, requires gpg to be installed)
