@@ -4,7 +4,7 @@ install: default go install_personal install_pkgsrc vim
 
 bootstrap:
 	@echo "==> Cloning dotfiles into $(CURDIR)/dotfiles"
-	@git clone git@github.com/crosse/dotfiles.git $(CURDIR)/dotfiles
+	@git clone git@github.com:Crosse/dotfiles.git $(CURDIR)/dotfiles
 	@cd $(CURDIR)/build/dotfiles && $(MAKE) install
 
 bin:
