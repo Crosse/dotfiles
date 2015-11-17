@@ -8,31 +8,10 @@ bootstrap:
 	@cd $(CURDIR)/build/dotfiles && $(MAKE) install
 
 bin:
-	@echo "==> Creating symlinks in $(HOME)/bin"
-	@for file in $(shell find "$(CURDIR)/bin"	\
-				-mindepth 1		\
-				-not -name '.*.swp'	\
-			); do				\
-		f=$$(basename $$file);			\
-		ln -sfn "$$file" "${HOME}/bin/$$f";	\
-	done
+	$(CURDIR)/build/symlink.sh
 
 dotfiles:
-	@echo "==> Symlinking dotfiles into $(HOME)"
-	@cd $(CURDIR);					\
-	 for file in $(shell find "."			\
-				-mindepth 1 -maxdepth 1	\
-				-not -name '.git'	\
-				-not -name '.gitignore'	\
-				-not -name '.gitmodules'\
-				-not -name 'README.md'	\
-				-not -name 'bin'	\
-				-not -name 'build'	\
-				-not -name '.*.swp'	\
-			); do				\
-		f=$$(basename $$file);			\
-		ln -sfn "$$file" "$(HOME)/$$f";		\
-	done
+	$(CURDIR)/build/dotfiles.sh
 
 vim:
 	@git clone git@github.com/crosse/vimfiles.git $(HOME)/.vim
