@@ -14,10 +14,7 @@ fi
 
 UNAME=$(uname | tr [A-Z] [a-z])
 ARCH=$(uname -m)
-GOFILE="go$VERSION"
-
-# This only works for Linux and Darwin.
-GOFILE="go${VERSION}.${ARCH}"
+GOFILE="go${VERSION}.${UNAME}"
 
 case "$ARCH" in
     x86_64)
