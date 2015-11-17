@@ -50,10 +50,10 @@
 [core]
     excludesfile = ~/.gitignore_global
 
-[url "https://github.com/"]
+[url "git@github.com:"]
     insteadOf = github:
 
-[url "https://bitbucket.org/"]
+[url "git@bitbucket.org:"]
     insteadOf = bb:
 
 [include]
