@@ -1,56 +1,77 @@
-default: bin dotfiles
-go: install_go install_gotools
-install: default go install_personal install_pkgsrc vim
+# Variables
+GOVER := 1.5.1
+GOROOT ?= /usr/local/go
+GOPATH ?= $(HOME)/code/go
+SCMURI := git@github.com:Crosse
 
-bootstrap:
+GO := $(GOROOT)/bin/go
+export GOPATH
+GIT := $(shell command -v git)
+
+default: bin dotfiles
+all: default install_go install_gotools install_personal install_pkgsrc vim
+
+
+bootstrap: git
 	@echo "==> Cloning dotfiles into $(CURDIR)/dotfiles"
-	@git clone git@github.com:Crosse/dotfiles.git $(CURDIR)/dotfiles
-	@cd $(CURDIR)/dotfiles/build && $(MAKE) install
+	@git clone $(SCMURI)/dotfiles.git $(CURDIR)/dotfiles
+	@cd $(CURDIR)/dotfiles/build && $(MAKE) all
 
 bin:
+	@echo "==> Creating symlinks in ${HOME}/bin"
 	@$(CURDIR)/symlink.sh
 
 dotfiles:
+	@echo "==> Symlinking dotfiles into ${HOME}"
 	@$(CURDIR)/dotfiles.sh
 
-vim:
-	@git clone git@github.com:Crosse/vimfiles.git $(HOME)/.vim
+vim: git
+	@echo "==> Cloning vimfiles into ${HOME}/.vim"
+	git clone $(SCMURI)/vimfiles.git $(HOME)/.vim
 	@cd $(HOME)/.vim && $(MAKE) install
 
-install_go: /usr/local/go
-
-/usr/local/go:
-	@sudo $(CURDIR)/build/install_go.sh
+install_go: $(GOROOT)
+$(GOROOT):
+	@echo "Installing Go $(GOVER)"
+	sudo $(CURDIR)/install_go.sh $(GOVER)
 
 clean_go:
-	@if [ -d /usr/local/go ]; then 			\
-		@echo "==> Removing /usr/local/go";	\
-		sudo $(RM) -rf /usr/local/go;		\
-	else						\
-		echo "Go is not installed";		\
-	fi
+	@echo "==> Removing $(GOROOT)"
+	sudo $(RM) -rf $(GOROOT);		\
 
-install_gotools: export GOPATH=$(HOME)/code/go
-install_gotools: /usr/local/go
-	go get -u github.com/golang/lint/golint
-	go get -u golang.org/x/tools/cmd/cover
-	go get -u golang.org/x/tools/cmd/vet
+install_gotools: $(GOROOT)
+	@echo "==> Installing Go tools"
+	$(GO) get -u github.com/golang/lint/golint
+	$(GO) get -u golang.org/x/tools/cmd/cover
+	$(GO) get -u golang.org/x/tools/cmd/vet
 
-install_personal: export GOPATH=$(HOME)/code/go
 install_personal:
+	@echo "==> Installing personal tools"
 	go get -u github.com/crosse/sshsrv
-	@if [ -n "$(shell command -v gem)" ]; then		\
-		sudo gem install pwhois;			\
+	@if [ -n "$(shell command -v gem)" ]; then	\
+		sudo gem install pwhois;		\
 	fi
 
 install_pkgsrc: /opt/pkg
+/opt/pkg:
+	@echo "==> Installing pkgsrc"
 	@$(CURDIR)/install_pkgsrc.sh
 
 clean_pkgsrc:
-	$(RM) -f /opt/pkg /var/db/pkgin
+	@echo "==> Removing pkgsrc"
+	sudo $(RM) -rf /opt/pkg /var/db/pkgin
 
-clean_all: clean_go clean_pkgsrc
+install_git:
+	@$(MAKE) install_pkgsrc
+	sudo pkgin -y in git
 
-.PHONY: default bin dotfiles go install_go install_gotools 	\
-    	install default install_personal vim clean_go		\
-	install_pkgsrc clean_pkgsrc clean_all bootstrap
+git:
+ifndef GIT
+	$(warning Git is not installed, or not in PATH)
+	$(MAKE) install_git
+endif
+
+.PHONY: default all bootstrap bin dotfiles vim		\
+	install_go clean_go install_gotools 		\
+	install_personal install_pkgsrc			\
+	clean_pkgsrc git install_git
