@@ -7,10 +7,11 @@ SCMURI := git@github.com:Crosse
 GO := $(GOROOT)/bin/go
 export GOPATH
 GIT := $(shell command -v git)
+UNAME := $(shell uname)
+ARCH := $(shell uname -m)
 
 default: bin dotfiles
 all: default install_go install_gotools install_personal install_pkgsrc vim
-
 
 bootstrap: git
 	@echo "==> Cloning dotfiles into $(CURDIR)/dotfiles"
@@ -54,8 +55,12 @@ install_personal:
 
 install_pkgsrc: /opt/pkg
 /opt/pkg:
+ifeq ($(UNAME),$(filter $(UNAME),Darwin SmartOS))
 	@echo "==> Installing pkgsrc"
 	@$(CURDIR)/install_pkgsrc.sh
+else
+	$(info pkgsrc not needed on this platform)
+endif
 
 clean_pkgsrc:
 	@echo "==> Removing pkgsrc"
