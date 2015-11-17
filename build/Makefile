@@ -5,7 +5,7 @@ install: default go install_personal install_pkgsrc vim
 bootstrap:
 	@echo "==> Cloning dotfiles into $(CURDIR)/dotfiles"
 	@git clone git@github.com/crosse/dotfiles.git $(CURDIR)/dotfiles
-	@cd $(CURDIR)/dotfiles && $(MAKE) install
+	@cd $(CURDIR)/build/dotfiles && $(MAKE) install
 
 bin:
 	@echo "==> Creating symlinks in $(HOME)/bin"
@@ -19,15 +19,15 @@ bin:
 
 dotfiles:
 	@echo "==> Symlinking dotfiles into $(HOME)"
-	@for file in $(shell find "$(CURDIR)"		\
+	@cd $(CURDIR);					\
+	 for file in $(shell find "."			\
 				-mindepth 1 -maxdepth 1	\
-				-not -name 'Makefile'	\
-				-not -name 'README.md'	\
-				-not -name 'bin'	\
-				-not -name 'per-os'	\
+				-not -name '.git'	\
 				-not -name '.gitignore'	\
 				-not -name '.gitmodules'\
-				-not -name '.git'	\
+				-not -name 'README.md'	\
+				-not -name 'bin'	\
+				-not -name 'build'	\
 				-not -name '.*.swp'	\
 			); do				\
 		f=$$(basename $$file);			\
