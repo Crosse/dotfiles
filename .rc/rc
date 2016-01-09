@@ -46,17 +46,21 @@ rc_log "starting up"
 
 function rc_source_file {
     if [ -r "$1" ]; then
+        if [ -n "$RC_TIME" ]; then
+            local starttime=$(perl -MTime::HiRes -e 'printf("%.0f\n",Time::HiRes::time()*1000)')
+        fi
 
         typeset OLD_RC_FILENAME="$RC_FILENAME"
         rc_log "sourcing $1"
         typeset RC_INDENT=$(($RC_INDENT+4))
-        if [ -n "$RC_TIMED" ]; then
-            time . "$1"
-        else
-            . "$1"
-        fi
+        . "$1"
         typeset RC_INDENT=$(($RC_INDENT-4))
         RC_FILENAME="$OLD_RC_FILENAME"
+
+        if [ -n "$RC_TIME" ]; then
+            local endtime=$(perl -MTime::HiRes -e 'printf("%.0f\n",Time::HiRes::time()*1000)')
+            printf "Module $1 took $(($endtime - $starttime))ms\n" 1>&2
+        fi
     fi
 }
 
@@ -73,7 +77,8 @@ function rc_get_module {
 }
 
 function rc_set_module {
-    remove_from_path $1 $2
+    rc_log "removing module $1"
+    rc_del_module $1
     RC_MODULES="${RC_MODULES##:}:$1"
 }
 
