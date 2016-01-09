@@ -146,4 +146,24 @@ signaci() {
     gpg2 -ao "${ACI}.asc" -b "$ACI"
     gpg2 --verify "${ACI}.asc" "${ACI}"
 }
+
+ssh_gen_keys() {
+    # Generate ssh keys if they do not already exist.
+    if [ ! -d "${HOME}/.ssh/" ]; then
+        mkdir -p "${HOME}/.ssh/"
+        chown ${USER}:$(id -ng) "${HOME}/.ssh/"
+        chmod 700 "${HOME}/.ssh"
+    fi
+
+    for type in rsa ecdsa ed25519; do
+        keyfile="${HOME}/.ssh/id_${type}"
+        if [ ! -f "$keyfile" ]; then
+            printf "Creating missing $type SSH key for ${USER}: "
+            ssh-keygen -q -t $type -f "$keyfile" -N ""
+            printf "done.\n"
+        fi
+    done
+
+}
+
 rc_log "done."
