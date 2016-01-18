@@ -1,5 +1,11 @@
-! Stuff that doesn't go anywhere else.
+! Font configuration.
+Xft*dpi:                96
 Xft*antialias:          true
+Xft*hinting:            true
+Xft*rgba:               rgb
+Xft*autohint:           false
+Xft*hintstyle:          hintslight
+Xft*lcdfilter:          lcddefault
 ! Process ~/.profile, if it exists.
 XTerm*loginShell:       true
 ! Present meta-chars as single chars with 8th bit set
