@@ -1,3 +1,4 @@
+! Stuff that does not go anywhere else.
 ! Font configuration.
 Xft*dpi:                96
 Xft*antialias:          true
@@ -6,6 +7,7 @@ Xft*rgba:               rgb
 Xft*autohint:           false
 Xft*hintstyle:          hintslight
 Xft*lcdfilter:          lcddefault
+
 ! Process ~/.profile, if it exists.
 XTerm*loginShell:       true
 ! Present meta-chars as single chars with 8th bit set
@@ -33,7 +35,7 @@ XTerm*scrollBar:        false
 XTerm*rightScrollBar:   true
 ! Scroll to the bottom when a key is pressed
 XTerm*scrollKey:        true
-! Don't scroll on output
+! Do not scroll on output
 XTerm*scrollTtyOutput:  false
 
 ! xidle config
@@ -52,7 +54,7 @@ XIdle.Timeout:          900
 XLock.lockdelay:        30
 ! The screensaver to use
 XLock.mode:             fzort
-! Show when you're typing
+! Show when you are typing
 XLock.echokeys:         on
 ! Print *'s instead of ?'s
 XLock.echokey:          *
