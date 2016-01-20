@@ -8,9 +8,9 @@ downloader() {
             ;;
         Linux|Darwin)
             if [ "$(command -v curl)" ]; then
-                echo "curl -Lo-"
+                echo "curl -Lso-"
             elif [ "$(command -v wget)" ]; then
-                echo "wget -O-"
+                echo "wget -qO-"
             fi
             ;;
     esac
