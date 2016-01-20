@@ -7,6 +7,11 @@ if [ -f ${HOME}/.Xresources ]; then
     xrdb -merge ${HOME}/.Xresources
 fi
 
+# Disable the bell
+if [ -n "$DISPLAY" ]; then
+    xset b off
+fi
+
 case "$(uname)" in
     OpenBSD)
         if [ -f "`which xidle`" ]; then
