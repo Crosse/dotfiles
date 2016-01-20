@@ -11,7 +11,7 @@ UNAME := $(shell uname)
 ARCH := $(shell uname -m)
 
 default: bin dotfiles
-all: default install_go install_gotools install_personal install_pkgsrc vim
+all: default fonts install_go install_gotools install_personal install_pkgsrc vim
 
 bootstrap: git
 	@echo "==> Cloning dotfiles into $(CURDIR)/dotfiles"
@@ -25,6 +25,10 @@ bin:
 dotfiles:
 	@echo "==> Symlinking dotfiles into ${HOME}"
 	@$(CURDIR)/dotfiles.sh
+
+fonts:
+	@echo "==> Downloading font files"
+	@$(CURDIR)/fonts.sh
 
 vim: git
 	@echo "==> Cloning vimfiles into ${HOME}/.vim"
