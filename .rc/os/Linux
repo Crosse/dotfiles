@@ -45,7 +45,11 @@ case "$-" in
         # Linux uses GNU grep.  Set options such that color support is
         # enabled, binary files will be ignored, and files named "tags"
         # will not be searched.
-        export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
+        export GREP_OPTS="--colour=auto --binary-files=without-match --exclude=tags"
+        for cmd in /bin/*grep; do
+            cmd=$(basename $cmd)
+            alias $cmd="$cmd \$GREP_OPTS"
+        done
         ;;
 esac
 
