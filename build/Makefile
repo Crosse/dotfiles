@@ -26,6 +26,10 @@ dotfiles:
 	@echo "==> Symlinking dotfiles into ${HOME}"
 	@$(CURDIR)/dotfiles.sh
 
+etc:
+	@echo "==> Copying config files to /etc"
+	@cp -Rv $(CURDIR)/../etc/* /etc
+
 fonts:
 	@echo "==> Downloading font files"
 	@$(CURDIR)/fonts.sh
