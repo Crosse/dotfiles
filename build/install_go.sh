@@ -35,3 +35,8 @@ $(downloader) ${GO_URI}${GOFILE} | sudo tar xzf - -C /usr/local
 if [ $? -eq 0 ]; then
     echo "==> Go $VERSION is now installed in /usr/local/go"
 fi
+
+cd /usr/local/bin
+for f in /usr/local/go/bin/*; do
+    sudo ln -svf "$f"
+done
