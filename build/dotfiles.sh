@@ -11,6 +11,7 @@ for file in $(find "$WRKDIR"            \
                 -not -name 'README.md'	\
                 -not -name 'bin'	\
                 -not -name 'build'	\
+                -not -name 'etc'	\
                 -not -name '.*.swp'	\
             ); do
     f=$(basename $file);
