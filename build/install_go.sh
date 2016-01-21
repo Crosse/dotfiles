@@ -32,7 +32,6 @@ GOFILE="${GOFILE}.tar.gz"
 
 echo "==> Downloading Go $VERSION"
 $(downloader) ${GO_URI}${GOFILE} | sudo tar xzf - -C /usr/local
-
-if [ $? == 0 ]; then
+if [ $? -eq 0 ]; then
     echo "==> Go $VERSION is now installed in /usr/local/go"
 fi
