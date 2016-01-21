@@ -3,7 +3,7 @@
 DEFAULT_VERSION=1.5.3
 GO_URI="https://storage.googleapis.com/golang/"
 
-. funcs.sh
+. ./funcs.sh
 
 if [ -n "$1" ]; then
     VERSION=$1
