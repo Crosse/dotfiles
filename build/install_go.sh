@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DEFAULT_VERSION=1.5.1
+DEFAULT_VERSION=1.5.3
 GO_URI="https://storage.googleapis.com/golang/"
 
 . funcs.sh

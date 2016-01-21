@@ -1,5 +1,5 @@
 # Variables
-GOVER := 1.5.1
+GOVER := 1.5.3
 GOROOT ?= /usr/local/go
 GOPATH ?= $(HOME)/code/go
 SCMURI := git@github.com:Crosse
