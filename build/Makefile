@@ -6,7 +6,7 @@ SCMURI := git@github.com:Crosse
 
 GO := $(GOROOT)/bin/go
 export GOPATH
-GIT := $(shell command -v git)
+GIT := $(shell command -v git;)
 UNAME := $(shell uname)
 ARCH := $(shell uname -m)
 
@@ -57,7 +57,7 @@ install_gotools: $(GOROOT)
 install_personal:
 	@echo "==> Installing personal tools"
 	go get -u github.com/crosse/sshsrv
-	@if [ -n "$(shell command -v gem)" ]; then	\
+	@if [ -n "$(shell command -v gem;)" ]; then	\
 		sudo gem install pwhois;		\
 	fi
 
