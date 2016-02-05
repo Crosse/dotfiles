@@ -10,7 +10,7 @@ DL_CMD=$(downloader)
 
 if [ ! -d "$FONTS_DIR" ]; then
     echo "Creating $FONTS_DIR"
-    mkdir "$FONTS_DIR"
+    mkdir -p "$FONTS_DIR"
 fi
 
 cd "$FONTS_DIR"
@@ -18,7 +18,7 @@ for f in $FONTS_LIST; do
     fdir="${FONTS_DIR}/${f}"
     if [ ! -d "$fdir" ]; then
         echo "Creating $fdir"
-        mkdir "$fdir"
+        mkdir -p "$fdir"
     fi
     echo "Downloading $f to $fdir"
     $DL_CMD "http://www.fontsquirrel.com/fonts/download/${f}" > "${f}.zip"
