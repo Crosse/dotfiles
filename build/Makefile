@@ -11,7 +11,8 @@ UNAME := $(shell uname)
 ARCH := $(shell uname -m)
 
 default: bin dotfiles
-all: default fonts install_go install_gotools install_personal install_pkgsrc vim
+all: default fonts install_go install_gotools install_personal
+mac: all install_pkgsrc
 
 bootstrap: git
 	@echo "==> Cloning dotfiles into $(CURDIR)/dotfiles"
