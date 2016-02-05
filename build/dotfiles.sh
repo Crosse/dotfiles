@@ -17,7 +17,7 @@ for file in $(find "$WRKDIR"            \
     f=$(basename $file);
     if [ -e "${HOME}/$f" -a ! -L "${HOME}/$f" ]; then
         echo "Backing up ${HOME}/$f to ${HOME}/backup/$f"
-        [[ -d "${HOME}/backup" ]] || mkdir -p "${HOME}/backup"
+        [ -d "${HOME}/backup" ] || mkdir -p "${HOME}/backup"
         cp -pvR "${HOME}/$f" "${HOME}/backup/"
     fi
     ln -sfn "$file" "${HOME}/$f"
