@@ -2,3 +2,4 @@
 dleyna-*
 user-dirs.*
 !fontconfig/
+!i3/
