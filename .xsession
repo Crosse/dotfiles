@@ -19,6 +19,7 @@ fi
 if [ -n "$DISPLAY" ]; then
     log "Disabling bell"
     xset b off
+    setxkbmap -option terminate:ctrl_alt_bksp
 fi
 
 PLATFORM=$(uname -s)
