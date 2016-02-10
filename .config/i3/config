@@ -14,7 +14,7 @@ set $mod Mod4
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 #font pango:monospace 8
-font pango:sans 12
+font pango:ubuntu 12
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -163,5 +163,5 @@ bindsym $mod+semicolon exec i3lock -c 111111
 bar {
         status_command i3status --config ~/.config/i3/status.conf
         tray_output primary
-        font pango:monospace 11
+        font pango:ubuntu-mono 11
 }
