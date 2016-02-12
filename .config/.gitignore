@@ -3,3 +3,4 @@ dleyna-*
 user-dirs.*
 !fontconfig/
 !i3/
+!Xresources.d/
