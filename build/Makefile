@@ -29,7 +29,7 @@ dotfiles:
 
 etc:
 	@echo "==> Copying config files to /etc"
-	@cp -Rv $(CURDIR)/../etc/* /etc
+	@sudo cp -Rv $(CURDIR)/../etc/* /etc
 
 fonts:
 	@echo "==> Downloading font files"
