@@ -1,12 +1,14 @@
 ! Stuff that does not go anywhere else.
 ! Font configuration.
-Xft*dpi:                96
-Xft*antialias:          true
-Xft*hinting:            true
-Xft*rgba:               rgb
-Xft*autohint:           false
-Xft*hintstyle:          hintslight
-Xft*lcdfilter:          lcddefault
+Xft.dpi:                283
+Xft.antialias:          1
+Xft.hinting:            1
+Xft.rgba:               rgb
+Xft.autohint:           0
+Xft.hintstyle:          hintfull
+Xft.lcdfilter:          lcddefault
+XTerm*faceName:         Monospace
+XTerm*faceSize:         10
 
 ! Process ~/.profile, if it exists.
 XTerm*loginShell:       true
@@ -22,9 +24,7 @@ XTerm*cursorBlink:      true
 XTerm*cursorOffTime:    750
 XTerm*cursorOnTime:     750
 
-! Font stuff
-XTerm*faceName:         Source Code Pro
-XTerm*faceSize:         10
+*bellIsUrgent:          true
 
 ! Hide the pointer when typing
 XTerm*pointerMode:      1
