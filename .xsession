@@ -52,7 +52,7 @@ SESSION="${XDG_CONFIG_HOME:-$HOME/.config}/default-shell"
 if [ -h "$SESSION" ]; then
     log "Starting $SESSION"
     if [ -f "$(command -v xcompmgr)" ]; then
-        xcompmgr -c &
+        xcompmgr -cCn &
     fi
     exec "$SESSION"
 else
