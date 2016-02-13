@@ -45,6 +45,7 @@ case "$PLATFORM" in
             synclient VertTwoFingerScroll=1
             synclient HorizTwoFingerScroll=1
         fi
+        [ -x /usr/lib/x86_64-linux-gnu/notify-osd ] && /usr/lib/x86_64-linux-gnu/notify-osd &
         ;;
 esac
 
