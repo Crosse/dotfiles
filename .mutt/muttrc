@@ -1,7 +1,13 @@
-# $Id$
+set wait_key = no
+set mbox_type = Maildir
+set timeout = 3
+set mail_check = 0
 
 source ~/.mutt/color.rc
+source ~/.mutt/folders.rc
 source ~/.mutt/misc.rc
+source ~/.mutt/sidebar.rc
+source ~/.mutt/keybindings.rc
 source ~/.mutt/accounts.rc
 
 push <show-version>

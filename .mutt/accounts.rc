@@ -1,13 +1,24 @@
-# $Id$
+# vim: syntax=muttrc
 
-# Log in to crosse.org IMAP at startup
-set from="seth@crosse.org"
-set realname="Seth Wright"
-set spoolfile="+INBOX"
-set folder="imaps://imap.gmail.com:993"
-set postponed="+[Gmail]/Drafts"
-set trash="imaps://imap.gmail.com/[Gmail]/Trash"
-set message_cachedir="~/.mailcache/"
-set header_cache="~/.mutt/cache/headers"
-set message_cachedir="~/.mutt/cache/bodies"
-set certificate_file="~/.mutt/certificates"
+# Default inbox.
+set spoolfile   = "+crosse.org/INBOX"
+mailboxes   +crosse.org/INBOX                   \
+            +crosse.org/archive                 \
+            +crosse.org/sent                    \
+            +crosse.org/spam                    \
+            +crosse.org/drafts                  \
+            +crosse.org/geek-l                  \
+            +crosse.org/illumos-discuss         \
+            +crosse.org/itunes store            \
+            +crosse.org/mirror-lists            \
+            +crosse.org/mirror-lists/archlinux  \
+            +crosse.org/mirror-lists/debian     \
+            +crosse.org/mirror-lists/manjaro    \
+            +crosse.org/mirror-lists/openbsd    \
+            +crosse.org/mirror-lists/ubuntu     \
+            +crosse.org/newegg                  \
+            +crosse.org/smartos-discuss         \
+            +crosse.org/tuhs
+
+set mbox        = "+crosse.org/archive"
+set postponed   = "+crosse.org/drafts"

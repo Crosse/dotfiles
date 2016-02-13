@@ -1,0 +1,8 @@
+# vim: syntax=muttrc
+
+set sidebar_delim           = '  |'
+set sidebar_visible         = yes
+set sidebar_width           = 32
+#set sidebar_folderindent    = yes
+#set sidebar_shortpath       = yes
+color sidebar_new color221 color233
