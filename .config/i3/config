@@ -119,6 +119,12 @@ bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
+# Assign browsers to workspace 3
+assign [class="Iceweasel"] 3: www
+assign [class="chromium-browser"] 3: www
+
+for_window [class="Seahorse"] floating enable
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
