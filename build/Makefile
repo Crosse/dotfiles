@@ -1,4 +1,5 @@
 # Variables
+RKTVER := v1.0.0
 GOVER := 1.5.3
 GOROOT ?= /usr/local/go
 GOPATH ?= $(HOME)/code/go
@@ -44,6 +45,10 @@ install_go: $(GOROOT)
 $(GOROOT):
 	@echo "Installing Go $(GOVER)"
 	sudo $(CURDIR)/install_go.sh $(GOVER)
+
+install_rkt:
+	@echo "Installing rkt $(RKTVER)"
+	sudo $(CURDIR)/install_rkt.sh $(RKTVER)
 
 clean_go:
 	@echo "==> Removing $(GOROOT)"
