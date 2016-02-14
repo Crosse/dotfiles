@@ -1,5 +1,12 @@
 !! vim: set ft=xdefaults:
 
+URxvt*clipboard.copycmd:    xclip -i -selection clipboard
+URxvt*clipboard.pastecmd:   xclip -o -selection clipboard
+URxvt.perl-ext-common:      default,matcher,selection-to-clipboard
+URxvt.url-launcher:         /home/seth/bin/browser-exec
+URxvt.matcher.button:       1
+URxvt.url-select.underline: true
+
 ! Compile xft: Attempt to find a visual with the given bit depth; option -depth.
 ! URxvt*depth: bitdepth
 
