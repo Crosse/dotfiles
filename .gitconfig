@@ -12,8 +12,8 @@
     br = branch
     first = log --reverse
 
-    # 'ls' and 'sl' use special colors, so they're defined in
-    # .gitconfig_extra.
+    ls = log --graph --pretty='%C(bold magenta)%h%Creset [%aN, %ar] %C(bold cyan)%s%Creset'
+    sl = "!git ls -20"
 
     # From http://michaelwales.com/articles/make-gitconfig-work-for-you/
     #   Show all of my configured aliases
