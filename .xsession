@@ -46,6 +46,10 @@ case "$PLATFORM" in
             synclient HorizTwoFingerScroll=1
         fi
         [ -x /usr/lib/x86_64-linux-gnu/notify-osd ] && /usr/lib/x86_64-linux-gnu/notify-osd &
+        if [ -n "$(command -v gnome-settings-daemon)" ]; then
+            log "Starting the GNOME settings daemon"
+            gnome-settings-daemon &
+        fi
         ;;
 esac
 
