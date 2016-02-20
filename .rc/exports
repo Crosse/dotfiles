@@ -62,16 +62,9 @@ else
 fi
 export PAGER
 
-# start gpg-agent, if installed.
-if [ -x "$(command -v gpg-agent)" ]; then
-    if [ -f "${HOME}/.gpg-agent-info" ]; then
-        . "${HOME}/.gpg-agent-info"
-        export GPG_AGENT_INFO SSH_AUTH_SOCK SSH_AGENT_PID
-    fi
-
-    if [ ! -S "$(echo $GPG_AGENT_INFO | cut -f1 -d':')" ]; then
-        eval $(gpg-agent --enable-ssh-support --daemon --write-env-file)
-    fi
+if [ -x "$(command -v gpg-connect-agent)" ]; then
+    gpg-connect-agent /bye
+    export GPG_TTY=$(tty)
 fi
 
 rc_set_module $RC_MODULE
