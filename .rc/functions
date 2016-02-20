@@ -164,5 +164,18 @@ calc() {
     printf "\n"
 }
 
+# Syntax-highlit less(1)
+cless() {
+    local f="$1"
+    [[ -z "$f" ]] && f="-"
+    cat "$f" | pygmentize | less
+}
+
+signaci() {
+    ACI="$1"
+    gpg -ao "${ACI}.asc" -b "$ACI"
+    gpg --verify "${ACI}.asc" "${ACI}"
+}
+
 rc_set_module $RC_MODULE
 rc_log "done."
