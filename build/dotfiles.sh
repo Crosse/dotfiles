@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. ./funcs.sh
+
 WRKDIR=$(cd "$(dirname "$0")/.." && pwd -P)
 cd "$WRKDIR"
 
@@ -22,3 +24,6 @@ for file in $(find "$WRKDIR"            \
     fi
     ln -sfn "$file" "${HOME}/$f"
 done
+
+echo "Retrieving the latest sks-keyservers.net CA"
+$(downloader) https://sks-keyservers.net/sks-keyservers.netCA.pem > ${HOME}/.gnupg/sks-keyservers.netCA.pem
