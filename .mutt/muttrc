@@ -9,5 +9,6 @@ source ~/.mutt/misc.rc
 source ~/.mutt/sidebar.rc
 source ~/.mutt/keybindings.rc
 source ~/.mutt/accounts.rc
+source ~/.mutt/compose.rc
 
 push <show-version>

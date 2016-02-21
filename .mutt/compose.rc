@@ -1,0 +1,22 @@
+# vim: syntax=muttrc
+
+set realname = "Seth Wright"
+set envelope_from
+set sig_dashes
+set edit_headers
+set fast_reply
+set askcc
+set fcc_attach
+unset mime_forward
+set forward_format = "Fwd: %s"
+set forward_decode
+set attribution = "On %d, %n wrote:"
+set reply_to
+set reverse_name
+set include
+set forward_quote
+
+set from = "seth@crosse.org"
+set sendmail = "/usr/bin/msmtp"
+set sendmail_wait = 0
+unset record
