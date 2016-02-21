@@ -124,6 +124,7 @@ assign [class="Iceweasel"] 3: www
 assign [class="chromium-browser"] 3: www
 
 for_window [class="Seahorse"] floating enable
+for_window [class="virt-manager"] floating enable
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
