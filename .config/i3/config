@@ -176,5 +176,5 @@ bindsym $mod+r mode "resize"
 bar {
         status_command i3status --config ~/.config/i3/status.conf
         tray_output primary
-        font pango:monospace 7
+        font pango:monospace 8
 }
