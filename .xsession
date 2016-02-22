@@ -50,6 +50,7 @@ case "$PLATFORM" in
             log "Starting the GNOME settings daemon"
             gnome-settings-daemon &
         fi
+        [ -x "$(command -v feh)" ] && feh --no-fehbg --bg-fill ${HOME}/.config/background.jpg
         ;;
 esac
 
