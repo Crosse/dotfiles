@@ -57,9 +57,7 @@ esac
 SESSION="${XDG_CONFIG_HOME:-$HOME/.config}/default-shell"
 if [ -h "$SESSION" ]; then
     log "Starting $SESSION"
-    if [ -f "$(command -v xcompmgr)" ]; then
-        xcompmgr -cCn &
-    fi
+    [ -f "$(command -v xcompmgr)" ] && xcompmgr -cCn &
     exec "$SESSION"
 else
     log "No default shell set! Symlink your desired shell to $SESSION"
