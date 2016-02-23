@@ -34,20 +34,42 @@ rc_log "starting up"
 [[ "${-}" != *i* ]] && return
 
 [[ -z "$SCREEN_COLORS" ]] && SCREEN_COLORS=$(tput colors)
-if [ $SCREEN_COLORS -gt 0 ]; then
+if [ $SCREEN_COLORS -eq 0 ]; then
+    # Build a "dumb" prompt that should work everywhere.
+    declare -F parse_git_status 2>&1 > /dev/null && g='$(parse_git_status)'
+    declare -F battery_status 2>&1 > /dev/null && b=' ($(battery_status))'
+    [[ -n "$SSH_CLIENT" ]] && host=' at \h'
+    export PS1="\n\u@\h\$($g) \w\n\$ "
+else
     # Force 256-color in tmux if the "real" terminal supports 256
     # colors.
     if [ "$TERM" == "screen" -a "$SCREEN_COLORS" == 256 ]; then
         TERM=screen-256color
     fi
 
+    bold=$(tput bold)
+    dim=$(tput dim)
+    reset=$(tput sgr0)
+    black=$(tput setaf 0)
+    red=$(tput setaf 1)
+    green=$(tput setaf 2)
+    yellow=$(tput setaf 3)
+    blue=$(tput setaf 4)
+    magenta=$(tput setaf 5)
+    cyan=$(tput setaf 6)
+    white=$(tput setaf 7)
+
     # Change the prompt color depending on whether the real UID is root
     # or a regular user.
     if [ $(id -ru) == '0' ] ; then
-        HOSTCOLOR="\[\e[0;31m\]"
+        HOSTCOLOR="\[$red\]"
     else
-        HOSTCOLOR="\[\e[0;32m\]"
+        HOSTCOLOR="\[$green\]"
     fi
+
+    declare -F parse_git_status 2>&1 > /dev/null && g=" \[${reset}${yellow}\]\$(parse_git_status)\[${reset}\]"
+    declare -F battery_status 2>&1 > /dev/null && b=" \[${reset}\](\[${dim}${white}\]\$(battery_status)\[${reset}\])"
+    [[ -n "$SSH_CLIENT" ]] && host="\[${dim}${white}\]@\[${reset}${green}\]\h\[${reset}\]"
 
     # Set the title of an xterm.
     case $TERM in
@@ -57,11 +79,21 @@ if [ $SCREEN_COLORS -gt 0 ]; then
     esac
 
     # Build a colorized prompt.
-    export PS1="\n${TERMTITLE}${HOSTCOLOR}\u@\h\$(parse_git_status)\[\e[0;34m\] \w\n\$\[\e[00m\] "
-else
-    # Build a "dumb" prompt that should work everywhere.
-    export PS1="\n\u@\h\$(parse_git_status) \w\n\$ "
+    PS1="\n${TERMTITLE}"                            # Set the xterm title.
+    PS1+="${HOSTCOLOR}\u"                           # Username
+    PS1+="$host"                                    # Add the host, if not local
+    PS1+="$b"                                       # battery status, if available
+    PS1+="$g"                                       # git status, if available
+    PS1+=" \[${cyan}\]\w\[${reset}\]"               # working directory
+    PS1+="\n"                                       # new line.
+    PS1+="\[${dim}${white}\]\$\[${reset}\] "        # Either '$' or '#'
+    export PS1
+
+    PS2="\[${yellow}\]> \[${reset}\]"
+    export PS2
 fi
+
+unset g b host bold dim reset black red green yellow blue magenta cyan white
 
 rc_set_module $RC_MODULE
 rc_log "done."

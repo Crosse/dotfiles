@@ -135,7 +135,7 @@ if [ -x "$(command -v git)" ]; then
             [[ "$status" = *deleted:* ]] && result=${result}-
             [[ "$status" = *modified:* ]] && result=${result}*
             [[ "$status" = *Untracked\ files:* ]] && result=${result}+
-            printf " [$result]"
+            printf "[$result]"
         fi
     }
 else
@@ -150,7 +150,7 @@ fi
 calc() {
     local result=""
     result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')"
-    #                                               └─ default (when `--mathlib` is used) is 20
+    #                       └─ default (when `--mathlib` is used) is 20
 
     if [[ "$result" == *.* ]]; then
         # improve the output for decimal numbers
