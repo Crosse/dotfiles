@@ -45,18 +45,24 @@ function rc_log {
 rc_log "starting up"
 
 function rc_source_file {
+    # All this does is source a file while making rc_log look pretty.
     if [ -r "$1" ]; then
-
-        typeset OLD_RC_FILENAME="$RC_FILENAME"
-        rc_log "sourcing $1"
-        typeset RC_INDENT=$(($RC_INDENT+4))
-        if [ -n "$RC_TIMED" ]; then
-            time . "$1"
-        else
+        if [ -z "$RC_VERBOSE" ]; then
+            # ...but honestly, 99% of the time WHO CARES ABOUT THE REST
+            # OF THAT CRAP.
             . "$1"
+        else
+            typeset OLD_RC_FILENAME="$RC_FILENAME"
+            rc_log "sourcing $1"
+            typeset RC_INDENT=$(($RC_INDENT+4))
+            if [ -n "$RC_TIMED" ]; then
+                time . "$1"
+            else
+                . "$1"
+            fi
+            typeset RC_INDENT=$(($RC_INDENT-4))
+            RC_FILENAME="$OLD_RC_FILENAME"
         fi
-        typeset RC_INDENT=$(($RC_INDENT-4))
-        RC_FILENAME="$OLD_RC_FILENAME"
     fi
 }
 
