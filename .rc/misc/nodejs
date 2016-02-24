@@ -17,6 +17,9 @@
 # PERFORMANCE OF THIS SOFTWARE.
 ########################################################################
 
+# Only for interactive shells.
+[[ "${-}" == *i* ]] && return
+
 # If Node.js is installed, append its bin path to $PATH.
 if [ -x "$(command -v npm)" ]; then
     append_to_path $(npm bin)

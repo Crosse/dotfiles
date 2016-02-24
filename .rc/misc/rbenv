@@ -17,6 +17,9 @@
 # PERFORMANCE OF THIS SOFTWARE.
 ########################################################################
 
+# Only for interactive shells.
+[[ "${-}" == *i* ]] && return
+
 # If Rbenv is installed (http://rbenv.org), initialize it.
 if [ -x "$(command -v rbenv)" ]; then
     eval "$(rbenv init -)"
