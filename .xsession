@@ -15,13 +15,6 @@ if [ -f ${HOME}/.Xresources ]; then
     xrdb -merge ${HOME}/.Xresources
 fi
 
-# Disable the bell
-if [ -n "$DISPLAY" ]; then
-    log "Disabling bell"
-    xset b off
-    setxkbmap -option terminate:ctrl_alt_bksp
-fi
-
 PLATFORM=$(uname -s)
 log "Turns out I'm running on $PLATFORM"
 case "$PLATFORM" in
@@ -53,6 +46,11 @@ case "$PLATFORM" in
         [ -x "$(command -v feh)" ] && feh --no-fehbg --bg-fill ${HOME}/.config/background.jpg
         ;;
 esac
+
+# Disable the bell
+log "Disabling bell"
+xset -b
+setxkbmap -option terminate:ctrl_alt_bksp
 
 SESSION="${XDG_CONFIG_HOME:-$HOME/.config}/default-shell"
 if [ -h "$SESSION" ]; then

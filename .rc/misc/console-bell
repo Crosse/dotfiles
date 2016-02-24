@@ -1,0 +1,5 @@
+if [ -n "$DISPLAY" ]; then
+    [[ -n "$(command -v xset)" ]] && xset -b
+else
+    [[ -n "$(command -v setterm)" ]] && setterm --blength 0
+fi
