@@ -4,8 +4,23 @@
 #define THEME ".config/Xresources.d/molokai-theme"
 !#define THEME ".config/Xresources.d/solarized-theme"
 
+! Per-client tweaks.
+#ifdef EXT_Apple_WM
+! 27-inch iMac. This is probably horribly wrong, but the XQuartz SRVR_*
+! define looks like this:
+! -DSRVR__private_tmp_com_apple_launchd_Zip1rMsM6j_org_macosforge_xquartz
+! Terribly useful.
+    #if WIDTH == 4480 && HEIGHT == 1418
+        Xft.dpi:            109
+    #endif
+#else
+! The Dell M3800 has many DPIs.
+    #ifdef SRVR_it_15_1660
+        Xft.dpi:            283
+    #endif
+#endif
+
 ! Font configuration.
-Xft.dpi:                283
 Xft.antialias:          1
 Xft.hinting:            1
 Xft.rgba:               rgb
