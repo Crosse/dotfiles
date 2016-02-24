@@ -1,4 +1,9 @@
-! Stuff that does not go anywhere else.
+! .Xresources
+
+! Define which theme to use here, but include it after everything else.
+#define THEME ".config/Xresources.d/molokai-theme"
+!#define THEME ".config/Xresources.d/solarized-theme"
+
 ! Font configuration.
 Xft.dpi:                283
 Xft.antialias:          1
@@ -61,7 +66,5 @@ XLock.echokey:          *
 ! Suspend the monitor after 10 minutes
 XLock.dpmssuspend:      600
 
-!#include ".config/Xresources.d/solarized-theme"
-#include ".config/Xresources.d/molokai-theme"
+#include THEME
 #include ".config/Xresources.d/urxvt"
-
