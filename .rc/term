@@ -134,5 +134,4 @@ if [ -z "$SCREEN_COLORS" ] ; then
     fi
 fi
 
-rc_set_module $RC_MODULE
 rc_log "done."

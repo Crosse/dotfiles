@@ -55,5 +55,4 @@ esac
 prepend_to_path /opt/local/sbin
 prepend_to_path /opt/local/bin
 
-rc_set_module $RC_MODULE
 rc_log "done"

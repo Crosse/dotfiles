@@ -37,10 +37,10 @@ case "$-" in
         # Examples of things that could be placed in this file:
 
         # If Go is installed, let it set whatever variables it wants to.
-        #if [ -x "$(command -v go)" ]; then
-        #    export GOPATH="${HOME}/code/go"
-        #    append_to_path "${GOPATH}/bin"
-        #fi
+        if [ -x "$(command -v go)" ]; then
+            export GOPATH="${HOME}/code/go"
+            append_to_path "${GOPATH}/bin"
+        fi
 
         # If Rbenv is installed (http://rbenv.org), initialize it.
         #if [ -x "$(command -v rbenv)" ]; then
@@ -56,11 +56,20 @@ case "$-" in
         #fi
 
         # If Node.js is installed, append its bin path to $PATH.
-        #if [ -x "$(command -v npm)" ]; then
-        #    append_to_path $(npm bin)
-        #fi
+        if [ -x "$(command -v npm)" ]; then
+            append_to_path $(npm bin)
+        fi
+
+        export FLEETCTL_DRIVER=etcd
+        export FLEETCTL_ENDPOINT=http://it-11-1029.pc.jmu.edu:2379,http://it-11-1041.pc.jmu.edu:2379,http://it-10-0545.pc.jmu.edu:2379,http://it-10-2281.pc.jmu.edu:2379
+        export DOCKER_HOST=tcp://it-11-1029.pc.jmu.edu:2375
+
+        [[ -e "${HOME}/.ssh/config" ]] && complete -o "default" \
+            -o "nospace"                                        \
+            -W "$(grep "^Host" "${HOME}/.ssh/config" |          \
+            grep -v "[?*]" | cut -d " " -f2 |                   \
+            tr ' ' '\n')" scp sftp ssh
         ;;
 esac
 
-rc_set_module $RC_MODULE
 rc_log "done."

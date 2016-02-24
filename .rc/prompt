@@ -95,5 +95,4 @@ fi
 
 unset g b host bold dim reset black red green yellow blue magenta cyan white
 
-rc_set_module $RC_MODULE
 rc_log "done."

@@ -44,5 +44,4 @@ alias ll='ls -lah'
 # Only alias 'hd' if the binary doesn't exist.
 [[ -z "$(command -v hd)" ]] && alias hd='hexdump -C'
 
-rc_set_module $RC_MODULE
 rc_log "done."

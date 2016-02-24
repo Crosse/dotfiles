@@ -52,5 +52,4 @@ esac
 
 # Things that should always be available go after here.
 
-rc_set_module $RC_MODULE
 rc_log "done"

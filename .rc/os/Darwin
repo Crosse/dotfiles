@@ -71,5 +71,4 @@ prepend_to_path "/usr/local/git/bin"
 prepend_to_path "${HOME}/Library/Python/2.7/bin/"
 prepend_to_path "/opt/pkg/bin"
 
-rc_set_module $RC_MODULE
 rc_log "done."
