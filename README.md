@@ -19,13 +19,13 @@ where `<target>` can be one of:
   `$XDG_DATA_HOME/fonts`
 * `install_git`: install git from pkgsrc. Not useful unless you're using
   pkgsrc.
-* `install_go`: install Go. See `GOVER` in the [Makefile](Makefile) for
-  which version will be installed
+* `install_go`: install Go. See `GOVER` in the
+  [Makefile](build/Makefile) for which version will be installed
 * `install_gotools`: instal some useful go tools.
 * `install_personal`: install some personal projects.
 * `install_pkgsrc`: install pkgsrc. Useful on a Mac.
-* `install_rkt`: install rkt. See `RKTVER` in the [Makefile](Makefile)
-  for which version will be installed
+* `install_rkt`: install rkt. See `RKTVER` in the
+  [Makefile](build/Makefile) for which version will be installed
 
 That's a lot. Here are some metatargets.
 * `default`: run the `bin` and `dotfiles` targets.
