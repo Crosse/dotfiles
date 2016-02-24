@@ -1,9 +1,8 @@
 # Variables
 RKTVER := v1.0.0
-GOVER := 1.5.3
+GOVER := 1.6
 GOROOT ?= /usr/local/go
 GOPATH ?= $(HOME)/code/go
-SCMURI := git@github.com:Crosse
 
 GO := $(GOROOT)/bin/go
 export GOPATH
@@ -14,11 +13,6 @@ ARCH := $(shell uname -m)
 default: bin dotfiles
 all: default fonts install_go install_gotools install_personal
 mac: all install_pkgsrc
-
-bootstrap: git
-	@echo "==> Cloning dotfiles into $(CURDIR)/dotfiles"
-	@git clone $(SCMURI)/dotfiles.git $(CURDIR)/dotfiles
-	@cd $(CURDIR)/dotfiles/build && $(MAKE) all
 
 bin:
 	@echo "==> Creating symlinks in ${HOME}/bin"
@@ -35,11 +29,6 @@ etc:
 fonts:
 	@echo "==> Downloading font files"
 	@$(CURDIR)/fonts.sh
-
-vim: git
-	@echo "==> Cloning vimfiles into ${HOME}/.vim"
-	git clone $(SCMURI)/vimfiles.git $(HOME)/.vim
-	@cd $(HOME)/.vim && $(MAKE) install
 
 install_go: $(GOROOT)
 $(GOROOT):
@@ -90,7 +79,7 @@ ifndef GIT
 	$(MAKE) install_git
 endif
 
-.PHONY: default all bootstrap bin dotfiles vim		\
+.PHONY: default all bin dotfiles vim		\
 	install_go clean_go install_gotools 		\
 	install_personal install_pkgsrc			\
 	clean_pkgsrc git install_git

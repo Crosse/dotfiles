@@ -1,7 +1,7 @@
 # vim: set ft=sh:
 ########################################################################
 #
-# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+# Copyright (c) 2016 Seth Wright (seth@crosse.org)
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -16,32 +16,11 @@
 # TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THIS SOFTWARE.
 ########################################################################
-#
-# ~/.rc/aliases
-#
-# This file is sourced from .rc/rc.
-#
-# All aliases should be defined here.
-########################################################################
 
-RC_MODULE=aliases
-RC_FILENAME=".rc/${RC_MODULE}"
+# Only for interactive shells.
+[[ "${-}" == *i* ]] && return
 
-rc_log "starting up"
-
-# None of this matters if the shell isn't interactive.
-[[ "${-}" != *i* ]] && return
-
-# Miscellaneous aliased commands.
-alias cls='clear'
-alias dir='ls -lah'
-alias la='ls -a'
-alias ll='ls -lah'
-
-# Only alias 't' if tmux is installed on the system.
-[[ -n "$(command -v tmux)" ]] && alias t='tmux attach-session -t main'
-
-# Only alias 'hd' if the binary doesn't exist.
-[[ -z "$(command -v hd)" ]] && alias hd='hexdump -C'
-
-rc_log "done."
+# If Rbenv is installed (http://rbenv.org), initialize it.
+if [ -x "$(command -v rbenv)" ]; then
+    eval "$(rbenv init -)"
+fi

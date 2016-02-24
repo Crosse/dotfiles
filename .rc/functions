@@ -177,5 +177,4 @@ signaci() {
     gpg --verify "${ACI}.asc" "${ACI}"
 }
 
-rc_set_module $RC_MODULE
 rc_log "done."
