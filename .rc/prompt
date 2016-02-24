@@ -67,8 +67,12 @@ else
         HOSTCOLOR="\[$green\]"
     fi
 
-    declare -F parse_git_status 2>&1 > /dev/null && g=" \[${reset}${yellow}\]\$(parse_git_status)\[${reset}\]"
-    declare -F battery_status 2>&1 > /dev/null && b=" \[${reset}\](\[${dim}${white}\]\$(battery_status)\[${reset}\])"
+    declare -F parse_git_status 2>&1 > /dev/null || parse_git_status() { return; }
+    g="\[${reset}${yellow}\]\$(parse_git_status)\[${reset}\]"
+
+    declare -F battery_status 2>&1 > /dev/null || battery_status() { return; }
+    b="\[${reset}\](\[${dim}${white}\]\$(battery_status)\[${reset}\])"
+
     [[ -n "$SSH_CLIENT" ]] && host="\[${dim}${white}\]@\[${reset}${green}\]\h\[${reset}\]"
 
     # Set the title of an xterm.
@@ -81,10 +85,10 @@ else
     # Build a colorized prompt.
     PS1="\n${TERMTITLE}"                            # Set the xterm title.
     PS1+="${HOSTCOLOR}\u"                           # Username
-    PS1+="$host"                                    # Add the host, if not local
-    PS1+="$b"                                       # battery status, if available
-    PS1+="$g"                                       # git status, if available
-    PS1+=" \[${cyan}\]\w\[${reset}\]"               # working directory
+    PS1+="$host "                                   # Add the host, if not local
+    PS1+="$b "                                      # battery status, if available
+    PS1+="$g "                                      # git status, if available
+    PS1+="\[${cyan}\]\w\[${reset}\]"                # working directory
     PS1+="\n"                                       # new line.
     PS1+="\[${dim}${white}\]\$\[${reset}\] "        # Either '$' or '#'
     export PS1
