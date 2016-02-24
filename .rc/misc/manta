@@ -1,7 +1,7 @@
 # vim: set ft=sh:
 ########################################################################
 #
-# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+# Copyright (c) 2016 Seth Wright (seth@crosse.org)
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -16,24 +16,14 @@
 # TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THIS SOFTWARE.
 ########################################################################
-#
-# ~/.rc/local
-#
-# This file is sourced from .rc/rc.
-#
-# Any local setup should go in here.  This file is not tracked by git.
-# Put things in here that only apply to the local computer.  Examples
-# are given below of what sort of things could go in here.
-########################################################################
 
-RC_MODULE=local
-RC_FILENAME=".rc/${RC_MODULE}"
+# No need to do anything if the Manta CLI isn't installed.
+if [ $(command -v mjob) ]; then
+    export MANTA_URL=https://us-east.manta.joyent.com
+    export MANTA_USER=crosse3
 
-rc_log "starting up"
-case "$-" in
-    *i*)
-        # Things that only need to be processed for an interactive shell.
-        ;;
-esac
-
-rc_log "done."
+    # Get the MD5 fingerprint for the default RSA SSH key.
+    MANTA_KEY_ID=$(ssh-keygen -E md5 -lf ~/.ssh/id_rsa.pub)
+    MANTA_KEY_ID=${MANTA_KEY_ID##* MD5:}; MANTA_KEY_ID=${MANTA_KEY_ID%% *}
+    export MANTA_KEY_ID
+fi
