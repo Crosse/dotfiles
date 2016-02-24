@@ -1,6 +1,6 @@
 # Variables
 RKTVER := v1.0.0
-GOVER := 1.5.3
+GOVER := 1.6
 GOROOT ?= /usr/local/go
 GOPATH ?= $(HOME)/code/go
 SCMURI := git@github.com:Crosse
