@@ -146,8 +146,17 @@ rc_source_file "${RC_PATH}/aliases"
 # - OSX:        .rc/os/Darwin
 rc_source_file "${RC_PATH}/os/$(uname)"
 
-for f in $(dirname "$1")/misc/*; do
-    rc_source_file "$f"
+[[ -r "${HOME}/.rc_ignore" ]] && RC_SKIP=($(cat ${HOME}/.rc_ignore))
+for f in ${RC_PATH}/misc/*; do
+    unset skip
+    for m in "${RC_SKIP[@]}"; do
+        if [ "$(basename $f)" == "$m" ]; then
+            rc_log "skipping $m due to .rc_ignore"
+            skip=1
+            break
+        fi
+    done
+    [[ -z "$skip" ]] && rc_source_file "$f"
 done
 
 rc_source_file "${RC_PATH}/local"
