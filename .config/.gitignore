@@ -1,6 +1,9 @@
 */
+background.jpg
+default-shell
 dleyna-*
 user-dirs.*
+!Xresources.d/
 !fontconfig/
 !i3/
-!Xresources.d/
+!offlineimap/
