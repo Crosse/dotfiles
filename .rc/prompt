@@ -86,7 +86,7 @@ else
     PS1="\n${TERMTITLE}"                            # Set the xterm title.
     PS1+="${HOSTCOLOR}\u"                           # Username
     PS1+="$host "                                   # Add the host, if not local
-    PS1+="$b "                                      # battery status, if available
+    [[ "$TERM" != screen-* ]] && PS1+="$b "         # battery status, if available
     PS1+="$g "                                      # git status, if available
     PS1+="\[${cyan}\]\w\[${reset}\]"                # working directory
     PS1+="\n"                                       # new line.
