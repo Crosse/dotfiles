@@ -24,5 +24,5 @@
 if [ -n "$DISPLAY" ]; then
     [[ -n "$(command -v xset)" ]] && xset -b
 else
-    [[ -n "$(command -v setterm)" ]] && setterm --blength 0
+    [[ -n "$(command -v setterm)" ]] && setterm --blength 0 2> /dev/null
 fi
