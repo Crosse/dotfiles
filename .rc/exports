@@ -64,6 +64,7 @@ export PAGER
 
 if [ -x "$(command -v gpg-connect-agent)" ]; then
     gpg-connect-agent /bye
+    export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
     export GPG_TTY=$(tty)
 fi
 
