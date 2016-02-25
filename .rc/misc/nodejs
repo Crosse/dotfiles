@@ -18,7 +18,7 @@
 ########################################################################
 
 # Only for interactive shells.
-[[ "${-}" == *i* ]] && return
+[[ "${-}" != *i* ]] && return
 
 # If Node.js is installed, append its bin path to $PATH.
 if [ -x "$(command -v npm)" ]; then

@@ -18,7 +18,7 @@
 ########################################################################
 
 # Only for interactive shells.
-[[ "${-}" == *i* ]] && return
+[[ "${-}" != *i* ]] && return
 
 # If Go is installed, let it set whatever variables it wants to.
 if [ -x "$(command -v go)" ]; then

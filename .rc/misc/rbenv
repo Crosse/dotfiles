@@ -18,7 +18,7 @@
 ########################################################################
 
 # Only for interactive shells.
-[[ "${-}" == *i* ]] && return
+[[ "${-}" != *i* ]] && return
 
 # If Rbenv is installed (http://rbenv.org), initialize it.
 if [ -x "$(command -v rbenv)" ]; then
