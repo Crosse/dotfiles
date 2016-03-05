@@ -1,9 +1,12 @@
-*/
-background.jpg
-default-shell
-dleyna-*
-user-dirs.*
-!Xresources.d/
-!fontconfig/
-!i3/
-!offlineimap/
+# Ignore everything...
+/*
+
+# ...but maybe .gitignore...
+!.gitignore
+
+# ...and maybe also these things.
+!Xresources.d
+!fontconfig
+!i3
+!offlineimap
+!systemd
