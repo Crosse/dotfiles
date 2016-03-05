@@ -1,6 +1,6 @@
 !! vim: set ft=xdefaults:
 !! Molokai theme
-*background: #272822
+*background: #101010
 *foreground: #d0d0d0
 *cursorColor: #d0d0d0
 *color0: #101010
