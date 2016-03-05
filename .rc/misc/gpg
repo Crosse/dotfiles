@@ -28,5 +28,3 @@ if [ -x "$(command -v gpg-connect-agent)" ]; then
         export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
     fi
 fi
-
-
