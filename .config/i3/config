@@ -179,3 +179,6 @@ bar {
         tray_output primary
         font pango:monospace 8
 }
+
+# Startup stuff.
+exec --no-startup-id gnome-settings-daemon
