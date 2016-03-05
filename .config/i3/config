@@ -126,6 +126,11 @@ assign [class="chromium-browser"] 3: www
 for_window [class="Seahorse"] floating enable
 for_window [class="virt-manager"] floating enable
 
+for_window [class="Icedove" title="Icedove Preferences"] floating enable
+for_window [class="Icedove" instance="Msgcompose"] floating enable
+for_window [class="Icedove" title="Certificate Manager"] floating enable
+for_window [class="Icedove" title="Device Manager"] floating enable
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
