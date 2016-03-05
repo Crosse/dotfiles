@@ -40,7 +40,9 @@ case "$-" in
         alias ls='ls --color=auto'
 
         # set DIRCOLORS, if the "dircolors" command is available.
-        [[ -x "$(command -v dircolors)" ]] && eval $(dircolors)
+        if [ -x "$(command -v dircolors)" ]; then
+            [[ -r "${HOME}/.dircolors" ]] && eval $(dircolors "${HOME}/.dircolors") || eval $(dircolors)
+        fi
 
         # Linux uses GNU grep.  Set options such that color support is
         # enabled, binary files will be ignored, and files named "tags"
