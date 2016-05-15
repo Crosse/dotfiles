@@ -189,4 +189,8 @@ bar {
 }
 
 # Startup stuff.
+exec --no-startup-id compton -Gb
 exec --no-startup-id gnome-settings-daemon
+exec --no-startup-id /usr/lib/x86_64-linux-gnu/notify-osd
+exec --no-startup-id nm-applet
+

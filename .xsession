@@ -38,7 +38,6 @@ case "$PLATFORM" in
             synclient VertTwoFingerScroll=1
             synclient HorizTwoFingerScroll=1
         fi
-        [ -x /usr/lib/x86_64-linux-gnu/notify-osd ] && /usr/lib/x86_64-linux-gnu/notify-osd &
         [ -x "$(command -v feh)" ] && feh --no-fehbg --bg-fill ${HOME}/.config/background.jpg
         ;;
 esac
@@ -48,11 +47,17 @@ log "Disabling bell"
 xset -b
 setxkbmap -option terminate:ctrl_alt_bksp
 
+[[ -n $(command -v xflux) ]] && xflux
+
+#xautolock -locker "fancylock.py lock" -detectsleep -time 15 &
+
 SESSION="${XDG_CONFIG_HOME:-$HOME/.config}/default-shell"
 if [ -h "$SESSION" ]; then
+    #[ -f "$(command -v compton)" ] && compton -Gb &
+    SESSION=$(basename $(readlink -f $SESSION))
     log "Starting $SESSION"
-    [ -f "$(command -v xcompmgr)" ] && xcompmgr -cCn &
-    exec "$SESSION"
+    exec gnome-session --session=${SESSION}
+    exec ${SESSION}
 else
     log "No default shell set! Symlink your desired shell to $SESSION"
 fi
