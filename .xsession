@@ -29,15 +29,6 @@ case "$PLATFORM" in
         #xterm -geometry 140x50 &
         ;;
     Linux)
-        if [ -x "$(command -v dconf)" ]; then
-            log "Disabling the GNOME mouse plugin"
-            dconf write /org/gnome/settings-daemon/plugins/mouse/active false
-        fi
-        if [ -n "$(command -v synclient)" ]; then
-            log "Enabling Two-Finger Scrolling"
-            synclient VertTwoFingerScroll=1
-            synclient HorizTwoFingerScroll=1
-        fi
         [ -x "$(command -v feh)" ] && feh --no-fehbg --bg-fill ${HOME}/.config/background.jpg
         ;;
 esac
