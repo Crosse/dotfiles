@@ -136,15 +136,27 @@ calc() {
 
 # Syntax-highlit less(1)
 cless() {
+    if [ -z "$(command -v pygmentize)" ]; then
+        echo "install pygmentize to use cless" 1>&2
+        return
+    fi
     local f="$1"
     [[ -z "$f" ]] && f="-"
     cat "$f" | pygmentize | less
 }
 
 signaci() {
+    if [ -z "$(command -v gpg2)" ]; then
+        echo "install gpg2 to use signaci" 1>&2
+        return
+    fi
     ACI="$1"
-    gpg -ao "${ACI}.asc" -b "$ACI"
-    gpg --verify "${ACI}.asc" "${ACI}"
+    gpg2 -ao "${ACI}.asc" -b "$ACI"
+    gpg2 --verify "${ACI}.asc" "${ACI}"
+}
+
+stopwatch() {
+    time cat
 }
 
 rc_log "done."
