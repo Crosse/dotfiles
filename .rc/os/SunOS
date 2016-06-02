@@ -45,9 +45,11 @@ case "$-" in
         # SunOS includes GNU grep.  Set options such that color support is
         # enabled, binary files will be ignored, and files named "tags"
         # will not be searched.
-        if [ -x "$(command -v ggrep)" ]; then
-            alias grep='ggrep --colour=auto --binary-files=without-match --exclude=tags'
-        fi
+        export GREP_OPTS="--colour=auto --binary-files=without-match --exclude=tags"
+        for cmd in /opt/local/bin/*grep; do
+            cmd=$(basename $cmd)
+            alias $cmd="$cmd \$GREP_OPTS"
+        done
         ;;
 esac
 

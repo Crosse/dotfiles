@@ -46,7 +46,11 @@ case "$-" in
 
         # Ignore binary files by default.  This is the only option that
         # BSD grep supports that is the same as GNU grep.
-        alias grep='grep --binary-files=without-match'
+        export GREP_OPTS="--binary-files=without-match"
+        for cmd in {,/usr}/bin/*grep; do
+            cmd=$(basename $cmd)
+            alias $cmd="$cmd \$GREP_OPTS"
+        done
         ;;
 esac
 
