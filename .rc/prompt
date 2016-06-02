@@ -33,10 +33,36 @@ rc_log "starting up"
 # None of this matters if the shell isn't interactive.
 [[ "${-}" != *i* ]] && return
 
+if [ -x "$(command -v git)" ]; then
+    # If the "git" command exists on this system, define a function that
+    # can be used in the $PS1 prompt to show the user relevant
+    # information about a git repository, if the user is currently in
+    # one.
+    function parse_git_status {
+        # Sometimes git repositories are large, and calculating
+        # this information takes too long.  In that case, the user can
+        # define $NOPATHBRANCHES, which will stop this function from
+        # parsing the git repo.
+        if [ -z "$NOPATHBRANCHES" ]; then
+            typeset branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+            [[ -z $branch ]] && return
+
+            typeset status=$(git status 2> /dev/null)
+            typeset result=$branch
+
+            [[ "$status" = *deleted:* ]] && result=${result}-
+            [[ "$status" = *modified:* ]] && result=${result}*
+            [[ "$status" = *Untracked\ files:* ]] && result=${result}+
+            printf "[$result] "
+        fi
+    }
+    GITPARSING=1
+fi
+
 [[ -z "$SCREEN_COLORS" ]] && SCREEN_COLORS=$(tput colors)
 if [ $SCREEN_COLORS -eq 0 ]; then
     # Build a "dumb" prompt that should work everywhere.
-    declare -F parse_git_status 2>&1 > /dev/null && g='$(parse_git_status)'
+    [[ -n "$GITPARSING" ]] && g='$(parse_git_status)'
     declare -F battery_status 2>&1 > /dev/null && b=' ($(battery_status))'
     [[ -n "$SSH_CLIENT" ]] && host=' at \h'
     export PS1="\n\u@\h\$($g) \w\n\$ "
@@ -67,8 +93,7 @@ else
         HOSTCOLOR="\[$green\]"
     fi
 
-    declare -F parse_git_status 2>&1 > /dev/null || parse_git_status() { return; }
-    g="\[${reset}${yellow}\]\$(parse_git_status)\[${reset}\]"
+    [[ -n "$GITPARSING" ]] && g="\[${reset}${yellow}\]\$(parse_git_status)\[${reset}\]"
 
     declare -F battery_status 2>&1 > /dev/null || battery_status() { return; }
     b="\[${reset}\](\[${dim}${white}\]\$(battery_status)\[${reset}\])"
@@ -85,9 +110,10 @@ else
     # Build a colorized prompt.
     PS1="\n${TERMTITLE}"                            # Set the xterm title.
     PS1+="${HOSTCOLOR}\u"                           # Username
-    PS1+="$host "                                   # Add the host, if not local
-    PS1+="$b "                                      # battery status, if available
-    PS1+="$g "                                      # git status, if available
+    PS1+="$host"                                    # Add the host, if not local
+    PS1+=" "
+    PS1+="$b"                                       # battery status, if available
+    PS1+="$g"                                       # git status, if available
     PS1+="\[${cyan}\]\w\[${reset}\]"                # working directory
     PS1+="\n"                                       # new line.
     PS1+="\[${dim}${white}\]\$\[${reset}\] "        # Either '$' or '#'
@@ -97,6 +123,7 @@ else
     export PS2
 fi
 
-unset g b host bold dim reset black red green yellow blue magenta cyan white
+unset GITPARSING HOSTCOLOR g b host TERMTITLE
+unset bold dim reset black red green yellow blue magenta cyan white
 
 rc_log "done."

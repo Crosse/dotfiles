@@ -115,36 +115,6 @@ function append_to_path {
     fi
 }
 
-if [ -x "$(command -v git)" ]; then
-    # If the "git" command exists on this system, define a function that
-    # can be used in the $PS1 prompt to show the user relevant
-    # information about a git repository, if the user is currently in
-    # one.
-    function parse_git_status {
-        # Sometimes git repositories are large, and calculating
-        # this information takes too long.  In that case, the user can
-        # define $NOPATHBRANCHES, which will stop this function from
-        # parsing the git repo.
-        if [ -z "$NOPATHBRANCHES" ]; then
-            typeset branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-            [[ -z $branch ]] && return
-
-            typeset status=$(git status 2> /dev/null)
-            typeset result=$branch
-
-            [[ "$status" = *deleted:* ]] && result=${result}-
-            [[ "$status" = *modified:* ]] && result=${result}*
-            [[ "$status" = *Untracked\ files:* ]] && result=${result}+
-            printf "[$result]"
-        fi
-    }
-else
-    # "git" wasn't found on the system.
-    function parse_git_status {
-        return
-    }
-fi
-
 # Taken from
 # https://github.com/jfrazelle/dotfiles/blob/master/.functions
 calc() {
