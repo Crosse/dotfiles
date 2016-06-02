@@ -95,10 +95,18 @@ else
 
     [[ -n "$GITPARSING" ]] && g="\[${reset}${yellow}\]\$(parse_git_status)\[${reset}\]"
 
-    declare -F battery_status 2>&1 > /dev/null || battery_status() { return; }
-    b="\[${reset}\](\[${dim}${white}\]\$(battery_status)\[${reset}\])"
+    # If inside screen or tmux, there is no need for battery status or
+    # the host name in the prompt, as it will be in the status line.
+    if [ "${TERM%%-*}" != "screen" ]; then
+        declare -F battery_status 2>&1 > /dev/null || battery_status() { return; }
+        if [ -n "$(battery_status)" ]; then
+            b="\[${reset}\](\[${dim}${white}\]\$(battery_status)\[${reset}\])"
+        fi
 
-    [[ -n "$SSH_CLIENT" ]] && host="\[${dim}${white}\]@\[${reset}${green}\]\h\[${reset}\]"
+        if [ -n "$SSH_CLIENT" ]; then
+            host="\[${dim}${white}\]@\[${reset}${green}\]\h\[${reset}\]"
+        fi
+    fi
 
     # Set the title of an xterm.
     case $TERM in
