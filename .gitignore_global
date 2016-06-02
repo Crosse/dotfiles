@@ -2,3 +2,5 @@
 .DS_Store
 *.sw[op]
 *.pyc
+*.bak
+*.orig
