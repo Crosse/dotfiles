@@ -21,6 +21,15 @@
 [[ "${-}" != *i* ]] && return
 
 if [ -x "$(command -v gpg-connect-agent)" ]; then
+    # For versions of GPG less than 2.1.0, gpg-agent needs to be started
+    # manually it seems.
+    gpg_version=$(gpg-agent --version | awk '/GnuPG/ { print $3 }')
+    case $gpg_version in
+        1.*|2.0*)
+            eval $(gpg-agent --daemon)
+            ;;
+    esac
+
     gpg-connect-agent /bye
     export GPG_TTY=$(tty)
     unset SSH_AGENT_PID
