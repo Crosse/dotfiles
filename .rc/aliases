@@ -45,9 +45,6 @@ alias pubip="dig +short myip.opendns.com @resolver1.opendns.com"
 # from github.com/jfrazelle/dotfiles
 alias sudo='sudo '
 
-# Only alias 't' if tmux is installed on the system.
-[[ -n "$(command -v tmux)" ]] && alias t='tmux attach-session -t main'
-
 # Only alias 'hd' if the binary doesn't exist.
 [[ -n "$(command -v hd)" ]] && alias hd='hexdump -C'
 
