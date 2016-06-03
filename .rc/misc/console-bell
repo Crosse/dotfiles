@@ -21,7 +21,7 @@
 [[ "${-}" != *i* ]] && return
 
 # TURN OF THE FRIGGIN' CONSOLE BELL.
-if [ -n "$DISPLAY" ]; then
+if [ -n "$DISPLAY" -a "$(uname -s)" != "Darwin" ]; then
     [[ -n "$(command -v xset)" ]] && xset -b
 else
     [[ -n "$(command -v setterm)" ]] && setterm --blength 0 2> /dev/null

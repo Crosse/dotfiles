@@ -100,6 +100,7 @@ case "${0#-}" in
         ;;
 esac
 
+prepend_to_path "/opt/pkg/bin"
 prepend_to_path "${HOME}/.rbenv/bin"
 prepend_to_path "${HOME}/bin"
 export PATH

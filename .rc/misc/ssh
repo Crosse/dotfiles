@@ -26,3 +26,6 @@
     -W "$(grep "^Host" "${HOME}/.ssh/config" |          \
     grep -v "[?*]" | cut -d " " -f2 |                   \
     tr ' ' '\n')" scp sftp ssh
+
+# Create a directory for SSH control sockets.
+[[ -w "${HOME}/.cache/ssh" ]] || mkdir -p "${HOME}/.cache/ssh"
