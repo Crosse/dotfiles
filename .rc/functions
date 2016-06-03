@@ -142,7 +142,7 @@ cless() {
     fi
     local f="$1"
     [[ -z "$f" ]] && f="-"
-    cat "$f" | pygmentize | less
+    cat "$f" | pygmentize -g | less
 }
 
 signaci() {
