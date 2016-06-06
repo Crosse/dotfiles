@@ -121,7 +121,5 @@ for f in ${RC_PATH}/misc/*; do
     [[ -z "$skip" ]] && rc_source_file "$f"
 done
 
-rc_source_file "${RC_PATH}/local"
 rc_log "done."
-
 remove_rc_from_env
