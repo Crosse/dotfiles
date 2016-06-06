@@ -52,6 +52,7 @@ case "$-" in
 esac
 
 # Things that should always be available go after here.
+
 prepend_to_path /opt/local/sbin
 prepend_to_path /opt/local/bin
 

@@ -62,9 +62,8 @@ esac
 # Apple includes an older version of git with Xcode; if git has been
 # installed manually by the user, then prepend it to the path so that
 # calls to "git" use the user-installed version instead.
-prepend_to_path "/usr/local/git/bin"
-
-prepend_to_path "${HOME}/Library/Python/2.7/bin/"
-prepend_to_path "/opt/pkg/bin"
+prepend_to_path /usr/local/git/bin
+prepend_to_path "${HOME}/Library/Python/2.7/bin/"   # Python puts things here
+prepend_to_path /opt/pkg/bin                        # For pkgsrc
 
 rc_log "done."

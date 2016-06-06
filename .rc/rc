@@ -122,7 +122,6 @@ for f in ${RC_PATH}/misc/*; do
 done
 
 rc_source_file "${RC_PATH}/local"
-
 rc_log "done."
 
 remove_rc_from_env
