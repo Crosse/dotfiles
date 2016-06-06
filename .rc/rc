@@ -108,7 +108,7 @@ rc_source_file "${RC_PATH}/aliases"
 # - OSX:        .rc/os/Darwin
 rc_source_file "${RC_PATH}/os/$(uname)"
 
-[[ -r "${HOME}/.rc_ignore" ]] && RC_SKIP=($(cat ${HOME}/.rc_ignore))
+[[ -r "${HOME}/.rc_ignore" ]] && RC_SKIP=$(<"${HOME}/.rc_ignore")
 for f in ${RC_PATH}/misc/*; do
     unset skip
     for m in "${RC_SKIP[@]}"; do
