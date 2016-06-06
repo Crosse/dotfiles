@@ -1,7 +1,7 @@
 # vim: set ft=sh:
 ########################################################################
 #
-# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+# Copyright (c) 2016 Seth Wright (seth@crosse.org)
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -39,8 +39,7 @@
 #   used in ~/.rc/local.
 ########################################################################
 
-RC_MODULE=functions
-RC_FILENAME=".rc/${RC_MODULE}"
+RC_FILENAME=".rc/functions"
 
 rc_log "starting up"
 

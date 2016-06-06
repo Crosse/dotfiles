@@ -1,7 +1,7 @@
 # vim: set ft=sh:
 ########################################################################
 #
-# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+# Copyright (c) 2014-2016 Seth Wright (seth@crosse.org)
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -25,10 +25,8 @@
 # here.  It will only be sourced if uname(1) returns "OpenBSD".
 ########################################################################
 
-# OpenBSD-specific configuration can go in here.
-
-RC_MODULE=os/OpenBSD
-RC_FILENAME=".rc/${RC_MODULE}"
+RC_FILENAME=".rc/os/OpenBSD"
+rc_log "starting up"
 
 rc_log "starting up"
 

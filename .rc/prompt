@@ -1,7 +1,7 @@
 # vim: set ft=sh:
 ########################################################################
 #
-# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+# Copyright (c) 2014-2016 Seth Wright (seth@crosse.org)
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -25,9 +25,7 @@
 # in here.
 ########################################################################
 
-RC_MODULE=prompt
-RC_FILENAME=".rc/${RC_MODULE}"
-
+RC_FILENAME=".rc/prompt"
 rc_log "starting up"
 
 # None of this matters if the shell isn't interactive.
