@@ -1,6 +1,6 @@
 ########################################################################
 #
-# Copyright (c) 2010-2014 Seth Wright (seth@crosse.org)
+# Copyright (c) 2010-2016 Seth Wright (seth@crosse.org)
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -42,10 +42,11 @@
 #RC_VERBOSE=1
 #RC_TIME_EXECUTION=1
 
-RC_FILENAME="${HOME}/.profile"
+RC_FILENAME=".profile"
+RC_PATH="${HOME}/.rc"
 
-# Can't use log() here since it's defined in .rc/rc.
-[[ -n "$RC_VERBOSE" ]] && echo "${RC_FILENAME}: starting up" 1>&2
+# Get rc_* functions as early as possible.
+. "${RC_PATH}/rc_utils"
 
 if [ -n "$RC_VERBOSE" -a -n "$RC_TIME_EXECUTION" -a -z "$RC_TIMED" ]; then
     # If RC_TIME_EXECUTION is specified, then time the execution of
