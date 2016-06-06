@@ -23,20 +23,13 @@
 # files in the ~/.rc directory, because many of the functions defined
 # here are used in other files in ~/.rc.
 #
-# All global functions should be defined here.  However, note the
-# following:
+# All global functions should be defined here.  However, note that
+# functions that are required only on certain platforms should be
+# defined in that platform's respective ~/.rc/os/$(uname) file.  Note
+# that the ~/.rc/os/* files are not sourced until almost the end of
+# ~/.rc/rc; this is okay, though, because OS-dependent functions should
+# probably only be used in the OS-dependent rc script.
 #
-# - Functions that are required only on certain platforms should be
-#   defined in that platform's respective ~/.rc/os/$(uname) file.  Note
-#   that the ~/.rc/os/* files are not sourced until almost the end of
-#   ~/.rc/rc; this is okay, though, because OS-dependent functions
-#   should probably only be used in the OS-dependent rc script.
-#
-# - Functions that are required only on the local machine should be
-#   defined in ~/.rc/local.  Note that ~/.rc/local is not sourced until
-#   the very end of ~/.rc/rc, but like OS-specific functions, this
-#   should also be okay since machine-specific functions should only be
-#   used in ~/.rc/local.
 ########################################################################
 
 RC_FILENAME=".rc/functions"
