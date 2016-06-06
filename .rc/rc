@@ -62,8 +62,7 @@ case "${0#-}" in
         ;;
 esac
 
-prepend_to_path "/opt/pkg/bin"
-prepend_to_path "${HOME}/.rbenv/bin"
+# Any user-written executable things can go in ~/bin.
 prepend_to_path "${HOME}/bin"
 export PATH
 
