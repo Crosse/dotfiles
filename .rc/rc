@@ -108,6 +108,9 @@ rc_source_file "${RC_PATH}/aliases"
 # - OSX:        .rc/os/Darwin
 rc_source_file "${RC_PATH}/os/$(uname)"
 
+# Source the component files in .rc/misc, but only if they are not
+# listed in a local file named ~/rc_ignore. The format of .rc_ignore
+# should be the exact file name of each component to skip, one per line.
 [[ -r "${HOME}/.rc_ignore" ]] && RC_SKIP=$(<"${HOME}/.rc_ignore")
 for f in ${RC_PATH}/misc/*; do
     unset skip
