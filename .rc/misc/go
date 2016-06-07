@@ -21,7 +21,7 @@
 [[ "${-}" != *i* ]] && return
 
 # If Go is installed, let it set whatever variables it wants to.
-if [ -x "$(command -v go)" ]; then
-    export GOPATH="${HOME}/code/go"
-    append_to_path "${GOPATH}/bin"
-fi
+[[ -x "$(command -v go)" ]] || return
+
+export GOPATH="${HOME}/code/go"
+append_to_path "${GOPATH}/bin"

@@ -20,8 +20,8 @@
 # Only for interactive shells.
 [[ "${-}" != *i* ]] && return
 
-# If Node.js is installed, append its bin path to $PATH.
-if [ -x "$(command -v npm)" ]; then
-    append_to_path $(npm bin)
-    #append_to_path $(npm -g bin)
-fi
+# And only if npm is installed.
+[[ -x "$(command -v npm)" ]] || return
+
+# Append npm's bin path to $PATH.
+append_to_path $(npm bin)

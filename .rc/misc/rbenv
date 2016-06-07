@@ -21,6 +21,7 @@
 [[ "${-}" != *i* ]] && return
 
 # If Rbenv is installed (http://rbenv.org), initialize it.
-if [ -x "$(command -v rbenv)" ]; then
-    eval "$(rbenv init -)"
-fi
+[[ -d "${HOME}/.rbenv" ]] || return
+
+prepend_to_path "${HOME}/.rbenv/bin"
+eval "$(rbenv init -)"

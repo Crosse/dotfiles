@@ -20,20 +20,21 @@
 # Only for interactive shells.
 [[ "${-}" != *i* ]] && return
 
-if [ -x "$(command -v gpg-connect-agent)" ]; then
-    # For versions of GPG less than 2.1.0, gpg-agent needs to be started
-    # manually it seems.
-    gpg_version=$(gpg-agent --version | awk '/GnuPG/ { print $3 }')
-    case $gpg_version in
-        1.*|2.0*)
-            eval $(gpg-agent --daemon)
-            ;;
-    esac
+# And only if GnuPG is installed.
+[[ -x "$(command -v gpg-connect-agent)" ]] || return
 
-    gpg-connect-agent /bye
-    export GPG_TTY=$(tty)
-    unset SSH_AGENT_PID
-    if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-        export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
-    fi
+# For versions of GPG less than 2.1.0, gpg-agent needs to be started
+# manually it seems.
+gpg_version=$(gpg-agent --version | awk '/GnuPG/ { print $3 }')
+case $gpg_version in
+    1.*|2.0*)
+        eval $(gpg-agent --daemon)
+        ;;
+esac
+
+gpg-connect-agent /bye
+export GPG_TTY=$(tty)
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+    export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
 fi

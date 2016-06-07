@@ -21,7 +21,11 @@
 [[ "${-}" != *i* ]] && return
 
 # No need to do anything if the Manta CLI isn't installed.
-if [[ $(command -v mjob) && -r "${XDG_CONFIG_HOME}/manta" ]]; then
-    . "${XDG_CONFIG_HOME}/manta"
-    export MANTA_URL MANTA_USER MANTA_KEY_ID
-fi
+[[ $(command -v mjob) && -r "${XDG_CONFIG_HOME}/manta" ]] || return
+
+# Source a file with the following format:
+# MANTA_URL=https://...
+# MANTA_USER=...
+# MANTA_KEY_ID=...
+. "${XDG_CONFIG_HOME}/manta"
+export MANTA_URL MANTA_USER MANTA_KEY_ID
