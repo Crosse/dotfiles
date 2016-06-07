@@ -48,6 +48,8 @@ case "$-" in
         export GREP_OPTS="--colour=auto --binary-files=without-match --exclude=tags"
         for cmd in {,/usr}/bin/*grep; do
             cmd=$(basename $cmd)
+            # pgrep(1) isn't the same kind of grep(1) command.
+            [[ "$cmd" == "pgrep" ]] && continue
             alias $cmd="$cmd \$GREP_OPTS"
         done
 
