@@ -20,7 +20,30 @@
 # Only for interactive shells.
 [[ "${-}" != *i* ]] && return
 
-# XDG Base Directory specification.
-export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-${HOME}/.config}
-export XDG_CACHE_HOME=${XDG_CACHE_HOME:-${HOME}/.cache}
-export XDG_DATA_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}
+# And only if tmux is installed.
+[[ -n "$(command -v tmux)" ]] || return
+
+version=$(tmux -V)
+version=${version##tmux }
+
+case $version in
+    [01].*)
+        t() {
+            local session
+            session="${1:-main}"
+
+            tmux has-session -t "$session"
+            if [ $? -ne 0 ]; then
+                echo "Creating new session $session"
+                tmux new-session -s "$session"
+            else
+                echo "Attaching to existing session $session" 1>&2
+                tmux attach-session -t "$session"
+            fi
+        }
+        ;;
+    *)
+        t() { tmux new-session -A -t "${1:-main}"; }
+        ;;
+esac
+

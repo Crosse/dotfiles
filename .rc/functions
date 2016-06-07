@@ -146,15 +146,4 @@ signaci() {
     gpg2 -ao "${ACI}.asc" -b "$ACI"
     gpg2 --verify "${ACI}.asc" "${ACI}"
 }
-
-t() {
-    if [ -z "$(command -v tmux)" ]; then
-        echo "tmux is not installed." 1>&2
-        return
-    fi
-    local session="${1:-main}"
-    echo "Attaching to session $session"
-    tmux new-session -A -s "$session" #-t "$session" #-n one
-}
-
 rc_log "done."
