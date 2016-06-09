@@ -77,4 +77,35 @@ if [[ -x $(command -v serviced) ]]; then
     zenpack () { z zenpack $*; }
     zenpacklib () { z /z/zenpacklib.py $*; }
     zenpython () { z zenpython $*; }
+    
+    zlint() {
+        if [ -z "$ZP" ]; then
+            echo "ZP not set!" 1>&2
+            return
+        fi
+        local zpdir yaml
+
+        zpdir="${ZP}/$(basename "$ZP" | tr . /)"
+        yaml="${zpdir}/zenpack.yaml"
+        if [ ! -f "$yaml" ]; then
+            echo "$yaml does not exist"
+            return
+        fi
+        echo "==> Linting $yaml"
+        z ${zpdir}/zenpacklib.py lint "$yaml"
+    }
+    zli() {
+        if [ -z "$ZP" ]; then
+            echo "ZP not set!" 1>&2
+            return
+        fi
+        echo "==> Installing (via link) $(basename $ZP)"
+        zenpack --link --install "$ZP"
+    }
+    zre() {
+        for service in Zope zenhub zeneventd zenactiond zenjobs; do
+            echo "==> Restarting $service" 1>&2
+            serviced service restart $service
+        done
+    }
 fi
