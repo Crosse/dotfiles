@@ -16,7 +16,7 @@ for file in $(find "$WRKDIR"            \
                 -not -name 'etc'	\
                 -not -name '.*.swp'	\
             ); do
-    f=$(basename $file);
+    f=$(basename $file)
     if [ -e "${HOME}/$f" -a ! -L "${HOME}/$f" ]; then
         echo "Backing up ${HOME}/$f to ${HOME}/backup/$f"
         [ -d "${HOME}/backup" ] || mkdir -p "${HOME}/backup"
