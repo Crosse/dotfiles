@@ -27,7 +27,7 @@ unset GPG_AGENT_INFO
 unset SSH_AUTH_SOCK
 unset SSH_AGENT_PID
 
-# For versions of GPG less than 2.0.16 it seems that gpg-agent needs to
+# For versions of GPG less than 2.1.0 it seems that gpg-agent needs to
 # be started manually.
 # (http://www.gossamer-threads.com/lists/gnupg/users/67797#67797)
 #
@@ -37,7 +37,7 @@ gpg_version=$(gpg-agent --version | awk '/GnuPG/ { print $3 }')
 major=${gpg_version:0:1}
 minor=${gpg_version:2:1}
 revision=${gpg_version:4}
-if [[ $major -le 1 || ($major -eq 2 && $minor -eq 0 && $revision -lt 16) ]]; then
+if [[ $major -le 1 || ($major -eq 2 && $minor -eq 0 || ($minor -eq 1 && $revision -eq 0)) ]]; then
     manual_start=1
 fi
 
