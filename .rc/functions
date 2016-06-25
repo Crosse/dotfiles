@@ -1,7 +1,7 @@
 # vim: set ft=sh:
 ########################################################################
 #
-# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+# Copyright (c) 2016 Seth Wright (seth@crosse.org)
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -23,24 +23,16 @@
 # files in the ~/.rc directory, because many of the functions defined
 # here are used in other files in ~/.rc.
 #
-# All global functions should be defined here.  However, note the
-# following:
+# All global functions should be defined here.  However, note that
+# functions that are required only on certain platforms should be
+# defined in that platform's respective ~/.rc/os/$(uname) file.  Note
+# that the ~/.rc/os/* files are not sourced until almost the end of
+# ~/.rc/rc; this is okay, though, because OS-dependent functions should
+# probably only be used in the OS-dependent rc script.
 #
-# - Functions that are required only on certain platforms should be
-#   defined in that platform's respective ~/.rc/os/$(uname) file.  Note
-#   that the ~/.rc/os/* files are not sourced until almost the end of
-#   ~/.rc/rc; this is okay, though, because OS-dependent functions
-#   should probably only be used in the OS-dependent rc script.
-#
-# - Functions that are required only on the local machine should be
-#   defined in ~/.rc/local.  Note that ~/.rc/local is not sourced until
-#   the very end of ~/.rc/rc, but like OS-specific functions, this
-#   should also be okay since machine-specific functions should only be
-#   used in ~/.rc/local.
 ########################################################################
 
-RC_MODULE=functions
-RC_FILENAME=".rc/${RC_MODULE}"
+RC_FILENAME=".rc/functions"
 
 rc_log "starting up"
 
@@ -115,42 +107,12 @@ function append_to_path {
     fi
 }
 
-if [ -x "$(command -v git)" ]; then
-    # If the "git" command exists on this system, define a function that
-    # can be used in the $PS1 prompt to show the user relevant
-    # information about a git repository, if the user is currently in
-    # one.
-    function parse_git_status {
-        # Sometimes git repositories are large, and calculating
-        # this information takes too long.  In that case, the user can
-        # define $NOPATHBRANCHES, which will stop this function from
-        # parsing the git repo.
-        if [ -z "$NOPATHBRANCHES" ]; then
-            typeset branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-            [[ -z $branch ]] && return
-
-            typeset status=$(git status 2> /dev/null)
-            typeset result=$branch
-
-            [[ "$status" = *deleted:* ]] && result=${result}-
-            [[ "$status" = *modified:* ]] && result=${result}*
-            [[ "$status" = *Untracked\ files:* ]] && result=${result}+
-            printf " [$result]"
-        fi
-    }
-else
-    # "git" wasn't found on the system.
-    function parse_git_status {
-        return
-    }
-fi
-
 # Taken from
 # https://github.com/jfrazelle/dotfiles/blob/master/.functions
 calc() {
     local result=""
     result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')"
-    #                                               └─ default (when `--mathlib` is used) is 20
+    #                       └─ default (when `--mathlib` is used) is 20
 
     if [[ "$result" == *.* ]]; then
         # improve the output for decimal numbers
@@ -164,24 +126,24 @@ calc() {
     printf "\n"
 }
 
-ssh_gen_keys() {
-    # Generate ssh keys if they do not already exist.
-    if [ ! -d "${HOME}/.ssh/" ]; then
-        mkdir -p "${HOME}/.ssh/"
-        chown ${USER}:$(id -ng) "${HOME}/.ssh/"
-        chmod 700 "${HOME}/.ssh"
+# Syntax-highlit less(1)
+cless() {
+    if [ -z "$(command -v pygmentize)" ]; then
+        echo "install pygmentize to use cless" 1>&2
+        return
     fi
-
-    for type in rsa ecdsa ed25519; do
-        keyfile="${HOME}/.ssh/id_${type}"
-        if [ ! -f "$keyfile" ]; then
-            printf "Creating missing $type SSH key for ${USER}: "
-            ssh-keygen -q -t $type -f "$keyfile" -N ""
-            printf "done.\n"
-        fi
-    done
-
+    local f="$1"
+    [[ -z "$f" ]] && f="-"
+    cat "$f" | pygmentize -g | less
 }
 
-rc_set_module $RC_MODULE
+signaci() {
+    if [ -z "$(command -v gpg2)" ]; then
+        echo "install gpg2 to use signaci" 1>&2
+        return
+    fi
+    ACI="$1"
+    gpg2 -ao "${ACI}.asc" -b "$ACI"
+    gpg2 --verify "${ACI}.asc" "${ACI}"
+}
 rc_log "done."

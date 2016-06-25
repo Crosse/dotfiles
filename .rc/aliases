@@ -1,7 +1,7 @@
 # vim: set ft=sh:
 ########################################################################
 #
-# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+# Copyright (c) 2014-2016 Seth Wright (seth@crosse.org)
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -24,9 +24,7 @@
 # All aliases should be defined here.
 ########################################################################
 
-RC_MODULE=aliases
-RC_FILENAME=".rc/${RC_MODULE}"
-
+RC_FILENAME=".rc/aliases"
 rc_log "starting up"
 
 # None of this matters if the shell isn't interactive.
@@ -38,11 +36,22 @@ alias dir='ls -lah'
 alias la='ls -a'
 alias ll='ls -lah'
 
-# Only alias 't' if tmux is installed on the system.
-[[ -n "$(command -v tmux)" ]] && alias t='tmux attach-session -t main'
+# from github.com/jfrazelle/dotfiles
+alias pubip="dig +short myip.opendns.com @resolver1.opendns.com"
+
+# Allow sudo to work with aliases.
+# from github.com/jfrazelle/dotfiles
+alias sudo='sudo '
 
 # Only alias 'hd' if the binary doesn't exist.
-[[ -z "$(command -v hd)" ]] && alias hd='hexdump -C'
+[[ -n "$(command -v hd)" ]] && alias hd='hexdump -C'
 
-rc_set_module $RC_MODULE
+[[ -n "$(command -v mds5um)" ]] || alias md5sum='md5'
+
+# Some platforms (OSX, notably) do not have symlinks for sha*sum. Check
+# for their presence and alias them if they don't exist.
+for bits in 1 224 256 384 512; do
+    [[ -n "$(command -v sha${bits}sum)" ]] || alias sha${bits}sum="shasum -a $bits"
+done
+
 rc_log "done."

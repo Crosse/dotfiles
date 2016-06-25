@@ -1,0 +1,9 @@
+# Taken from github:baileytj3
+
+import rlcompleter, readline
+from pprint import PrettyPrinter
+readline.parse_and_bind('tab:complete')
+pp = PrettyPrinter(indent=2).pprint
+
+def pv(obj):
+  pp(vars(obj))

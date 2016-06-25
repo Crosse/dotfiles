@@ -1,0 +1,3 @@
+set bell-style none
+set bind-tty-special-chars off
+"\C-w":     backward-kill-word

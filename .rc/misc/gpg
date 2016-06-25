@@ -1,0 +1,79 @@
+# vim: set ft=sh:
+########################################################################
+#
+# Copyright (c) 2016 Seth Wright (seth@crosse.org)
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+# WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+# AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+# DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+# PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+########################################################################
+
+# Only for interactive shells.
+[[ "${-}" != *i* ]] && return
+
+# And only if GnuPG is installed.
+[[ -x "$(command -v gpg-connect-agent)" ]] || return
+
+unset GPG_AGENT_INFO
+unset SSH_AUTH_SOCK
+unset SSH_AGENT_PID
+
+# For versions of GPG less than 2.1.0 it seems that gpg-agent needs to
+# be started manually.
+# (http://www.gossamer-threads.com/lists/gnupg/users/67797#67797)
+#
+# I hear you asking, "who still installs versions of GPG from 2009?"
+# RHEL/CentOS 6, my friend. Oh, how I hate it.
+gpg_version=$(gpg-agent --version | awk '/GnuPG/ { print $3 }')
+major=${gpg_version:0:1}
+minor=${gpg_version:2:1}
+revision=${gpg_version:4}
+if [[ $major -le 1 || ($major -eq 2 && $minor -eq 0 || ($minor -eq 1 && $revision -eq 0)) ]]; then
+    manual_start=1
+fi
+
+if [ -n "$manual_start" ]; then
+    pgrep -u "$USER" -x gpg-agent &>/dev/null
+    if [ $? -ne 0 ]; then
+        rc_log "Manually starting gpg-agent ($gpg_version is too old to auto-start)"
+        eval $(gpg-agent --daemon --write-env-file "${HOME}/.gnupg/agent-info")
+    fi
+    if [ -f "${HOME}/.gnupg/agent-info" ]; then
+        . "${HOME}/.gnupg/agent-info"
+        export GPG_AGENT_INFO SSH_AUTH_SOCK SSH_AGENT_PID
+    fi
+fi
+unset gpg_version major minor revision
+
+# GnuPG >= 2.0.16 knows how to start gpg-agent automatically when
+# gpg/gpg2/gpgsm/gpg-connect-agent are invoked. SSH, however, does not
+# "know this trick". So, make sure there is a running agent for SSH to
+# talk to by auto-starting gpg-agent if necessary.
+#
+# (One may wonder why I go through the trouble of starting the agent
+# manually above for gpg < 2.0.16 only to start the agent automatically
+# for gpg >= 2.0.16 here. The best reason I can come up with is that at
+# some point I hope the legacy code above and this comment can be
+# removed, somewhere around when I no longer have to run stuff on
+# RHEL/CentOS 6.
+gpg-connect-agent /bye
+export GPG_TTY=$(tty)
+
+# Take care of instances where gpg-agent was started like this:
+#   $ GNUPGHOMEDIR=$(pwd) gpg-agent --daemon ~/bin/bash
+#
+# (https://lists.gnupg.org/pipermail/gnupg-devel/2013-March/027562.html)
+# I mean, this shouldn't happen when using this whole rc framework, but
+# for the sake of completeness let's document it.
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+    export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
+fi

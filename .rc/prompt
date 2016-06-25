@@ -1,7 +1,7 @@
 # vim: set ft=sh:
 ########################################################################
 #
-# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+# Copyright (c) 2014-2016 Seth Wright (seth@crosse.org)
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -25,28 +25,85 @@
 # in here.
 ########################################################################
 
-RC_MODULE=prompt
-RC_FILENAME=".rc/${RC_MODULE}"
-
+RC_FILENAME=".rc/prompt"
 rc_log "starting up"
 
 # None of this matters if the shell isn't interactive.
 [[ "${-}" != *i* ]] && return
 
+if [ -x "$(command -v git)" ]; then
+    # If the "git" command exists on this system, define a function that
+    # can be used in the $PS1 prompt to show the user relevant
+    # information about a git repository, if the user is currently in
+    # one.
+    function parse_git_status {
+        # Sometimes git repositories are large, and calculating
+        # this information takes too long.  In that case, the user can
+        # define $NOPATHBRANCHES, which will stop this function from
+        # parsing the git repo.
+        if [ -z "$NOPATHBRANCHES" ]; then
+            typeset branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+            [[ -z $branch ]] && return
+
+            typeset status=$(git status 2> /dev/null)
+            typeset result=$branch
+
+            [[ "$status" = *deleted:* ]] && result=${result}-
+            [[ "$status" = *modified:* ]] && result=${result}*
+            [[ "$status" = *Untracked\ files:* ]] && result=${result}+
+            printf "[$result] "
+        fi
+    }
+    GITPARSING=1
+fi
+
 [[ -z "$SCREEN_COLORS" ]] && SCREEN_COLORS=$(tput colors)
-if [ $SCREEN_COLORS -gt 0 ]; then
+if [ $SCREEN_COLORS -eq 0 ]; then
+    # Build a "dumb" prompt that should work everywhere.
+    [[ -n "$GITPARSING" ]] && g='$(parse_git_status)'
+    declare -F battery_status 2>&1 > /dev/null && b=' ($(battery_status))'
+    [[ -n "$SSH_CLIENT" ]] && host=' at \h'
+    export PS1="\n\u@\h\$($g) \w\n\$ "
+else
     # Force 256-color in tmux if the "real" terminal supports 256
     # colors.
     if [ "$TERM" == "screen" -a "$SCREEN_COLORS" == 256 ]; then
         TERM=screen-256color
     fi
 
+    bold=$(tput bold)
+    dim=$(tput dim)
+    reset=$(tput sgr0)
+    black=$(tput setaf 0)
+    red=$(tput setaf 1)
+    green=$(tput setaf 2)
+    yellow=$(tput setaf 3)
+    blue=$(tput setaf 4)
+    magenta=$(tput setaf 5)
+    cyan=$(tput setaf 6)
+    white=$(tput setaf 7)
+
     # Change the prompt color depending on whether the real UID is root
     # or a regular user.
     if [ $(id -ru) == '0' ] ; then
-        HOSTCOLOR="\[\e[0;31m\]"
+        HOSTCOLOR="\[$red\]"
     else
-        HOSTCOLOR="\[\e[0;32m\]"
+        HOSTCOLOR="\[$green\]"
+    fi
+
+    [[ -n "$GITPARSING" ]] && g="\[${reset}${yellow}\]\$(parse_git_status)\[${reset}\]"
+
+    # If inside screen or tmux, there is no need for battery status or
+    # the host name in the prompt, as it will be in the status line.
+    if [ "${TERM%%-*}" != "screen" ]; then
+        declare -F battery_status 2>&1 > /dev/null || battery_status() { return; }
+        if [ -n "$(battery_status)" ]; then
+            b="\[${reset}\](\[${dim}${white}\]\$(battery_status)\[${reset}\])"
+        fi
+
+        if [ -n "$SSH_CLIENT" ]; then
+            host="\[${dim}${white}\]@\[${reset}${green}\]\h\[${reset}\]"
+        fi
     fi
 
     # Set the title of an xterm.
@@ -57,11 +114,22 @@ if [ $SCREEN_COLORS -gt 0 ]; then
     esac
 
     # Build a colorized prompt.
-    export PS1="${TERMTITLE}${HOSTCOLOR}\u@\h\$(parse_git_status)\[\e[0;34m\] \w \$\[\e[00m\] "
-else
-    # Build a "dumb" prompt that should work everywhere.
-    export PS1="\u@\h\$(parse_git_status) \w \$ "
+    PS1="\n${TERMTITLE}"                            # Set the xterm title.
+    PS1+="${HOSTCOLOR}\u"                           # Username
+    PS1+="$host"                                    # Add the host, if not local
+    PS1+=" "
+    PS1+="$b"                                       # battery status, if available
+    PS1+="$g"                                       # git status, if available
+    PS1+="\[${cyan}\]\w\[${reset}\]"                # working directory
+    PS1+="\n"                                       # new line.
+    PS1+="\[${dim}${white}\]\$\[${reset}\] "        # Either '$' or '#'
+    export PS1
+
+    PS2="\[${yellow}\]> \[${reset}\]"
+    export PS2
 fi
 
-rc_set_module $RC_MODULE
+unset GITPARSING HOSTCOLOR g b host TERMTITLE
+unset bold dim reset black red green yellow blue magenta cyan white
+
 rc_log "done."

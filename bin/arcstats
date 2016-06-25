@@ -1,0 +1,39 @@
+#!/bin/sh
+
+args=$(getopt c: $*)
+
+COUNT=0
+
+set -- $args
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -c)
+            COUNT="$2"
+            shift; shift;
+            ;;
+        --)
+            shift; break;
+            ;;
+    esac
+done
+
+printf "%8s %8s %8s %8s %6s %8s %8s\n" "time" "read" "miss" "hits" "hit%" "arcsz" "c"
+while (true); do
+    cat /proc/spl/kstat/zfs/arcstats | awk '
+        BEGIN       { "/bin/date +%H:%M:%S"| getline timestamp }
+        /^hits/     { l1_hits=$3 }
+        /^misses/   { l1_misses=$3 }
+        /^size/     { l1_size=$3/1024/1024 }
+        /^c /       { l1_limit=$3/1024/1024 }
+        END {
+            l1_reads = l1_hits + l1_misses
+            l1_hitpct = l1_hits / l1_reads * 100
+            printf "%8s %8d %8d %8d %6.0f %6dMB %6dMB\n", timestamp, l1_reads, l1_misses, l1_hits, l1_hitpct, l1_size, l1_limit
+        }'
+
+    if [ $COUNT -eq 0 ]; then
+        break
+    else
+        sleep $COUNT
+    fi
+done

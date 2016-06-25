@@ -1,5 +1,0 @@
-cvs -q -danoncvs@mirror.jmu.edu:/cvs
-diff -up
-update -Pd
-checkout -P
-

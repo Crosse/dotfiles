@@ -1,7 +1,7 @@
 # vim: set ft=sh:
 ########################################################################
 #
-# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+# Copyright (c) 2014-2016 Seth Wright (seth@crosse.org)
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -25,11 +25,7 @@
 # here.  It will only be sourced if uname(1) returns "Linux".
 ########################################################################
 
-# Linux-specific configuration can go in here.
-
-RC_MODULE=os/Linux
-RC_FILENAME=".rc/${RC_MODULE}"
-
+RC_FILENAME=".rc/os/Linux"
 rc_log "starting up"
 
 case "$-" in
@@ -40,16 +36,43 @@ case "$-" in
         alias ls='ls --color=auto'
 
         # set DIRCOLORS, if the "dircolors" command is available.
-        [[ -x "$(command -v dircolors)" ]] && eval $(dircolors)
+        if [ -x "$(command -v dircolors)" ]; then
+            [[ -r "${HOME}/.dircolors" ]] && eval $(dircolors "${HOME}/.dircolors") || eval $(dircolors)
+        fi
 
         # Linux uses GNU grep.  Set options such that color support is
         # enabled, binary files will be ignored, and files named "tags"
         # will not be searched.
-        export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
+        export GREP_OPTS="--colour=auto --binary-files=without-match --exclude=tags"
+        for cmd in {,/usr}/bin/*grep; do
+            cmd=$(basename $cmd)
+            # pgrep(1) isn't the same kind of grep(1) command.
+            [[ "$cmd" == "pgrep" ]] && continue
+            alias $cmd="$cmd \$GREP_OPTS"
+        done
+
+        battery_status() {
+            declare -a batteries
+            mapfile -t batteries < <(ls -d /sys/class/power_supply/BAT*)
+
+            for b in "${batteries[@]}"; do
+                . "${b}/uevent"
+                if [ "${#batteries[@]}" -gt 1 ]; then
+                    local batt=$(basename "$b")
+                    printf "[%s] %d%% (%s)\n"   \
+                        $batt                   \
+                        $POWER_SUPPLY_CAPACITY  \
+                        $POWER_SUPPLY_STATUS
+                else
+                    printf "%d%%, %s\n"         \
+                        $POWER_SUPPLY_CAPACITY  \
+                        $POWER_SUPPLY_STATUS
+                fi
+            done
+        }
         ;;
 esac
 
 # Things that should always be available go after here.
 
-rc_set_module $RC_MODULE
 rc_log "done."

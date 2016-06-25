@@ -1,9 +1,9 @@
 #!/bin/sh
 
-DEFAULT_VERSION=1.5.1
+DEFAULT_VERSION=1.5.3
 GO_URI="https://storage.googleapis.com/golang/"
 
-. funcs.sh
+. ./funcs.sh
 
 if [ -n "$1" ]; then
     VERSION=$1
@@ -32,7 +32,11 @@ GOFILE="${GOFILE}.tar.gz"
 
 echo "==> Downloading Go $VERSION"
 $(downloader) ${GO_URI}${GOFILE} | sudo tar xzf - -C /usr/local
-
-if [ $? == 0 ]; then
+if [ $? -eq 0 ]; then
     echo "==> Go $VERSION is now installed in /usr/local/go"
 fi
+
+cd /usr/local/bin
+for f in /usr/local/go/bin/*; do
+    sudo ln -svf "$f"
+done

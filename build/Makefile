@@ -1,22 +1,18 @@
 # Variables
-GOVER := 1.5.1
+RKTVER := v1.0.0
+GOVER := 1.6
 GOROOT ?= /usr/local/go
 GOPATH ?= $(HOME)/code/go
-SCMURI := git@github.com:Crosse
 
 GO := $(GOROOT)/bin/go
 export GOPATH
-GIT := $(shell command -v git)
+GIT := $(shell command -v git;)
 UNAME := $(shell uname)
 ARCH := $(shell uname -m)
 
 default: bin dotfiles
-all: default install_go install_gotools install_personal install_pkgsrc vim
-
-bootstrap: git
-	@echo "==> Cloning dotfiles into $(CURDIR)/dotfiles"
-	@git clone $(SCMURI)/dotfiles.git $(CURDIR)/dotfiles
-	@cd $(CURDIR)/dotfiles/build && $(MAKE) all
+all: default fonts install_go install_gotools install_personal
+mac: all install_pkgsrc
 
 bin:
 	@echo "==> Creating symlinks in ${HOME}/bin"
@@ -26,15 +22,22 @@ dotfiles:
 	@echo "==> Symlinking dotfiles into ${HOME}"
 	@$(CURDIR)/dotfiles.sh
 
-vim: git
-	@echo "==> Cloning vimfiles into ${HOME}/.vim"
-	git clone $(SCMURI)/vimfiles.git $(HOME)/.vim
-	@cd $(HOME)/.vim && $(MAKE) install
+etc:
+	@echo "==> Copying config files to /etc"
+	@sudo cp -Rv $(CURDIR)/../etc/* /etc
+
+fonts:
+	@echo "==> Downloading font files"
+	@$(CURDIR)/fonts.sh
 
 install_go: $(GOROOT)
 $(GOROOT):
 	@echo "Installing Go $(GOVER)"
 	sudo $(CURDIR)/install_go.sh $(GOVER)
+
+install_rkt:
+	@echo "Installing rkt $(RKTVER)"
+	sudo $(CURDIR)/install_rkt.sh $(RKTVER)
 
 clean_go:
 	@echo "==> Removing $(GOROOT)"
@@ -49,7 +52,7 @@ install_gotools: $(GOROOT)
 install_personal:
 	@echo "==> Installing personal tools"
 	go get -u github.com/crosse/sshsrv
-	@if [ -n "$(shell command -v gem)" ]; then	\
+	@if [ -n "$(shell command -v gem;)" ]; then	\
 		sudo gem install pwhois;		\
 	fi
 
@@ -76,7 +79,7 @@ ifndef GIT
 	$(MAKE) install_git
 endif
 
-.PHONY: default all bootstrap bin dotfiles vim		\
+.PHONY: default all bin dotfiles vim		\
 	install_go clean_go install_gotools 		\
 	install_personal install_pkgsrc			\
 	clean_pkgsrc git install_git

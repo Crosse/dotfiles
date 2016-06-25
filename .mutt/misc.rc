@@ -1,47 +1,55 @@
+# vim: syntax=muttrc
+
+set wait_key = no
+set mbox_type = Maildir
+
 # Stop asking to "move read messages to mbox"
 set move = no 
 
 # Reduce polling frequency to a sane level
-set mail_check=600
-set timeout=600
-set imap_keepalive=600
+set mail_check=0
+set timeout=3
 
-# Keep a cache of various things...
-set message_cachedir="~/.mailcache/"
-# ...like message headers...
-set header_cache="~/.muttcache/headers"
-# ...and message bodies
-set message_cachedir="~/.muttcache/bodies"
-# Tell mutt where to keep certificates
-set certificate_file="~/.muttcache/certificates"
+set delete  # don't ask to delete messages
+unset confirmappend
+set quit
+unset mark_old
+set beep_new    # bell on new mails
+set pipe_decode # strip headers and eval mime types when piping
+set thorough_search # strip headers and eval mime types before searching
+
+set status_chars = " *%A"
+set status_format = "---[ Folder: %f ]---[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]---%>-%?p?( %p postponed )?---"
+
+ignore *                                # ignore all headers...
+unignore from: to: cc: date: subject:   # ...except these
+unhdr_order *
+hdr_order from: to: cc: date: subject:
 
 # Use TLS if available
 set ssl_starttls=yes
 
-# Don't wait to enter mailbox manually
-unset imap_passive
+set pager_index_lines = 10  # number of index lines to show
+set pager_context = 3       # number of context lines to show
+set pager_stop              # don't go to the next message automatically
+set menu_scroll             # scroll in menus
+set tilde                   # show tildes like in vim
+unset markers               # no ugly plus signs
 
-# Automatically poll subscribed mailboxes for new mail (new in 1.5.11)
-set imap_check_subscribed
+set quote_regexp = "^( {0,4}[.|:#%| {0,4}[a-z0-9]+[>|]+)+"
+alternative_order text/plain text/enriched text/html
 
-# Use IMAP IDLE extensions
-set imap_idle
+set date_format = "%F %H:%M %p"
 
-# Display download progress every 5KB
-set net_inc=5
+set sort = threads
+#set sort_aux = "last-date-received"
+set sort_aux = reverse-last-date-received
+set uncollapse_jump
+set sort_re
+set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
 
-# Stop at the end of a message instead of jumping to the next message.
-set pager_stop
-
-set sort = "threads"
-set sort_aux = "last-date-received"
-
-set imap_headers="X-MS-EXCHANGE-ORGANIZATION-SCL X-MS-EXCHANGE-ORGANIZATION-SENDERIDRESULT"
-spam "^X-MS-Exchange-Organization-SCL:.*(-?[0-9]+)$"            "SCL/%1"
-spam "X-MS-Exchange-Organization-SenderIdResult: (.*)"          "SPF/%1"
-set spam_separator=", "
-
-set index_format="%Z | (%?l?%4l&%4c?) | %(%D %R%p) | %-25.25F | %s %*  %?H?[ %H ] ?"
+#set index_format="%Z | (%?l?%4l&%4c?) | %(%D %R%p) | %-25.25F | %s %*  %?H?[ %H ] ?"
+set index_format = "[%Z]  %D  %-20.20F  %s"
 set folder_format="%t%5N | %f"
 
 macro index,pager   'y' "<sync-mailbox><change-folder>?<toggle-mailboxes>"

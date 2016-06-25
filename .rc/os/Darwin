@@ -1,7 +1,7 @@
 # vim: set ft=sh:
 ########################################################################
 #
-# Copyright (c) 2014 Seth Wright (seth@crosse.org)
+# Copyright (c) 2014-2016 Seth Wright (seth@crosse.org)
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -26,11 +26,7 @@
 # returns "Darwin".
 ########################################################################
 
-# OS X-specific configuration can go in here.
-
-RC_MODULE=os/Darwin
-RC_FILENAME=".rc/${RC_MODULE}"
-
+RC_FILENAME=".rc/os/Darwin"
 rc_log "starting up"
 
 case "$-" in
@@ -49,7 +45,13 @@ case "$-" in
         # mentioned in the man page.  Set options such that color
         # support is enabled, binary files will be ignored, and files
         # named "tags" will not be searched.
-        export GREP_OPTIONS="--colour=auto --binary-files=without-match --exclude=tags"
+        export GREP_OPTS="--colour=auto --binary-files=without-match --exclude=tags"
+        for cmd in {,/usr}/bin/*grep; do
+            cmd=$(basename $cmd)
+            # pgrep(1) isn't the same kind of grep(1) command.
+            [[ "$cmd" == "pgrep" ]] && continue
+            alias $cmd="$cmd \$GREP_OPTS"
+        done
 
         # Work around a Vim incompatibility with crontab on OS X.  This
         # requires settings in .vimrc as well.
@@ -62,10 +64,7 @@ esac
 # Apple includes an older version of git with Xcode; if git has been
 # installed manually by the user, then prepend it to the path so that
 # calls to "git" use the user-installed version instead.
-prepend_to_path "/usr/local/git/bin"
+prepend_to_path /usr/local/git/bin
+prepend_to_path /opt/pkg/bin                        # For pkgsrc
 
-prepend_to_path "${HOME}/Library/Python/2.7/bin/"
-prepend_to_path "/opt/pkg/bin"
-
-rc_set_module $RC_MODULE
 rc_log "done."

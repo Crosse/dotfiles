@@ -2,25 +2,53 @@
 #
 # X startup script
 
+LOGFILE=${HOME}/.xsession.log
+log() {
+    printf "[%s] %s\n" "$(date +'%Y-%m-%dT%H:%M:%S %z')" "$1" >> $LOGFILE
+}
+
+log "Reading .xsession"
+
 # Load any Xdefaults
 if [ -f ${HOME}/.Xresources ]; then
+    log "Merging Xresources"
     xrdb -merge ${HOME}/.Xresources
 fi
 
-if [ -f "`which xidle`" ]; then
-    xidle &
-fi
+PLATFORM=$(uname -s)
+log "Turns out I'm running on $PLATFORM"
+case "$PLATFORM" in
+    OpenBSD)
+        if [ -n "$(command -v xidle)" ]; then
+            xidle &
+        fi
+        if [ -n "$(command -v xsetroot)" ]; then
+            # Set the background
+            xsetroot -solid steelblue
+        fi
+        #xterm -geometry 140x50 &
+        ;;
+    Linux)
+        [ -x "$(command -v feh)" ] && feh --no-fehbg --bg-fill ${HOME}/.config/background.jpg
+        ;;
+esac
 
-# Set the background
-xsetroot -solid steelblue
+# Disable the bell
+log "Disabling bell"
+xset -b
+setxkbmap -option terminate:ctrl_alt_bksp
 
-#xterm -geometry 140x50 &
+[[ -n $(command -v xflux) ]] && xflux
 
-if [ "$(uname)" == "Darwin" ]; then
-    exec /usr/bin/quartz-wm
+#xautolock -locker "fancylock.py lock" -detectsleep -time 15 &
+
+SESSION="${XDG_CONFIG_HOME:-$HOME/.config}/default-shell"
+if [ -h "$SESSION" ]; then
+    #[ -f "$(command -v compton)" ] && compton -Gb &
+    SESSION=$(basename $(readlink -f $SESSION))
+    log "Starting $SESSION"
+    exec gnome-session --session=${SESSION}
+    exec ${SESSION}
 else
-    #exec /usr/X11R6/bin/twm
-    exec /usr/X11R6/bin/cwm
-    #exec /usr/X11R6/bin/fvwm
-    #exec /usr/local/bin/gnome-shell
+    log "No default shell set! Symlink your desired shell to $SESSION"
 fi
