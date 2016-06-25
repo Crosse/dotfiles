@@ -66,5 +66,6 @@ esac
 # calls to "git" use the user-installed version instead.
 prepend_to_path /usr/local/git/bin
 prepend_to_path /opt/pkg/bin                        # For pkgsrc
+prepend_to_path /opt/pkg/sbin                       # For pkgsrc
 
 rc_log "done."
