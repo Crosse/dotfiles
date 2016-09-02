@@ -1,0 +1,40 @@
+# vim: set ft=sh:
+########################################################################
+#
+# Copyright (c) 2016 Seth Wright (seth@crosse.org)
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+# WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+# AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+# DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+# PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+########################################################################
+
+# Only for interactive shells.
+[[ "${-}" != *i* ]] && return
+
+# enable bash completion
+if ! shopt -oq posix; then
+    # Some standard paths.
+    rc_source_file /usr/share/bash-completion/bash_completion
+    rc_source_file /etc/bash_completion
+    rc_source_file "${HOME}/.bash_completion"
+
+    # pkgsrc on OSX
+    rc_source_file /opt/pkg/share/bash-completion/bash_completion
+
+    # Homebrew
+    if [ "$(command -v brew)" ]; then
+        rc_source_file "$(brew --prefix)/etc/bash_completion"
+    fi
+
+    # git on OSX, when installed via the official DMG package.
+    rc_source_file /usr/local/git/contrib/completion/git-completion.bash
+fi

@@ -88,15 +88,6 @@ case "$-" in
         # Set $PS1 to something pretty.
         rc_source_file "${RC_PATH}/prompt"
 
-        # enable bash completion in interactive shells
-        if ! shopt -oq posix; then
-            for f in /usr/share/bash-completion/bash_completion \
-                     /etc/bash_completion                       \
-                     "${HOME}/.bash_completion"; do
-                [[ -r "$f" ]] && . "$f"
-            done
-        fi
-
         ;;
 esac
 
