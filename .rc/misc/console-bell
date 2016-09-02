@@ -20,7 +20,7 @@
 # Only for interactive shells.
 [[ "${-}" != *i* ]] && return
 
-# TURN OF THE FRIGGIN' CONSOLE BELL.
+# TURN OFF THE FRIGGIN' CONSOLE BELL.
 if [ -n "$DISPLAY" -a "$(uname -s)" != "Darwin" ]; then
     [[ -n "$(command -v xset)" ]] && xset -b
 else
