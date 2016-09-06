@@ -28,14 +28,14 @@
 [credential]
     helper = cache
 
-[credential "https://git.crosse.org"]
-    username = seth
-
 [credential "https://bitbucket.org"]
     username = crosse3
 
 [credential "https://github.com"]
     username = crosse
+
+[diff]
+    compactionHeuristic = true
 
 [help]
     format = man
