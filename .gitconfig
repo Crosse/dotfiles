@@ -1,7 +1,7 @@
 [user]
 	name = Seth Wright
 	email = seth@crosse.org
-	signingkey = F2F1E388
+	signingkey = 7D35F6C2A7095E278D0A5BBCEC32CF23823D863A
 
 [alias]
 	dc = diff --cached
@@ -25,6 +25,9 @@
 	#   Thin out older metadata within the repository, reduceses filesystem footprint
 	trim = !git reflog expire --expire=now --all && git gc --prune=now
 
+[commit]
+	gpgsign = true
+
 [credential]
 	helper = cache
 
@@ -42,6 +45,9 @@
 
 [push]
 	default = simple
+
+[gpg]
+	program = gpg2
 
 [gui]
 	fontdiff = -family \"Liberation Mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
