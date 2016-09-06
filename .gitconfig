@@ -19,13 +19,11 @@
 	#   Show all of my configured aliases
 	aliases = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\t => \\2/' | sort
 
-	#   Start a new local repository and perform initial commit
-	this = !git init && git add . && git commit -m \"Initial commit.\"
-
 	#   Thin out older metadata within the repository, reduceses filesystem footprint
 	trim = !git reflog expire --expire=now --all && git gc --prune=now
 
 [commit]
+	# PGP-sign all git commits by default
 	gpgsign = true
 
 [credential]
@@ -47,6 +45,7 @@
 	default = simple
 
 [gpg]
+	# git uses gpg by default. Tell it to use gpg2 instead.
 	program = gpg2
 
 [gui]
@@ -58,10 +57,13 @@
 	excludesfile = ~/.gitignore_global
 
 [url "git@github.com:"]
+	# Allows "git checkout github:user/repo.git"
 	insteadOf = github:
 
 [url "git@bitbucket.org:"]
+	# Allows "git checkout bb:user/repo.git"
 	insteadOf = bb:
 
 [include]
+	# Supposed to be platform-dependent stuff, like console colors.
 	path = ~/.gitconfig_extra
