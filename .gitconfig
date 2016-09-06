@@ -1,61 +1,61 @@
 [user]
-    name = Seth Wright
-    email = seth@crosse.org
-    signingkey = F2F1E388
+	name = Seth Wright
+	email = seth@crosse.org
+	signingkey = F2F1E388
 
 [alias]
-    dc = diff --cached
-    st = status
-    ci = commit
-    si = commit -S
-    co = checkout
-    br = branch
-    first = log --reverse
+	dc = diff --cached
+	st = status
+	ci = commit
+	si = commit -S
+	co = checkout
+	br = branch
+	first = log --reverse
 
-    ls = log --graph --pretty='%C(bold magenta)%h%Creset [%aN, %ar] %C(bold cyan)%s%Creset'
-    sl = "!git ls -20"
+	ls = log --graph --pretty='%C(bold magenta)%h%Creset [%aN, %ar] %C(bold cyan)%s%Creset'
+	sl = "!git ls -20"
 
-    # From http://michaelwales.com/articles/make-gitconfig-work-for-you/
-    #   Show all of my configured aliases
-    aliases = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\t => \\2/' | sort
+	# From http://michaelwales.com/articles/make-gitconfig-work-for-you/
+	#   Show all of my configured aliases
+	aliases = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\t => \\2/' | sort
 
-    #   Start a new local repository and perform initial commit
-    this = !git init && git add . && git commit -m \"Initial commit.\"
+	#   Start a new local repository and perform initial commit
+	this = !git init && git add . && git commit -m \"Initial commit.\"
 
-    #   Thin out older metadata within the repository, reduceses filesystem footprint
-    trim = !git reflog expire --expire=now --all && git gc --prune=now
+	#   Thin out older metadata within the repository, reduceses filesystem footprint
+	trim = !git reflog expire --expire=now --all && git gc --prune=now
 
 [credential]
-    helper = cache
+	helper = cache
 
 [credential "https://bitbucket.org"]
-    username = crosse3
+	username = crosse3
 
 [credential "https://github.com"]
-    username = crosse
+	username = crosse
 
 [diff]
-    compactionHeuristic = true
+	compactionHeuristic = true
 
 [help]
-    format = man
+	format = man
 
 [push]
-    default = simple
+	default = simple
 
 [gui]
 	fontdiff = -family \"Liberation Mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
-    diffopts = --patience
+	diffopts = --patience
 	fontui = -family \"Liberation Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 
 [core]
-    excludesfile = ~/.gitignore_global
+	excludesfile = ~/.gitignore_global
 
 [url "git@github.com:"]
-    insteadOf = github:
+	insteadOf = github:
 
 [url "git@bitbucket.org:"]
-    insteadOf = bb:
+	insteadOf = bb:
 
 [include]
-    path = ~/.gitconfig_extra
+	path = ~/.gitconfig_extra
