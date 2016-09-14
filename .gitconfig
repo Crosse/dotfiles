@@ -26,9 +26,6 @@
 	# PGP-sign all git commits by default
 	gpgsign = true
 
-[credential]
-	helper = cache
-
 [credential "https://bitbucket.org"]
 	username = crosse3
 
