@@ -3,6 +3,7 @@
 ! Define which theme to use here, but include it after everything else.
 !#define THEME ".config/Xresources.d/molokai-theme"
 #define THEME ".config/Xresources.d/solarized-theme"
+#define solarized_light 1
 
 Xft.dpi: 96
 
