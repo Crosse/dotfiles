@@ -22,10 +22,6 @@
 	#   Thin out older metadata within the repository, reduceses filesystem footprint
 	trim = !git reflog expire --expire=now --all && git gc --prune=now
 
-[commit]
-	# PGP-sign all git commits by default
-	gpgsign = true
-
 [credential "https://bitbucket.org"]
 	username = crosse3
 
