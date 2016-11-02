@@ -4,6 +4,8 @@
 !#define THEME ".config/Xresources.d/molokai-theme"
 #define THEME ".config/Xresources.d/solarized-theme"
 
+Xft.dpi: 96
+
 ! Per-client tweaks.
 #ifdef EXT_Apple_WM
 ! 27-inch iMac. This is probably horribly wrong, but the XQuartz SRVR_*
