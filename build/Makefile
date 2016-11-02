@@ -1,6 +1,6 @@
 # Variables
-RKTVER := v1.0.0
-GOVER := 1.6
+RKTVER := v1.18.0
+GOVER := 1.7.3
 GOROOT ?= /usr/local/go
 GOPATH ?= $(HOME)/code/go
 
@@ -47,7 +47,6 @@ install_gotools: $(GOROOT)
 	@echo "==> Installing Go tools"
 	$(GO) get -u github.com/golang/lint/golint
 	$(GO) get -u golang.org/x/tools/cmd/cover
-	$(GO) get -u golang.org/x/tools/cmd/vet
 
 install_personal:
 	@echo "==> Installing personal tools"
