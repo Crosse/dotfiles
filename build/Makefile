@@ -10,6 +10,7 @@ ARCH := $(shell uname -m)
 GEM := $(shell command -v gem;)
 GIT := $(shell command -v git;)
 GO := $(shell command -v go;)
+FONT_INSTALL := $(shell command -v font-install;)
 
 
 default: bin dotfiles install_personal
@@ -38,9 +39,13 @@ dotfiles:
 	@echo "==> Symlinking dotfiles into ${HOME}"
 	@$(CURDIR)/dotfiles.sh
 
-fonts:
-	@echo "==> Downloading font files"
-	@$(CURDIR)/fonts.sh
+fonts: $(GOROOT)
+ifndef FONT_INSTALL
+	@echo "==> Installing prerequisite: font-install"
+	go get -u github.com/Crosse/font-install
+endif
+	@echo "==> Installing fonts"
+	font-install -fromFile fontslist.txt
 
 install_go: $(GOROOT)
 $(GOROOT):
