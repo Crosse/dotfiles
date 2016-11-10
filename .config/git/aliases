@@ -1,0 +1,15 @@
+# vim: set ft=gitconfig:
+[alias]
+	dc = diff --cached
+	st = status
+	ci = commit
+	si = commit -S
+	co = checkout
+	br = branch
+	first = log --reverse
+
+	ls = log --graph --pretty='%C(bold magenta)%h%Creset [%aN, sig: %G?, %ar] %C(bold cyan)%s%Creset'
+	sl = "!git ls -20"
+
+	#   Thin out older metadata within the repository, reduceses filesystem footprint
+	trim = !git reflog expire --expire=now --all && git gc --prune=now

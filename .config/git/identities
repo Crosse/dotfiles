@@ -1,0 +1,13 @@
+# vim: set ft=gitconfig:
+
+[user]
+	name = Seth Wright
+	email = seth@crosse.org
+	signingkey = 7D35F6C2A7095E278D0A5BBCEC32CF23823D863A
+
+[credential "https://bitbucket.org"]
+	username = crosse3
+
+[credential "https://github.com"]
+	username = crosse
+
