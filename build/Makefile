@@ -63,6 +63,8 @@ go-remove:			##@go Remove Go.
 	@echo "==> Removing $(GOROOT)"
 	sudo $(RM) -rf $(GOROOT)
 
+go-update:			##@go Update Go to the the version specified in this Makefile.
+go-update: go-remove go
 
 gotools:	##@go Install some useful Go tools (golint, cover).
 gotools: $(GOROOT)
