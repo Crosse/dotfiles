@@ -1,9 +1,8 @@
 !! vim: set ft=xdefaults:
 
-URxvt*clipboard.copycmd:    xclip -i -selection clipboard
-URxvt*clipboard.pastecmd:   xclip -o -selection clipboard
+!URxvt*clipboard.copycmd:    xclip -i -selection clipboard
+!URxvt*clipboard.pastecmd:   xclip -o -selection clipboard
 URxvt.perl-ext-common:      default,matcher,selection-to-clipboard
-URxvt.url-launcher:         /home/seth/bin/browser-exec
 URxvt.matcher.button:       1
 URxvt.url-select.underline: true
 
@@ -77,15 +76,23 @@ URxvt.url-select.underline: true
 ! URxvt*borderColor: colour
 
 ! Select the fonts to be used. This is a comma separated list of font names that are checked in order when trying to find glyphs for
+#if DPI > 240
 ! URxvt*font: fontlist
 URxvt*font: xft:Monospace:pixelsize=32,style=Medium
-
 ! URxvt*boldFont: fontlist
 URxvt*boldFont: xft:Monospace:pixelsize=32,style=Bold
-
-! 
 ! URxvt*italicFont: fontlist
 URxvt*italicFont: xft:Monospace:pixelsize=32,style=Italic
+#else
+! URxvt*font: fontlist
+URxvt*font: xft:Monospace:pixelsize=14,style=Medium
+! URxvt*boldFont: fontlist
+URxvt*boldFont: xft:Monospace:pixelsize=14,style=Bold
+! URxvt*italicFont: fontlist
+URxvt*italicFont: xft:Monospace:pixelsize=14,style=Italic
+#endif
+
+
 
 ! The font list to use for displaying bold, italic or bold italic characters, respectively.
 ! URxvt*boldItalicFont: fontlist

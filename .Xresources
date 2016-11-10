@@ -5,8 +5,6 @@
 #define THEME ".config/Xresources.d/solarized-theme"
 #define solarized_light 1
 
-Xft.dpi: 96
-
 ! Per-client tweaks.
 #ifdef EXT_Apple_WM
 ! 27-inch iMac. This is probably horribly wrong, but the XQuartz SRVR_*
@@ -14,14 +12,20 @@ Xft.dpi: 96
 ! -DSRVR__private_tmp_com_apple_launchd_Zip1rMsM6j_org_macosforge_xquartz
 ! Terribly useful.
     #if WIDTH == 4480 && HEIGHT == 1418
-        Xft.dpi:            109
+        #define DPI 109
     #endif
 #else
 ! The Dell M3800 has many DPIs.
     #ifdef SRVR_it_15_1660
-        Xft.dpi:            283
+        #define DPI 283
     #endif
 #endif
+
+#ifndef DPI
+#define DPI 96
+#endif
+
+Xft.dpi: DPI
 
 ! Font configuration.
 Xft.antialias:          1
