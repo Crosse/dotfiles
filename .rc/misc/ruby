@@ -20,8 +20,16 @@
 # Only for interactive shells.
 [[ "${-}" != *i* ]] && return
 
-# If Rbenv is installed (http://rbenv.org), initialize it.
-[[ -d "${HOME}/.rbenv" ]] || return
+# If Rbenv is installed (http://rbenv.org), initialize it and add its bin
+# directory to the PATH.
+if [ -d "${HOME}/.rbenv" ]; then
+    append_to_path "${HOME}/.rbenv/bin"
+    eval "$(rbenv init -)"
+fi
 
-prepend_to_path "${HOME}/.rbenv/bin"
-eval "$(rbenv init -)"
+# If rvm (https://rvm.io) is installed, initialize it and add its bin
+# directory to the PATH.
+if [ -d "${HOME}.rvm" ]; then
+    append_to_path "${HOME}/.rvm/bin"
+    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+fi
