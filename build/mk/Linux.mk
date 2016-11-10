@@ -23,4 +23,4 @@ ifndef ACBUILD
 	$(DOWNLOADER) $(DL_OPTS) "https://github.com/appc/acbuild/releases/download/$(ACBUILDVER)/acbuild.tar.gz" | tar xzf - -C /usr/local/bin
 endif
 
-.PHONY Linux_info etc install_rkt
+.PHONY: Linux_info etc install_rkt
