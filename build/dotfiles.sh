@@ -27,6 +27,3 @@ for file in $(find "$WRKDIR"            \
         ln -sfnv "$file" "${HOME}/$f"
     fi
 done
-
-echo "Retrieving the latest sks-keyservers.net CA"
-$(downloader) https://sks-keyservers.net/sks-keyservers.netCA.pem > ${HOME}/.gnupg/sks-keyservers.netCA.pem

@@ -13,7 +13,7 @@ GO := $(shell command -v go;)
 FONT_INSTALL := $(shell command -v font-install;)
 
 
-default: bin dotfiles install_personal
+default: bin dotfiles install_personal keyservers
 all: default fonts install_go install_gotools install_personal
 mac: all install_pkgsrc
 info: _info $(UNAME)_info
@@ -76,9 +76,14 @@ else
 	$(warning Some tools require Go, which is not currently installed.)
 endif
 
+keyservers:
+	@echo "==> Retrieving the latest sks-keyservers.net CA"
+	$(DOWNLOADER) $(DL_OPTS) https://sks-keyservers.net/sks-keyservers.netCA.pem > "${HOME}/.gnupg/sks-keyservers.netCA.pem"
+
+
 .PHONY: default all bin dotfiles vim		\
 	install_go clean_go install_gotools 	\
-	install_personal info _info
+	install_personal info _info keyservers
 
 include mk/cross-platform.mk
 include mk/$(UNAME).mk
