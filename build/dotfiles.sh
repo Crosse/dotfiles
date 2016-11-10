@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e -o pipefail
+
 . ./funcs.sh
 
 WRKDIR=$(cd "$(dirname "$0")/.." && pwd -P)
@@ -20,9 +22,10 @@ for file in $(find "$WRKDIR"            \
     if [ -e "${HOME}/$f" -a ! -L "${HOME}/$f" ]; then
         echo "Backing up ${HOME}/$f to ${HOME}/backup/$f"
         [ -d "${HOME}/backup" ] || mkdir -p "${HOME}/backup"
-        cp -pvR "${HOME}/$f" "${HOME}/backup/"
+        mv "${HOME}/$f" "${HOME}/backup/" && ln -sfnv "$file" "${HOME}/$f"
+    else
+        ln -sfnv "$file" "${HOME}/$f"
     fi
-    ln -sfn "$file" "${HOME}/$f"
 done
 
 echo "Retrieving the latest sks-keyservers.net CA"
