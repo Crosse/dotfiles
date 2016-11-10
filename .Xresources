@@ -3,7 +3,9 @@
 ! Define which theme to use here, but include it after everything else.
 !#define THEME ".config/Xresources.d/molokai-theme"
 #define THEME ".config/Xresources.d/solarized-theme"
-#define solarized_light 1
+!#define SOLARIZED_THEME_DARK
+#define SOLARIZED_THEME_LIGHT
+
 
 ! Per-client tweaks.
 #ifdef EXT_Apple_WM
