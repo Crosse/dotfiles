@@ -22,13 +22,13 @@ _info:
 	$(info Detected platform: $(UNAME))
 	$(info Using $(DOWNLOADER) to download files)
 ifdef GO
-	$(info Found Go at $(GO))
+	$(info Detected Go ($(shell $(GO) version)))
 endif
 ifdef GIT
-	$(info Found Git at $(GIT))
+	$(info Detected Git ($(shell $(GIT) version)))
 endif
 ifdef FONT_INSTALL
-	$(info Found font-install at $(FONT_INSTALL))
+	$(info Detected font-install at $(FONT_INSTALL))
 endif
 
 bin:
