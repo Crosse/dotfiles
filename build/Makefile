@@ -33,6 +33,7 @@ endif
 ifdef FONT_INSTALL
 	$(info Detected font-install at $(FONT_INSTALL))
 endif
+	@true
 
 bin:				## Symlink all bin files to $HOME/bin.
 	@echo "==> Creating symlinks in ${HOME}/bin"
