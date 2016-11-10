@@ -9,11 +9,11 @@ ifdef RKT
 	$(info Found rkt at $(RKT))
 endif
 
-etc:
+etc:				##@linux-specific Copy site-wide config files to /etc.
 	@echo "==> Copying config files to /etc"
 	sudo cp -Rv $(CURDIR)/../etc/* /etc
 
-install_rkt:
+install_rkt:		##@rkt Install rkt and acbuild.
 ifndef RKT
 	@echo "==> Installing rkt $(RKTVER)"
 	sudo $(CURDIR)/install_rkt.sh $(RKTVER)

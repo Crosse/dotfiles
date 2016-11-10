@@ -1,18 +1,22 @@
 Darwin_info:
 	$(info Detected OSX $(shell sw_vers -productVersion))
 
-install_pkgsrc: /opt/pkg
+mac:				##@meta Run the all and pkgsrc targets.
+mac: all pkgsrc
+
+pkgsrc:		##@pkgsrc Install pkgsrc.
+pkgsrc: /opt/pkg
 /opt/pkg:
 	@echo "==> Installing pkgsrc"
 	@$(CURDIR)/install_pkgsrc.sh
 
-clean_pkgsrc:
+pkgsrc-remove:		##@pkgsrc Remove pkgsrc.
 	@echo "==> Removing pkgsrc"
 	sudo $(RM) -rf /opt/pkg /var/db/pkgin
 
-install_git:
+git:		##@pkgsrc Install git from pkgsrc.
 	@$(MAKE) install_pkgsrc
 	sudo pkgin -y in git
 
 
-.PHONY: Darwin_info install_pkgsrc clean_pkgsrc install_git
+.PHONY: Darwin_info pkgsrc pkgsrc-remove git-install
