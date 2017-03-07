@@ -25,7 +25,7 @@
 	fontui = -family \"Liberation Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 
 [core]
-	excludesfile = /Users/wrightst/.gitignore_global
+	excludesfile = ~/.gitignore_global
 
 [url "git@github.com:"]
 	# Allows "git checkout github:user/repo.git"
