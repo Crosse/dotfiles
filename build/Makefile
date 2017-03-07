@@ -1,5 +1,5 @@
 # Variables
-GOVER := 1.7.3
+GOVER := 1.8
 GOROOT ?= /usr/local/go
 GOPATH ?= $(HOME)/code/go
 export GOPATH
