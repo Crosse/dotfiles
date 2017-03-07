@@ -24,10 +24,10 @@
 
 # Set a default JAVA_HOME.
 if [ -x "$(command -v java_home)" ]; then
-    export JAVA_HOME=$(java_home)
+    java_home 2> /dev/null && export JAVA_HOME=$(java_home)
 elif [ -x /usr/libexec/java_home ]; then
     # At least on OSX java_home is not in the PATH.
-    export JAVA_HOME=$(/usr/libexec/java_home)
+    /usr/libexec/java_home 2> /dev/null && export JAVA_HOME=$(/usr/libexec/java_home)
 fi
 
 # Look for maven.
