@@ -32,6 +32,7 @@ case $version in
             local session
             session="${1:-main}"
 
+            tmux start-server
             tmux has-session -t "$session"
             if [ $? -ne 0 ]; then
                 echo "Creating new session $session"
