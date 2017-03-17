@@ -48,3 +48,14 @@ case $version in
         ;;
 esac
 
+_t() {
+    local IFS=$'\n'
+    local cur
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    COMPREPLY=( ${COMPREPLY[@]:-} $(compgen -W "$(tmux -q list-sessions 2>/dev/null | cut -f 1 -d ':')" -- "${cur}") )
+    return 0
+
+}
+
+complete -F _t t
