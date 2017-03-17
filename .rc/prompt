@@ -62,7 +62,6 @@ if [ $SCREEN_COLORS -eq 0 ]; then
     # Build a "dumb" prompt that should work everywhere.
     [[ -n "$GITPARSING" ]] && g='$(parse_git_status)'
     declare -F battery_status 2>&1 > /dev/null && b=' ($(battery_status))'
-    [[ -n "$SSH_CLIENT" ]] && host=' at \h'
     export PS1="\n\u@\h\$($g) \w\n\$ "
 else
     # Force 256-color in tmux if the "real" terminal supports 256
@@ -92,20 +91,16 @@ else
     fi
 
     [[ -n "$GITPARSING" ]] && g="\[${reset}${yellow}\]\$(parse_git_status)\[${reset}\]"
+    [[ -n "$SSH_CLIENT" ]] && host="\[${dim}${white}\]@\[${reset}${green}\]\h\[${reset}\]"
 
-    # If inside screen or tmux, there is no need for battery status or
-    # the host name in the prompt, as it will be in the status line.
+    # If inside screen or tmux, there is no need for battery status in
+    # the prompt, as it will be in the status line.
     if [ "${TERM%%-*}" != "screen" ]; then
         declare -F battery_status 2>&1 > /dev/null || battery_status() { return; }
         if [ -n "$(battery_status)" ]; then
             b="\[${reset}\](\[${dim}${white}\]\$(battery_status)\[${reset}\])"
         fi
-
-        if [ -n "$SSH_CLIENT" ]; then
-            host="\[${dim}${white}\]@\[${reset}${green}\]\h\[${reset}\]"
-        fi
     fi
-
     # Set the title of an xterm.
     case $TERM in
         xterm*|rxvt*|screen*)
