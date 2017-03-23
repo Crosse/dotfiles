@@ -32,3 +32,7 @@
 #
 # ControlPath ~/.cache/ssh/ssh_mux_%C 
 [[ -w "${HOME}/.cache/ssh" ]] || mkdir -p "${HOME}/.cache/ssh"
+
+# Wire up completion for known_hosts to ssh if the function exists.
+# I have no idea why this isn't working for me by default, but...okay.
+declare -f _known_hosts >/dev/null && complete -F _known_hosts ssh
