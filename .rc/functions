@@ -166,4 +166,36 @@ ssh_gen_keys() {
 
 }
 
+goto() {
+    if [[ $(shopt -q globstar) ]]; then
+        echo "globstar must be set ('shopt -s globstar') to use goto." 1>&2
+        return
+    fi
+
+    cd ${HOME}/code/**/$1
+}
+
+repo() {
+    local giturl
+    giturl=$(git config --get remote.origin.url | sed 's/git@/\/\//g' | sed 's/.git$//' | sed 's/https://g' | sed 's/:/\//g')
+    if [[ $giturl == "" ]]; then
+        echo "Not a git repository or no remote.origin.url is set."
+    else
+        local gitbranch
+        gitbranch=$(git rev-parse --abbrev-ref HEAD)
+        local giturl="http:${giturl}"
+
+        if [[ $gitbranch != "master" ]]; then
+            if echo "${giturl}" | grep -i "bitbucket" > /dev/null ; then
+                local giturl="${giturl}/branch/${gitbranch}"
+            else
+                local giturl="${giturl}/tree/${gitbranch}"
+            fi
+        fi
+
+        echo "$giturl"
+        open "$giturl"
+    fi
+}
+
 rc_log "done."
