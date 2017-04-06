@@ -21,10 +21,15 @@
 [[ "${-}" != *i* ]] && return
 
 # If Cargo is installed, append its bin path to PATH.
-[[ -x "$(command -v cargo)" ]] || return
+[[ -n "${HOME}/.cargo/bin" ]] || return
 
 append_to_path "${HOME}/.cargo/bin"
 
-if [[ $(command -v racer) && -d "/usr/local/rust/src" ]]; then
-    export RUST_SRC_PATH=/usr/local/rust/src
+RUST_SRC_PATH=/usr/local/rust/src
+if [[ $(command -v racer) && -d "$RUST_SRC_PATH" ]]; then
+    export RUST_SRC_PATH
+else
+    unset RUST_SRC_PATH
 fi
+
+[[ -n "$(command -v rustup)" ]] && eval "$(rustup completions bash)"
