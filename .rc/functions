@@ -161,16 +161,15 @@ goto() {
 
 repo() {
     local giturl
-    giturl=$(git config --get remote.origin.url | sed 's/git@/\/\//g' | sed 's/.git$//' | sed 's/https://g' | sed 's/:/\//g')
+    giturl=$(git ls-remote --get-url 2>/dev/null | perl -pe 's#^(?:git@|https?://)([^/:]+)(?:[/:](.*?))?(?:\.git)?$#https://\1/\2#')
     if [[ $giturl == "" ]]; then
         echo "Not a git repository or no remote.origin.url is set."
     else
         local gitbranch
         gitbranch=$(git rev-parse --abbrev-ref HEAD)
-        local giturl="http:${giturl}"
 
         if [[ $gitbranch != "master" ]]; then
-            if echo "${giturl}" | grep -i "bitbucket" > /dev/null ; then
+            if [[ "$giturl" == *bitbucket* ]]; then
                 local giturl="${giturl}/branch/${gitbranch}"
             else
                 local giturl="${giturl}/tree/${gitbranch}"
@@ -178,7 +177,16 @@ repo() {
         fi
 
         echo "$giturl"
-        open "$giturl"
+        if [[ "readlink $(command -v open)" == openvt ]]; then
+            if [[ -n "$(command -v xdg-open)" ]]; then
+                xdg-open "$giturl"
+            else
+                echo "I don't know how to open this url."
+            fi
+        else
+            #open "$giturl"
+            :
+        fi
     fi
 }
 
