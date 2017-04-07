@@ -59,3 +59,22 @@ _t() {
 }
 
 complete -F _t t
+
+update_tmux_env() {
+    [[ -n $TMUX ]] || return
+    local v
+    while read v; do
+        if [[ $v == -* ]]; then
+            unset ${v/#-/}
+        else
+            v=${v//$/\$}
+            v=${v//\`/\`}
+            v=${v//\"/\"}
+            v=${v//\/\\}
+            v=${v/=/=\"}
+            v=${v/%/\"}
+            eval export $v
+        fi
+    done < <(tmux show-environment)
+}
+[[ "$PROMPT_COMMAND" == *update_tmux_env* ]] || PROMPT_COMMAND="update_tmux_env; $PROMPT_COMMAND"
