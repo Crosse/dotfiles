@@ -172,7 +172,7 @@ goto() {
         return
     fi
 
-    cd ${HOME}/code/**/$1
+    cd ${HOME}/code/**/${1}/
 }
 
 repo() {
