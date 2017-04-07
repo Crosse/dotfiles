@@ -8,7 +8,7 @@
 	br = branch
 	first = log --reverse
 
-	ls = log --graph --pretty='%C(bold magenta)%h%Creset [%aN, sig: %G?, %ar] %C(bold cyan)%s%Creset'
+	ls = log --graph --pretty='%C(bold magenta)%h%Creset [%aN, %ar] %C(bold cyan)%s%Creset %C(green)%d%Creset'
 	sl = "!git ls -20"
 
 	#   Thin out older metadata within the repository, reduceses filesystem footprint
