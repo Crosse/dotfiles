@@ -39,9 +39,13 @@ case "${0#-}" in
 
         # Enable history appending instead of overwriting.
         shopt -s histappend
+        # Enable the ability to use ** in pathname expansion.
+        shopt -s globstar
+
         # Do not append duplicate lines and lines that begin with a
         # space to history
         export HISTCONTROL=ignoreboth
+
         ;;
     ksh)
         rc_log "shell identifies as ksh"
