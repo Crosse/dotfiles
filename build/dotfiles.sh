@@ -13,6 +13,7 @@ for file in $(find "$WRKDIR"            \
                 -not -name '.gitignore'	\
                 -not -name '.gitmodules'\
                 -not -name 'README.md'	\
+                -not -name 'LICENSE'	\
                 -not -name 'bin'	\
                 -not -name 'build'	\
                 -not -name 'etc'	\
