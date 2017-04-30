@@ -98,13 +98,17 @@ else
 	$(warning Some tools require Go, which is not currently installed.)
 endif
 
+python-tools: ##@python Install some useful Python tools (pyenv)
+python-tools:
+	$(DOWNLOADER) $(DL_OPTS) https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
+
 keyservers:			## Download the latest public certificate for sks-keyservers.
 	@echo "==> Retrieving the latest sks-keyservers.net CA"
 	$(DOWNLOADER) $(DL_OPTS) https://sks-keyservers.net/sks-keyservers.netCA.pem > "${HOME}/.gnupg/sks-keyservers.netCA.pem"
 
 
 .PHONY: default all info _info bin dotfiles fonts vim go go-remove gotools\
-		personal keyservers
+		personal python-tools keyservers
 
 include mk/cross-platform.mk
 include mk/$(UNAME).mk
