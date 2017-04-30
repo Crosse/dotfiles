@@ -94,8 +94,9 @@ else
 endif
 ifdef  GEM
 	sudo gem install pwhois
+	sudo gem install neovim
 else
-	$(warning Some tools require Go, which is not currently installed.)
+	$(warning Some tools require Ruby, which is not currently installed.)
 endif
 
 python-tools: ##@python Install some useful Python tools (pyenv)
