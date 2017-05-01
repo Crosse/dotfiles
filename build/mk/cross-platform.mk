@@ -24,7 +24,7 @@ RESET  := $(shell tput -Txterm sgr0)
 # A category can be added with @category
 HELP_FUN = \
 	%help; \
-	while(<>) { push @{$$help{$$2 // 'options'}}, [$$1, $$3] if /^([a-zA-Z\-_]+)\s*:.*\#\#(?:@([a-zA-Z\-]+))?\s(.*)$$/ }; \
+	while(<>) { push @{$$help{$$2 // 'options'}}, [$$1, $$3] if /^([a-zA-Z0-9\-_]+)\s*:.*\#\#(?:@([a-zA-Z\-]+))?\s(.*)$$/ }; \
 	print "usage: make [target]\n\n"; \
 	for (sort keys %help) { \
 	print "${WHITE}$$_:${RESET}\n"; \
@@ -35,6 +35,24 @@ HELP_FUN = \
 	print "\n"; }
 
 help: ##@other Show this help.
+help: |_help versions
+_help:
 	@perl -e '$(HELP_FUN)' $(MAKEFILE_LIST)
 
-.PHONY: help
+info:				##@other Print out environment as detected by this Makefile.
+info: _info $(UNAME)_info
+_info:
+	$(info Detected platform: $(UNAME))
+	$(info Using $(DOWNLOADER) to download files)
+ifdef GO
+	$(info Detected Go ($(shell $(GO) version)))
+endif
+ifdef GIT
+	$(info Detected Git ($(shell $(GIT) version)))
+endif
+ifdef FONT_INSTALL
+	$(info Detected font-install at $(FONT_INSTALL))
+endif
+	@true
+
+.PHONY: help info _info
