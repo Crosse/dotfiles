@@ -5,34 +5,39 @@ mine.
 
 ## Installing/Updating
 
+Use `make help` to get a list of things you can do.
+
+```console
+usage: make [target]
+
+go:
+  go                              Install Go.
+  go-remove                       Remove Go.
+  go-update                       Update Go to the the version specified in this Makefile.
+  gotools                         Install some useful Go tools (golint, cover).
+
+meta:
+  build                           Run the bin, dotfiles, personal, and keyservers targets.
+  all                             Run the default, fonts, go, gotools, and personal targets.
+  mac                             Run the all and pkgsrc targets.
+
+options:
+  bin                             Symlink all bin files to $HOME/bin.
+  dotfiles                        Symlink all dotfiles to $HOME
+  fonts                           Install fonts using font-install.
+  anyenv                          Install anyenv.
+  personal                        Install personal tools (sshsrv, font-install, pwhois).
+  keyservers                      Download the latest public certificate for sks-keyservers.
+
+other:
+  info                            Print out environment as detected by this Makefile.
+  help                            Show this help.
+
+pkgsrc:
+  pkgsrc                          Install pkgsrc.
+  pkgsrc-remove                   Remove pkgsrc.
+  git                             Install git from pkgsrc.
 ```
-$ cd dotfiles/build
-$ make <target>
-```
-
-where `<target>` can be one of:
-
-* `bin`: create $HOME/bin and symlink bin/\* into it.
-* `dotfiles`: symlink dotfiles into $HOME
-* `etc`: copy files from etc/ to /etc
-* `fonts`: download fonts for fontconfig to use and install them at
-  `$XDG_DATA_HOME/fonts`
-* `install_git`: install git from pkgsrc. Not useful unless you're using
-  pkgsrc.
-* `install_go`: install Go. See `GOVER` in the
-  [Makefile](build/Makefile) for which version will be installed
-* `install_gotools`: instal some useful go tools.
-* `install_personal`: install some personal projects.
-* `install_pkgsrc`: install pkgsrc. Useful on a Mac.
-* `install_rkt`: install rkt. See `RKTVER` in the
-  [Makefile](build/Makefile) for which version will be installed
-
-That's a lot. Here are some metatargets.
-* `default`: run the `bin` and `dotfiles` targets.
-* `all`: run the `default`, `fonts`, `install_go`, `install_gotools`, and `install_personal` targets.
-* `mac`: runs the `all` and `install_pkgsrc` targets.
-
-(This sucks and I know it, but it works and I have better things to do.)
 
 ## Attribution
 The Makefile and symlinking ideas were borrowed from the most-excellent

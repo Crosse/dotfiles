@@ -13,8 +13,10 @@ GO := $(shell command -v go;)
 FONT_INSTALL := $(shell command -v font-install;)
 
 
-default:			##@meta Run the bin, dotfiles, personal, and keyservers targets.
-default: bin dotfiles personal keyservers
+default: help
+
+build:			##@meta Run the bin, dotfiles, personal, and keyservers targets.
+build: bin dotfiles personal keyservers
 
 all:				##@meta Run the default, fonts, go, gotools, and personal targets.
 all: default fonts go gotools personal
