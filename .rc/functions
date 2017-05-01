@@ -91,6 +91,21 @@ function append_to_path {
     fi
 }
 
+dedupe_path() {
+    if [ -n "$PATH" ]; then
+        local old_PATH=$PATH:; PATH=
+        while [ -n "$old_PATH" ]; do
+            local x=${old_PATH%%:*}       # the first remaining entry
+            case $PATH: in
+                *:"$x":*) ;;         # already there
+                *) PATH=$PATH:$x;;    # not there yet
+            esac
+            old_PATH=${old_PATH#*:}
+        done
+        export PATH=${PATH#:}
+    fi
+}
+
 # Taken from
 # https://github.com/jfrazelle/dotfiles/blob/master/.functions
 calc() {
