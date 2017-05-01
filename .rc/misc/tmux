@@ -27,7 +27,7 @@ case $version in
         }
         ;;
     *)
-        t() { tmux new-session -A -t "${1:-main}"; }
+        t() { tmux new-session -A -s "${1:-main}"; }
         ;;
 esac
 
