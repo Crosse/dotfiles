@@ -1,0 +1,16 @@
+# vim: set ft=sh:
+
+# Only for interactive shells.
+[[ "${-}" != *i* ]] && return
+
+[[ "$(command -v ccache)" ]] || return
+
+ccache="$(command -v ccache)"
+for i in gcc g++ cc c++; do
+    if [[ -e "${HOME}/bin/${i}" ]]; then
+        continue
+    fi
+    ln -s "$ccache" "${HOME}/bin/$i"
+done
+
+unset ccache
