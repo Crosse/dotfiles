@@ -5,12 +5,18 @@
 
 [[ "$(command -v ccache)" ]] || return
 
-ccache="$(command -v ccache)"
-for i in gcc g++ cc c++; do
-    if [[ -e "${HOME}/bin/${i}" ]]; then
-        continue
-    fi
-    ln -s "$ccache" "${HOME}/bin/$i"
-done
-
-unset ccache
+if [[ -d "/usr/lib/ccache" ]]; then
+    # Debian provides symlinks for ccache in /usr/lib/ccache, so use
+    # those.
+    prepend_to_path /usr/lib/ccache
+else
+    # Otherwise, roll your own symlinks
+    ccache="$(command -v ccache)"
+    for i in gcc g++ cc c++; do
+        if [[ -e "${HOME}/bin/${i}" ]]; then
+            continue
+        fi
+        ln -s "$ccache" "${HOME}/bin/$i"
+    done
+    unset ccache
+fi
