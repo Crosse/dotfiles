@@ -103,6 +103,13 @@ python-tools: ##@python Install some useful Python tools (pyenv)
 python-tools:
 	$(DOWNLOADER) $(DL_OPTS) https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
 
+misc: ## Miscellaneous things, like diff-so-fancy.
+misc:
+	$(DOWNLOADER) $(DL_OPTS) https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/diff-so-fancy > "${HOME}/bin/diff-so-fancy"
+	chmod +x "${HOME}/bin/diff-so-fancy"
+	$(DOWNLOADER) $(DL_OPTS) https://raw.githubusercontent.com/git/git/master/contrib/diff-highlight/diff-highlight > "${HOME}/bin/diff-highlight"
+	chmod +x "${HOME}/bin/diff-highlight"
+
 keyservers:			## Download the latest public certificate for sks-keyservers.
 	@echo "==> Retrieving the latest sks-keyservers.net CA"
 	$(DOWNLOADER) $(DL_OPTS) https://sks-keyservers.net/sks-keyservers.netCA.pem > "${HOME}/.gnupg/sks-keyservers.netCA.pem"
