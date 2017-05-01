@@ -8,11 +8,11 @@
 
 [[ -r "${HOME}/.pythonrc" ]] && export PYTHONSTARTUP="${HOME}/.pythonrc"
 
-# On OSX, Python puts things here.
-prepend_to_path "${HOME}/Library/Python/2.7/bin/"
-
 if [[ -d "${HOME}/.pyenv/bin" ]]; then
-    append_to_path "${HOME}/.pyenv/bin"
+    prepend_to_path "${HOME}/.pyenv/bin"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
+else
+    # On OSX, Python puts things here.
+    prepend_to_path "${HOME}/Library/Python/2.7/bin/"
 fi
