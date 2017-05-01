@@ -12,3 +12,7 @@ http://www.fontsquirrel.com/fonts/download/source-code-pro
 http://www.fontsquirrel.com/fonts/download/ubuntu
 http://www.fontsquirrel.com/fonts/download/ubuntu-mono
 http://fontawesome.io/assets/font-awesome-4.7.0.zip
+https://github.com/ryanoasis/nerd-fonts/releases/download/v1.0.0/FiraCode.zip
+https://github.com/ryanoasis/nerd-fonts/releases/download/v1.0.0/FiraMono.zip
+https://github.com/ryanoasis/nerd-fonts/releases/download/v1.0.0/SourceCodePro.zip
+https://github.com/ryanoasis/nerd-fonts/releases/download/v1.0.0/UbuntuMono.zip
