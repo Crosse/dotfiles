@@ -52,7 +52,17 @@ endif
 	@echo "==> Installing fonts"
 	font-install -fromFile fontslist.txt
 
-go:			##@go Install Go.
+${HOME}/.anyenv:
+ifdef GIT
+	git clone https://github.com/riywo/anyenv ${HOME}/.anyenv
+else
+	$(warning anyenv requires git to be installed)
+endif
+
+anyenv:				## Install anyenv.
+anyenv: ${HOME}/.anyenv
+
+go:				##@go Install Go.
 go: $(GOROOT)
 $(GOROOT):
 	@echo "==> Installing Go $(GOVER)"
@@ -66,13 +76,13 @@ go-remove:			##@go Remove Go.
 go-update:			##@go Update Go to the the version specified in this Makefile.
 go-update: go-remove go
 
-gotools:	##@go Install some useful Go tools (golint, cover).
+gotools:			##@go Install some useful Go tools (golint, cover).
 gotools: $(GOROOT)
 	@echo "==> Installing Go tools"
 	$(GO) get -u github.com/golang/lint/golint
 	$(GO) get -u golang.org/x/tools/cmd/cover
 
-personal:	## Install personal tools (sshsrv, font-install, pwhois).
+personal:			## Install personal tools (sshsrv, font-install, pwhois).
 	@echo "==> Installing personal tools"
 ifdef GO
 	go get -u github.com/Crosse/sshsrv

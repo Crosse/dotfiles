@@ -1,0 +1,9 @@
+# vim: set ft=sh:
+
+# Only for interactive shells.
+[[ "${-}" != *i* ]] && return
+
+[[ -d "${HOME}/.anyenv/bin" ]] || return
+
+prepend_to_path "${HOME}/.anyenv/bin"
+eval "$(anyenv init -)"
