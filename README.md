@@ -3,6 +3,16 @@
 These are my dotfiles.  There are many like them, but these ones are
 mine.
 
+## Dependency on `anyenv`
+I have made the decision to use [`anyenv`](https://github.com/riywo/anyenv)
+to manage various programming language installations instead of attempting
+to install them via a platform's package repository or downloading the pacakge
+myself. Thus, installing Python, Ruby, or Go will first install `anyenv`, then
+[`pyenv`](https://github.com/pyenv/pyenv) (and
+[`pyenv-virtualenv`](https://github.com/pyenv/pyenv-virtualenv)),
+[`rbenv`](https://github.com/rbenv/rbenv), and
+[`goenv`](https://github.com/kaneshin/goenv), respectively.
+
 ## Installing/Updating
 
 Use `make help` to get a list of things you can do.
@@ -51,4 +61,4 @@ platform-specific:
 The Makefile and symlinking ideas were borrowed from the most-excellent
 [Jessie Frazelle's](https://twitter.com/jessfraz)
 [dotfiles repo](https://github.com/jfrazelle/dotfiles).
-The rest of the heinous Make stuff is my own.
+The rest of the heinous `make` stuff is my own.
