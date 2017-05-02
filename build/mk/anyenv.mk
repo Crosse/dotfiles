@@ -1,3 +1,4 @@
+GIT := $(shell command -v git;)
 ANYENV_PATH := ${HOME}/.anyenv
 
 $(ANYENV_PATH):
@@ -10,4 +11,13 @@ endif
 anyenv:				##@env Install anyenv to manage **envs.
 anyenv: $(ANYENV_PATH)
 
-.PHONY: anyenv
+envs := $(strip $(shell anyenv install -l | awk '/^ / { print $1 }'))
+$(addprefix $(ANYENV_PATH)/envs/,$(envs)): $(ANYENV_PATH)
+	eval "$$($(ANYENV_PATH)/bin/anyenv init -)" && \
+	    ${HOME}/.anyenv/bin/anyenv install -s $(@F)
+		
+showenvs:
+	@echo "Discovered envs:"
+	@echo $(envs)
+
+.PHONY: anyenv showenvs

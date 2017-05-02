@@ -1,17 +1,13 @@
 GOENV_PATH := $(ANYENV_PATH)/envs/goenv
 
-$(GOENV_PATH): $(ANYENV_PATH)
-	eval "$$($(ANYENV_PATH)/bin/anyenv init -)" && \
-	    ${HOME}/.anyenv/bin/anyenv install -s goenv
-
-$(GOENV_PATH)/versions/$(GO_VER):
+$(GOENV_PATH)/versions/%: $(GOENV_PATH)
 	eval "$$(${HOME}/.anyenv/bin/anyenv init -)" && \
-	    $(GOENV_PATH)/bin/goenv install $(GO_VER)
+	    $(GOENV_PATH)/bin/goenv install $*
 
-
-goenv:			##@env Install goenv via anyenv
+goenv:				##@env Install goenv via anyenv.
 goenv: $(GOENV_PATH)
 
+go:				##@languages Install Go (using goenv).
 go: $(GOENV_PATH)/versions/$(GO_VER)
 
 go-tools:			##@languages Install some useful Go tools (golint, cover).
