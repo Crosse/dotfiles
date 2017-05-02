@@ -14,8 +14,9 @@ go: $(GOENV_PATH)/versions/$(GO_VER)
 go-tools:			##@languages Install some useful Go tools (golint, cover).
 go-tools: $(GOROOT)
 	@echo "==> Installing Go tools"
-	$(GO) get -u github.com/golang/lint/golint
-	$(GO) get -u golang.org/x/tools/cmd/cover
+	eval "$$(${HOME}/.anyenv/bin/anyenv init -)" && 	\
+	    go get -u github.com/golang/lint/golint &&	\
+	    go get -u golang.org/x/tools/cmd/cover
 
 
 .PHONY: goenv go go-tools
