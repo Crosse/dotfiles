@@ -1,8 +1,9 @@
 GOENV_PATH := $(ANYENV_PATH)/envs/goenv
 
-$(GOENV_PATH)/versions/%: $(GOENV_PATH)
+$(GOENV_PATH)/versions/%: |$(GOENV_PATH)
 	eval "$$(${HOME}/.anyenv/bin/anyenv init -)" && \
-	    $(GOENV_PATH)/bin/goenv install $*
+	    $(GOENV_PATH)/bin/goenv install $* &&	\
+	    $(GOENV_PATH)/bin/goenv global $*
 
 goenv:				##@env Install goenv via anyenv.
 goenv: $(GOENV_PATH)

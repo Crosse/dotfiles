@@ -12,7 +12,7 @@ anyenv:				##@env Install anyenv to manage **envs.
 anyenv: $(ANYENV_PATH)
 
 envs := $(strip $(shell $(ANYENV_PATH)/bin/anyenv install -l | awk '/^ / { print $1 }'))
-$(addprefix $(ANYENV_PATH)/envs/,$(envs)): $(ANYENV_PATH)
+$(addprefix $(ANYENV_PATH)/envs/,$(envs)): |$(ANYENV_PATH)
 	eval "$$($(ANYENV_PATH)/bin/anyenv init -)" && \
 	    ${HOME}/.anyenv/bin/anyenv install -s $(@F)
 		
