@@ -166,7 +166,7 @@ ssh_gen_keys() {
 }
 
 goto() {
-    if [[ $(shopt -q globstar) ]]; then
+    if ! $(shopt -q globstar); then
         echo "globstar must be set ('shopt -s globstar') to use goto." 1>&2
         return
     fi
