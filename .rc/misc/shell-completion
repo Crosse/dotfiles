@@ -20,4 +20,6 @@ if ! shopt -oq posix; then
 
     # git on OSX, when installed via the official DMG package.
     rc_source_file /usr/local/git/contrib/completion/git-completion.bash
+    # ...or when installed via pkgin.
+    rc_source_file /opt/pkg/share/examples/git/git-completion.bash
 fi
