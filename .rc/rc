@@ -14,7 +14,8 @@ RC_PATH="${HOME}/.rc"
 rc_log "starting up"
 rc_source_file "${RC_PATH}/functions"
 
-case "${0#-}" in
+shell=$(basename "${0#-}")
+case "${shell#-}" in
     bash)
         rc_log "shell identifies as bash"
         # Source global bashrc files, if they exist.
