@@ -13,7 +13,7 @@ case $version in
     [01].*)
         t() {
             local session
-            session="${1:-main}"
+            session="${1:-main}" ; shift
 
             tmux start-server
             tmux has-session -t "$session"
@@ -22,12 +22,16 @@ case $version in
                 tmux new-session -s "$session"
             else
                 echo "Attaching to existing session $session" 1>&2
-                tmux attach-session -t "$session"
+                tmux attach-session -t "$session" "$@"
             fi
         }
         ;;
     *)
-        t() { tmux new-session -A -s "${1:-main}"; }
+        t() {
+            local session
+            session="${1:-main}" ; shift
+            tmux new-session -A -s "$session" "$@"
+        }
         ;;
 esac
 
