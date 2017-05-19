@@ -205,4 +205,23 @@ repo() {
     fi
 }
 
+function elfdiff {
+    local left="$1"
+    local right="$2"
+    [[ -z "$left" || -z "$right" ]] && return
+    declare -a sections
+    sections+=$(readelf -S "$left")
+    sections+=$(readelf -S "$right")
+    local s=$(echo "$sections" | perl -ne '/\[[ 0-9]+\] ([^ ]+)/ && print "$1\n"' | sort -u)
+    for section in $s; do
+        local d=$(diff -Nauri <(readelf -x "$section" "$left") <(readelf -x "$section" "$right"))
+        if [[ -n "$d" ]]; then
+            echo "--- $section : ${left}"
+            echo "+++ $section : ${right}"
+            echo "$d" | sed -r "/^(---|\+\+\+).*/d"
+            printf "\n"
+        fi
+    done
+}
+
 rc_log "done."
