@@ -1,0 +1,9 @@
+# vim: set ft=sh:
+
+# Only for interactive shells.
+[[ "${-}" != *i* ]] && return
+
+# No need to do anything if the Github 'hub' command isn't installed.
+[[ $(command -v hub) ]] || return
+
+alias git=$(command -v hub)

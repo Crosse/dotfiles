@@ -10,6 +10,12 @@ if ! shopt -oq posix; then
     rc_source_file /etc/bash_completion
     rc_source_file "${HOME}/.bash_completion"
 
+    if [[ -d ${HOME}/.bash_completion.d ]]; then
+        for f in ${HOME}/.bash_completion.d/*; do
+            rc_source_file "$f"
+        done
+    fi
+
     # pkgsrc on OSX
     rc_source_file /opt/pkg/share/bash-completion/bash_completion
 
