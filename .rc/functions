@@ -210,11 +210,21 @@ function elfdiff {
     local right="$2"
     [[ -z "$left" || -z "$right" ]] && return
     declare -a sections
-    sections+=$(readelf -S "$left")
-    sections+=$(readelf -S "$right")
+    sections+=$(readelf -WS "$left")
+    sections+=$(readelf -WS "$right")
     local s=$(echo "$sections" | perl -ne '/\[[ 0-9]+\] ([^ ]+)/ && print "$1\n"' | sort -u)
     for section in $s; do
-        local d=$(diff -Nauri <(readelf -x "$section" "$left") <(readelf -x "$section" "$right"))
+        local d
+        case $section in
+            .rodata|.comment|.GCC.command.line)
+                # Dump these sections as strings.
+                d=$(diff -Nauri <(readelf -p "$section" "$left") <(readelf -p "$section" "$right"))
+                ;;
+            *)
+                # For all other sections, show a hex-dump.
+                d=$(diff -Nauri <(readelf -x "$section" "$left") <(readelf -x "$section" "$right"))
+                ;;
+        esac
         if [[ -n "$d" ]]; then
             echo "--- $section : ${left}"
             echo "+++ $section : ${right}"
