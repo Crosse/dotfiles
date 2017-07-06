@@ -10,6 +10,6 @@ ruby: |$(RBENV_PATH)/versions/$(RUBY_VER)
 
 $(RBENV_PATH)/versions/%: |$(RBENV_PATH)
 	eval "$$(${HOME}/.anyenv/bin/anyenv init -)" && \
-	    $(RBENV_PATH)/bin/rbenv install -s &*
+	    $(RBENV_PATH)/bin/rbenv install -s $*
 
 .PHONY: rbenv ruby
