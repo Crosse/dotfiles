@@ -14,6 +14,8 @@ $(PYENV_PATH)/versions/%: |$(PYENV_PATH)
 
 python2:	##@languages Install Python 2 (uses pyenv).
 python2: $(PYENV_PATH)/versions/$(PY2_VER) pyenv-virtualenv
+	@echo "Setting global Python version to $(PY2_VER)"
+	@pyenv global $(PY2_VER)
 
 python3:	##@languages Install Python 3 (uses pyenv).
 python3: $(PYENV_PATH)/versions/$(PY3_VER) pyenv-virtualenv

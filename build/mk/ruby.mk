@@ -5,6 +5,8 @@ rbenv: $(RBENV_PATH)
 
 ruby:			##@languages Install Ruby (uses rbenv).
 ruby: |$(RBENV_PATH)/versions/$(RUBY_VER)
+	@echo "Setting global Ruby version to $(RUBY_VER)"
+	@rbenv global $(RUBY_VER)
 
 $(RBENV_PATH)/versions/%: |$(RBENV_PATH)
 	eval "$$(${HOME}/.anyenv/bin/anyenv init -)" && \
