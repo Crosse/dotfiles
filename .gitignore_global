@@ -6,3 +6,5 @@
 *.orig
 tags
 TAGS
+.ycm_extra_conf.py
+cscope.out
