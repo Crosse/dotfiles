@@ -206,29 +206,52 @@ repo() {
 }
 
 function elfdiff {
+    local diff="diff -Nauri"
     local left="$1"
     local right="$2"
     [[ -z "$left" || -z "$right" ]] && return
-    declare -a sections
-    sections+=$(readelf -WS "$left")
-    sections+=$(readelf -WS "$right")
-    local s=$(echo "$sections" | perl -ne '/\[[ 0-9]+\] ([^ ]+)/ && print "$1\n"' | sort -u)
-    for section in $s; do
-        local d
-        case $section in
-            .rodata|.comment|.GCC.command.line)
+    local section="$3"
+
+    local sections
+    if [[ -n "$section" ]]; then
+        sections=$section
+    else
+        declare -a s
+        s+=$(readelf -WS "$left")
+        s+=$(readelf -WS "$right")
+        sections=$(echo "$s" | perl -ne '/\[[ 0-9]+\] ([^ ]+)/ && print "$1\n"' | sort -u)
+    fi
+
+    local lmod=$(stat --format=%y "$left")
+    local rmod=$(stat --format=%y "$right")
+    local header_printed
+    for s in $sections; do
+        local d heading
+        case $s in
+            .rodata|.comment|.GCC.command.line|.strtab|.dynstr)
                 # Dump these sections as strings.
-                d=$(diff -Nauri <(readelf -p "$section" "$left") <(readelf -p "$section" "$right"))
+                d=$($diff <(readelf -p "$s" "$left") <(readelf -p "$s" "$right"))
+                heading="String dump of section '$s':"
+                ;;
+            .text)
+                # Dump these sections as disassembly.
+                d=$($diff <(objdump -dj "$s" "$left") <(objdump -dj "$s" "$right"))
+                heading="Disassembly of section '$s':"
                 ;;
             *)
                 # For all other sections, show a hex-dump.
-                d=$(diff -Nauri <(readelf -x "$section" "$left") <(readelf -x "$section" "$right"))
+                d=$($diff <(readelf -x "$s" "$left") <(readelf -x "$s" "$right"))
+                heading="Hex dump of section '$s':"
                 ;;
         esac
         if [[ -n "$d" ]]; then
-            echo "--- $section : ${left}"
-            echo "+++ $section : ${right}"
-            echo "$d" | sed -r "/^(---|\+\+\+).*/d"
+            if [[ -z $header_printed ]]; then
+                echo "--- a/${left}"
+                echo "+++ b/${right}"
+                header_printed=1
+            fi
+            d=$(echo "$d" | sed -re "/^(---|\+\+\+).*/d" -e "s/^(@@.*)$/\1 $heading/")
+            echo "$d"
             printf "\n"
         fi
     done
