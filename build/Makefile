@@ -60,6 +60,11 @@ keyservers:			## Download the latest public certificate for sks-keyservers.
 .PHONY: default build all bin dotfiles fonts personal misc keyservers
 
 include vers.mk
-include mk/*.mk
+include mk/help.mk
+include mk/cross-platform.mk
+include mk/anyenv.mk
+include mk/go.mk
+include mk/python.mk
+include mk/ruby.mk
 
 include mk/os/$(UNAME).mk
