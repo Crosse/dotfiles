@@ -15,3 +15,5 @@
 	trim = !git reflog expire --expire=now --all && git gc --prune=now
 
 	dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && git diff --color \"$@\" | diff-so-fancy | less -+J; }; f"
+
+        up = "!br=\"$(git rev-parse --abbrev-ref HEAD)\"; echo \"Pulling from upstream/$br\"; git pull upstream \"$br\""
