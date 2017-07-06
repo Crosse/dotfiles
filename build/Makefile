@@ -1,6 +1,7 @@
 # Variables
 UNAME := $(shell uname)
 
+GO := $(shell command -v go;)
 GEM := $(shell command -v gem;)
 FONT_INSTALL := $(shell command -v font-install;)
 
@@ -38,8 +39,8 @@ else
 	$(warning Some tools require Go, which is not currently installed.)
 endif
 ifdef  GEM
-	sudo gem install pwhois
-	sudo gem install neovim
+	gem install pwhois
+	gem install neovim
 else
 	$(warning Some tools require Ruby, which is not currently installed.)
 endif
