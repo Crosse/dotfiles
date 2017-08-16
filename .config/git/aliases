@@ -9,11 +9,11 @@
 	first = log --reverse
 
 	ls = log --graph --pretty='%C(bold magenta)%h%Creset [%aN, %ar] %C(bold cyan)%s%Creset %C(green)%d%Creset'
-	sl = "!git ls -20"
+	sl = log -20 --graph --pretty='%C(bold magenta)%h%Creset [%aN, %ar] %C(bold cyan)%s%Creset %C(green)%d%Creset'
 
-	#   Thin out older metadata within the repository, reduceses filesystem footprint
+	# Thin out older metadata within the repository, reduceses filesystem footprint
 	trim = !git reflog expire --expire=now --all && git gc --prune=now
 
-	dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && git diff --color \"$@\" | diff-so-fancy | less -+J; }; f"
+	dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && git diff --color \"$@\" | diff-so-fancy | less --tabs=4 -+J; }; f"
 
         up = "!br=\"$(git rev-parse --abbrev-ref HEAD)\"; echo \"Pulling from upstream/$br\"; git pull upstream \"$br\""
