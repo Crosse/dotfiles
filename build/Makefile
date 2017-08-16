@@ -47,10 +47,8 @@ endif
 
 misc: ## Miscellaneous things, like diff-so-fancy.
 misc:
-	$(DOWNLOADER) $(DL_OPTS) https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/diff-so-fancy > "${HOME}/bin/diff-so-fancy"
+	$(DOWNLOADER) $(DL_OPTS) https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy > "${HOME}/bin/diff-so-fancy"
 	chmod +x "${HOME}/bin/diff-so-fancy"
-	$(DOWNLOADER) $(DL_OPTS) https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/diff-highlight/diff-highlight > "${HOME}/bin/diff-highlight"
-	chmod +x "${HOME}/bin/diff-highlight"
 
 keyservers:			## Download the latest public certificate for sks-keyservers.
 	@echo "==> Retrieving the latest sks-keyservers.net CA"
