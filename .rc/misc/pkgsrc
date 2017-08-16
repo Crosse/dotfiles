@@ -1,0 +1,14 @@
+# vim: set ft=sh:
+
+# Only for interactive shells.
+[[ "${-}" != *i* ]] && return
+
+[[ (-d /opt/pkg || -d /usr/pkg) ]] || return
+
+prepend_to_path /opt/pkg/sbin
+prepend_to_path /opt/pkg/bin
+prepend_to_path /opt/pkg/man MAN_PATH
+
+prepend_to_path /usr/pkg/sbin
+prepend_to_path /usr/pkg/bin
+prepend_to_path /usr/pkg/man MAN_PATH
