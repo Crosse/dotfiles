@@ -1,4 +1,4 @@
-# vim: set ft=gitconfig:
+# vim: set ft=gitconfig ts=4 sw=4 et:
 
 [color]
     ui =  true
@@ -12,7 +12,7 @@
     whitespace = red reverse
 
 [color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22

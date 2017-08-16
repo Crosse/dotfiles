@@ -1,38 +1,38 @@
-# vim: set ft=gitconfig:
+# vim: set ft=gitconfig ts=4 sw=4 et:
 
 [include]
-	path = identities
-	path = aliases
-	path = colors
-	path = ~/.gitconfig.extra
+    path = identities
+    path = aliases
+    path = colors
+    path = ~/.gitconfig.extra
 
 [diff]
-	compactionHeuristic = true
+    compactionHeuristic = true
         color = auto
 
 [help]
-	format = man
+    format = man
 
 [push]
-	default = simple
+    default = simple
 
 [gpg]
-	# git uses gpg by default. Tell it to use gpg2 instead.
-	program = gpg2
+    # git uses gpg by default. Tell it to use gpg2 instead.
+    program = gpg2
 
 [gui]
-	fontdiff = -family \"Liberation Mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
-	diffopts = --patience
-	fontui = -family \"Liberation Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+    fontdiff = -family \"Liberation Mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+    diffopts = --patience
+    fontui = -family \"Liberation Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 
 [core]
-	excludesfile = ~/.gitignore_global
+    excludesfile = ~/.gitignore_global
         pager = diff-so-fancy | less --tabs=4 -+J
 
 [url "git@github.com:"]
-	# Allows "git checkout github:user/repo.git"
-	insteadOf = github:
+    # Allows "git checkout github:user/repo.git"
+    insteadOf = github:
 
 [url "git@bitbucket.org:"]
-	# Allows "git checkout bb:user/repo.git"
-	insteadOf = bb:
+    # Allows "git checkout bb:user/repo.git"
+    insteadOf = bb:
