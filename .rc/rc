@@ -30,6 +30,9 @@ case "${shell#-}" in
         # space to history
         export HISTCONTROL=ignoreboth
 
+
+        # Disable Ctrl-S.
+        stty -ixon
         ;;
     ksh)
         rc_log "shell identifies as ksh"
