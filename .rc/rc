@@ -54,6 +54,7 @@ case "${shell#-}" in
 esac
 
 # Any user-written executable things can go in ~/bin.
+prepend_to_path "/usr/local/bin"
 prepend_to_path "${HOME}/bin"
 export PATH
 
