@@ -257,4 +257,15 @@ function elfdiff {
     done
 }
 
+server() {
+    local port="${1:-8000}";
+    python -c $'
+import SimpleHTTPServer;
+map = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;
+map[""] = "text/plain";
+for key, value in map.items():
+    map[key] = value + ";charset=UTF-8";
+    SimpleHTTPServer.test();' "$port";
+}
+
 rc_log "done."
