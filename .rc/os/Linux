@@ -54,6 +54,36 @@ case "$-" in
                 fi
             done
         }
+        set_netmap_param()
+        {
+            if [[ -z $1 || -z $2 ]]; then
+                echo "Not enough arguments" 2>&1
+                return
+            fi
+
+            printf "Previous value: %s\n" $(</sys/module/netmap/parameters/$1)
+            sudo sh -c "echo $2 > /sys/module/netmap/parameters/$1"
+            printf "New value: %s\n" $(</sys/module/netmap/parameters/$1)
+        }
+
+        get_netmap_param()
+        {
+            if [[ -z $1 ]]; then
+                echo "Not enough arguments" 2>&1
+                return
+            fi
+
+            printf "%20s: %8s\n" $1 $(</sys/module/netmap/parameters/$v);
+        }
+
+        get_netmap_params()
+        {
+            for i in /sys/module/netmap/parameters/*;
+            do
+                v=$(basename $i);
+                get_netmap_param $v
+            done
+        }
         ;;
 esac
 
