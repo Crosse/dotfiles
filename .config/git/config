@@ -8,7 +8,7 @@
 
 [diff]
     compactionHeuristic = true
-        color = auto
+    color = auto
 
 [help]
     format = man
@@ -27,7 +27,7 @@
 
 [core]
     excludesfile = ~/.gitignore_global
-        pager = diff-so-fancy | less --tabs=4 -+J
+    pager = diff-so-fancy | less --tabs=4 -+J
 
 [url "git@github.com:"]
     # Allows "git checkout github:user/repo.git"
