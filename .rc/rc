@@ -30,9 +30,6 @@ case "${shell#-}" in
         # space to history
         export HISTCONTROL=ignoreboth
 
-
-        # Disable Ctrl-S.
-        stty -ixon
         ;;
     ksh)
         rc_log "shell identifies as ksh"
@@ -73,6 +70,9 @@ case "$-" in
 
         # For ksh, enable history.  For both ksh and bash, log to the same file.
         export HISTFILE=$HOME/.history
+
+        # Disable Ctrl-S.
+        stty -ixon
 
         # Set up the terminal.
         rc_source_file "${RC_PATH}/term"
