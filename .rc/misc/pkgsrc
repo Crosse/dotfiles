@@ -7,8 +7,8 @@
 
 prepend_to_path /opt/pkg/sbin
 prepend_to_path /opt/pkg/bin
-prepend_to_path /opt/pkg/man MAN_PATH
+prepend_to_path /opt/pkg/man MANPATH
 
 prepend_to_path /usr/pkg/sbin
 prepend_to_path /usr/pkg/bin
-prepend_to_path /usr/pkg/man MAN_PATH
+prepend_to_path /usr/pkg/man MANPATH
