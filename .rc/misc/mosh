@@ -1,0 +1,9 @@
+# vim: set ft=sh:
+
+# Only for interactive shells.
+[[ "${-}" != *i* ]] && return
+
+[[ -x "$(command -v mosh)" ]] || return
+
+export MOSH_PREDICTION_DISPLAY=never
+export MOSH_TITLE_NOPREFIX=true
