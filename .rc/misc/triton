@@ -10,3 +10,5 @@
 if [[ ! -f ${HOME}/.bash_completion.d/triton ]]; then
     triton completion > ${HOME}/.bash_completion.d/triton
 fi
+
+eval "$(triton env)"
