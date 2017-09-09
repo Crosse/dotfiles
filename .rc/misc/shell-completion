@@ -19,6 +19,9 @@ if ! shopt -oq posix; then
     # pkgsrc on OSX
     rc_source_file /opt/pkg/share/bash-completion/bash_completion
 
+    # pkgsrc on Linux
+    rc_source_file /usr/pkg/share/bash-completion/bash_completion
+
     # Homebrew
     if [ "$(command -v brew)" ]; then
         rc_source_file "$(brew --prefix)/etc/bash_completion"
@@ -28,4 +31,5 @@ if ! shopt -oq posix; then
     rc_source_file /usr/local/git/contrib/completion/git-completion.bash
     # ...or when installed via pkgin.
     rc_source_file /opt/pkg/share/examples/git/git-completion.bash
+    rc_source_file /usr/pkg/share/examples/git/git-completion.bash
 fi
