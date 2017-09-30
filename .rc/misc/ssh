@@ -13,7 +13,7 @@
 # Create a directory for SSH control sockets.
 # To use this, you need to put the following line in your .ssh/config:
 #
-# ControlPath ~/.cache/ssh/ssh_mux_%C 
+# ControlPath ~/.cache/ssh/ssh_mux_%C
 [[ -w "${HOME}/.cache/ssh" ]] || mkdir -p "${HOME}/.cache/ssh"
 
 # Wire up completion for known_hosts to ssh if the function exists.

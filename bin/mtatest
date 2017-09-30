@@ -37,7 +37,7 @@ if {$tls == ""} {
 }
 
 expect {
-    "220" { 
+    "220" {
         send "EHLO $helo\n"
         exp_continue
     }

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e 
+set -e
 DEFAULT_VERSION="v1.0.0"
 
 . ./funcs.sh

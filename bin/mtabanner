@@ -6,7 +6,7 @@ set host [lrange $argv 0 0]
 spawn telnet $host 25
 
 expect {
-    "220 " { 
+    "220 " {
         send "EHLO $helo\n"
         exp_continue
     }
