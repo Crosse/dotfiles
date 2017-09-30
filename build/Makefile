@@ -66,4 +66,4 @@ include mk/python.mk
 include mk/ruby.mk
 include mk/rust.mk
 
-include mk/os/$(UNAME).mk
+-include mk/os/$(UNAME).mk

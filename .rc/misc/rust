@@ -9,7 +9,7 @@
 append_to_path "${HOME}/.cargo/bin"
 
 RUST_SRC_PATH=/usr/local/rust/src
-if [[ $(command -v racer) && -d "$RUST_SRC_PATH" ]]; then
+if [[ -n $(command -v racer) && -d "$RUST_SRC_PATH" ]]; then
     export RUST_SRC_PATH
 else
     unset RUST_SRC_PATH

@@ -3,7 +3,7 @@
 # Only for interactive shells.
 [[ "${-}" != *i* ]] && return
 
-[[ "$(command -v ccache)" ]] || return
+[[ -n "$(command -v ccache)" ]] || return
 
 if [[ -d "/usr/lib/ccache" ]]; then
     # Debian provides symlinks for ccache in /usr/lib/ccache, so use
