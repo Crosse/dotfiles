@@ -64,5 +64,6 @@ include mk/anyenv.mk
 include mk/go.mk
 include mk/python.mk
 include mk/ruby.mk
+include mk/rust.mk
 
 include mk/os/$(UNAME).mk

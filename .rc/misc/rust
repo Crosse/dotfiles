@@ -16,3 +16,6 @@ else
 fi
 
 [[ -n "$(command -v rustup)" ]] && eval "$(rustup completions bash)"
+
+RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+[[ -d $RUST_SRC_PATH ]] && export RUST_SRC_PATH
