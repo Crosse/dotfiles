@@ -4,7 +4,9 @@
 [[ "${-}" != *i* ]] && return
 
 # enable bash completion
-if ! shopt -oq posix; then
+[[ $SHELL == *bash* ]] || return
+
+if ! shopt -oq posix ; then
     # Some standard paths.
     rc_source_file /usr/share/bash-completion/bash_completion
     rc_source_file /etc/bash_completion

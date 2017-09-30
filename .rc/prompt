@@ -48,7 +48,6 @@ fi
 if [ $SCREEN_COLORS -eq 0 ]; then
     # Build a "dumb" prompt that should work everywhere.
     [[ -n "$GITPARSING" ]] && g='$(parse_git_status)'
-    declare -F battery_status 2>&1 > /dev/null && b=' ($(battery_status))'
     export PS1="\n\u@\h\$($g) \w\n\$ "
 else
     # Force 256-color in tmux if the "real" terminal supports 256
@@ -60,14 +59,14 @@ else
     bold=$(tput bold)
     dim=$(tput dim)
     reset=$(tput sgr0)
-    black=$(tput setaf 0)
-    red=$(tput setaf 1)
-    green=$(tput setaf 2)
-    yellow=$(tput setaf 3)
-    blue=$(tput setaf 4)
-    magenta=$(tput setaf 5)
-    cyan=$(tput setaf 6)
-    white=$(tput setaf 7)
+    black=$(tput setaf 0 0 0)
+    red=$(tput setaf 1 1 1 )
+    green=$(tput setaf 2 2 2)
+    yellow=$(tput setaf 3 3 3)
+    blue=$(tput setaf 4 4 4)
+    magenta=$(tput setaf 5 5 5)
+    cyan=$(tput setaf 6 6 6)
+    white=$(tput setaf 7 7 7)
 
     # Change the prompt color depending on whether the real UID is root
     # or a regular user.
@@ -80,14 +79,6 @@ else
     [[ -n "$GITPARSING" ]] && g="\[${reset}${yellow}\]\$(parse_git_status)\[${reset}\]"
     [[ -n "$SSH_CLIENT" ]] && host="\[${dim}${white}\]@\[${reset}${green}\]\h\[${reset}\]"
 
-    # If inside screen or tmux, there is no need for battery status in
-    # the prompt, as it will be in the status line.
-    if [ "${TERM%%-*}" != "screen" ]; then
-        declare -F battery_status 2>&1 > /dev/null || battery_status() { return; }
-        if [ -n "$(battery_status)" ]; then
-            b="\[${reset}\](\[${dim}${white}\]\$(battery_status)\[${reset}\])"
-        fi
-    fi
     # Set the title of an xterm.
     case $TERM in
         xterm*|rxvt*|screen*)
@@ -96,15 +87,14 @@ else
     esac
 
     # Build a colorized prompt.
-    PS1="\n${TERMTITLE}"                            # Set the xterm title.
-    PS1+="${HOSTCOLOR}\u"                           # Username
-    PS1+="$host"                                    # Add the host, if not local
-    PS1+=" "
-    PS1+="$b"                                       # battery status, if available
-    PS1+="$g"                                       # git status, if available
-    PS1+="\[${cyan}\]\w\[${reset}\]"                # working directory
-    PS1+="\n"                                       # new line.
-    PS1+="\[${dim}${white}\]\$\[${reset}\] "        # Either '$' or '#'
+    PS1="\n${TERMTITLE}"                                # Set the xterm title.
+    PS1="${PS1}${HOSTCOLOR}\u"                          # Username
+    PS1="${PS1}$host"                                   # Add the host, if not local
+    PS1="${PS1} "
+    PS1="${PS1}$g"                                      # git status, if available
+    PS1="${PS1}\[${cyan}\]\w\[${reset}\]"               # working directory
+    PS1="${PS1}\n"                                      # new line.
+    PS1="${PS1}\[${dim}${white}\]\$\[${reset}\] "       # Either '$' or '#'
     export PS1
 
     PS2="\[${yellow}\]> \[${reset}\]"

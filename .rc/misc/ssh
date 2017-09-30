@@ -3,18 +3,21 @@
 # Only for interactive shells.
 [[ "${-}" != *i* ]] && return
 
+# Create a directory for SSH control sockets.
+# To use this, you need to put the following line in your .ssh/config:
+#
+# ControlPath ~/.cache/ssh/ssh_mux_%C
+[[ -w "${HOME}/.cache/ssh" ]] || mkdir -p "${HOME}/.cache/ssh"
+
+# bash completion follows; no reason to continue if we're not bash
+[[ $SHELL == *bash* ]] || return
+
 # Complete SSH hostnames based on what is in ssh config.
 [[ -e "${HOME}/.ssh/config" ]] && complete -o "default" \
     -o "nospace"                                        \
     -W "$(grep "^Host" "${HOME}/.ssh/config" |          \
     grep -v "[?*]" | cut -d " " -f2 |                   \
     tr ' ' '\n')" scp sftp ssh
-
-# Create a directory for SSH control sockets.
-# To use this, you need to put the following line in your .ssh/config:
-#
-# ControlPath ~/.cache/ssh/ssh_mux_%C
-[[ -w "${HOME}/.cache/ssh" ]] || mkdir -p "${HOME}/.cache/ssh"
 
 # Wire up completion for known_hosts to ssh if the function exists.
 # I have no idea why this isn't working for me by default, but...okay.

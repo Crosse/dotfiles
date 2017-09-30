@@ -4,7 +4,7 @@
 [[ "${-}" != *i* ]] && return
 
 # No need to do anything if the Triton CLI isn't installed.
-[[ $(command -v triton) ]] || return
+[[ -n $(command -v triton) ]] || return
 
 
 if [[ ! -f ${HOME}/.bash_completion.d/triton ]]; then

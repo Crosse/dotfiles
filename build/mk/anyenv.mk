@@ -11,10 +11,12 @@ endif
 anyenv:				##@env Install anyenv to manage **envs.
 anyenv: $(ANYENV_PATH)
 
+ifneq ($(wildcard $ANYENV_PATH/bin/anyenv),)
 envs := $(strip $(shell $(ANYENV_PATH)/bin/anyenv install -l | awk '/^ / { print $1 }'))
 $(addprefix $(ANYENV_PATH)/envs/,$(envs)): |$(ANYENV_PATH)
 	eval "$$($(ANYENV_PATH)/bin/anyenv init -)" && \
 	    ${HOME}/.anyenv/bin/anyenv install -s $(@F)
+endif
 		
 showenvs:
 	@echo "Discovered envs:"
