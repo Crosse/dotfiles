@@ -1,0 +1,34 @@
+# Root-level editorconfig file.
+# This file describes what I hope are sane defaults for various file
+# types.
+
+root = true
+
+[*]
+charset = utf-8
+indent_size = 4
+tab_width = 8
+
+[Makefile]
+indent_style = tab
+
+[*.js]
+indent_style = spaces
+
+[CMakeLists.txt]
+indent_style = spaces
+
+[*.go]
+# Go may not have a line length limit, but I do. Otherwise, this
+# should(?) be the same as gofmt.
+indent_style = tab
+insert_final_newline = true
+max_line_length = 120
+trim_trailing_whitespace = true
+
+[*.rs]
+# This should be close to what rustfmt wants.
+indent_style = spaces
+insert_final_newline = true
+max_line_length = 100
+trim_trailing_whitespace = true
