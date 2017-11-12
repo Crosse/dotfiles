@@ -7,4 +7,7 @@
 [[ -x "$(command -v npm)" ]] || return
 
 # Append npm's bin path to $PATH.
-append_to_path $(npm bin)
+# The "proper" way takes more time than I'm willing to wait.
+#append_to_path $(npm bin)
+
+append_to_path "${HOME}/node_modules/.bin"
