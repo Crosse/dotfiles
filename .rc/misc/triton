@@ -11,4 +11,10 @@ if [[ ! -f ${HOME}/.bash_completion.d/triton ]]; then
     triton completion > ${HOME}/.bash_completion.d/triton
 fi
 
-eval "$(triton env)"
+# Don't take the hit of calling 'triton env' until the first execution.
+triton() {
+    if [[ -z $TRITON_PROFILE ]]; then
+        eval "$(command triton env)"
+    fi
+    command triton "$@"
+}
