@@ -51,6 +51,7 @@ esac
 prepend_to_path /usr/local/git/bin
 prepend_to_path /opt/pkg/bin                        # For pkgsrc
 prepend_to_path /opt/pkg/sbin                       # For pkgsrc
+append_to_path  /opt/X11/bin                        # XQuartz
 
 # If using iTerm, source their shell integration stuff.
 rc_source_file "${HOME}/.iterm2_shell_integration.bash"
