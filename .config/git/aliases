@@ -2,7 +2,7 @@
 [alias]
     dc = diff --cached
     st = status
-    ci = commit
+    ci = commit -v
     si = commit -S
     co = checkout
     br = branch
