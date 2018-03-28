@@ -46,3 +46,6 @@ case "${0#-}" in
         [[ -f "${HOME}/.rc/rc" ]] && export ENV="${HOME}/.rc/rc"
         ;;
 esac
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
