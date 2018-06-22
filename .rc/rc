@@ -53,6 +53,7 @@ esac
 # Any user-written executable things can go in ~/bin.
 prepend_to_path "/usr/local/bin"
 prepend_to_path "${HOME}/bin"
+prepend_to_path "${HOME}/.local/bin"
 export PATH
 
 rc_source_file "${RC_PATH}/exports"
