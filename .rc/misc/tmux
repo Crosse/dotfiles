@@ -8,16 +8,11 @@
 
 version=$(tmux -V 2>/dev/null)
 if [[ $? -ne 0 ]]; then
-    # this is *probably* OpenBSD, since tmux is developed in-tree.
-    case $(uname -r) in
-        6.1)
-            version=2
-            ;;
-        *)
-            echo "unhandled OpenBSD version for tmux support"
-            return
-            ;;
-    esac
+    # This is *probably* OpenBSD, since tmux is developed in-tree.
+    # Versions of OpenBSD older than 6.1 (I think?) have version 1 of
+    # tmux, but since none of them are officially supported now, let's
+    # just hard-code the version to 2 and move on with life.
+    version=2
 fi
 
 version=${version##tmux }
