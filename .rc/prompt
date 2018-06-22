@@ -56,17 +56,29 @@ else
         TERM=screen-256color
     fi
 
-    bold=$(tput bold)
-    dim=$(tput dim)
+    bold=$(tput bold 2> /dev/null)
+    dim=$(tput dim 2> /dev/null)
     reset=$(tput sgr0)
-    black=$(tput setaf 0 0 0)
-    red=$(tput setaf 1 1 1 )
-    green=$(tput setaf 2 2 2)
-    yellow=$(tput setaf 3 3 3)
-    blue=$(tput setaf 4 4 4)
-    magenta=$(tput setaf 5 5 5)
-    cyan=$(tput setaf 6 6 6)
-    white=$(tput setaf 7 7 7)
+    black=$(tput setaf 0 0 0 2> /dev/null)
+
+    if [ $? -eq 0 ]; then
+        red=$(tput setaf 1 1 1 )
+        green=$(tput setaf 2 2 2)
+        yellow=$(tput setaf 3 3 3)
+        blue=$(tput setaf 4 4 4)
+        magenta=$(tput setaf 5 5 5)
+        cyan=$(tput setaf 6 6 6)
+        white=$(tput setaf 7 7 7)
+    else
+        black=$(tput setaf 0)
+        red=$(tput setaf 1)
+        green=$(tput setaf 2)
+        yellow=$(tput setaf 3)
+        blue=$(tput setaf 4)
+        magenta=$(tput setaf 5)
+        cyan=$(tput setaf 6)
+        white=$(tput setaf 7)
+    fi
 
     # Change the prompt color depending on whether the real UID is root
     # or a regular user.
