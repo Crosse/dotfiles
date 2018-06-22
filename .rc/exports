@@ -18,6 +18,7 @@ rc_log "starting up"
 if [ -z "$LANG" ]; then
     export LANG=en_US.UTF-8
     export LC_ALL="$LANG"
+    export LC_CTYPE="$LANG"
 fi
 
 # Look for Vim...
@@ -39,6 +40,11 @@ if [ -x "${PAGER}" ]; then
     #   interprets ANSI color escape sequences (-R);
     #   doesn't clear the screen after quitting (-X).
     export LESS="-FiJmRX"
+
+    # OpenBSD doesn't set this by default, but Linux does, so let's just
+    # force it to the Linux default since that's what I'm used to at
+    # this point.
+    export LESSHISTFILE="${HOME}/.lesshst"
 else
     PAGER="$(command -v more)"
 fi
