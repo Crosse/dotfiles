@@ -42,17 +42,23 @@ log "Disabling bell"
 xset -b
 setxkbmap -option terminate:ctrl_alt_bksp
 
+[[ -n $(command -v syndaemon) ]] && syndaemon -dtk
 [[ -n $(command -v xflux) ]] && xflux
 
 #xautolock -locker "fancylock.py lock" -detectsleep -time 15 &
 
-SESSION="${XDG_CONFIG_HOME:-$HOME/.config}/default-shell"
-if [ -h "$SESSION" ]; then
+#USE_GNOME_SESSION=1
+SESSION=$(readlink -f "${XDG_CONFIG_HOME:-$HOME/.config}/default-shell")
+log "Validating $SESSION"
+if [ -x $SESSION ]; then
     #[ -f "$(command -v compton)" ] && compton -Gb &
-    SESSION=$(basename $(readlink -f $SESSION))
     log "Starting $SESSION"
-    exec gnome-session --session=${SESSION}
-    exec ${SESSION}
+    if [ $USE_GNOMESESSION ]; then
+        SESSION=$(basename $$SESSION)
+        exec gnome-session --session=${SESSION}
+    else
+        exec ${SESSION}
+    fi
 else
-    log "No default shell set! Symlink your desired shell to $SESSION"
+    log "No default shell set! Symlink your desired shell to ${XDG_CONFIG_HOME:-$HOME/.config}/default-shell"
 fi
