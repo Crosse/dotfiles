@@ -15,6 +15,10 @@ if [ -f ${HOME}/.Xresources ]; then
     xrdb -merge ${HOME}/.Xresources
 fi
 
+export LANG=en_US.UTF-8
+export LC_ALL="$LANG"
+export LC_CTYPE="$LANG"
+
 PLATFORM=$(uname -s)
 log "Turns out I'm running on $PLATFORM"
 case "$PLATFORM" in
