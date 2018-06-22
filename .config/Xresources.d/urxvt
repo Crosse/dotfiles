@@ -78,18 +78,18 @@ URxvt.url-select.underline: true
 ! Select the fonts to be used. This is a comma separated list of font names that are checked in order when trying to find glyphs for
 #if DPI > 240
 ! URxvt*font: fontlist
-URxvt*font: xft:Monospace:pixelsize=32,style=Medium
+URxvt*font: xft:SourceCodePro Nerd Font Mono:pixelsize=32,style=Medium
 ! URxvt*boldFont: fontlist
-URxvt*boldFont: xft:Monospace:pixelsize=32,style=Bold
+URxvt*boldFont: xft:SourceCodePro Nerd Font Mono:pixelsize=32,style=Bold
 ! URxvt*italicFont: fontlist
-URxvt*italicFont: xft:Monospace:pixelsize=32,style=Italic
+URxvt*italicFont: xft:SourceCodePro Nerd Font Mono:pixelsize=32,style=Italic
 #else
 ! URxvt*font: fontlist
-URxvt*font: xft:Monospace:pixelsize=14,style=Medium
+URxvt*font: xft:SourceCodePro Nerd Font Mono:pixelsize=14,style=Medium
 ! URxvt*boldFont: fontlist
-URxvt*boldFont: xft:Monospace:pixelsize=14,style=Bold
+URxvt*boldFont: xft:SourceCodePro Nerd Font Mono:pixelsize=14,style=Bold
 ! URxvt*italicFont: fontlist
-URxvt*italicFont: xft:Monospace:pixelsize=14,style=Italic
+URxvt*italicFont: xft:SourceCodePro Nerd Font Mono:pixelsize=14,style=Italic
 #endif
 
 

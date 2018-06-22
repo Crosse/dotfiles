@@ -36,7 +36,8 @@ Xft.rgba:               rgb
 Xft.autohint:           0
 Xft.hintstyle:          hintfull
 Xft.lcdfilter:          lcddefault
-XTerm*faceName:         Monospace
+! NOTE: fonts for [u]rxvt are specified in .config/Xresources.d/urxvt.
+XTerm*faceName:         SourceCodePro NF
 XTerm*faceSize:         10
 
 ! Process ~/.profile, if it exists.
