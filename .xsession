@@ -19,23 +19,12 @@ export LANG=en_US.UTF-8
 export LC_ALL="$LANG"
 export LC_CTYPE="$LANG"
 
-PLATFORM=$(uname -s)
-log "Turns out I'm running on $PLATFORM"
-case "$PLATFORM" in
-    OpenBSD)
-        if [ -n "$(command -v xidle)" ]; then
-            xidle &
-        fi
-        if [ -n "$(command -v xsetroot)" ]; then
-            # Set the background
-            xsetroot -solid steelblue
-        fi
-        #xterm -geometry 140x50 &
-        ;;
-    Linux)
-        [ -x "$(command -v feh)" ] && feh --no-fehbg --bg-fill ${HOME}/.config/background.jpg
-        ;;
-esac
+[[ -n $(command -v xidle) ]] && xidle &
+if [[ -x "$(command -v feh)" ]]; then 
+    feh --no-fehbg --bg-fill ${HOME}/.config/background.jpg
+elif [[ -x $(command -v xsetroot) ]]; then
+    xsetroot -solid steelblue
+fi
 
 # Disable the bell
 log "Disabling bell"
