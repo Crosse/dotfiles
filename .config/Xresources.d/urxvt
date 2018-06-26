@@ -92,7 +92,8 @@ URxvt*boldFont: xft:SourceCodePro Nerd Font Mono:pixelsize=14,style=Bold
 URxvt*italicFont: xft:SourceCodePro Nerd Font Mono:pixelsize=14,style=Italic
 #endif
 
-
+URxvt.transparent: true
+URxvt.shading: 20
 
 ! The font list to use for displaying bold, italic or bold italic characters, respectively.
 ! URxvt*boldItalicFont: fontlist
