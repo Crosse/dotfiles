@@ -40,4 +40,6 @@ esac
 
 # Things that should always be available go after here.
 
+[[ -d /cvs ]] && export CVSROOT=/cvs
+
 rc_log "done"
