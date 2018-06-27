@@ -52,10 +52,6 @@ esac
 
 # Any user-written executable things can go in ~/bin.
 prepend_to_path "/usr/local/bin"
-prepend_to_path "${HOME}/bin"
-prepend_to_path "${HOME}/.local/bin"
-export PATH
-
 rc_source_file "${RC_PATH}/exports"
 
 case "$-" in
@@ -107,6 +103,12 @@ for f in ${RC_PATH}/misc/*; do
     done
     [[ -z "$skip" ]] && rc_source_file "$f"
 done
+
+# Make sure the user's personal "bin" directory is the first thing on the PATH.
+prepend_to_path "${HOME}/.local/bin"
+prepend_to_path "${HOME}/bin"
+dedupe_path
+export PATH
 
 rc_log "done."
 remove_rc_from_env
