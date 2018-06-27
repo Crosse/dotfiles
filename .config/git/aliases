@@ -3,7 +3,7 @@
     dc = diff --cached
     st = status
     ci = commit -v
-    si = commit -S
+    si = commit -v -S
     co = checkout
     br = branch
     first = log --reverse
