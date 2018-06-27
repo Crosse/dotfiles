@@ -1,1 +1,1 @@
-[[ -r "${HOME}/.rc/rc" ]] && . "${HOME}/.rc/rc"
+[[ -r "${HOME}/.profile" ]] && . "${HOME}/.profile"
