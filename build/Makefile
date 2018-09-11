@@ -4,6 +4,7 @@ UNAME := $(shell uname)
 GO := $(shell command -v go;)
 GEM := $(shell command -v gem;)
 FONT_INSTALL := $(shell command -v font-install;)
+GIT_VERSION := $(word 3,$(shell git version))
 
 default: help
 
@@ -47,8 +48,11 @@ endif
 
 misc: ## Miscellaneous things, like diff-so-fancy.
 misc:
+	@echo "==> Downloading diff-so-fancy"
 	$(DOWNLOADER) $(DL_OPTS) https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy > "${HOME}/bin/diff-so-fancy"
-	chmod +x "${HOME}/bin/diff-so-fancy"
+	@chmod +x "${HOME}/bin/diff-so-fancy"
+	@echo "==> Downloading Git completion for git version $(GIT_VERSION)"
+	$(DOWNLOADER) $(DL_OPTS) https://raw.githubusercontent.com/git/git/v$(GIT_VERSION)/contrib/completion/git-completion.bash > "${HOME}/.bash_completion.d/git-completion.bash"
 
 keyservers:			## Download the latest public certificate for sks-keyservers.
 	@echo "==> Retrieving the latest sks-keyservers.net CA"
