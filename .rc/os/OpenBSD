@@ -41,5 +41,6 @@ esac
 # Things that should always be available go after here.
 
 [[ -d /cvs ]] && export CVSROOT=/cvs
+export CFLAGS="$CFLAGS -fcolor-diagnostics"
 
 rc_log "done"
