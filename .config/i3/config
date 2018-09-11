@@ -121,7 +121,7 @@ bindsym $mod+Shift+0 move container to workspace 10
 # Assign browsers to workspace 3
 assign [class="Iceweasel"] 3: www
 assign [class="Firefox"] 3: www
-assign [class="chromium-browser"] 3: www
+assign [window_role="browser"] 3: www
 
 for_window [class="Seahorse"] floating enable
 for_window [class="virt-manager"] floating enable
