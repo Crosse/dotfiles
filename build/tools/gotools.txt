@@ -1,0 +1,9 @@
+# Personal tools.
+github.com/Crosse/font-install      # to manage my fonts
+github.com/Crosse/sshsrv            # don't use, but nice to have?
+
+# Linters and stuff.
+mvdan.cc/sh/cmd/shfmt               # linter for sh
+golang.org/x/tools/cmd/goimports    # Organize and update Go import lines
+golang.org/x/tools/cmd/gotype       # Parse and type-check a single Go package.
+github.com/alecthomas/gometalinter  # Go linter.

@@ -3,8 +3,6 @@ UNAME := $(shell uname)
 
 GO := $(shell command -v go;)
 GEM := $(shell command -v gem;)
-FONT_INSTALL := $(shell command -v font-install;)
-GIT_VERSION := $(word 3,$(shell git version))
 
 default: help
 
@@ -18,33 +16,14 @@ bin:				## Symlink all bin files to $HOME/bin.
 	@echo "==> Creating symlinks in ${HOME}/bin"
 	@$(CURDIR)/symlink.sh
 
+
 dotfiles:			## Symlink all dotfiles to $HOME.
 	@echo "==> Symlinking dotfiles into ${HOME}"
 	@$(CURDIR)/dotfiles.sh
 
-fonts:				## Install fonts using font-install.
-fonts: $(GOROOT)
-ifndef FONT_INSTALL
-	@echo "==> Installing prerequisite: font-install"
-	go get -u github.com/Crosse/font-install
-endif
-	@echo "==> Installing fonts"
-	font-install -fromFile fontslist.txt
 
-personal:			## Install personal tools (sshsrv, font-install, pwhois).
-	@echo "==> Installing personal tools"
-ifdef GO
-	go get -u github.com/Crosse/sshsrv
-	go get -u github.com/Crosse/font-install
-else
-	$(warning Some tools require Go, which is not currently installed.)
-endif
-ifdef  GEM
-	gem install pwhois
-	gem install neovim
-else
-	$(warning Some tools require Ruby, which is not currently installed.)
-endif
+tools:				## Personal and third-part tools I rely on.
+	$(CURDIR)/tools/install.sh go ruby py2 py3
 
 misc: ## Miscellaneous things, like diff-so-fancy.
 misc:
@@ -54,12 +33,13 @@ misc:
 	@echo "==> Downloading Git completion for git version $(GIT_VERSION)"
 	$(DOWNLOADER) $(DL_OPTS) https://raw.githubusercontent.com/git/git/v$(GIT_VERSION)/contrib/completion/git-completion.bash > "${HOME}/.bash_completion.d/git-completion.bash"
 
+
 keyservers:			## Download the latest public certificate for sks-keyservers.
 	@echo "==> Retrieving the latest sks-keyservers.net CA"
 	$(DOWNLOADER) $(DL_OPTS) https://sks-keyservers.net/sks-keyservers.netCA.pem > "${HOME}/.gnupg/sks-keyservers.netCA.pem"
 
 
-.PHONY: default build all bin dotfiles fonts personal misc keyservers
+.PHONY: default build all bin dotfiles tools misc keyservers
 
 include vers.mk
 include mk/help.mk

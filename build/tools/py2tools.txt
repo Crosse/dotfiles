@@ -1,0 +1,7 @@
+Pygments
+cmakelint
+gitlint
+mdv
+pipenv
+vim-vint
+yamllint

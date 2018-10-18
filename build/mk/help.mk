@@ -23,20 +23,4 @@ help: ##@other Show this help.
 help:
 	@perl -e '$(HELP_FUN)' $(MAKEFILE_LIST)
 
-info:				##@other Print out environment as detected by this Makefile.
-info: _info $(UNAME)_info
-_info:
-	$(info Detected platform: $(UNAME))
-	$(info Using $(DOWNLOADER) to download files)
-ifdef GO
-	$(info Detected Go ($(shell $(GO) version)))
-endif
-ifdef GIT
-	$(info Detected Git ($(shell $(GIT) version)))
-endif
-ifdef FONT_INSTALL
-	$(info Detected font-install at $(FONT_INSTALL))
-endif
-	@true
-
-.PHONY: help info _info
+.PHONY: help
