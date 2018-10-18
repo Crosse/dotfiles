@@ -33,7 +33,7 @@ RC_PATH="${HOME}/.rc"
 rc_log "starting up"
 
 # Hand control over to .rc/rc.
-case "${0#-}" in
+case "$(basename ${0#-})" in
     bash)
         [[ -r "${HOME}/.rc/rc" ]] && . "${HOME}/.rc/rc"
         ;;
