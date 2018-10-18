@@ -51,7 +51,13 @@ case "${shell#-}" in
 esac
 
 # Any user-written executable things can go in ~/bin.
+# We do this here so that these are on the PATH for the rest of the
+# rc-scripts; however, once we've processed everything, we'll need to
+# potentially move them back to the beginning of the PATH (see the
+# bottom of this script).
 prepend_to_path "/usr/local/bin"
+prepend_to_path "${HOME}/.local/bin"
+prepend_to_path "${HOME}/bin"
 rc_source_file "${RC_PATH}/exports"
 
 case "$-" in
@@ -104,7 +110,8 @@ for f in ${RC_PATH}/misc/*; do
     [[ -z "$skip" ]] && rc_source_file "$f"
 done
 
-# Make sure the user's personal "bin" directory is the first thing on the PATH.
+# Make sure the user's personal "bin" directory is the first thing on
+# the PATH by re-adding them and then deduplicating the PATH.
 prepend_to_path "${HOME}/.local/bin"
 prepend_to_path "${HOME}/bin"
 dedupe_path
