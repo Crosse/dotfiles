@@ -1,0 +1,4 @@
+#!/bin/sh
+
+command -v aws_completer >/dev/null || return
+complete -C $(command -v aws_completer) aws
