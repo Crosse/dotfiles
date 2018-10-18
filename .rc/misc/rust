@@ -5,9 +5,6 @@
 
 # Check for all the things we care about
 [[ -n "${HOME}/.cargo/bin" ]] || return
-[[ -n "$(command -v rustc)" ]] || return
-
-# If Cargo is installed, append its bin path to PATH.
 append_to_path "${HOME}/.cargo/bin"
 
 # Sometimes you won't have rustup, but when you don't, you certainly don't need
