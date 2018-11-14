@@ -35,25 +35,6 @@ case "$-" in
             alias $cmd="$cmd \$GREP_OPTS"
         done
 
-        battery_status() {
-            declare -a batteries
-            mapfile -t batteries < <(ls -d /sys/class/power_supply/BAT*)
-
-            for b in "${batteries[@]}"; do
-                . "${b}/uevent"
-                if [ "${#batteries[@]}" -gt 1 ]; then
-                    local batt=$(basename "$b")
-                    printf "[%s] %d%% (%s)\n"   \
-                        $batt                   \
-                        $POWER_SUPPLY_CAPACITY  \
-                        $POWER_SUPPLY_STATUS
-                else
-                    printf "%d%%, %s\n"         \
-                        $POWER_SUPPLY_CAPACITY  \
-                        $POWER_SUPPLY_STATUS
-                fi
-            done
-        }
         set_netmap_param()
         {
             if [[ -z $1 || -z $2 ]]; then
