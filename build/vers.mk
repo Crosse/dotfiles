@@ -1,7 +1,7 @@
-GO_VER := 1.10.3
+GO_VER := 1.11.2
 PY2_VER := 2.7.15
 PY3_VER := 3.6.5
-RUBY_VER := 2.5.1
+RUBY_VER := 2.5.3
 
 versions:		##@other Show software versions that will be installed.
 	@printf "Versions of software that will be installed:\n"
