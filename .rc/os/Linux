@@ -35,6 +35,8 @@ case "$-" in
             alias $cmd="$cmd \$GREP_OPTS"
         done
 
+        unset command_not_found_handle
+
         set_netmap_param()
         {
             if [[ -z $1 || -z $2 ]]; then
