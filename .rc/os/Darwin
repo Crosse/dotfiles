@@ -40,6 +40,10 @@ case "$-" in
         # Work around a Vim incompatibility with crontab on OS X.  This
         # requires settings in .vimrc as well.
         alias crontab='VIM_CRONTAB=true crontab'
+
+        if ! command -v realpath; then
+            realpath() { python -c "import os; print(os.path.realpath('$1'))"; }
+        fi
         ;;
 esac
 
