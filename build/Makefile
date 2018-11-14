@@ -22,6 +22,10 @@ dotfiles:			## Symlink all dotfiles to $HOME.
 	@$(CURDIR)/dotfiles.sh
 
 
+fonts:				## Installs fonts using font-install
+fonts:
+	font-install -fromFile "$(CURDIR)/fontslist.txt"
+
 tools:				## Personal and third-part tools I rely on.
 	$(CURDIR)/tools/install.sh go ruby py2 py3
 
