@@ -1,22 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-battery_status() {
-    declare -a batteries
-    mapfile -t batteries < <(ls -d /sys/class/power_supply/BAT*)
+BASE_DIR=/sys/class/power_supply/BAT0
 
-    for b in "${batteries[@]}"; do
-        . "${b}/uevent"
-        if [ "${#batteries[@]}" -gt 1 ]; then
-            local batt=$(basename "$b")
-            printf "[%s] %d%% (%s)\n"   \
-                $batt                   \
-                $POWER_SUPPLY_CAPACITY  \
-                $POWER_SUPPLY_STATUS
-        else
-            printf "%d%%, %s\n"         \
-                $POWER_SUPPLY_CAPACITY  \
-                $POWER_SUPPLY_STATUS
-        fi
-    done
-}
-battery_status
+[ -d "$BASE_DIR" ] || exit 1
+
+capacity=$(<"$BASE_DIR"/capacity)
+status=$(<"$BASE_DIR"/status)
+
+printf "%s%%, %s\n" "$capacity" "$status"
