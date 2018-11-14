@@ -6,11 +6,11 @@ GEM := $(shell command -v gem;)
 
 default: help
 
-build:			##@meta Run the bin, dotfiles, personal, and keyservers targets.
-build: bin dotfiles personal keyservers
+build:			##@meta Run the bin, dotfiles, and keyservers targets.
+build: bin dotfiles keyservers
 
-all:				##@meta Run the default, fonts, go, gotools, and personal targets.
-all: default fonts personal
+all:				##@meta Run the default, fonts, and tools targets.
+all: default fonts tools
 
 bin:				## Symlink all bin files to $HOME/bin.
 	@echo "==> Creating symlinks in ${HOME}/bin"
