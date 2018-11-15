@@ -2,7 +2,7 @@
 
 case $(uname) in
     Darwin)
-        pmset -g ps | awk '/InternalBattery/ { gsub(/;/, ""); print $3 }'
+        pmset -g ps | awk '/InternalBattery/ { gsub(/;/, ""); printf "[batt: %s] ", $3 }'
         ;;
     Linux)
         BASE_DIR=/sys/class/power_supply/BAT0
@@ -12,6 +12,6 @@ case $(uname) in
         capacity=$(<"$BASE_DIR"/capacity)
         status=$(<"$BASE_DIR"/status)
 
-        printf "%s%%, %s\n" "$capacity" "$status"
+        printf "[batt: %s%%, %s] \n" "$capacity" "$status"
         ;;
 esac
