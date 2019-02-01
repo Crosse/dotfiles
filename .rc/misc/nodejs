@@ -3,6 +3,14 @@
 # Only for interactive shells.
 [[ "${-}" != *i* ]] && return
 
+NVM_DIR="$(realpath "$XDG_CONFIG_HOME"/nvm)"
+if [[ -d $NVM_DIR && -r ${NVM_DIR}/nvm.sh ]]; then
+    export NVM_DIR
+    . "${NVM_DIR}"/nvm.sh
+else
+    unset NVM_DIR
+fi
+
 # And only if npm is installed.
 [[ -x "$(command -v npm)" ]] || return
 
@@ -10,4 +18,4 @@
 # The "proper" way takes more time than I'm willing to wait.
 #append_to_path $(npm bin)
 
-append_to_path "${HOME}/node_modules/.bin"
+#append_to_path "${HOME}/node_modules/.bin"

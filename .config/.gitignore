@@ -6,8 +6,12 @@
 
 # ...and maybe also these things.
 !Xresources.d
+!exercism
 !fontconfig
 !git
+!htop
 !i3
+!iterm2
+!mc
 !offlineimap
 !systemd

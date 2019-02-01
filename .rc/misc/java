@@ -3,6 +3,11 @@
 # Only for interactive shells.
 [[ "${-}" != *i* ]] && return
 
+# If you set up a symlink at ~/code/jdk to a JDK install, this will add
+# it to the path, letting you pick your default JDK among multiple.
+# It's a poor man's alternatives(8), I guess.
+prepend_to_path "${HOME}/code/jdk/Contents/Home/bin"
+
 [[ -x "$(command -v javac)" ]] || return
 
 # Set a default JAVA_HOME.
