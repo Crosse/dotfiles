@@ -54,6 +54,13 @@ for l in $@; do
             #shellcheck disable=SC2086
             pip3 install --user $packages
             ;;
+        rust)
+            if ! command -v cargo >/dev/null; then
+                printf >&2 "Rust is not installed!"
+                exit 1
+            fi
+            #shellcheck disable=SC2086
+            cargo install $packages
         *)
             echo >&2 "Unsupported language: $l"
             usage
