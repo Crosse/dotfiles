@@ -7,3 +7,5 @@ mvdan.cc/sh/cmd/shfmt               # linter for sh
 golang.org/x/tools/cmd/goimports    # Organize and update Go import lines
 golang.org/x/tools/cmd/gotype       # Parse and type-check a single Go package.
 github.com/alecthomas/gometalinter  # Go linter.
+github.com/golang/lint/golint
+golang.org/x/tools/cmd/cover
