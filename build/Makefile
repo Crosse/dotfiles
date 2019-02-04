@@ -45,13 +45,13 @@ keyservers:			## Download the latest public certificate for sks-keyservers.
 
 .PHONY: default build all bin dotfiles tools misc keyservers
 
-include vers.mk
-include mk/help.mk
-include mk/cross-platform.mk
-include mk/anyenv.mk
-include mk/go.mk
-include mk/python.mk
-include mk/ruby.mk
-include mk/rust.mk
+include $(CURDIR)/vers.mk
+include $(CURDIR)/mk/help.mk
+include $(CURDIR)/mk/cross-platform.mk
+include $(CURDIR)/mk/anyenv.mk
+include $(CURDIR)/mk/go.mk
+include $(CURDIR)/mk/python.mk
+include $(CURDIR)/mk/ruby.mk
+include $(CURDIR)/mk/rust.mk
 
--include mk/os/$(UNAME).mk
+-include $(CURDIR)/mk/os/$(UNAME).mk
