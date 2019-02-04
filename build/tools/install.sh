@@ -17,7 +17,7 @@ fi
 #shellcheck disable=SC2068
 for l in $@; do
     file="$WRKDIR/tools/${l}tools.txt"
-    packages=$(awk '/^\s*([^# ]+)/ { print $1 }' "$file" | paste -sd' ')
+    packages=$(awk '/^\s*([^# ]+)/ { print $1 }' "$file" | paste -sd' ' -)
     echo "installing from $file"
 
     case "$l" in
