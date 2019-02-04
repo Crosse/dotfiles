@@ -3,7 +3,8 @@ ANYENV_PATH := ${HOME}/.anyenv
 
 $(ANYENV_PATH):
 ifdef GIT
-	git clone https://github.com/riywo/anyenv ${HOME}/.anyenv
+	git clone -q https://github.com/riywo/anyenv ${HOME}/.anyenv
+	$(HOME)/.anyenv/bin/anyenv install --force-init
 else
 	$(warning anyenv requires git to be installed)
 endif
