@@ -24,7 +24,7 @@ case "${shell#-}" in
         # Enable history appending instead of overwriting.
         shopt -s histappend
         # Enable the ability to use ** in pathname expansion.
-        shopt -s globstar
+        [[ $BASH_VERSINFO -gt 3 ]] && shopt -s globstar
 
         # Do not append duplicate lines and lines that begin with a
         # space to history
