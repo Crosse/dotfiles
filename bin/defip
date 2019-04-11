@@ -2,10 +2,11 @@
 
 case "$(uname)" in
     Linux)
-        ip -o -f inet route | awk '/default/ { iface=$5 } $3==iface { print $9 } { next; }' | tr -d '\n'
+        iface=$(ip -o -f inet route | awk '/default/ { print $5; exit }')
         ;;
     Darwin)
         iface=$(netstat -nr | grep default | head -1 | awk '{ print $6 }')
-        ifconfig $iface | awk '/inet / { print $2 }'
         ;;
 esac
+
+ifconfig $iface | awk '/inet / { print $2 }'
