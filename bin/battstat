@@ -1,17 +1,113 @@
-#!/bin/sh
+#!/usr/bin/env perl
 
-case $(uname) in
-    Darwin)
-        pmset -g ps | awk '/InternalBattery/ { gsub(/;/, ""); printf "[batt: %s (%s)] ", $3, $4 }'
-        ;;
-    Linux)
-        BASE_DIR=/sys/class/power_supply/BAT0
+use strict;
+use warnings;
+use 5.010;
+use feature qw{ say };
+no warnings 'experimental';
 
-        [ -d "$BASE_DIR" ] || exit 1
+use POSIX qw(uname);
 
-        capacity=$(<"$BASE_DIR"/capacity)
-        status=$(<"$BASE_DIR"/status)
+binmode(STDOUT, ":utf8");
 
-        printf "[batt: %s%%, %s] \n" "$capacity" "$status"
-        ;;
-esac
+
+my @UPOWER_STATE = qw(unknown charging discharging fully_charged
+               pending_charge pending_discharge);
+my %UPOWER_STATE = map {$UPOWER_STATE[$_] => $_} 0..$#UPOWER_STATE;
+
+my @uname = uname();
+
+given ($uname[0]) {
+    when ($_ eq "Linux") {
+        batt_linux();
+    }
+    when ($_ eq "Darwin") {
+        batt_darwin();
+    }
+    default {
+        print "Unknown!";
+        exit 1;
+    }
+}
+
+sub timedelta {
+    my ($dif) = @_;
+    my ($s, $m, $h, $d);
+
+    $dif -= $s = $dif % 60; $dif /= 60;
+    $dif -= $m = $dif % 60; $dif /= 60;
+    $dif -= $h = $dif % 24; $dif /= 24;
+    $d = $dif + 0;
+    if ($d > 0) { "${d}d ${h}h" }
+    elsif ($h > 0)  { "${h}h ${m}m" }
+    elsif ($m > 0)  { "${m} mins" }
+    else        { "${s} secs" }
+}
+
+sub batt_darwin {
+    my $re = qr/InternalBattery.*?(\d+)%; (\w+); \(?((.*) remaining|no estimate)\)?/; 
+    my @output = split "\n", `pmset -g ps`;
+    foreach (@output) {
+        if ($_ =~ $re) {
+            my $state;
+            if ($2 eq "charged") {
+                $state = 3;
+                my $icon = get_battery_icon($1, $state);
+                printf("%s (%s%%)\n", chr($icon), $1);
+            } else {
+                $state = $UPOWER_STATE{$2};
+                my $icon = get_battery_icon($1, $state);
+                printf("%s (%s)\n", chr($icon), $4);
+            }
+            return;
+        }
+    }
+}
+
+sub get_battery_icon {
+    my ($pct, $state) = @_;
+
+    my $icon;
+    if ($state eq $UPOWER_STATE{discharging}) {
+        $icon = 0xf578;
+    } elsif ($state eq $UPOWER_STATE{charging}) {
+        $icon = 0xf585;
+    } elsif ($state eq $UPOWER_STATE{fully_charged}) {
+        $icon = 0xfba3;
+    } else {
+        $icon = 0xf582;
+    }
+
+    if ($state == $UPOWER_STATE{discharging} ||
+        $state == $UPOWER_STATE{charging}) {
+        my $ofs = sprintf("%.0f", $pct / 10);
+        if ($ofs < 10) {
+            $icon += $ofs;
+        }
+    }
+    return $icon;
+}
+
+sub batt_linux {
+    require Net::DBus::Reactor;
+    require Net::DBus::Dumper;
+    require Net::DBus;
+
+    my $batt = Net::DBus->system
+        ->get_service("org.freedesktop.UPower")
+        ->get_object("/org/freedesktop/UPower/devices/battery_BAT0");
+
+    my $time;
+    my $icon = get_battery_icon($batt->Percentage, $batt->State);
+    if ($batt->State == $UPOWER_STATE{discharging}) {
+        $time = timedelta($batt->TimeToEmpty);
+    } elsif ($batt->State == $UPOWER_STATE{charging}) {
+        $time = timedelta($batt->TimeToFull);
+    }
+
+    if ($time) {
+        printf("%s (%s)\n", chr($icon), $time);
+    } else {
+        printf("%s (%.1fW)\n", chr($icon), $batt->EnergyRate);
+    }
+}
