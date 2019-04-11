@@ -1,4 +1,5 @@
 # Variables
+SHELL := bash
 UNAME := $(shell uname)
 
 GO := $(shell command -v go;)
