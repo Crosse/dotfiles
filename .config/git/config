@@ -9,6 +9,7 @@
 [diff]
     compactionHeuristic = true
     color = auto
+	algorithm = patience
 
 [help]
     format = man
