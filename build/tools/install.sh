@@ -61,6 +61,7 @@ for l in $@; do
             fi
             #shellcheck disable=SC2086
             cargo install $packages
+            ;;
         *)
             echo >&2 "Unsupported language: $l"
             usage
