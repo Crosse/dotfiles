@@ -1,14 +1,14 @@
 PYENV_PATH := $(ANYENV_PATH)/envs/pyenv
 
 pyenv:			##@env Install pyenv via anyenv.
-pyenv: pyenv-virtualenv
+pyenv: $(PYENV_PATH) pyenv-virtualenv
 $(PYENV_PATH): $(ANYENV_PATH)
 	$(HOME)/.anyenv/bin/anyenv install pyenv
 
 pyenv-virtualenv: $(PYENV_PATH)/plugins/pyenv-virtualenv
-$(PYENV_PATH)/plugins/pyenv-virtualenv: |$(PYENV_PATH)
+$(PYENV_PATH)/plugins/pyenv-virtualenv: $(PYENV_PATH)
 	eval "$$(${HOME}/.anyenv/bin/anyenv init -)" && \
-	    git clone https://github.com/pyenv/pyenv-virtualenv.git $(shell pyenv root)/plugins/pyenv-virtualenv
+	    git clone https://github.com/pyenv/pyenv-virtualenv.git $@
 
 $(PYENV_PATH)/versions/%: $(PYENV_PATH)
 	eval "$$(${HOME}/.anyenv/bin/anyenv init -)" && \
