@@ -71,19 +71,33 @@ sub get_battery_icon {
     if ($state eq $UPOWER_STATE{discharging}) {
         $icon = 0xf578;
     } elsif ($state eq $UPOWER_STATE{charging}) {
-        $icon = 0xf585;
+        $icon = 0xf584;
     } elsif ($state eq $UPOWER_STATE{fully_charged} ||
              $state eq $UPOWER_STATE{pending_charge}) {
-        $icon = 0xfba3;
+        $icon = 0xfba3; # plug icon
     } else {
-        $icon = 0xf582;
+        $icon = 0xf582; # battery with exclamation point
     }
 
-    if ($state == $UPOWER_STATE{discharging} ||
-        $state == $UPOWER_STATE{charging}) {
+    if ($state == $UPOWER_STATE{discharging}) {
         my $ofs = sprintf("%.0f", $pct / 10);
         if ($ofs < 10) {
             $icon += $ofs;
+        }
+    } elsif ($state == $UPOWER_STATE{charging}) {
+        my $ofs = sprintf("%.0f", $pct / 10);
+        if ($pct <= 30) {
+            $icon = 0xf585;
+        } elsif ($pct < 40) {
+            $icon = 0xf586;
+        } elsif ($pct < 60) {
+            $icon = 0xf587;
+        } elsif ($pct < 80) {
+            $icon = 0xf588;
+        } elsif ($pct < 90) {
+            $icon = 0xf589;
+        } elsif ($pct >= 90) {
+            $icon = 0xf58a;
         }
     }
     return $icon;
