@@ -1,0 +1,10 @@
+# vim: set ft=sh:
+
+# Only for interactive shells.
+[[ "${-}" != *i* ]] && return
+
+# No need to do anything if the PlatformIO CLI isn't installed.
+[[ -n "$(command -v platformio)" ]] || return
+
+eval "$(_PLATFORMIO_COMPLETE=source platformio)"
+eval "$(_PIO_COMPLETE=source pio)"
