@@ -8,27 +8,43 @@ root = true
 charset = utf-8
 indent_size = 4
 tab_width = 8
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+
+[*.txt]
+max_line_length = 78
+
+[*.md]
+max_line_length = 120
 
 [Makefile]
 indent_style = tab
 
-[*.js]
-indent_style = spaces
-
-[CMakeLists.txt]
-indent_style = spaces
-
 [*.go]
 # Go may not have a line length limit, but I do. Otherwise, this
 # should(?) be the same as gofmt.
+indent_size = 8
+tab_width = 8
 indent_style = tab
-insert_final_newline = true
 max_line_length = 120
-trim_trailing_whitespace = true
 
 [*.rs]
 # This should be close to what rustfmt wants.
-indent_style = spaces
-insert_final_newline = true
 max_line_length = 100
-trim_trailing_whitespace = true
+
+[*.py]
+# black sets the line length to 88, so let's do the same
+max_line_length = 88
+
+[*.json]
+indent_size = 2
+
+[*.c]
+indent_size = 4
+tab_width = 4
+max_line_length = 100
+
+[CMakeLists.txt]
+tab_width =  4
+indent_style =  space
