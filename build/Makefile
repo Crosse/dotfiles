@@ -27,8 +27,11 @@ fonts:				## Installs fonts using font-install
 fonts:
 	font-install -fromFile "$(CURDIR)/fontslist.txt"
 
-tools:				## Personal and third-part tools I rely on.
+tools:				## Personal and third-party tools I rely on.
 	$(CURDIR)/tools/install.sh go ruby py2 py3
+
+vscode-ext:			## Visual Studio Code extensions
+	$(CURDIR)/tools/install.sh vscode
 
 misc: ## Miscellaneous things, like diff-so-fancy.
 misc:
