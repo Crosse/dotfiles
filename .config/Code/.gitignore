@@ -5,14 +5,8 @@
 !.gitignore
 
 # ...and maybe also not these things.
-!Code
-!Xresources.d
-!exercism
-!fontconfig
-!git
-!htop
-!i3
-!iterm2
-!offlineimap
-!rebar3
-!systemd
+!User/
+
+# ...but actually, ignore these ones.
+User/globalStorage
+User/workspaceStorage

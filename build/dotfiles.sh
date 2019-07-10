@@ -29,3 +29,16 @@ for file in $(find "$WRKDIR"            \
         ln -sfn "$file" "${HOME}/$f"
     fi
 done
+
+if [[ $(uname) == "Darwin" ]]; then
+    src="${HOME}/.config/Code"
+    dest="${HOME}/Library/Application Support/Code"
+    if [ -e "$dest" -a ! -L "$dest" ]; then
+        echo "Backing up $dest to ${HOME}/backup/Code"
+        [ -d "${HOME}/backup" ] || mkdir -p "${HOME}/backup"
+        mv "$dest" "${HOME}/backup/" && ln -sfn "$src" "$dest"
+    else
+        echo "$src --> $dest"
+        ln -sfn "$src" "$dest"
+    fi
+fi

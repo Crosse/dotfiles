@@ -1,0 +1,8 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+    {
+        "key": "shift+cmd+j",
+        "command": "workbench.action.toggleMaximizedPanel",
+        "when": "panelFocus"
+    }
+]
