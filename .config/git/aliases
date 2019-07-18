@@ -2,11 +2,12 @@
 [alias]
     dc = diff --cached
     st = status
-    ci = commit -v
-    si = commit -v -S
+    ci = commit
+    si = commit -S
     co = checkout
     br = branch
     first = log --reverse
+    fap = fetch --all --prune
 
     ls = log --graph --pretty='%C(bold magenta)%h%Creset [%aN, %ar] %C(bold cyan)%s%Creset %C(green)%d%Creset'
     sl = log -20 --graph --pretty='%C(bold magenta)%h%Creset [%aN, %ar] %C(bold cyan)%s%Creset %C(green)%d%Creset'
