@@ -12,7 +12,6 @@
 !flake8
 !fontconfig
 !git
-!htop
 !i3
 !iterm2
 !offlineimap
