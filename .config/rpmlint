@@ -1,0 +1,7 @@
+# vim: set ft=python:
+
+from Config import *
+
+setOption("MaxLineLength", 79)
+setOption("NetworkEnabled", False)
+setOption("InvalidURL", '')

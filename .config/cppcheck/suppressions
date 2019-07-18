@@ -1,0 +1,4 @@
+redundantAssignment
+unusedFunction
+unusedStructMember
+variableScope

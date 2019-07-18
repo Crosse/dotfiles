@@ -7,7 +7,9 @@
 # ...and maybe also not these things.
 !Code
 !Xresources.d
+!cppcheck/
 !exercism
+!flake8
 !fontconfig
 !git
 !htop
@@ -15,4 +17,5 @@
 !iterm2
 !offlineimap
 !rebar3
+!rpmlint
 !systemd
