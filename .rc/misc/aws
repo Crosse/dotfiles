@@ -26,22 +26,3 @@ aws-get-instance-dns() {
     [[ -n "$1" ]] || return
     aws ec2 describe-instances --instance-id "$1" | jq -r '.Reservations[0].Instances[0].PublicDnsName'
 }
-
-awssh()
-{
-    [[ -n "$*" ]] || return
-
-    local last=${@: -1}
-    local inst="${last#*@}"
-    if [[ $last == *@* ]]; then
-        local user="-l ${last%@*}"
-    fi
-
-    if [[ $inst != *.* ]]; then
-        echo "getting public DNS for $inst..."
-        inst=$(aws-get-instance-dns "$inst")
-        echo "connecting to $inst"
-    fi
-
-    ssh ${@/$last} $user "$inst"
-}
