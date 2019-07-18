@@ -12,3 +12,6 @@ GTAGS
 TAGS
 cscope.out
 tags
+
+# Sadly, for now
+.vscode/
