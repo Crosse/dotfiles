@@ -18,7 +18,7 @@ max_line_length = 78
 [*.md]
 max_line_length = 120
 
-[Makefile]
+[{Makefile,*.mk}]
 indent_style = tab
 
 [*.go]
