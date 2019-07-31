@@ -259,13 +259,19 @@ function elfdiff {
 
 server() {
     local port="${1:-8000}";
+    printf "http://%s:%d/\n" "$(hostname -f)" "$port"
     python -c $'
-import SimpleHTTPServer;
-map = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;
-map[""] = "text/plain";
+import SimpleHTTPServer
+map = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map
+map[""] = "text/plain"
+map[".svg"] = "image/svg+xml"
+map[".html"] = "text/html"
+map[".css"] = "text/css"
+map[".json"] = "application/json"
 for key, value in map.items():
-    map[key] = value + ";charset=UTF-8";
-    SimpleHTTPServer.test();' "$port";
+    map[key] = value + ";charset=UTF-8"
+    SimpleHTTPServer.test()
+' "$port"
 }
 
 man() {
@@ -276,7 +282,7 @@ man() {
     LESS_TERMCAP_so=$(printf '\e[01;33m')   \
     LESS_TERMCAP_ue=$(printf '\e[0m')       \
     LESS_TERMCAP_us=$(printf '\e[04;36m')   \
-    command man $@
+    command man "$@"
 }
 
 rc_log "done."
