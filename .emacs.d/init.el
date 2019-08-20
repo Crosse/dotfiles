@@ -9,6 +9,7 @@
 (size-indication-mode t)        ;; Show the size of the buffer in the modeline.
 (tool-bar-mode -1)              ;; Disable the tool bar in the GUI.
 (hl-line-mode t)                ;; Highlight the entire line ("cursorline" in Vim).
+(xterm-mouse-mode)              ;; Enable mouse mode in terminals that support it.
 (setq
   vc-follow-symlinks t          ;; Always follow symlinks.
   inhibit-startup-screen t      ;; Don't show the welcome screen.
@@ -97,6 +98,7 @@
   :config (global-set-key (kbd "M-;") 'comment-dwim-2))
 
 (use-package rust-mode                  ;; https://github.com/rust-lang/rust-mode
+  :defer t
   :custom (rust-format-on-save t))
 
 (use-package cargo                      ;; https://github.com/kwrooijen/cargo.el
@@ -111,6 +113,7 @@
 (use-package lsp-ui :defer t)
 (use-package company-lsp :defer t)
 
+(use-package groovy-mode :defer t)
 
 ;;; THEMES AND UI
 
@@ -118,6 +121,12 @@
   :config (load-theme 'monokai))
 
 (use-package all-the-icons)
+
+(use-package projectile
+  :config
+  (projectile-mode 1)
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 ;; doom-modeline is a modeline taken from the Doom Emacs project.
 (use-package doom-modeline

@@ -48,3 +48,8 @@ max_line_length = 100
 [CMakeLists.txt]
 tab_width =  4
 indent_style =  space
+
+[{.emacs,*.el}]
+tab_width =  2
+indent_size = 2
+max_line_length = 100
