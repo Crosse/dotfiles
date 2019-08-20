@@ -1,1 +1,0 @@
-("~/code/dotfiles/" "~/code/fireeye/ef-px/acquired/" "~/code/fireeye/ef-3p/amzn-drivers-build/" "~/code/fireeye/ef-3p/amzn-drivers-build/.github/" "~/code/fireeye/ef-3p/amzn-drivers-build/.git/")
