@@ -13,11 +13,17 @@
 (setq
   vc-follow-symlinks t          ;; Always follow symlinks.
   inhibit-startup-screen t      ;; Don't show the welcome screen.
+  make-backup-files nil         ;; stop creating backup~ files
+  auto-save-default nil         ;; stop creating #autosave# files
   load-prefer-newer t)          ;; Prefer newest version of a file.
 
 ;; Enable line numbers for Emacs >= 26.1
 (when (version<= "26.0.50" emacs-version)
   (global-display-line-numbers-mode))
+
+(require 'server)
+(unless (server-running-p)
+  (server-start))
 
 ;;; PACKAGES
 
@@ -144,6 +150,15 @@
     (enable-doom-icons)))
 
 (add-hook 'after-make-frame-functions #'setup-frame-doom)
+
+(defconst sbcl-bin "/usr/local/bin/sbcl")
+(use-package slime-company)
+(use-package slime
+  :requires (slime-company)
+  :init
+  (setq slime-contribs '(slime-fancy slime-company))
+  (when (file-exists-p sbcl-bin)
+    (setq inferior-lisp-program sbcl-bin)))
 
 ;; A port of the Vim airline themes to Emacs.
 ;;(use-package airline-themes
