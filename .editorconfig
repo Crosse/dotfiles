@@ -19,7 +19,9 @@ max_line_length = 78
 max_line_length = 120
 
 [{Makefile,*.mk}]
+indent_size = 8
 indent_style = tab
+indent_width = 8
 
 [*.go]
 # Go may not have a line length limit, but I do. Otherwise, this
@@ -48,3 +50,13 @@ max_line_length = 100
 [CMakeLists.txt]
 tab_width =  4
 indent_style =  space
+
+[*.[sS]]
+indent_size = 8
+indent_style = tab
+indent_width = 8
+
+[{.emacs,*.el}]
+tab_width =  2
+indent_size = 2
+max_line_length = 100
