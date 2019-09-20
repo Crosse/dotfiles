@@ -67,5 +67,11 @@
     "workbench.colorTheme": "Atom One Light",
     "workbench.fontAliasing": "auto",
     "workbench.iconTheme": "material-icon-theme",
-    "workbench.startupEditor": "newUntitledFile"
+    "workbench.startupEditor": "newUntitledFile",
+    "zenMode.hideLineNumbers": false,
+    "zenMode.hideStatusBar": false,
+    "zenMode.hideTabs": false,
+    "C_Cpp.intelliSenseEngineFallback": "Enabled",
+    "python.formatting.blackPath": "${env:HOME}/.local/bin/black",
+    "workbench.editor.enablePreviewFromQuickOpen": false
 }
