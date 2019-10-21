@@ -4,5 +4,3 @@ set completion-ignore-case On
 
 C-w:    backward-kill-word
 C-o:    operate-and-get-next
-Tab:    menu-complete
-"\e[Z": menu-complete-backward
