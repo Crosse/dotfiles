@@ -1,4 +1,4 @@
-# vim: set ft=sh:
+# vim: set ft=sh: -*- mode: sh -*-
 
 # Only for interactive shells.
 [[ "${-}" != *i* ]] && return
@@ -12,7 +12,7 @@ fi
 
 # If rvm (https://rvm.io) is installed, initialize it and add its bin
 # directory to the PATH.
-if [ -d "${HOME}.rvm" ]; then
+if [ -d "${HOME}/.rvm" ]; then
     append_to_path "${HOME}/.rvm/bin"
     [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 fi

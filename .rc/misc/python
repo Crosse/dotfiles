@@ -1,10 +1,7 @@
-# vim: set ft=sh:
+# vim: set ft=sh: -*- mode: sh -*-
 
 # Only for interactive shells.
 [[ "${-}" != *i* ]] && return
-
-# And only if Python is installed
-[[ -x "$(command -v python)" ]] || return
 
 [[ -r "${HOME}/.pythonrc" ]] && export PYTHONSTARTUP="${HOME}/.pythonrc"
 
