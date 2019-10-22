@@ -7,8 +7,6 @@
 [[ -n "$(command -v platformio)" ]] || return
 
 _lazy_pio() {
-    unalias platformio pio
-
     echo "setting up platformio..." 1>&2
     eval "$(_PLATFORMIO_COMPLETE=source platformio)"
     eval "$(_PIO_COMPLETE=source pio)"
@@ -16,5 +14,5 @@ _lazy_pio() {
     $@
 }
 
-alias platformio="_lazy_pio platformio"
-alias pio="_lazy_pio pio"
+alias platformio="_lazy_anyenv _lazy_pio platformio"
+alias pio="_lazy_anyenv _lazy_pio pio"
