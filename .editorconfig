@@ -7,10 +7,11 @@ root = true
 [*]
 charset = utf-8
 indent_size = 4
-tab_width = 8
-insert_final_newline = true
-trim_trailing_whitespace = true
 indent_style = space
+insert_final_newline = true
+max_line_length = 100
+tab_width = 8
+trim_trailing_whitespace = true
 
 [*.txt]
 max_line_length = 78
@@ -27,9 +28,9 @@ indent_width = 8
 # Go may not have a line length limit, but I do. Otherwise, this
 # should(?) be the same as gofmt.
 indent_size = 8
-tab_width = 8
 indent_style = tab
 max_line_length = 120
+tab_width = 8
 
 [*.rs]
 # This should be close to what rustfmt wants.
@@ -44,19 +45,23 @@ indent_size = 2
 
 [*.c]
 indent_size = 4
-tab_width = 4
 max_line_length = 100
+tab_width = 4
 
 [CMakeLists.txt]
-tab_width =  4
 indent_style =  space
+tab_width =  4
 
 [*.[sS]]
 indent_size = 8
 indent_style = tab
 indent_width = 8
 
-[{.emacs,*.el}]
-tab_width =  2
+[{.emacs,*.el,*.lisp}]
 indent_size = 2
 max_line_length = 100
+tab_width =  2
+
+[*.org]
+indent_size = 2
+tab_width =  2
