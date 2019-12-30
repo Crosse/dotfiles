@@ -1,0 +1,6 @@
+# vim: set ft=sh: -*- mode: sh -*-
+
+# Only for interactive shells.
+[[ "${-}" != *i* ]] && return
+
+append_to_path /Library/TeX/texbin
