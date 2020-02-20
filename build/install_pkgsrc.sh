@@ -1,8 +1,8 @@
 #!/bin/sh
 # This script installs and verifies pkgsrc for OSX.
 
-BOOTSTRAP_FILE=bootstrap-2015Q3-x86_64.tar.gz
-SHASUM=c150c0db1daddb4ec49592a7563c2838760bfb8b
+BOOTSTRAP_TAR="bootstrap-trunk-x86_64-20191204.tar.gz"
+BOOTSTRAP_SHA="e4c585ca0d80ccac887824432e94e5715abc85ec"
 ######################################################
 
 . funcs.sh
@@ -24,27 +24,18 @@ cd "$TMPDIR"
 trap "rm -rf $TMPDIR" EXIT
 
 # Download 64-bit bootstrap kit
-echo "==> Downloading $BOOTSTRAP_FILE"
-$DOWNLOADER "${PKGSRC_SITE}${BOOTSTRAP_FILE}" > $BOOTSTRAP_FILE
+echo "==> Downloading $BOOTSTRAP_TAR"
+$DOWNLOADER "${PKGSRC_SITE}${BOOTSTRAP_TAR}" > $BOOTSTRAP_TAR
 
 # Verify the download. Kind of hacky right now.
 echo "==> Verifying SHA hash"
-echo "$SHASUM  $BOOTSTRAP_FILE" > cksumfile
+echo "$BOOTSTRAP_SHA  $BOOTSTRAP_TAR" > cksumfile
 shasum -c cksumfile
 [[ $? == 0 ]] || exit
 
-# Verify PGP signature (optional, requires gpg to be installed)
-if [ -n "$(command -v gpg)" ]; then
-    echo "==> Verifying GPG signature"
-    $DOWNLOADER "${PKGSRC_SITE}${BOOTSTRAP_FILE}.asc" > ${BOOTSTRAP_FILE}.asc
-    gpg --recv-keys 0xDE817B8E
-    gpg --verify ${BOOTSTRAP_FILE}{.asc,}
-    [[ $? == 0 ]] || exit
-fi
-
 # Install bootstrap kit to /opt/pkg
-echo "==> Installing $BOOTSTRAP_FILE"
-sudo tar -zxpf $BOOTSTRAP_FILE -C /
+echo "==> Installing $BOOTSTRAP_TAR"
+sudo tar -zxpf $BOOTSTRAP_TAR -C /
 [[ $? == 0 ]] || exit
 
 # Fetch package repository information
