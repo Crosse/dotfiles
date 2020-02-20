@@ -44,7 +44,7 @@ for l in $@; do
                 exit 1
             fi
             #shellcheck disable=SC2086
-            pip2 install --user $packages
+            python2 -m pip install --user $packages
             ;;
         py3)
             if ! command -v python3 >/dev/null; then
@@ -52,7 +52,7 @@ for l in $@; do
                 exit 1
             fi
             #shellcheck disable=SC2086
-            pip3 install --user $packages
+            python3 -m pip install --user $packages
             ;;
         rust)
             if ! command -v cargo >/dev/null; then
