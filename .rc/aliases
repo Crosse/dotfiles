@@ -28,7 +28,7 @@ alias pubip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias sudo='sudo '
 
 # Only alias 'hd' if the binary doesn't exist.
-[[ -n "$(command -v hd)" ]] && alias hd='hexdump -C'
+[[ -n "$(command -v hd)" ]] || alias hd='hexdump -C'
 
 [[ -n "$(command -v mds5um)" ]] || alias md5sum='md5'
 
