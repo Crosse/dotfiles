@@ -42,6 +42,8 @@ rebase = true
     minus-color = "#340001"
     syntax-theme = Monokai Extended
     line-numbers = true
+    diff-so-fancy = true
+    navigate = true
 
 [url "git@github.com:"]
     # Allows "git checkout github:user/repo.git"

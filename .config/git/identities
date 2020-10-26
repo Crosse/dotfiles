@@ -2,7 +2,7 @@
 
 [user]
     name = Seth Wright
-    email = seth@crosse.org
+    email = seth.wright@fireeye.com
     signingkey = 7D35F6C2A7095E278D0A5BBCEC32CF23823D863A
 
 [credential "https://bitbucket.org"]
@@ -10,3 +10,6 @@
 
 [credential "https://github.com"]
     username = crosse
+
+[credential]
+    helper = "/Applications/Xcode.app/Contents//Developer/usr/libexec/git-core/git-credential-osxkeychain"
