@@ -19,7 +19,7 @@ max_line_length = 78
 [*.md]
 max_line_length = 120
 
-[{Makefile,*.mk}]
+[{Makefile,{BSD,GNU}makefile,*.mk}]
 indent_size = 8
 indent_style = tab
 indent_width = 8
