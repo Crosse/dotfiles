@@ -4,17 +4,23 @@ http://www.fontsquirrel.com/fonts/download/dejavu-serif
 http://www.fontsquirrel.com/fonts/download/liberation-sans
 http://www.fontsquirrel.com/fonts/download/liberation-serif
 http://www.fontsquirrel.com/fonts/download/open-sans
-http://www.fontsquirrel.com/fonts/download/ubuntu
+#http://www.fontsquirrel.com/fonts/download/ubuntu
 
 # FontAwesome
-https://github.com/FortAwesome/Font-Awesome/releases/download/5.11.2/fontawesome-free-5.11.2-desktop.zip
+#https://github.com/FortAwesome/Font-Awesome/releases/download/5.11.2/fontawesome-free-5.11.2-desktop.zip
 
 # Many much nerd fonts
-https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/DejaVuSansMono.zip
-https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/DroidSansMono.zip
-https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/FiraCode.zip
-https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/FiraMono.zip
-https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/Inconsolata.zip
-https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/LiberationMono.zip
-https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/SourceCodePro.zip
-https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/UbuntuMono.zip
+https://github.com/ryanoasis/nerd-fonts/releases/latest/download/3270.zip
+https://github.com/ryanoasis/nerd-fonts/releases/latest/download/IBMPlexMono.zip
+#https://github.com/ryanoasis/nerd-fonts/releases/latest/download/DejaVuSansMono.zip
+https://github.com/ryanoasis/nerd-fonts/releases/latest/download/DroidSansMono.zip
+https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.zip
+https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraMono.zip
+https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Inconsolata.zip
+https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Iosevka.zip
+https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
+https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Lekton.zip
+https://github.com/ryanoasis/nerd-fonts/releases/latest/download/LiberationMono.zip
+https://github.com/ryanoasis/nerd-fonts/releases/latest/download/SourceCodePro.zip
+https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Ubuntu.zip
+https://github.com/ryanoasis/nerd-fonts/releases/latest/download/UbuntuMono.zip
