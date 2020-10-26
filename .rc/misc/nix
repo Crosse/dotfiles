@@ -1,0 +1,8 @@
+# vim: set ft=sh: -*- mode: sh -*-
+
+# Only for interactive shells.
+[[ "${-}" != *i* ]] && return
+
+if [ -e ${HOME}/.nix-profile/etc/profile.d/nix.sh ]; then
+    . ${HOME}/.nix-profile/etc/profile.d/nix.sh
+fi
