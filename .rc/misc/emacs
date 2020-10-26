@@ -8,4 +8,4 @@ if [[ -d /Applications/Emacs.app ]]; then
     [[ -e "${HOME}/bin/emacsclient" ]] || ln -sf /Applications/Emacs.app/Contents/MacOS/bin/emacsclient "${HOME}/bin/emacsclient"
 fi
 
-alias e='emacsclient -nw -c -a ""'
+alias e='emacsclient -t -a ""'
