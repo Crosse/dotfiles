@@ -20,7 +20,11 @@
     "extensions.closeExtensionDetailsOnViewChange": true,
     "files.autoGuessEncoding": true,
     "files.exclude": {
-        "**/target": true
+        "**/target": true,
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
     },
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
@@ -73,5 +77,9 @@
     "zenMode.hideTabs": false,
     "C_Cpp.intelliSenseEngineFallback": "Enabled",
     "python.formatting.blackPath": "${env:HOME}/.local/bin/black",
-    "workbench.editor.enablePreviewFromQuickOpen": false
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "vsicons.dontShowNewVersionMessage": true,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "java.semanticHighlighting.enabled": true
 }
