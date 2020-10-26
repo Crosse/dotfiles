@@ -9,7 +9,8 @@
 [diff]
     compactionHeuristic = true
     color = auto
-	algorithm = patience
+    algorithm = patience
+    colorMoved = default
 
 [help]
     format = man
@@ -31,7 +32,16 @@ rebase = true
 
 [core]
     excludesfile = ~/.gitignore_global
-    pager = diff-so-fancy | less --tabs=4 -+J
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    plus-color = "#012800"
+    minus-color = "#340001"
+    syntax-theme = Monokai Extended
+    line-numbers = true
 
 [url "git@github.com:"]
     # Allows "git checkout github:user/repo.git"
