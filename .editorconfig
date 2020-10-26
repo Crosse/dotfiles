@@ -65,3 +65,7 @@ tab_width =  2
 [*.org]
 indent_size = 2
 tab_width =  2
+
+[*.yaml,*.yml]
+indent_size = 2
+tab_width =  2
