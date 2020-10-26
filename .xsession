@@ -20,7 +20,7 @@ export LC_ALL="$LANG"
 export LC_CTYPE="$LANG"
 
 [[ -n $(command -v xidle) ]] && xidle &
-if [[ -x "$(command -v feh)" ]]; then 
+if [[ -x "$(command -v feh)" ]]; then
     feh --no-fehbg --bg-fill ${HOME}/.config/background.jpg
 elif [[ -x $(command -v xsetroot) ]]; then
     xsetroot -solid steelblue
@@ -37,7 +37,7 @@ setxkbmap -option terminate:ctrl_alt_bksp
 #xautolock -locker "fancylock.py lock" -detectsleep -time 15 &
 
 #USE_GNOME_SESSION=1
-SESSION=$(readlink -f "${XDG_CONFIG_HOME:-$HOME/.config}/default-shell")
+SESSION=$(readlink "${XDG_CONFIG_HOME:-$HOME/.config}/default-shell")
 log "Validating $SESSION"
 if [ -x $SESSION ]; then
     #[ -f "$(command -v compton)" ] && compton -Gb &
