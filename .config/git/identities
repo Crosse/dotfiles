@@ -9,7 +9,4 @@
     username = crosse3
 
 [credential "https://github.com"]
-    username = crosse
-
-[credential]
-    helper = "/Applications/Xcode.app/Contents//Developer/usr/libexec/git-core/git-credential-osxkeychain"
+    username = Crosse
