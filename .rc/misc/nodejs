@@ -12,8 +12,8 @@ _lazy_npm() {
     $@
 }
 
-NVM_DIR="$(realpath "$XDG_CONFIG_HOME"/nvm)"
-if [[ -d $NVM_DIR && -r ${NVM_DIR}/nvm.sh ]]; then
+NVM_DIR="$XDG_CONFIG_HOME/nvm"
+if [[ -r ${NVM_DIR}/nvm.sh ]]; then
     export NVM_DIR
 
     alias node="_lazy_npm node"
