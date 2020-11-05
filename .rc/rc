@@ -110,6 +110,8 @@ for f in ${RC_PATH}/misc/*; do
     [[ -z "$skip" ]] && rc_source_file "$f"
 done
 
+[[ -e ${RC_PATH}/local ]] && rc_source_file "${RC_PATH}/local"
+
 # Make sure the user's personal "bin" directory is the first thing on
 # the PATH by re-adding them and then deduplicating the PATH.
 prepend_to_path "${HOME}/.local/bin"
