@@ -6,6 +6,9 @@
     path = colors
     path = ~/.gitconfig.extra
 
+[advice]
+    detachedHead = false
+
 [diff]
     compactionHeuristic = true
     color = auto
@@ -51,3 +54,7 @@ rebase = true
 [url "git@bitbucket.org:"]
     # Allows "git checkout bb:user/repo.git"
     insteadOf = bb:
+[credential]
+	helper = osxkeychain
+[pull]
+	rebase = true
