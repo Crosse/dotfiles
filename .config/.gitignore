@@ -7,6 +7,7 @@
 # ...and maybe also not these things.
 !Code
 !Xresources.d
+!alacritty/
 !cppcheck/
 !exercism
 !flake8
