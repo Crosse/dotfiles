@@ -13,6 +13,10 @@ max_line_length = 100
 tab_width = 8
 trim_trailing_whitespace = true
 
+[*.patch]
+insert_final_newline = false
+trim_trailing_whitespace = false
+
 [*.txt]
 max_line_length = 78
 
