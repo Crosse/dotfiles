@@ -22,3 +22,5 @@ if [[ -r ${NVM_DIR}/nvm.sh ]]; then
 else
     unset NVM_DIR
 fi
+
+append_to_path "${HOME}/.npm-global/bin"
