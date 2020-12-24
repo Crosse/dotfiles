@@ -24,7 +24,7 @@ URxvt.url-select.underline: true
 ! Use the specified colour for the colour value n, where 0-7 corresponds to low-intensity (normal) colours and 8-15 corresponds to high-
 ! URxvt*colorn: colour
 
-! 
+!
 ! URxvt*colorBD: colour
 
 ! Use the specified colour to display bold or italic characters when the foreground colour is the default. If font styles are not
@@ -78,18 +78,18 @@ URxvt.url-select.underline: true
 ! Select the fonts to be used. This is a comma separated list of font names that are checked in order when trying to find glyphs for
 #if DPI > 240
 ! URxvt*font: fontlist
-URxvt*font: xft:SourceCodePro Nerd Font Mono:pixelsize=32,style=Medium
+URxvt*font: xft:SauceCodePro Nerd Font Mono:pixelsize=32,style=Medium
 ! URxvt*boldFont: fontlist
-URxvt*boldFont: xft:SourceCodePro Nerd Font Mono:pixelsize=32,style=Bold
+URxvt*boldFont: xft:SauceCodePro Nerd Font Mono:pixelsize=32,style=Bold
 ! URxvt*italicFont: fontlist
-URxvt*italicFont: xft:SourceCodePro Nerd Font Mono:pixelsize=32,style=Italic
+URxvt*italicFont: xft:SauceCodePro Nerd Font Mono:pixelsize=32,style=Italic
 #else
 ! URxvt*font: fontlist
-URxvt*font: xft:SourceCodePro Nerd Font Mono:pixelsize=14,style=Medium
+URxvt*font: xft:SauceCodePro Nerd Font Mono:pixelsize=14,style=Medium
 ! URxvt*boldFont: fontlist
-URxvt*boldFont: xft:SourceCodePro Nerd Font Mono:pixelsize=14,style=Bold
+URxvt*boldFont: xft:SauceCodePro Nerd Font Mono:pixelsize=14,style=Bold
 ! URxvt*italicFont: fontlist
-URxvt*italicFont: xft:SourceCodePro Nerd Font Mono:pixelsize=14,style=Italic
+URxvt*italicFont: xft:SauceCodePro Nerd Font Mono:pixelsize=14,style=Italic
 #endif
 
 URxvt.transparent: true
@@ -212,7 +212,7 @@ URxvt*pointerBlank: true
 ! The characters used as delimiters for double-click word selection (whitespace delimiting is added automatically if resource is given).
 ! URxvt*cutchars: string
 
-! 
+!
 ! URxvt*{|}
 
 ! OverTheSpot, OffTheSpot, Root; option -pt.
@@ -288,5 +288,3 @@ URxvt*pointerBlank: true
 
 ! Turn on/off ISO 14755 5.2 mode (default enabled).
 ! URxvt*iso14755_52: boolean
-
-
