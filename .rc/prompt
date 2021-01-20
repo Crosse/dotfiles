@@ -56,37 +56,36 @@ else
     bold=$(tput bold 2> /dev/null)
     dim=$(tput dim 2> /dev/null)
     reset=$(tput sgr0)
-    black=$(tput setaf 0 0 0 2> /dev/null)
 
-    if [ $? -eq 0 ]; then
-        red=$(tput setaf 1 1 1 )
-        green=$(tput setaf 2 2 2)
-        yellow=$(tput setaf 3 3 3)
-        blue=$(tput setaf 4 4 4)
-        magenta=$(tput setaf 5 5 5)
-        cyan=$(tput setaf 6 6 6)
-        white=$(tput setaf 7 7 7)
-    else
-        black=$(tput setaf 0)
-        red=$(tput setaf 1)
-        green=$(tput setaf 2)
-        yellow=$(tput setaf 3)
-        blue=$(tput setaf 4)
-        magenta=$(tput setaf 5)
-        cyan=$(tput setaf 6)
-        white=$(tput setaf 7)
-    fi
+    background=$(tput setaf 230)
+    foreground=$(tput setaf 016)
+    color0=$(tput setaf 106)
+    color1=$(tput setaf 160)
+    color2=$(tput setaf 028)
+    color3=$(tput setaf 094)
+    color4=$(tput setaf 026)
+    color5=$(tput setaf 125)
+    color6=$(tput setaf 023)
+    color7=$(tput setaf 188)
+    color8=$(tput setaf 060)
+    color9=$(tput setaf 124)
+    color10=$(tput setaf 022)
+    color11=$(tput setaf 058)
+    color12=$(tput setaf 026)
+    color13=$(tput setaf 097)
+    color14=$(tput setaf 024)
+    color15=$(tput setaf 230)
 
     # Change the prompt color depending on whether the real UID is root
     # or a regular user.
     if [ $(id -ru) == '0' ] ; then
-        HOSTCOLOR="\[$red\]"
+        HOSTCOLOR="\[$color1\]"
     else
-        HOSTCOLOR="\[$green\]"
+        HOSTCOLOR="\[$color4\]"
     fi
 
-    [[ -n "$GITPARSING" ]] && g="\[${reset}${yellow}\]\$(parse_git_status)\[${reset}\]"
-    [[ -n "$SSH_CLIENT" ]] && host="\[${dim}${white}\]@\[${reset}${green}\]\h\[${reset}\]"
+    [[ -n "$GITPARSING" ]] && g="\[${reset}${color5}\]\$(parse_git_status)\[${reset}\]"
+    [[ -n "$SSH_CLIENT" ]] && host="\[${dim}${color7}\]@\[${reset}${color2}\]\h\[${reset}\]"
 
     # Set the title of an xterm.
     case $TERM in
@@ -101,16 +100,15 @@ else
     PS1="${PS1}$host"                                   # Add the host, if not local
     PS1="${PS1} "
     PS1="${PS1}$g"                                      # git status, if available
-    PS1="${PS1}\[${cyan}\]\w\[${reset}\]"               # working directory
+    PS1="${PS1}\[${color6}\]\w\[${reset}\]"             # working directory
     PS1="${PS1}\n"                                      # new line.
-    PS1="${PS1}\[${dim}${white}\]\$\[${reset}\] "       # Either '$' or '#'
+    PS1="${PS1}\[${HOSTCOLOR}\]\$\[${reset}\] "         # Either '$' or '#'
     export PS1
 
-    PS2="\[${yellow}\]> \[${reset}\]"
+    PS2="\[${color3}\]> \[${reset}\]"
     export PS2
 fi
 
 unset HOSTCOLOR g b host TERMTITLE
-unset bold dim reset black red green yellow blue magenta cyan white
 
 rc_log "done."
