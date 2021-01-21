@@ -70,6 +70,10 @@ tab_width =  2
 indent_size = 2
 tab_width =  2
 
-[*.yaml,*.yml]
+[{*.yaml,*.yml}]
+indent_size = 2
+tab_width =  2
+
+[*.rb]
 indent_size = 2
 tab_width =  2
