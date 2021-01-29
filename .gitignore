@@ -1,3 +1,4 @@
 *.sw[po]
 *.bak
 .rc/local
+.config/iterm2/AppSupport
