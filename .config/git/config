@@ -41,11 +41,11 @@ rebase = true
     diffFilter = delta --color-only
 
 [delta]
-    plus-color = "#012800"
-    minus-color = "#340001"
-    syntax-theme = Monokai Extended
+    light = true
+    syntax-theme = GitHub
     line-numbers = true
-    diff-so-fancy = true
+    commit-style = blue
+    commit-decoration-style = green
 
 [url "git@github.com:"]
     # Allows "git checkout github:user/repo.git"
