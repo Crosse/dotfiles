@@ -85,7 +85,7 @@ else
     fi
 
     [[ -n "$GITPARSING" ]] && g="\[${reset}${color5}\]\$(parse_git_status)\[${reset}\]"
-    [[ -n "$SSH_CLIENT" ]] && host="\[${dim}${color7}\]@\[${reset}${color2}\]\h\[${reset}\]"
+    [[ -n "$SSH_CLIENT" ]] && host="\[${color2}\]@\[${reset}${color10}\]\h\[${reset}\]"
 
     # Set the title of an xterm.
     case $TERM in
@@ -100,9 +100,9 @@ else
     PS1="${PS1}$host"                                   # Add the host, if not local
     PS1="${PS1} "
     PS1="${PS1}$g"                                      # git status, if available
-    PS1="${PS1}\[${color6}\]\w\[${reset}\]"             # working directory
+    PS1="${PS1}\[${color2}\]\w\[${reset}\]"             # working directory
     PS1="${PS1}\n"                                      # new line.
-    PS1="${PS1}${HOSTCOLOR}\$\[${reset}\] "             # Either '$' or '#'
+    PS1="${PS1}${color2}\$\[${reset}\] "                # Either '$' or '#'
     export PS1
 
     PS2="\[${color3}\]> \[${reset}\]"
