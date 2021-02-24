@@ -1,8 +1,0 @@
-#!/bin/sh
-
-if [ ! -x $(command -v primusrun) ]; then
-    echo "primusrun not found"
-    exit 1
-fi
-
-exec primusrun x-www-browser
