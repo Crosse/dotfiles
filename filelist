@@ -1,0 +1,150 @@
+trinity=macos
+90-P3N8JG5M-3T2=macos,linux,mutt,irssi,zfs,mta,elasticsearch,offlineimap
+
+# shell configs
+#.bash_completion.d
+.bashrc
+.kshrc
+.profile
+
+.rc/aliases
+.rc/exports
+.rc/functions
+.rc/prompt
+.rc/rc
+.rc/rc_utils
+.rc/term
+
+.rc/os/Darwin
+.rc/os/Linux
+.rc/os/OpenBSD
+.rc/os/SunOS
+
+.rc/misc/00-pkgsrc
+.rc/misc/anyenv
+.rc/misc/aws
+.rc/misc/ccache
+.rc/misc/console-bell
+.rc/misc/emacs
+.rc/misc/erlang
+.rc/misc/go
+.rc/misc/gpg
+.rc/misc/java
+.rc/misc/mactex
+.rc/misc/manta
+.rc/misc/mosh
+.rc/misc/nix
+.rc/misc/nodejs
+.rc/misc/platformio
+.rc/misc/python
+.rc/misc/ruby
+.rc/misc/rust
+.rc/misc/shell-completion
+.rc/misc/ssh
+.rc/misc/tmux
+.rc/misc/travis
+.rc/misc/triton
+.rc/misc/yarn
+.rc/misc/zenoss
+
+# SSH
+.ssh/config
+
+# git config
+.gitignore_global
+.config/git/aliases
+.config/git/colors
+.config/git/config
+.config/git/identities
+
+# gpg
+.gnupg/dirmngr.conf
+.gnupg/gpg-agent.conf
+.gnupg/gpg.conf
+
+# gdb
+.gdbinit
+.gdbinit.d/00-init.gdb
+
+# i3
+.config/i3/config:linux
+.config/i3/status.conf:linux
+
+# VS Code
+.config/Code/User/keybindings.json
+.config/Code/User/settings.json
+
+# X11
+.config/Xresources.d/molokai-theme
+.config/Xresources.d/solarized-theme
+.config/Xresources.d/urxvt
+
+# Other
+.editorconfig
+.forward
+.hunspell_en_US
+.inputrc
+.latexmkrc
+.pythonrc
+.screenrc
+.tmux.conf
+.Xresources
+.xinitrc
+.config/alacritty/alacritty.yml
+.config/cppcheck/suppressions
+.config/flake8
+.config/fontconfig/fonts.conf:linux
+.config/iterm2/com.googlecode.iterm2.plist:macos
+.config/powershell/profile.ps1
+.config/rebar3/rebar.config
+.config/rpmlint
+
+# bash completions
+.bash_completion.d/aws_cli
+.bash_completion.d/cmake
+.bash_completion.d/cpack
+.bash_completion.d/ctest
+.bash_completion.d/git-completion.bash
+.bash_completion.d/mosh
+.bash_completion.d/triton
+.bash_completion.d/hub.bash_completion.sh
+
+
+# Common Lisp
+.lisprc
+.ccl-init.lisp
+.sbclrc
+
+# Leiningen
+.lein/profiles.clj
+
+# irssi (essentially disabled)
+.irssi/default.theme:irssi
+.irssi/scripts/adv_windowlist.pl:irssi
+.irssi/scripts/hilightwin.pl:irssi
+.irssi/scripts/usercount.pl:irssi
+.irssi/scripts/autorun/adv_windowlist.pl:irssi
+.irssi/scripts/autorun/hilightwin.pl:irssi
+.irssi/scripts/autorun/usercount.pl:irssi
+
+# mutt (essentially disabled)
+.mutt/accounts.rc:mutt
+.mutt/color.rc:mutt
+.mutt/compose.rc:mutt
+.mutt/folders.rc:mutt
+.mutt/keybindings.rc:mutt
+.mutt/mailcap:mutt
+.mutt/misc.rc:mutt
+.mutt/muttrc:mutt
+.mutt/sidebar.rc:mutt
+.mutt/view_attachment.sh:mutt
+
+# offlineimap
+.config/offlineimap/config:offlineimap
+.config/offlineimap/offlineimap.py:offlineimap
+
+# bin
+bin/battstat:linux,macos
+bin/mtabanner:mta
+bin/mtatest:mta
+bin/unrpm

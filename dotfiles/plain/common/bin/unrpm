@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -euf -o pipefail
+
+rpm=${1?}
+rpm=$(python -c "import os; print(os.path.realpath('$1'))" "$rpm")
+
+name=$(basename -s .rpm "$rpm")
+echo "extracting $rpm to $name"
+
+mkdir "$name"
+cd "$PWD/$name"
+rpm2cpio "$rpm" | cpio -idm

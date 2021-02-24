@@ -1,8 +1,0 @@
-# vim: set ft=sh: -*- mode: sh -*-
-
-# Only for interactive shells.
-[[ "${-}" != *i* ]] && return
-
-if [[ -r "${HOME}/.iterm2_shell_integration.bash" ]]; then
-    . "${HOME}/.iterm2_shell_integration.bash"
-fi
