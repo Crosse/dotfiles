@@ -62,16 +62,6 @@ for l in $@; do
             #shellcheck disable=SC2086
             cargo install $packages
             ;;
-        vscode)
-            if ! command -v code > /dev/null; then
-                printf >&2 "VS Code 'code' command is not installed!"
-                exit 1
-            fi
-            #shellcheck disable=SC2086
-            for ext in $packages; do
-                code --install-extension $ext
-            done
-            ;;
         *)
             echo >&2 "Unsupported language: $l"
             usage
