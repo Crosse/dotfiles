@@ -1,61 +1,99 @@
 # Variables
-SHELL := bash
 UNAME := $(shell uname)
 
 GO := $(shell command -v go;)
-GEM := $(shell command -v gem;)
 
-default: help
+# From https://gist.github.com/prwhite/8168133#gistcomment-1727513
+# Add the following 'help' target to your Makefile
+# And add help text after each target name starting with '\#\#'
+# A category can be added with @category
+HELP_FUN = \
+	%help; \
+	while(<>) { push @{$$help{$$2 // 'options'}}, [$$1, $$3] if /^([a-zA-Z0-9\-_]+)\s*:.*\#\#(?:@([a-zA-Z\-]+))?\s(.*)$$/ }; \
+	print "usage: make [target]\n\n"; \
+	for (sort keys %help) { \
+	print "$$_:\n"; \
+	for (@{$$help{$$_}}) { \
+	$$sep = " " x (32 - length $$_->[0]); \
+	print "  $$_->[0]$$sep$$_->[1]\n"; \
+	}; \
+	print "\n"; }
 
-build:			##@meta Run the bin, dotfiles, and keyservers targets.
-build: bin dotfiles keyservers
 
-all:				##@meta Run the default, fonts, and tools targets.
-all: default fonts tools
+.PHONY: help
+help:				##@other Show this help.
+help:
+	@perl -e '$(HELP_FUN)' $(MAKEFILE_LIST)
 
-bin:				## Symlink all bin files to $HOME/bin.
-	@echo "==> Creating symlinks in ${HOME}/bin"
-	@$(CURDIR)/symlink.sh
+.PHONY: default
+default:			##@meta Install dotfiles and useful tools
+default: dotfiles tools
 
+.PHONY: all
+all:				##@meta Install everything.
+all: default $(UNAME) git go rust rust-nightly
 
+.PHONY: dotgit
+dotgit: $(HOME)/.local/bin/dotgit
+$(HOME)/.local/bin/dotgit:
+	python3 -m pip install --user -U dotgit
+
+.PHONY: dotfiles
 dotfiles:			## Symlink all dotfiles to $HOME.
-	@echo "==> Symlinking dotfiles into ${HOME}"
-	@$(CURDIR)/dotfiles.sh
+dotfiles: dotgit
+	${HOME}/.local/bin/dotgit restore -v
 
+.PHONY: font-install
+font-install: $(HOME)/code/go/bin/font-install
+$(HOME)/code/go/bin/font-install: | go
+	cd ~ && GO111MODULE=off $(GO) get github.com/Crosse/font-install
 
+.PHONY: fonts
 fonts:				## Installs fonts using font-install
-fonts:
-	font-install -fromFile "$(CURDIR)/fontslist.txt"
+fonts: $(CURDIR)/fontslist.txt | $(HOME)/code/go/bin/font-install
+	$(HOME)/code/go/bin/font-install -fromFile "$<"
 
+.PHONY: tools
 tools:				## Personal and third-party tools I rely on.
 	$(CURDIR)/tools/install.sh go ruby py2 py3
 
-vscode-ext:			## Visual Studio Code extensions
-	$(CURDIR)/tools/install.sh vscode
 
-misc: ## Miscellaneous things, like diff-so-fancy.
-misc:
-	@echo "==> Downloading diff-so-fancy"
-	$(DOWNLOADER) $(DL_OPTS) https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy > "${HOME}/bin/diff-so-fancy"
-	@chmod +x "${HOME}/bin/diff-so-fancy"
-	@echo "==> Downloading Git completion for git version $(GIT_VERSION)"
-	$(DOWNLOADER) $(DL_OPTS) https://raw.githubusercontent.com/git/git/v$(GIT_VERSION)/contrib/completion/git-completion.bash > "${HOME}/.bash_completion.d/git-completion.bash"
+ifeq ($(UNAME),Darwin)
+RUST_TRIPLE := $(shell uname -m)-apple-darwin
+else ifeq ($(UNAME),Linux)
+RUST_TRIPLE := $(shell uname -m)-unknown-linux-gnu
+endif
 
+.PHONY: rustup
+rustup: $(HOME)/.cargo/bin/rustup
+$(HOME)/.cargo/bin/rustup:
+	@echo "==> Installing rustup"
+	@curl https://sh.rustup.rs -sSf | sh -s -- --no-modify-path -y
 
-keyservers:			## Download the latest public certificate for sks-keyservers.
-	@echo "==> Retrieving the latest sks-keyservers.net CA"
-	$(DOWNLOADER) $(DL_OPTS) https://sks-keyservers.net/sks-keyservers.netCA.pem > "${HOME}/.gnupg/sks-keyservers.netCA.pem"
+.PHONY: rust
+rust:				##@languages Install the latest stable Rust toolchain (uses rustup).
+rust: $(HOME)/.rustup/toolchains/stable-$(RUST_TRIPLE)
+$(HOME)/.rustup/toolchains/stable-$(RUST_TRIPLE): | $(HOME)/.cargo/bin/rustup
+	@echo "==> Installing Rust stable"
+	@rustup toolchain install stable
+	@echo "==> Installing Rust components (rust-src, rust-analysis, Rust Language Server, rustfmt)"
+	@rustup component add --toolchain stable rust-src rust-analysis rls rustfmt clippy
 
+.PHONY: rust-nightly
+rust-nightly:			##@languages Install the latest nightly Rust toolchain (uses rustup).
+rust: $(HOME)/.rustup/toolchains/nightly-$(RUST_TRIPLE)
+$(HOME)/.rustup/toolchains/nightly-$(RUST_TRIPLE): | $(HOME)/.cargo/bin/rustup
+	@echo "==> Installing Rust nightly"
+	@rustup toolchain install nightly
+	@echo "==> Installing Rust components (rust-src)"
+	@rustup component add --toolchain nightly rust-src
 
-.PHONY: default build all bin dotfiles tools misc keyservers
-
-include $(CURDIR)/vers.mk
-include $(CURDIR)/mk/help.mk
-include $(CURDIR)/mk/cross-platform.mk
-include $(CURDIR)/mk/anyenv.mk
-include $(CURDIR)/mk/go.mk
-include $(CURDIR)/mk/python.mk
-include $(CURDIR)/mk/ruby.mk
-include $(CURDIR)/mk/rust.mk
+#include $(CURDIR)/vers.mk
+#include $(CURDIR)/mk/help.mk
+#include $(CURDIR)/mk/cross-platform.mk
+#include $(CURDIR)/mk/anyenv.mk
+#include $(CURDIR)/mk/go.mk
+#include $(CURDIR)/mk/python.mk
+#include $(CURDIR)/mk/ruby.mk
 
 -include $(CURDIR)/mk/os/$(UNAME).mk
