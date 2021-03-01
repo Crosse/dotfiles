@@ -1,9 +1,26 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # This script installs and verifies pkgsrc for OSX.
 
-BOOTSTRAP_TAR="bootstrap-trunk-x86_64-20191204.tar.gz"
-BOOTSTRAP_SHA="e4c585ca0d80ccac887824432e94e5715abc85ec"
+case $(uname) in
+    Darwin)
+        case $(sw_vers -productVersion) in
+            10.15.*)
+                BOOTSTRAP_TAR="bootstrap-macos14-trunk-x86_64-20200716.tar.gz"
+                BOOTSTRAP_SHA="395be93bf6b3ca5fbe8f0b248f1f33181b8225fe"
+                ;;
+            11.*)
+                BOOTSTRAP_TAR="bootstrap-macos11-trunk-x86_64-20201112.tar.gz"
+                BOOTSTRAP_SHA="b3c0c4286a2770bf5e3caeaf3fb747cb9f1bc93c"
+                ;;
+        esac
+        ;;
+esac
 ######################################################
+
+if [[ -z $BOOTSTRAP_TAR ]]; then
+    echo "I don't know how to install pkgsrc on this platform!" 1>&2
+    exit 1
+fi
 
 . funcs.sh
 
