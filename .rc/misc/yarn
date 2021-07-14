@@ -1,7 +1,0 @@
-# vim: set ft=sh: -*- mode: sh -*-
-
-# Only for interactive shells.
-[[ "${-}" != *i* ]] && return
-
-append_to_path "$HOME/.yarn/bin"
-append_to_path "$HOME/.config/yarn/global/node_modules/.bin"

@@ -1,9 +1,0 @@
-# vim: set ft=sh: -*- mode: sh -*-
-
-# Only for interactive shells.
-[[ "${-}" != *i* ]] && return
-
-# If the Travis-CI (https://travis-ci.org) command line tool is installed, set it up.
-[[ -d "${HOME}/.travis" ]] || return
-
-[ -f "${HOME}/.travis/travis.sh" ] && source "${HOME}/.travis/travis.sh"
