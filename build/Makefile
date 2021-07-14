@@ -41,7 +41,7 @@ $(HOME)/.local/bin/dotgit:
 .PHONY: dotfiles
 dotfiles:			## Symlink all dotfiles to $HOME.
 dotfiles: dotgit
-	${HOME}/.local/bin/dotgit restore -v
+	cd .. && ${HOME}/.local/bin/dotgit restore -v
 
 .PHONY: font-install
 font-install: $(HOME)/code/go/bin/font-install
