@@ -35,6 +35,10 @@ case "${shell#-}" in
                 ;;
         esac
         ;;
+    sh)
+        # don't even try.
+        return
+        ;;
 esac
 
 # XDG Base Directory specification.
@@ -42,6 +46,7 @@ export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-${HOME}/.config}
 export XDG_CACHE_HOME=${XDG_CACHE_HOME:-${HOME}/.cache}
 export XDG_DATA_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}
 
+export UNAME=$(uname -s)
 
 ######## Functions required for the rest of this behemoth to operate.
 
@@ -89,7 +94,7 @@ prepend_to_path() {
     fi
 }
 
-function append_to_path {
+append_to_path() {
     # Append a path to a path variable.  If the path already exists, it
     # will be removed first.
     #
@@ -197,7 +202,7 @@ if [[ "$-" == *i* ]]; then
         fi
     fi
 
-    function get_best_term {
+    get_best_term() {
         local t term colors
         t=${1%-*color}
 
@@ -397,7 +402,7 @@ if [[ "$-" == *i* ]]; then
     done
 
 
-    case "$(uname)" in
+    case "$UNAME" in
         Darwin)
             # Darwin/OS X includes some GNU things and some less-than-GNU
             # things, but color options exist on the default 'ls' and 'grep'
@@ -555,7 +560,7 @@ if [[ "$-" == *i* ]]; then
 
 
     ### TURN OFF THE FRIGGIN' CONSOLE BELL.
-    if [ -n "$DISPLAY" -a "$(uname -s)" != "Darwin" ]; then
+    if [[ -n $DISPLAY && $UNAME != "Darwin" ]]; then
         [[ -n "$(command -v xset)" ]] && xset -b
     else
         [[ -n "$(command -v setterm)" ]] && setterm --blength 0 2> /dev/null
@@ -702,6 +707,55 @@ export GOPATH="${HOME}/code/go"
 prepend_to_path "${GOPATH}/bin"
 
 
+### GnuPG
+if [[ "$-" == *i* && -x "$(command -v gpg-agent)" ]]; then
+    unset GPG_TTY
+    unset GPG_AGENT_INFO
+    unset SSH_AUTH_SOCK
+    unset SSH_AGENT_PID
+
+    # For versions of GPG less than 2.1.0 the GPG_AGENT_INFO environment
+    # variable is still a thing and needs to be set appropriately.
+    #
+    # I hear you asking, "who still installs versions of GPG from 2009?"
+    # RHEL/CentOS 6, my friend. Oh, how I hate it.
+    #
+    # Ping from 2021: when exactly are you going to remove this?
+    gpg_version=$(gpg-agent --version | awk '/GnuPG/ { print $3 }')
+    major=${gpg_version:0:1}
+    minor=${gpg_version:2:1}
+    revision=${gpg_version:4}
+    if [[ $major -le 1 || ($major -eq 2 && $minor -eq 0 || ($minor -eq 1 && $revision -eq 0)) ]]; then
+        needs_gpg_agent_info=1
+    fi
+    unset gpg_version major minor revision
+
+    if [[ -n $needs_gpg_agent_info ]]; then
+        pgrep -u "$USER" -x gpg-agent &>/dev/null
+        if [ $? -ne 0 ]; then
+            eval $(gpg-agent --daemon --write-env-file "${HOME}/.gnupg/agent-info")
+        else
+            if [ -f "${HOME}/.gnupg/agent-info" ]; then
+                . "${HOME}/.gnupg/agent-info"
+                export GPG_AGENT_INFO SSH_AUTH_SOCK SSH_AGENT_PID
+            fi
+        fi
+    else
+        gpg-connect-agent -q /bye
+        export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+    fi
+
+    function gpg_update_tty {
+        if pgrep gpg-agent >/dev/null; then
+            gpg-connect-agent -q UPDATESTARTUPTTY /bye >/dev/null
+        fi
+    }
+
+    export GPG_TTY=$(tty)
+    export PROMPT_COMMAND="gpg_update_tty;$PROMPT_COMMAND"
+fi
+
+
 ### Java
 prepend_to_path "${HOME}/code/jdk/Contents/Home/bin"
 
@@ -720,7 +774,7 @@ fi
 prepend_to_path "/usr/local/maven/bin"
 
 
-### acTex
+### MacTex
 append_to_path /Library/TeX/texbin
 
 
@@ -739,11 +793,16 @@ append_to_path /Library/TeX/texbin
 #append_to_path "${HOME}/.npm-global/bin"
 
 
+### Yarn
+prepend_to_path "$HOME/.yarn/bin"
+prepend_to_path "$HOME/.config/yarn/global/node_modules/.bin"
+
+
 ### PlatformIO
-#if [[ -n "$(command -v platformio)" ]]; then
-#    eval "$(_PLATFORMIO_COMPLETE=source platformio)"
-#    eval "$(_PIO_COMPLETE=source pio)"
-#fi
+if [[ "$-" == *i* && -n "$(command -v platformio)" ]]; then
+    eval "$(_PLATFORMIO_COMPLETE=source platformio)"
+    eval "$(_PIO_COMPLETE=source pio)"
+fi
 
 
 ### Python
@@ -756,18 +815,22 @@ if [[ -d "${HOME}/.pyenv/bin" ]]; then
         eval "$(pyenv virtualenv-init -)"
     fi
 else
-    # On OSX, Python puts things here.
-    prepend_to_path "${HOME}/Library/Python/2.7/bin/"
+    if [[ $UNAME -eq "Darwin" ]]; then
+        # On OSX, Apple puts Python things here.
+        for ver in "${HOME}"/Library/Python/*; do
+            prepend_to_path "$ver"
+        done
+    fi
 fi
+
+# Get rid of the deprecation warning for Python 2.
+export PYTHONWARNINGS=ignore:Please.upgrade::pip._internal.cli.base_command
+
 
 ### Ruby
 for d in ~/.gem/ruby/*; do
     append_to_path "$d/bin"
 done
-
-# Get rid of the deprecation warning for Python 2.
-export PYTHONWARNINGS=ignore:Please.upgrade::pip._internal.cli.base_command
-
 
 ### Rust
 prepend_to_path "${HOME}/.cargo/bin"
@@ -854,11 +917,6 @@ if [[ "$-" == *i* ]]; then
         fi
     fi
 fi
-
-
-### Yarn
-prepend_to_path "$HOME/.yarn/bin"
-prepend_to_path "$HOME/.config/yarn/global/node_modules/.bin"
 
 
 # These are at the bottom because we always want them to be first in the search order.
