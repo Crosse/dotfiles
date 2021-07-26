@@ -146,7 +146,8 @@ prepend_to_path /usr/pkg/bin                        # For pkgsrc on Darwin, illu
 prepend_to_path /opt/pkg/bin                        # For pkgsrc on Darwin, illumos
 prepend_to_path /opt/local/bin                      # illumos
 
-prepend_to_path /usr/local/git/bin
+prepend_to_path "${HOME}/.local/bin"
+prepend_to_path "${HOME}/bin"
 
 for link in "${HOME}"/.paths.d/*; do
     [[ ! -h $link ]] && continue
@@ -844,7 +845,7 @@ export PYTHONWARNINGS=ignore:Please.upgrade::pip._internal.cli.base_command
 
 ### Ruby
 for d in ~/.gem/ruby/*; do
-    append_to_path "$d/bin"
+    prepend_to_path "$d/bin"
 done
 
 ### Rust
