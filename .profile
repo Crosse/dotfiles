@@ -141,8 +141,6 @@ prepend_to_path /usr/pkg/bin                        # For pkgsrc on Darwin, illu
 prepend_to_path /opt/pkg/bin                        # For pkgsrc on Darwin, illumos
 prepend_to_path /opt/local/bin                      # illumos
 
-append_to_path  /opt/X11/bin                        # XQuartz
-
 prepend_to_path /usr/local/git/bin
 
 for link in "${HOME}"/.paths.d/*; do
@@ -151,6 +149,7 @@ for link in "${HOME}"/.paths.d/*; do
         "Darwin")
             path=$(readlink "$link")
             if [[ $path != /* ]]; then # relative path
+                rc_log "resolving $link using python; use a full path for the target to avoid this"
                 path=$(python -c "import os; print(os.path.realpath('$link'))")
             fi
             ;;
@@ -158,7 +157,6 @@ for link in "${HOME}"/.paths.d/*; do
             path=$(readlink -f "$link")
             ;;
     esac
-    rc_log "Adding $path to PATH"
     [[ -n ${path:-} ]] && prepend_to_path "$path"
 done
 
