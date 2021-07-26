@@ -54,6 +54,11 @@ rc_log() {
     [[ $- == *i* ]] && printf "%s\n" "${*}" 1>&2
 }
 
+rc_source_file() {
+    #shellcheck disable=SC1090
+    [[ -r $1 ]] && . "$1"
+}
+
 remove_from_path() {
     # Remove a path from a path variable.
     #
@@ -536,11 +541,6 @@ if [[ "$-" == *i* ]]; then
 
    ### Shell Completion
     if [[ $SHELL == *bash* ]]; then
-        rc_source_file() {
-            #shellcheck disable=SC1090
-            [[ -r $1 ]] && . "$1"
-        }
-
         if ! shopt -oq posix ; then
             # Some standard paths.
             rc_source_file /usr/share/bash-completion/bash_completion
@@ -933,6 +933,7 @@ if [[ "$-" == *i* ]]; then
     fi
 fi
 
+rc_source_file "${HOME}/.rc/local"
 
 # These are at the bottom because we always want them to be first in the search order.
 prepend_to_path "${HOME}/.local/bin"
