@@ -145,6 +145,23 @@ append_to_path  /opt/X11/bin                        # XQuartz
 
 prepend_to_path /usr/local/git/bin
 
+for link in "${HOME}"/.paths.d/*; do
+    [[ ! -h $link ]] && continue
+    case $UNAME in
+        "Darwin")
+            path=$(readlink "$link")
+            if [[ $path != /* ]]; then # relative path
+                path=$(python -c "import os; print(os.path.realpath('$link'))")
+            fi
+            ;;
+        *)
+            path=$(readlink -f "$link")
+            ;;
+    esac
+    rc_log "Adding $path to PATH"
+    [[ -n ${path:-} ]] && prepend_to_path "$path"
+done
+
 
 # Shell-agnostic things to do if the shell is interactive.
 if [[ "$-" == *i* ]]; then
