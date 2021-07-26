@@ -510,14 +510,15 @@ if [[ "$-" == *i* ]]; then
         export LC_CTYPE="$LANG"
     fi
 
-    # Look for Vim...
-    EDITOR="$(command -v vim)"
-    if [ -z "$EDITOR" ]; then
-        # ...but use vi if Vim doesn't exist.
-        EDITOR="vi"
-    fi
-    VISUAL=$EDITOR
-    export EDITOR VISUAL
+    for editor in eclient emacsclient emacs vim nvi vi; do
+        if command -v $editor >/dev/null; then
+            [[ $editor == "emacsclient" ]] && editor='emacsclient -c -t -a ""'
+            export EDITOR=$editor VISUAL=$editor
+            alias e=$editor
+            unset editor
+            break
+        fi
+    done
 
     PAGER="$(command -v less)"
     if [ -x "${PAGER}" ]; then
