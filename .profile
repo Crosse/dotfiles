@@ -780,11 +780,11 @@ prepend_to_path "${HOME}/code/jdk/Contents/Home/bin"
 if [ -n "$(command -v java_home)" ]; then
     java_home=$(command -v java_home)
 elif [ -x /usr/libexec/java_home ]; then
-    java_home=/usr/libexec_java_home
+    java_home=/usr/libexec/java_home
 fi
 
 if [[ -n $java_home ]]; then
-    JAVA_HOME=$java_home
+    JAVA_HOME=$($java_home)
     export JAVA_HOME
 fi
 
