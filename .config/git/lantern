@@ -1,0 +1,5 @@
+# -*- mode: conf-toml -*-
+
+[user]
+  name = Seth Wright
+  email = seth@getlantern.org

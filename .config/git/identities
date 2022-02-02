@@ -1,9 +1,13 @@
-# vim: set ft=gitconfig ts=4 sw=4 et:
+# vim: set ft=gitconfig ts=4 sw=4 et: -*- mode: conf-toml -*-
 
 [user]
-    name = Seth Wright
-    email = seth.wright@fireeye.com
-    signingkey = 7D35F6C2A7095E278D0A5BBCEC32CF23823D863A
+    signingkey = E0F3B7201B62ACCD
+
+[include]
+    path = "personal"
+
+[includeIf "gitdir:~/code/lantern/"]
+    path = "lantern"
 
 [credential "https://bitbucket.org"]
     username = crosse3
