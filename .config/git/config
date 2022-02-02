@@ -46,16 +46,13 @@
     commit-style = blue
     commit-decoration-style = green
 
-[url "git@github.com:"]
-    # Allows "git checkout github:user/repo.git"
-    insteadOf = github:
-
-[url "git@bitbucket.org:"]
-    # Allows "git checkout bb:user/repo.git"
-    insteadOf = bb:
-[credential]
-	helper = osxkeychain
-[pull]
-	rebase = true
 [init]
-	defaultBranch = main
+    defaultBranch = main
+
+[url "git@github.com:"]
+    insteadOf = https://github.com/
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
