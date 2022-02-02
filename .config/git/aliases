@@ -1,4 +1,4 @@
-# vim: set ft=gitconfig ts=4 sw=4 et:
+# vim: set ft=gitconfig ts=4 sw=4 et: -*- mode: conf-toml -*-
 [alias]
     dc = diff --cached
     st = status
@@ -9,8 +9,8 @@
     first = log --reverse
     fap = fetch --all --prune
 
-    ls = log --graph --pretty='%C(bold magenta)%h%Creset [%aN, %ar] %C(bold cyan)%s%Creset %C(green)%d%Creset'
-    sl = log -20 --graph --pretty='%C(bold magenta)%h%Creset [%aN, %ar] %C(bold cyan)%s%Creset %C(green)%d%Creset'
+    ls = log --graph --pretty='%C(bold magenta)%h%Creset [%aN(%G?), %ar] %C(bold cyan)%s%Creset %C(green)%d%Creset'
+    sl = log -20 --graph --pretty='%C(bold magenta)%h%Creset [%aN(%G?), %ar] %C(bold cyan)%s%Creset %C(green)%d%Creset'
 
     # Thin out older metadata within the repository, reduceses filesystem footprint
     trim = !git reflog expire --expire=now --all && git gc --prune=now
