@@ -21,9 +21,8 @@
 [push]
     default = simple
 
-[gpg]
-    # git uses gpg by default. Tell it to use gpg2 instead.
-    program = gpg2
+[commit]
+    gpgsign = true
 
 [gui]
     fontdiff = -family \"Liberation Mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
