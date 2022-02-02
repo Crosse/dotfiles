@@ -512,7 +512,10 @@ if [[ "$-" == *i* ]]; then
 
     for editor in eclient emacsclient emacs vim nvi vi; do
         if command -v $editor >/dev/null; then
-            [[ $editor == "emacsclient" ]] && editor='emacsclient -c -t -a ""'
+            if [[ $editor == "emacsclient" ]]; then
+                editor='emacsclient -c -t -a ""'
+                em() { emacsclient -c -a "" "$@" & disown; }
+            fi
             export EDITOR=$editor VISUAL=$editor
             alias e=$editor
             unset editor
@@ -544,10 +547,16 @@ if [[ "$-" == *i* ]]; then
    ### Shell Completion
     if [[ $SHELL == *bash* ]]; then
         if ! shopt -oq posix ; then
-            # Some standard paths.
-            rc_source_file /usr/share/bash-completion/bash_completion
-            rc_source_file /usr/local/share/bash-completion/bash_completion
-            rc_source_file /etc/bash_completion
+            # Some standard paths. Have I mentioned I like brace expansion?
+            done=
+            for f in /{{usr{,/local},opt/pkg}/share/bash-completion,etc}/bash_completion; do
+                if [[ -r "$f" ]]; then
+                    rc_source_file "$f"
+                    done=1
+                    break
+                 fi
+            done
+
             rc_source_file "${HOME}/.bash_completion"
 
             if [[ -d ${HOME}/.bash_completion.d ]]; then
@@ -556,16 +565,11 @@ if [[ "$-" == *i* ]]; then
                 done
             fi
 
-            # pkgsrc on OSX
-            rc_source_file /opt/pkg/share/bash-completion/bash_completion
-
-            # pkgsrc on Linux
-            rc_source_file /usr/pkg/share/bash-completion/bash_completion
-
             # Homebrew
-            if [ "$(command -v brew)" ]; then
+            if [[ -z $done && "$(command -v brew)" ]]; then
                 rc_source_file "$(brew --prefix)/etc/bash_completion"
             fi
+            unset done
 
             # git on OSX, when installed via the official DMG package.
             rc_source_file /usr/local/git/contrib/completion/git-completion.bash
@@ -784,30 +788,34 @@ elif [ -x /usr/libexec/java_home ]; then
 fi
 
 if [[ -n $java_home ]]; then
-    JAVA_HOME=$($java_home)
-    export JAVA_HOME
+    JAVA_HOME=$($java_home --failfast --arch $(arch))
+    [[ -n $JAVA_HOME ]] && export JAVA_HOME || unset JAVA_HOME
 fi
 
 prepend_to_path "/usr/local/maven/bin"
 
 
 ### MacTex
-append_to_path /Library/TeX/texbin
+if [[ -r /Library/TeX/texbin ]]; then
+    # fully resolve the path here to get around an issue with makewhatis(1) getting upset that
+    # /Library/TeX/texbin/man is a symlink instead of a directory.
+    append_to_path $(realpath /Library/TeX/texbin)
+fi
 
 
-### Node.js
-#NVM_DIR="$XDG_CONFIG_HOME/nvm"
-#
-#if [[ -r ${NVM_DIR}/nvm.sh ]]; then
-#    export NVM_DIR
-#
-#    #shellcheck source=../../.config/nvm/nvm.sh
-#    . "${NVM_DIR}"/nvm.sh
-#else
-#    unset NVM_DIR
-#fi
-#
-#append_to_path "${HOME}/.npm-global/bin"
+## Node.js
+NVM_DIR="$XDG_CONFIG_HOME/nvm"
+
+if [[ -r ${NVM_DIR}/nvm.sh ]]; then
+    export NVM_DIR
+
+    #shellcheck source=../../.config/nvm/nvm.sh
+    . "${NVM_DIR}"/nvm.sh
+else
+    unset NVM_DIR
+fi
+
+append_to_path "${HOME}/.npm-global/bin"
 
 
 ### Yarn
@@ -835,13 +843,20 @@ else
     if [[ $UNAME -eq "Darwin" ]]; then
         # On OSX, Apple puts Python things here.
         for ver in "${HOME}"/Library/Python/*; do
-            prepend_to_path "$ver"
+            prepend_to_path "$ver/bin"
         done
     fi
 fi
 
 # Get rid of the deprecation warning for Python 2.
 export PYTHONWARNINGS=ignore:Please.upgrade::pip._internal.cli.base_command
+
+if [[ -d "${HOME}/.poetry/bin" ]]; then
+    prepend_to_path "${HOME}/.poetry/bin"
+    if [[ ! -f "${HOME}/.bash_completion.d/poetry" ]]; then
+        "${HOME}/.poetry/bin/poetry" completions bash > "${HOME}/.bash_completion.d/poetry"
+    fi
+fi
 
 
 ### Ruby
@@ -869,19 +884,7 @@ if [[ "$-" == *i* ]]; then
     # ControlPath ~/.cache/ssh/ssh_mux_%C
     [[ -w "${HOME}/.cache/ssh" ]] || mkdir -p "${HOME}/.cache/ssh"
 
-    # bash completion follows; no reason to continue if we're not bash
-    if [[ $SHELL == *bash* ]]; then
-        # Complete SSH hostnames based on what is in ssh config.
-        [[ -e "${HOME}/.ssh/config" ]] && complete -o "default" \
-            -o "nospace"                                        \
-            -W "$(grep "^Host" "${HOME}/.ssh/config" |          \
-            grep -v "[?*]" | cut -d " " -f2 |                   \
-            tr ' ' '\n')" scp sftp ssh
-
-        # Wire up completion for known_hosts to ssh if the function exists.
-        # I have no idea why this isn't working for me by default, but...okay.
-        declare -f _known_hosts >/dev/null && complete -F _known_hosts ssh
-    fi
+    export HOSTFILE=~/.config/hosts
 fi
 
 
@@ -933,6 +936,11 @@ if [[ "$-" == *i* ]]; then
             complete -F _t t
         fi
     fi
+fi
+
+### direnv
+if [[ -n "$(command -v direnv)" ]]; then
+    eval "$(direnv hook bash)"
 fi
 
 rc_source_file "${HOME}/.rc/local"
