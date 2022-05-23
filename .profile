@@ -943,6 +943,12 @@ if [[ -n "$(command -v direnv)" ]]; then
     eval "$(direnv hook bash)"
 fi
 
+### fly.io
+if [[ -r "${HOME}/.fly/bin/flyctl" ]]; then
+    append_to_path "${HOME}/.fly/bin"
+    export FLYCTL_INSTALL="/Users/seth/.fly"
+fi
+
 rc_source_file "${HOME}/.rc/local"
 
 # These are at the bottom because we always want them to be first in the search order.
