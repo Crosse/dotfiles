@@ -949,6 +949,12 @@ if [[ -r "${HOME}/.fly/bin/flyctl" ]]; then
     export FLYCTL_INSTALL="/Users/seth/.fly"
 fi
 
+### VSCode
+vsc_dir="/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+if [[ -r "$vsc_dir/code" ]]; then
+    prepend_to_path "$vsc_dir"
+fi
+
 rc_source_file "${HOME}/.rc/local"
 
 # These are at the bottom because we always want them to be first in the search order.
