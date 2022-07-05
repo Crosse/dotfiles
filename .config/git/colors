@@ -4,9 +4,9 @@
     ui =  true
 
 [color "diff"]
-    meta = 227
+    meta = blue
     frag = magenta bold
-    commit = 227 bold
+    commit = blue bold
     old = red bold
     new = green bold
     whitespace = red reverse
