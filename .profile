@@ -915,9 +915,12 @@ fi
 
 
 ### Ruby
+export GEM_HOME="${HOME}/.gem"
+
 for d in ~/.gem/ruby/*; do
     prepend_to_path "$d/bin"
 done
+
 
 ### Rust
 prepend_to_path "${HOME}/.cargo/bin"
@@ -1009,6 +1012,9 @@ vsc_dir="/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 if [[ -r "$vsc_dir/code" ]]; then
     prepend_to_path "$vsc_dir"
 fi
+
+### Flutter
+prepend_to_path "${HOME}/code/third-party/flutter/bin"
 
 rc_source_file "${HOME}/.rc/local"
 
