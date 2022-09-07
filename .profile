@@ -783,55 +783,6 @@ export GOPATH="${HOME}/code/go"
 prepend_to_path "${GOPATH}/bin"
 
 
-### GnuPG
-if [[ "$-" == *i* && -x "$(command -v gpg-agent)" ]]; then
-    unset GPG_TTY
-    unset GPG_AGENT_INFO
-    unset SSH_AUTH_SOCK
-    unset SSH_AGENT_PID
-
-    # For versions of GPG less than 2.1.0 the GPG_AGENT_INFO environment
-    # variable is still a thing and needs to be set appropriately.
-    #
-    # I hear you asking, "who still installs versions of GPG from 2009?"
-    # RHEL/CentOS 6, my friend. Oh, how I hate it.
-    #
-    # Ping from 2021: when exactly are you going to remove this?
-    gpg_version=$(gpg-agent --version | awk '/GnuPG/ { print $3 }')
-    major=${gpg_version:0:1}
-    minor=${gpg_version:2:1}
-    revision=${gpg_version:4}
-    if [[ $major -le 1 || ($major -eq 2 && $minor -eq 0 || ($minor -eq 1 && $revision -eq 0)) ]]; then
-        needs_gpg_agent_info=1
-    fi
-    unset gpg_version major minor revision
-
-    if [[ -n $needs_gpg_agent_info ]]; then
-        pgrep -u "$USER" -x gpg-agent &>/dev/null
-        if [ $? -ne 0 ]; then
-            eval $(gpg-agent --daemon --write-env-file "${HOME}/.gnupg/agent-info")
-        else
-            if [ -f "${HOME}/.gnupg/agent-info" ]; then
-                . "${HOME}/.gnupg/agent-info"
-                export GPG_AGENT_INFO SSH_AUTH_SOCK SSH_AGENT_PID
-            fi
-        fi
-    else
-        gpg-connect-agent -q /bye
-        export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-    fi
-
-    function gpg_update_tty {
-        if pgrep gpg-agent >/dev/null; then
-            gpg-connect-agent -q UPDATESTARTUPTTY /bye >/dev/null
-        fi
-    }
-
-    export GPG_TTY=$(tty)
-    export PROMPT_COMMAND="gpg_update_tty;$PROMPT_COMMAND"
-fi
-
-
 ### Java
 prepend_to_path "${HOME}/code/jdk/Contents/Home/bin"
 
@@ -943,6 +894,12 @@ if [[ "$-" == *i* ]]; then
     [[ -w "${HOME}/.cache/ssh" ]] || mkdir -p "${HOME}/.cache/ssh"
 
     export HOSTFILE=~/.config/hosts
+
+    if [ -z "$SSH_CLIENT" ]; then
+        export SSH_AUTH_SOCK="${HOME}/.ssh/ssh-agent.sock"
+        ssh-add -l 2>/dev/null > /dev/null
+        [ $? -ge 2 ] && ssh-agent -a "$SSH_AUTH_SOCK" > /dev/null
+    fi
 fi
 
 
