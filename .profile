@@ -900,6 +900,26 @@ if [[ "$-" == *i* ]]; then
         ssh-add -l 2>/dev/null > /dev/null
         [ $? -ge 2 ] && ssh-agent -a "$SSH_AUTH_SOCK" > /dev/null
     fi
+
+    case $UNAME in
+        "Darwin")
+            LIBYKCS11=/usr/local/lib/libykcs11.dylib
+            ;;
+        "Linux")
+            LIBYKCS11=/usr/local/lib/libykcs11.so
+    esac
+
+    export LIBYCKS11
+
+    add-keys() {
+        ssh-add -D
+        ssh-add
+        if [ -n "$LIBYKCS11" ]; then
+            ssh-add -e "$LIBYKCS11"
+            ssh-add -s "$LIBYKCS11"
+        fi
+        ssh-add -l
+    }
 fi
 
 
