@@ -1,8 +1,5 @@
 # vim: set ft=gitconfig ts=4 sw=4 et: -*- mode: conf-toml -*-
 
-[user]
-    signingkey = E0F3B7201B62ACCD
-
 [include]
     path = "personal"
 

@@ -1,3 +1,6 @@
+# vim: set ft=gitconfig ts=4 sw=4 et: -*- mode: conf-toml -*-
+
 [user]
-    name = Seth Wright
-    email = seth@crosse.org
+    name        = Seth Wright
+    email       = seth@crosse.org
+    signingkey  = ~/.ssh/id_yubikey_geode.pub

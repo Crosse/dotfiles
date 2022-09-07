@@ -1,5 +1,6 @@
-# -*- mode: conf-toml -*-
+# vim: set ft=gitconfig ts=4 sw=4 et: -*- mode: conf-toml -*-
 
 [user]
-  name = Seth Wright
-  email = seth@getlantern.org
+    name        = Seth Wright
+    email       = seth@getlantern.org
+    signingkey  = ~/.ssh/id_yubikey_prism.pub
