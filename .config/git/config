@@ -1,4 +1,4 @@
-# vim: set ft=gitconfig ts=4 sw=4 et:
+# vim: set ft=gitconfig ts=4 sw=4 et: -*- mode: conf-toml -*-
 
 [include]
     path = identities
@@ -9,35 +9,15 @@
 [advice]
     detachedHead = false
 
-[diff]
-    compactionHeuristic = true
-    color = auto
-    algorithm = patience
-    colorMoved = default
-
-[help]
-    format = man
-
-[push]
-    default = simple
-
 [commit]
     gpgsign = true
-
-[gui]
-    fontdiff = -family \"Liberation Mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
-    diffopts = --patience
-    fontui = -family \"Liberation Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
-
-[pull]
-    rebase = true
 
 [core]
     excludesfile = ~/.gitignore_global
     pager = delta
 
-[interactive]
-    diffFilter = delta --color-only
+[credential]
+    helper = /usr/local/share/gcm-core/git-credential-manager-core
 
 [delta]
     light = true
@@ -46,13 +26,43 @@
     commit-style = blue
     commit-decoration-style = green
 
-[init]
-    defaultBranch = main
+[diff]
+    compactionHeuristic = true
+    color = auto
+    algorithm = patience
+    colorMoved = default
 
-[url "git@github.com:"]
-    insteadOf = https://github.com/
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
+[gpg]
+    format = ssh
+
+[gpg "ssh"]
+    allowedSignersFile = ~/.ssh/allowed_signers
+
+[gui]
+    fontdiff = -family \"Liberation Mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+    diffopts = --patience
+    fontui = -family \"Liberation Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+
+[help]
+    format = man
+
+[init]
+    defaultBranch = main
+
+[interactive]
+    diffFilter = delta --color-only
+
+[pull]
+    rebase = true
+
+[push]
+    default = simple
+
+[url "git@github.com:"]
+    insteadOf = https://github.com/
