@@ -510,18 +510,24 @@ if [[ "$-" == *i* ]]; then
         export LC_CTYPE="$LANG"
     fi
 
-    for editor in eclient emacsclient emacs vim nvi vi; do
-        if command -v $editor >/dev/null; then
-            if [[ $editor == "emacsclient" ]]; then
-                editor='emacsclient -c -t -a ""'
-                em() { emacsclient -c -a "" "$@" & disown; }
+    if [[ -n "$INSIDE_EMACS" && -x "${HOME}/bin/find_file_cmd" ]]; then
+        export EDITOR="${HOME}/bin/find_file_cmd"
+        export VISUAL=$EDITOR
+        alias e=$EDITOR
+    else
+        for editor in eclient emacsclient emacs vim nvi vi; do
+            if command -v $editor >/dev/null; then
+                if [[ $editor == "emacsclient" ]]; then
+                    editor='emacsclient -c -t -a ""'
+                    em() { emacsclient -c -a "" "$@" & disown; }
+                fi
+                export EDITOR=$editor VISUAL=$editor
+                alias e=$editor
+                unset editor
+                break
             fi
-            export EDITOR=$editor VISUAL=$editor
-            alias e=$editor
-            unset editor
-            break
-        fi
-    done
+        done
+    fi
 
     PAGER="$(command -v less)"
     if [ -x "${PAGER}" ]; then
@@ -710,12 +716,61 @@ fi
 if [[ "$-" == *i* ]]; then
     if [[ -d /Applications/Emacs.app ]]; then
         [[ -e "${HOME}/bin/emacs" ]] || ln -sf /Applications/Emacs.app/Contents/MacOS/Emacs "${HOME}/bin/emacs"
-        [[ -e "${HOME}/bin/emacsclient" ]] || ln -sf /Applications/Emacs.app/Contents/MacOS/bin/emacsclient "${HOME}/bin/emacsclient"
+        [[ -e "${HOME}/bin/emacsclient" ]] || ln -sf /Applications/Emacs.app/Contents/MacOS/bin-$(uname -m)-11/emacsclient "${HOME}/bin/emacsclient"
     fi
 
     if [[ -n "$(command -v emacsclient)" ]]; then
-        alias e='emacsclient -t -a ""'
+        if [[ -n "$INSIDE_EMACS" ]]; then
+            alias e="${HOME}/bin/find_file_cmd"
+            alias em="${HOME}/bin/find_file_cmd"
+        else
+            alias e='emacsclient --tty --alternate-editor ""'
+            alias emacs='emacsclient --create-frame --alternate-editor ""'
+        fi
     fi
+fi
+
+# Used for https://github.com/akermu/emacs-libvterm
+vterm_printf() {
+    if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ] ); then
+        # Tell tmux to pass the escape sequences through
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
+    fi
+}
+
+if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
+    clear() {
+        vterm_printf "51;Evterm-clear-scrollback"
+        tput clear
+    }
+
+    vterm_prompt_end() {
+        vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
+    }
+    PS1=$PS1'\[$(vterm_prompt_end)\]'
+
+    vterm_cmd() {
+        local vterm_elisp
+        vterm_elisp=""
+        while [ $# -gt 0 ]; do
+            vterm_elisp="$vterm_elisp""$(printf '"%s" ' "$(printf "%s" "$1" | sed -e 's|\\|\\\\|g' -e 's|"|\\"|g')")"
+            shift
+        done
+        vterm_printf "51;E$vterm_elisp"
+    }
+
+    find_file() {
+        vterm_cmd find-file "$(realpath "${@:-.}")"
+    }
+
+    open_file_below() {
+        vterm_cmd find-file-below "$(realpath "${@:-.}")"
+    }
 fi
 
 ### Erlang (and probably Elixir?)
