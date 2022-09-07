@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use 5.010;
+use v5.10.1;
 use feature qw{ say };
 no warnings 'experimental';
 
@@ -45,51 +45,69 @@ sub timedelta {
 }
 
 sub batt_darwin {
-    my $re = qr/InternalBattery.*?(\d+)%; (\w+); \(?((.*) remaining|no estimate)\)?/; 
+    my $re = qr/InternalBattery.*?(\d+)%; ([^;]+); \(?((.*) remaining|no estimate|not charging)\)?/;
     my @output = split "\n", `pmset -g ps`;
+
+    my $adapter_attached = 0;
     foreach (@output) {
+        if ($_ =~ qr/Now drawing from 'AC Power'/) {
+            $adapter_attached = 1;
+            next;
+        }
+
         if ($_ =~ $re) {
             my $state;
+
             if ($2 eq "charged") {
                 $state = 3;
-                my $icon = get_battery_icon($1, $state);
-                printf("%s (%s%%)\n", chr($icon), $1);
+            } elsif ($2 eq "AC attached" && $3 eq "not charging") {
+                # Probably macOS waiting to fully charge until later in the day.
+                $state = 4;
             } else {
-                $state = $UPOWER_STATE{$2};
-                my $icon = get_battery_icon($1, $state);
-                printf("%s (%s)\n", chr($icon), $4);
+                $state = $UPOWER_STATE{$3} || 0;
             }
+
+            my $icon = get_battery_icon($1, $state, $adapter_attached);
+
+            my $adapter;
+            if ($adapter_attached) {
+                $adapter = 0xfba3;
+            } else {
+                $adapter = 0xfba4;
+            }
+
+            printf("%s %s (%s%%)\n", chr($adapter), chr($icon), $1);
             return;
         }
     }
 }
 
 sub get_battery_icon {
-    my ($pct, $state) = @_;
+    my ($pct, $state, $adapter_attached) = @_;
 
-    my $icon;
-    if ($state eq $UPOWER_STATE{discharging}) {
+    # The code points here refer icons in a Nerd Font-compatible font.
+
+    my ($icon, $adapter);
+    if ($state eq $UPOWER_STATE{discharging} ||
+        $state eq $UPOWER_STATE{pending_charge}) {
         $icon = 0xf578;
     } elsif ($state eq $UPOWER_STATE{charging}) {
         $icon = 0xf584;
-    } elsif ($state eq $UPOWER_STATE{fully_charged} ||
-             $state eq $UPOWER_STATE{pending_charge}) {
-        $icon = 0xfba3; # plug icon
+    } elsif ($state eq $UPOWER_STATE{fully_charged}) {
+        $icon = 0xf578; # plug icon
     } else {
         $icon = 0xf582; # battery with exclamation point
     }
 
-    if ($state == $UPOWER_STATE{discharging}) {
+    if ($state == $UPOWER_STATE{discharging} || $UPOWER_STATE{pending_charge}) {
         my $ofs = sprintf("%.0f", $pct / 10);
         if ($ofs < 10) {
             $icon += $ofs;
         }
     } elsif ($state == $UPOWER_STATE{charging}) {
         my $ofs = sprintf("%.0f", $pct / 10);
-        if ($pct <= 30) {
-            $icon = 0xf585;
-        } elsif ($pct < 40) {
-            $icon = 0xf586;
+        if ($pct < 40) {
+            $icon += $ofs;
         } elsif ($pct < 60) {
             $icon = 0xf587;
         } elsif ($pct < 80) {
@@ -100,6 +118,7 @@ sub get_battery_icon {
             $icon = 0xf58a;
         }
     }
+
     return $icon;
 }
 
