@@ -538,7 +538,7 @@ if [[ "$-" == *i* ]]; then
         #   displays a more verbose prompt, including % into the file (-m);
         #   interprets ANSI color escape sequences (-R);
         #   doesn't clear the screen after quitting (-X).
-        export LESS="-FiJmRX"
+        export LESS="-FiJmRX --status-col-width=1"
 
         # OpenBSD doesn't set this by default, but Linux does, so let's just
         # force it to the Linux default since that's what I'm used to at
