@@ -4,7 +4,8 @@ http://www.fontsquirrel.com/fonts/download/dejavu-serif
 http://www.fontsquirrel.com/fonts/download/liberation-sans
 http://www.fontsquirrel.com/fonts/download/liberation-serif
 http://www.fontsquirrel.com/fonts/download/open-sans
-#http://www.fontsquirrel.com/fonts/download/ubuntu
+
+https://assets.ubuntu.com/v1/0cef8205-ubuntu-font-family-0.83.zip
 
 # FontAwesome
 #https://github.com/FortAwesome/Font-Awesome/releases/download/5.11.2/fontawesome-free-5.11.2-desktop.zip
