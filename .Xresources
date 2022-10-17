@@ -6,18 +6,18 @@
 !#define SOLARIZED_THEME_DARK
 #define SOLARIZED_THEME_LIGHT
 
-Xft.dpi: 96
+Xft.dpi: 200.24
 
 ! Font configuration.
-Xft.antialias:          1
-Xft.hinting:            1
+Xft.antialias:          true
+Xft.hinting:            true
 Xft.rgba:               rgb
-Xft.autohint:           0
+Xft.autohint:           true
 Xft.hintstyle:          hintfull
 Xft.lcdfilter:          lcddefault
 ! NOTE: fonts for [u]rxvt are specified in .config/Xresources.d/urxvt.
-XTerm*faceName:         SourceCodePro NF
-XTerm*faceSize:         10
+XTerm*faceName:         SauceCodePro NF
+XTerm*faceSize:         5
 
 ! Process ~/.profile, if it exists.
 XTerm*loginShell:       true
