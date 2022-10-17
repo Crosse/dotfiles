@@ -973,10 +973,12 @@ if [[ "$-" == *i* ]]; then
     fi
 fi
 
+
 ### direnv
 if [[ -n "$(command -v direnv)" ]]; then
     eval "$(direnv hook bash)"
 fi
+
 
 ### fly.io
 if [[ -r "${HOME}/.fly/bin/flyctl" ]]; then
@@ -984,14 +986,23 @@ if [[ -r "${HOME}/.fly/bin/flyctl" ]]; then
     export FLYCTL_INSTALL="/Users/seth/.fly"
 fi
 
+
 ### VSCode
 vsc_dir="/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 if [[ -r "$vsc_dir/code" ]]; then
     prepend_to_path "$vsc_dir"
 fi
 
+
 ### Flutter
 prepend_to_path "${HOME}/code/third-party/flutter/bin"
+
+
+### Google SDK
+if [[ -d "${HOME}/google-cloud-sdk/bin" ]]; then
+    append_to_path "${HOME}/google-cloud-sdk/bin"
+fi
+
 
 rc_source_file "${HOME}/.rc/local"
 
