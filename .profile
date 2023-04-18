@@ -283,54 +283,29 @@ if [[ "$-" == *i* ]]; then
     fi
 
     if [[ $SCREEN_COLORS -gt 0 ]]; then
-        typeset -A SHELL_COLORS
-        SHELL_COLORS[bold]="\[$(tput bold 2> /dev/null)\]"
-        SHELL_COLORS[dim]="\[$(tput dim 2> /dev/null)\]"
+        [[ $UNAME == "OpenBSD" ]] && extra=0
+        declare -A SHELL_COLORS
+        SHELL_COLORS[reset]="\[$(tput sgr0)\]"
+        SHELL_COLORS[black]="\[$(tput setaf 0 $extra $extra)\]"
+        SHELL_COLORS[red]="\[$(tput setaf 1 $extra $extra)\]"
+        SHELL_COLORS[green]="\[$(tput setaf 2 $extra $extra)\]"
+        SHELL_COLORS[yellow]="\[$(tput setaf 3 $extra $extra)\]"
+        SHELL_COLORS[blue]="\[$(tput setaf 4 $extra $extra)\]"
+        SHELL_COLORS[magenta]="\[$(tput setaf 5 $extra $extra)\]"
+        SHELL_COLORS[cyan]="\[$(tput setaf 6 $extra $extra)\]"
+        SHELL_COLORS[white]="\[$(tput setaf 7 $extra $extra)\]"
 
-        if [[ $COLOR_SCHEME == "light" ]]; then
-            SHELL_COLORS[color0]="\[$(tput setaf 106)\]"
-            SHELL_COLORS[color1]="\[$(tput setaf 160)\]"
-            SHELL_COLORS[color2]="\[$(tput setaf 028)\]"
-            SHELL_COLORS[color3]="\[$(tput setaf 094)\]"
-            SHELL_COLORS[color4]="\[$(tput setaf 026)\]"
-            SHELL_COLORS[color5]="\[$(tput setaf 125)\]"
-            SHELL_COLORS[color6]="\[$(tput setaf 023)\]"
-            SHELL_COLORS[color7]="\[$(tput setaf 188)\]"
-            SHELL_COLORS[color8]="\[$(tput setaf 060)\]"
-            SHELL_COLORS[color9]="\[$(tput setaf 124)\]"
-            SHELL_COLORS[color10]="\[$(tput setaf 022)\]"
-            SHELL_COLORS[color11]="\[$(tput setaf 058)\]"
-            SHELL_COLORS[color12]="\[$(tput setaf 026)\]"
-            SHELL_COLORS[color13]="\[$(tput setaf 097)\]"
-            SHELL_COLORS[color14]="\[$(tput setaf 024)\]"
-            SHELL_COLORS[color15]="\[$(tput setaf 230)\]"
-
-            SHELL_COLORS[background]=${SHELL_COLORS[color15]}
-            SHELL_COLORS[foreground]="\[$(tput setaf 016)\]"
-        else
-            SHELL_COLORS[color0]="\[$(tput setaf 106)\]"
-            SHELL_COLORS[color1]="\[$(tput setaf 160)\]"
-            SHELL_COLORS[color2]="\[$(tput setaf 028)\]"
-            SHELL_COLORS[color3]="\[$(tput setaf 094)\]"
-            SHELL_COLORS[color4]="\[$(tput setaf 026)\]"
-            SHELL_COLORS[color5]="\[$(tput setaf 125)\]"
-            SHELL_COLORS[color6]="\[$(tput setaf 023)\]"
-            SHELL_COLORS[color7]="\[$(tput setaf 188)\]"
-            SHELL_COLORS[color8]="\[$(tput setaf 060)\]"
-            SHELL_COLORS[color9]="\[$(tput setaf 124)\]"
-            SHELL_COLORS[color10]="\[$(tput setaf 022)\]"
-            SHELL_COLORS[color11]="\[$(tput setaf 058)\]"
-            SHELL_COLORS[color12]="\[$(tput setaf 026)\]"
-            SHELL_COLORS[color13]="\[$(tput setaf 097)\]"
-            SHELL_COLORS[color14]="\[$(tput setaf 024)\]"
-            SHELL_COLORS[color15]="\[$(tput setaf 230)\]"
-
-            SHELL_COLORS[background]=${SHELL_COLORS[color15]}
-            SHELL_COLORS[foreground]="\[$(tput setaf 016)\]"
+        if [[ -n $INSIDE_EMACS ]]; then
+            # Unsure why black and white are swapped, other than that something (Emacs, vterm, theme) is
+            # screwing this up and I don't care to figure out what that something is to fix it.
+            temp=${SHELL_COLORS[black]}
+            SHELL_COLORS[black]=${SHELL_COLORS[white]}
+            SHELL_COLORS[white]=$temp
+            unset temp
         fi
-
         export SHELL_COLORS
     fi
+
 
     # Set $PS1 to something pretty.
     if [ -x "$(unalias -a; command -v git)" ]; then
@@ -357,7 +332,7 @@ if [[ "$-" == *i* ]]; then
     if [[ $SCREEN_COLORS -eq 0 ]]; then
         # Build a "dumb" prompt that should work everywhere.
         #shellcheck disable=SC2016
-        [[ -n "$GITPARSING" ]] && g='$(parse_git_status)'
+        [[ -n "$GITPARSING" ]] && _g='$(parse_git_status)'
         export PS1="\n\u@\h\$($g) \w\n\$ "
     else
         # Force 256-color in tmux if the "real" terminal supports 256
@@ -366,18 +341,18 @@ if [[ "$-" == *i* ]]; then
             TERM=screen-256color
         fi
 
-        reset=${SHELL_COLORS[reset]}
+        _reset=${SHELL_COLORS[reset]}
 
         # Change the prompt color depending on whether the real UID is root
         # or a regular user.
         if [[ $(id -ru) -eq 0 ]]; then
-            HOSTCOLOR=${SHELL_COLORS[color1]}
+            HOSTCOLOR=${SHELL_COLORS[red]}
         else
-            HOSTCOLOR=${SHELL_COLORS[color4]}
+            HOSTCOLOR=${SHELL_COLORS[blue]}
         fi
 
-        [[ -n "$GITPARSING" ]] && g="$reset${SHELL_COLORS[color5]}\$(parse_git_status)$reset"
-        [[ -n "$SSH_CLIENT" ]] && host="${SHELL_COLORS[color2]}@$reset${SHELL_COLORS[color10]}\h$reset"
+        [[ -n "$GITPARSING" ]] && _g="$_reset${SHELL_COLORS[magenta]}\$(parse_git_status)$_reset"
+        [[ -n "$SSH_CLIENT" ]] && _host="${SHELL_COLORS[green]}@$_reset${SHELL_COLORS[cyan]}\h$_reset"
 
         # Set the title of an xterm.
         case $TERM in
@@ -389,19 +364,19 @@ if [[ "$-" == *i* ]]; then
         # Build a colorized prompt.
         PS1="\n${TERMTITLE}"                                # Set the xterm title.
         PS1="${PS1}${HOSTCOLOR}\u"                          # Username
-        PS1="${PS1}$host"                                   # Add the host, if not local
+        PS1="${PS1}$_host"                                  # Add the host, if not local
         PS1="${PS1} "
-        PS1="${PS1}$g"                                      # git status, if available
-        PS1="${PS1}${SHELL_COLORS[color2]}\w$reset"         # working directory
+        PS1="${PS1}$_g"                                     # git status, if available
+        PS1="${PS1}${SHELL_COLORS[green]}\w$_reset"         # working directory
         PS1="${PS1}\n"                                      # new line.
-        PS1="${PS1}${SHELL_COLORS[color2]}\$$reset "        # Either '$' or '#'
+        PS1="${PS1}${SHELL_COLORS[black]}\$$_reset "        # Either '$' or '#'
         export PS1
 
-        PS2="${SHELL_COLORS[color3]}> $reset"
+        PS2="${SHELL_COLORS[yellow]}> $_reset"
         export PS2
     fi
 
-    unset HOSTCOLOR g b host TERMTITLE GITPARSING
+    unset HOSTCOLOR _g _host _reset TERMTITLE GITPARSING
 
 
     ######## ALIASES ########
