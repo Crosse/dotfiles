@@ -697,7 +697,7 @@ if [[ "$-" == *i* ]]; then
     if [[ -n "$(command -v emacsclient)" ]]; then
         if [[ -n "$INSIDE_EMACS" ]]; then
             alias e="${HOME}/bin/find_file_cmd"
-            alias em="${HOME}/bin/find_file_cmd"
+            alias emacs="${HOME}/bin/find_file_cmd"
         else
             alias e='emacsclient --tty --alternate-editor ""'
             alias emacs='emacsclient --create-frame --alternate-editor ""'
