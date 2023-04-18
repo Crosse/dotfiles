@@ -979,6 +979,28 @@ if [[ -d "${HOME}/google-cloud-sdk/bin" ]]; then
 fi
 
 
+### Tailscale
+if [[ -d "/Applications/Tailscale.app" ]]; then
+    alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+fi
+
+# Wasmtime
+WASMTIME_HOME="$HOME/.wasmtime"
+if [[ -d "$WASMTIME_HOME" ]]; then
+    export WASMTIME_HOME
+    prepend_to_path "$WASMTIME_HOME/bin"
+fi
+
+# Wasmer. I don't like this but oh well.
+export WASMER_DIR="${HOME}/.wasmer"
+[ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
+
+
+# Azure cli
+if [ -r "${HOME}/.local/lib/azure-cli/az.completion" ]; then
+    source "${HOME}/.local/lib/azure-cli/az.completion"
+fi
+
 rc_source_file "${HOME}/.rc/local"
 
 # These are at the bottom because we always want them to be first in the search order.
