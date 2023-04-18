@@ -814,24 +814,6 @@ fi
 ### Python
 [[ -r "${HOME}/.pythonrc" ]] && export PYTHONSTARTUP="${HOME}/.pythonrc"
 
-if [[ -d "${HOME}/.pyenv/bin" ]]; then
-    prepend_to_path "${HOME}/.pyenv/bin"
-    if [[ "$-" == *i* ]]; then
-        eval "$(pyenv init -)"
-        eval "$(pyenv virtualenv-init -)"
-    fi
-else
-    if [[ $UNAME -eq "Darwin" ]]; then
-        # On OSX, Apple puts Python things here.
-        for ver in "${HOME}"/Library/Python/*; do
-            prepend_to_path "$ver/bin"
-        done
-    fi
-fi
-
-# Get rid of the deprecation warning for Python 2.
-export PYTHONWARNINGS=ignore:Please.upgrade::pip._internal.cli.base_command
-
 if [[ -d "${HOME}/.poetry/bin" ]]; then
     prepend_to_path "${HOME}/.poetry/bin"
     if [[ ! -f "${HOME}/.bash_completion.d/poetry" ]]; then
