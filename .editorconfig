@@ -13,6 +13,9 @@ max_line_length = 100
 tab_width = 8
 trim_trailing_whitespace = true
 
+[COMMIT_EDITMSG]
+max_line_length = 76
+
 [*.patch]
 insert_final_newline = false
 trim_trailing_whitespace = false
@@ -27,6 +30,10 @@ max_line_length = 120
 indent_size = 8
 indent_style = tab
 indent_width = 8
+
+[*.sql]
+indent_size = 4
+tab_width = 4
 
 [*.go]
 # Go may not have a line length limit, but I do. Otherwise, this
@@ -54,7 +61,7 @@ max_line_length = 100
 tab_width = 8
 
 [CMakeLists.txt]
-indent_style =  space
+indent_style = space
 tab_width =  4
 
 [*.[sS]]
