@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AboutToPasteTabsWithCancel</key>
+	<true/>
+	<key>AboutToPasteTabsWithCancel_selection</key>
+	<integer>0</integer>
 	<key>AllowClipboardAccess</key>
 	<true/>
 	<key>AlternateMouseScroll</key>
@@ -11,6 +15,8 @@
 	<key>AutoHideTmuxClientSession</key>
 	<false/>
 	<key>CheckTestRelease</key>
+	<true/>
+	<key>ConvertDosNewlines</key>
 	<true/>
 	<key>CopySelection</key>
 	<false/>
@@ -4953,6 +4959,8 @@
 	<key>DimOnlyText</key>
 	<false/>
 	<key>DisableFullscreenTransparency</key>
+	<true/>
+	<key>EscapeShellCharsWithBackslash</key>
 	<false/>
 	<key>FlashTabBarInFullscreen</key>
 	<true/>
@@ -4994,9 +5002,11 @@
 			<key>ASCII Anti Aliased</key>
 			<true/>
 			<key>ASCII Ligatures</key>
-			<false/>
+			<true/>
+			<key>Allow Change Cursor Blink</key>
+			<true/>
 			<key>Allow Title Reporting</key>
-			<false/>
+			<true/>
 			<key>Ambiguous Double Width</key>
 			<false/>
 			<key>Ansi 0 Color</key>
@@ -5235,6 +5245,18 @@
 				<key>Red Component</key>
 				<real>0.72548997402191162</real>
 			</dict>
+			<key>Badge Font</key>
+			<string>HelveticaNeue-Bold</string>
+			<key>Badge Max Height</key>
+			<real>0.050000000000000003</real>
+			<key>Badge Max Width</key>
+			<real>0.5</real>
+			<key>Badge Right Margin</key>
+			<real>10</real>
+			<key>Badge Text</key>
+			<string></string>
+			<key>Badge Top Margin</key>
+			<real>10</real>
 			<key>Blend</key>
 			<real>0.2655924479166667</real>
 			<key>Blink Allowed</key>
@@ -5244,7 +5266,7 @@
 			<key>Blur</key>
 			<true/>
 			<key>Blur Radius</key>
-			<real>1.0652154614896545</real>
+			<real>19.9381626024471</real>
 			<key>Bold Color</key>
 			<dict>
 				<key>Alpha Component</key>
@@ -5284,13 +5306,13 @@
 				<key>Alpha Component</key>
 				<real>0.25</real>
 				<key>Blue Component</key>
-				<real>1</real>
+				<real>0.99078255891799927</real>
 				<key>Color Space</key>
-				<string>sRGB</string>
+				<string>P3</string>
 				<key>Green Component</key>
-				<real>0.9268307089805603</real>
+				<real>0.8807525634765625</real>
 				<key>Red Component</key>
-				<real>0.70213186740875244</real>
+				<real>0.74862349033355713</real>
 			</dict>
 			<key>Cursor Text Color</key>
 			<dict>
@@ -5319,6 +5341,8 @@
 			<true/>
 			<key>Draw Powerline Glyphs</key>
 			<false/>
+			<key>Enable Triggers in Interactive Apps</key>
+			<false/>
 			<key>Flashing Bell</key>
 			<false/>
 			<key>Foreground Color</key>
@@ -5342,6 +5366,8 @@
 			<integer>1</integer>
 			<key>Idle Code</key>
 			<integer>0</integer>
+			<key>Initial Use Transparency</key>
+			<true/>
 			<key>Jobs to Ignore</key>
 			<array>
 				<string>rlogin</string>
@@ -5753,7 +5779,7 @@
 			<key>Normal Font</key>
 			<string>SauceCodeProNerdFontCompleteM-Medium 14</string>
 			<key>Only The Default BG Color Uses Transparency</key>
-			<false/>
+			<true/>
 			<key>Option Key Sends</key>
 			<integer>2</integer>
 			<key>Place Prompt at First Column</key>
@@ -5823,8 +5849,12 @@
 				<dict>
 					<key>algorithm</key>
 					<integer>0</integer>
+					<key>auto-rainbow style</key>
+					<integer>0</integer>
 					<key>font</key>
 					<string>.AppleSystemUIFont 12</string>
+					<key>remove empty components</key>
+					<false/>
 				</dict>
 				<key>components</key>
 				<array>
@@ -5846,6 +5876,8 @@
 							<dict>
 								<key>algorithm</key>
 								<integer>0</integer>
+								<key>font</key>
+								<string>.AppleSystemUIFont 12</string>
 							</dict>
 						</dict>
 					</dict>
@@ -5865,6 +5897,8 @@
 							<dict>
 								<key>algorithm</key>
 								<integer>0</integer>
+								<key>font</key>
+								<string>.AppleSystemUIFont 12</string>
 							</dict>
 						</dict>
 					</dict>
@@ -5884,6 +5918,8 @@
 							<dict>
 								<key>algorithm</key>
 								<integer>0</integer>
+								<key>font</key>
+								<string>.AppleSystemUIFont 12</string>
 							</dict>
 						</dict>
 					</dict>
@@ -5910,8 +5946,12 @@
 			<string>xterm-256color</string>
 			<key>Thin Strokes</key>
 			<integer>4</integer>
+			<key>Title Components</key>
+			<integer>3</integer>
 			<key>Transparency</key>
 			<real>0.0</real>
+			<key>Triggers</key>
+			<array/>
 			<key>Underline Color</key>
 			<dict>
 				<key>Alpha Component</key>
@@ -5932,9 +5972,11 @@
 			<key>Unlimited Scrollback</key>
 			<false/>
 			<key>Use Bold Font</key>
-			<false/>
+			<true/>
 			<key>Use Bright Bold</key>
 			<true/>
+			<key>Use Cursor Guide</key>
+			<false/>
 			<key>Use Italic Font</key>
 			<true/>
 			<key>Use Non-ASCII Font</key>
@@ -8173,6 +8215,12 @@
 	<integer>2</integer>
 	<key>PMPrintingExpandedStateForPrint2</key>
 	<false/>
+	<key>PasteSpecialRegex</key>
+	<string></string>
+	<key>PasteSpecialSubstitution</key>
+	<string></string>
+	<key>PasteSpecialUseRegexSubstitution</key>
+	<false/>
 	<key>PasteTabToStringTabStopSize</key>
 	<integer>4</integer>
 	<key>PointerActions</key>
@@ -8215,7 +8263,7 @@
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<false/>
+	<true/>
 	<key>ShowMetalFPSmeter</key>
 	<false/>
 	<key>ShowNewOutputIndicator</key>
@@ -8234,6 +8282,8 @@
 	<integer>4</integer>
 	<key>TabTitlesUseSmartTruncation</key>
 	<false/>
+	<key>TabTransform</key>
+	<integer>0</integer>
 	<key>TabViewType</key>
 	<integer>0</integer>
 	<key>ToolbeltTools</key>
@@ -8261,7 +8311,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>kCPKSelectionViewPreferredModeKey</key>
-	<integer>0</integer>
+	<integer>7</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
 	<false/>
 	<key>preferIntegratedGPU</key>
