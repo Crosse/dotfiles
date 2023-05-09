@@ -6,6 +6,6 @@ github.com/Crosse/sshsrv            # don't use, but nice to have?
 mvdan.cc/sh/cmd/shfmt               # linter for sh
 golang.org/x/tools/cmd/goimports    # Organize and update Go import lines
 golang.org/x/tools/cmd/gotype       # Parse and type-check a single Go package.
-github.com/alecthomas/gometalinter  # Go linter.
+github.com/segmentio/golines
 golang.org/x/lint/golint
 golang.org/x/tools/cmd/cover

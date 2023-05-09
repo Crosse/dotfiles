@@ -26,9 +26,9 @@ for l in $@; do
                 printf >&2 "Go is not installed!"
                 exit 1
             fi
-            echo "Installing or updating Go packages: $packages"
-            #shellcheck disable=SC2086
-            go get -u $packages
+            for package in $packages; do
+                go install $package@latest
+            done
             ;;
         ruby)
             if ! command -v gem >/dev/null; then
