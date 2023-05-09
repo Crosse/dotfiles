@@ -123,13 +123,20 @@ sub get_battery_icon {
 }
 
 sub batt_linux {
-    require Net::DBus::Reactor;
-    require Net::DBus::Dumper;
-    require Net::DBus;
+    use Net::DBus;
+    use Net::DBus::Dumper qw(dbus_dump);
 
-    my $batt = Net::DBus->system
-        ->get_service("org.freedesktop.UPower")
-        ->get_object("/org/freedesktop/UPower/devices/battery_BAT0");
+    my $upower_svc = Net::DBus->system->get_service("org.freedesktop.UPower");
+    my $upower = $upower_svc->get_object("/org/freedesktop/UPower");
+
+    if (scalar @{$upower->EnumerateDevices} == 0) {
+        printf("%s\n", chr(0xfba3));
+        return
+    }
+
+
+    my $devices = upower->get_object("/org/freedesktop/UPower/devices");
+    my $batt = $devices->get_child_object("battery_BAT0");
 
     my $time;
     my $icon = get_battery_icon($batt->Percentage, $batt->State);
