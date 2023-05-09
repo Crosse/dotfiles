@@ -28,7 +28,7 @@ fonts:
 	font-install -fromFile "$(CURDIR)/fontslist.txt"
 
 tools:				## Personal and third-party tools I rely on.
-	$(CURDIR)/tools/install.sh go ruby py2 py3
+	$(CURDIR)/tools/install.sh go ruby py3
 
 vscode-ext:			## Visual Studio Code extensions
 	$(CURDIR)/tools/install.sh vscode
