@@ -676,6 +676,8 @@ fi # end of interactive block
 if [[ -n "$(command -v ccache)" ]]; then
     if [[ -d /usr/lib/ccache ]]; then
         prepend_to_path /usr/lib/ccache
+    elif [[ -d /usr/lib64/ccache ]]; then
+        prepend_to_path /usr/lib64/ccache
     else
         ccache="$(command -v ccache)"
         for i in gcc g++ cc c++; do
