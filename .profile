@@ -857,7 +857,11 @@ if [[ "$-" == *i* ]]; then
     if [ -z "$SSH_CLIENT" ]; then
         export SSH_AUTH_SOCK="${HOME}/.ssh/ssh-agent.sock"
         ssh-add -l 2>/dev/null > /dev/null
-        [ $? -ge 2 ] && ssh-agent -a "$SSH_AUTH_SOCK" > /dev/null
+        if [ $? -ge 2 ]; then
+            pkill ssh-agent
+            rm -f "$SSH_AUTH_SOCK"
+            eval $(ssh-agent -a "$SSH_AUTH_SOCK") > /dev/null
+        fi
     fi
 
     case $UNAME in
@@ -865,7 +869,13 @@ if [[ "$-" == *i* ]]; then
             LIBYKCS11=/usr/local/lib/libykcs11.dylib
             ;;
         "Linux")
-            LIBYKCS11=/usr/local/lib/libykcs11.so
+            for dir in /usr/local/lib /usr/lib/x86_64-linux-gnu; do
+                if [[ -f "${dir}/libykcs11.so" ]]; then
+                    LIBYKCS11="${dir}/libykcs11.so"
+                    break
+                fi
+            done
+            ;;
     esac
 
     export LIBYCKS11
@@ -983,6 +993,11 @@ export WASMER_DIR="${HOME}/.wasmer"
 # Azure cli
 if [ -r "${HOME}/.local/lib/azure-cli/az.completion" ]; then
     source "${HOME}/.local/lib/azure-cli/az.completion"
+fi
+
+# Firefox on Ubuntu 23.04 doesn't use Wayland by default(?), so tell it to:
+if [[ $UNAME == "Linux" ]]; then
+    export MOZ_ENABLE_WAYLAND=1
 fi
 
 rc_source_file "${HOME}/.rc/local"
