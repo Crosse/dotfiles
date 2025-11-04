@@ -2,3 +2,6 @@
 *.bak
 .rc/local
 .config/iterm2/AppSupport
+.rc/editor_vars
+.config/Code/User/History
+.config/Code/User/sync

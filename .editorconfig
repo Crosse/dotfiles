@@ -48,6 +48,9 @@ tab_width = 8
 max_line_length = 100
 
 [*.py]
+# PEP-8
+indent_size = 4
+tab_width = 4
 # black sets the line length to 88, so let's do the same
 max_line_length = 88
 
@@ -78,10 +81,22 @@ tab_width =  2
 indent_size = 2
 tab_width =  2
 
-[{*.yaml,*.yml}]
+[{*.yaml,*.yml,*.yaml.j2,*.yml.j2}]
 indent_size = 2
 tab_width =  2
 
 [*.rb]
 indent_size = 2
 tab_width =  2
+
+[{*.js,*.jsx,*.ts,*.tsx,*.html,*.css}]
+indent_size = 2
+tab_width =  2
+
+[{*.tf,*.hcl}]
+indent_size = 2
+tab_width =  2
+
+[*.proto]
+indent_size = 2
+tab_width = 2

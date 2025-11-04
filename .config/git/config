@@ -9,9 +9,6 @@
 [advice]
     detachedHead = false
 
-[commit]
-    gpgsign = true
-
 [core]
     excludesfile = ~/.gitignore_global
     pager = delta
@@ -64,5 +61,5 @@
 [push]
     default = simple
 
-[url "git@github.com:"]
-    insteadOf = https://github.com/
+# [url "git@github.com:"]
+#     insteadOf = https://github.com/

@@ -28,7 +28,6 @@
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
   "go.lintTool": "golangci-lint",
-  "go.useLanguageServer": true,
   "python.formatting.provider": "black",
   "remote.SSH.defaultExtensions": [
     "christian-kohler.path-intellisense",
@@ -70,7 +69,6 @@
   "workbench.startupEditor": "newUntitledFile",
   "zenMode.hideLineNumbers": false,
   "zenMode.hideStatusBar": false,
-  "zenMode.hideTabs": false,
   "C_Cpp.intelliSenseEngineFallback": "Enabled",
   "python.formatting.blackPath": "${env:HOME}/.local/bin/black",
   "workbench.editor.enablePreviewFromQuickOpen": false,
@@ -95,18 +93,16 @@
   "editor.smoothScrolling": true,
   "editor.cursorSurroundingLines": 3,
   "editor.fontLigatures": true,
-  "editor.formatOnSaveMode": "modificationsIfAvailable",
   "diffEditor.codeLens": true,
   "go.enableCodeLens": {},
   "editor.quickSuggestionsDelay": 100,
   "editor.suggest.preview": true,
   "files.insertFinalNewline": true,
-  "workbench.colorTheme": "Solarized Light+",
+  "workbench.colorTheme": "Monokai",
   "workbench.tree.indent": 20,
   "workbench.view.alwaysShowHeaderActions": true,
   "workbench.tree.renderIndentGuides": "always",
   "workbench.editor.highlightModifiedTabs": true,
-  "workbench.editor.untitled.hint": "hidden",
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
     "*.ts": "${capture}.js",
@@ -124,7 +120,6 @@
   "terminal.external.osxExec": "iTerm.app",
   "terminal.integrated.bellDuration": 100,
   "terminal.integrated.cursorBlinking": true,
-  "terminal.integrated.enableBell": true,
   "terminal.integrated.ignoreProcessNames": [
     "starship",
     "oh-my-posh",
@@ -146,7 +141,9 @@
   "workbench.colorCustomizations": {
     "statusBar.background": "#005f5f",
     "statusBar.noFolderBackground": "#005f5f",
-    "statusBar.debuggingBackground": "#005f5f"
+    "statusBar.debuggingBackground": "#005f5f",
+    "statusBar.foreground": "#ffffff",
+    "statusBar.debuggingForeground": "#ffffff"
   },
   "cSpell.userWords": [
     "behaviour",
@@ -157,4 +154,12 @@
   "rust-analyzer.inlayHints.chainingHints.enable": false,
   "rust-analyzer.inlayHints.typeHints.enable": false,
   "rust-analyzer.inlayHints.parameterHints.enable": false,
+  "workbench.editor.empty.hint": "hidden",
+  "accessibility.signals.terminalBell": {
+    "sound": "on"
+  },
+  "terminal.integrated.enableVisualBell": true,
+  "githubPullRequests.pullBranch": "never",
+  "go.formatTool": "goimports",
+  "go.gopath": "~/code/go",
 }

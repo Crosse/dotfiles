@@ -13,7 +13,7 @@ set port [lindex $endpt 1]
 set fromaddr [lrange $argv 1 1]
 set toaddr [lrange $argv 2 2]
 set tls [lrange $argv 3 3]
-set oks 0
+set oks 1
 
 if {$port == ""} {
     set port 25
@@ -26,9 +26,9 @@ puts "RCPT TO address: $toaddr"
 puts "-----------------------\n"
 
 if {$tls == ""} {
-    spawn telnet -N $host $port
+    spawn nc -v $host $port
 } else {
-    spawn openssl s_client -connect $host:$port -starttls smtp -crlf -quiet
+    spawn openssl s_client -verify_quiet -connect $host:$port -starttls smtp -name $helo -crlf -quiet
     expect {
         "250 " {
             send "EHLO $helo\n"
@@ -43,17 +43,17 @@ expect {
     }
     "250 " {
         switch $oks {
-            0 {
-                send "MAIL FROM:<$fromaddr>\n"
-                set oks 1
-                exp_continue
-            }
             1 {
-                send "RCPT TO:<$toaddr>\n"
+                send "MAIL FROM:<$fromaddr>\n"
                 set oks 2
                 exp_continue
             }
             2 {
+                send "RCPT TO:<$toaddr>\n"
+                set oks 3
+                exp_continue
+            }
+            3 {
                 send "QUIT\n"
                 exit
             }

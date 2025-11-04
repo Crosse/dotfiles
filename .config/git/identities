@@ -3,6 +3,9 @@
 [include]
     path = "personal"
 
+[includeIf "gitdir:~/code/work/"]
+    path = "lantern"
+
 [includeIf "gitdir:~/code/lantern/"]
     path = "lantern"
 

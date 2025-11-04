@@ -1,6 +1,21 @@
-# vim: set ft=sh: -*- mode: sh -*-
+# vim: set ft=sh si ts=4 sw=4 sr: -*- mode: sh -*-
 
-export COLOR_SCHEME=light
+_timer_now_ms() {
+    echo $((${EPOCHREALTIME/./}/1000))
+}
+
+_timer_elapsed() {
+    return
+    [[ $- == *i* ]] || return
+
+    local start="${1:?}"
+    shift
+    local text="$*"
+    local now=$(_timer_now_ms)
+    printf "==> [%s] took %4dms\n" "$text" $(( now-start ))
+}
+
+__timer_init=$(_timer_now_ms)
 
 shell=$(basename "${0#-}")
 case "${shell#-}" in
@@ -42,9 +57,9 @@ case "${shell#-}" in
 esac
 
 # XDG Base Directory specification.
-export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-${HOME}/.config}
-export XDG_CACHE_HOME=${XDG_CACHE_HOME:-${HOME}/.cache}
-export XDG_DATA_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}
+typeset -tx XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-${HOME}/.config}
+typeset -tx XDG_CACHE_HOME=${XDG_CACHE_HOME:-${HOME}/.cache}
+typeset -tx XDG_DATA_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}
 
 export UNAME=$(uname -s)
 
@@ -138,37 +153,43 @@ dedupe_path() {
 
 PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin
 
-prepend_to_path /usr/pkg/sbin                       # For pkgsrc on Darwin, illumos
-prepend_to_path /opt/pkg/sbin                       # For pkgsrc on Darwin, illumos
-prepend_to_path /opt/local/sbin                     # illumos
+#prepend_to_path /usr/pkg/sbin                       # For pkgsrc on Darwin, illumos
+#prepend_to_path /opt/pkg/sbin                       # For pkgsrc on Darwin, illumos
+#prepend_to_path /opt/local/sbin                     # illumos
 
-prepend_to_path /usr/pkg/bin                        # For pkgsrc on Darwin, illumos
-prepend_to_path /opt/pkg/bin                        # For pkgsrc on Darwin, illumos
-prepend_to_path /opt/local/bin                      # illumos
+#prepend_to_path /usr/pkg/bin                        # For pkgsrc on Darwin, illumos
+#prepend_to_path /opt/pkg/bin                        # For pkgsrc on Darwin, illumos
+#prepend_to_path /opt/local/bin                      # illumos
 
 prepend_to_path "${HOME}/.local/bin"
 prepend_to_path "${HOME}/bin"
 
-for link in "${HOME}"/.paths.d/*; do
-    [[ ! -h $link ]] && continue
-    case $UNAME in
-        "Darwin")
-            path=$(readlink "$link")
-            if [[ $path != /* ]]; then # relative path
-                rc_log "resolving $link using python; use a full path for the target to avoid this"
-                path=$(python -c "import os; print(os.path.realpath('$link'))")
-            fi
-            ;;
-        *)
-            path=$(readlink -f "$link")
-            ;;
-    esac
+for link in /etc/paths.d/* "${HOME}"/.paths.d/*; do
+    [[ -r "$link" ]] || continue
+    if [[ -h $link ]]; then
+        case $UNAME in
+            "Darwin")
+                path=$(readlink "$link")
+                if [[ $path != /* ]]; then # relative path
+                    rc_log "resolving $link using python; use a full path for the target to avoid this"
+                    path=$(python -c "import os; print(os.path.realpath('$link'))")
+                fi
+                ;;
+            *)
+                path=$(readlink -f "$link")
+                ;;
+        esac
+    else
+        path=$(<"$link")
+    fi
     [[ -n ${path:-} ]] && prepend_to_path "$path"
 done
 
 
 # Shell-agnostic things to do if the shell is interactive.
 if [[ "$-" == *i* ]]; then
+	export COLOR_SCHEME=${COLOR_SCHEME:-light}
+
     # Using ksh, setting EDITOR or VISUAL (above) also sets vi key bindings.
     # This sets it back to emacs, which is what I prefer.
     # In other shells, it doesn't hurt to set it as well.
@@ -180,6 +201,7 @@ if [[ "$-" == *i* ]]; then
     # Disable Ctrl-S.
     stty -ixon
 
+    _start=$(_timer_now_ms)
     # Attempt to sanitize TERM.  This is (mostly) wholesale-taken from the
     # comment by Steven Black at:
     #   http://vim.wikia.com/wiki/256_colors_in_vim.
@@ -286,27 +308,29 @@ if [[ "$-" == *i* ]]; then
         [[ $UNAME == "OpenBSD" ]] && extra=0
         declare -A SHELL_COLORS
         SHELL_COLORS[reset]="\[$(tput sgr0)\]"
-        SHELL_COLORS[black]="\[$(tput setaf 0 $extra $extra)\]"
+        SHELL_COLORS[black]="\[$(tput setaf 7 $extra $extra)\]"
         SHELL_COLORS[red]="\[$(tput setaf 1 $extra $extra)\]"
         SHELL_COLORS[green]="\[$(tput setaf 2 $extra $extra)\]"
         SHELL_COLORS[yellow]="\[$(tput setaf 3 $extra $extra)\]"
         SHELL_COLORS[blue]="\[$(tput setaf 4 $extra $extra)\]"
         SHELL_COLORS[magenta]="\[$(tput setaf 5 $extra $extra)\]"
         SHELL_COLORS[cyan]="\[$(tput setaf 6 $extra $extra)\]"
-        SHELL_COLORS[white]="\[$(tput setaf 7 $extra $extra)\]"
+        SHELL_COLORS[white]="\[$(tput setaf 0 $extra $extra)\]"
 
-        if [[ -n $INSIDE_EMACS ]]; then
-            # Unsure why black and white are swapped, other than that something (Emacs, vterm, theme) is
-            # screwing this up and I don't care to figure out what that something is to fix it.
-            temp=${SHELL_COLORS[black]}
-            SHELL_COLORS[black]=${SHELL_COLORS[white]}
-            SHELL_COLORS[white]=$temp
-            unset temp
-        fi
+        #if [[ -n $INSIDE_EMACS ]]; then
+        #    # Unsure why black and white are swapped, other than that something (Emacs, vterm, theme) is
+        #    # screwing this up and I don't care to figure out what that something is to fix it.
+        #    temp=${SHELL_COLORS[black]}
+        #    SHELL_COLORS[black]=${SHELL_COLORS[white]}
+        #    SHELL_COLORS[white]=$temp
+        #    unset temp
+        #fi
         export SHELL_COLORS
     fi
+    _timer_elapsed $_start "terminal setup"
 
 
+    _start=$(_timer_now_ms)
     # Set $PS1 to something pretty.
     if [ -x "$(unalias -a; command -v git)" ]; then
         # If the "git" command exists on this system, define a function that
@@ -356,7 +380,7 @@ if [[ "$-" == *i* ]]; then
 
         # Set the title of an xterm.
         case $TERM in
-            xterm*|rxvt*|screen*)
+            xterm*|rxvt*|screen*|tmux*)
                 TERMTITLE="\e]0;\u@\h: \w\a"
                 ;;
         esac
@@ -375,6 +399,7 @@ if [[ "$-" == *i* ]]; then
         PS2="${SHELL_COLORS[yellow]}> $_reset"
         export PS2
     fi
+    _timer_elapsed $_start "prompt setup"
 
     unset HOSTCOLOR _g _host _reset TERMTITLE GITPARSING
 
@@ -478,13 +503,6 @@ if [[ "$-" == *i* ]]; then
             ;;
     esac
 
-    # Use UTF-8.  It's the 21st century.
-    if [ -z "$LANG" ]; then
-        export LANG=en_US.UTF-8
-        export LC_ALL="$LANG"
-        export LC_CTYPE="$LANG"
-    fi
-
     if [[ -n "$INSIDE_EMACS" && -x "${HOME}/bin/find_file_cmd" ]]; then
         export EDITOR="${HOME}/bin/find_file_cmd"
         export VISUAL=$EDITOR
@@ -559,6 +577,7 @@ if [[ "$-" == *i* ]]; then
             rc_source_file /usr/pkg/share/examples/git/git-completion.bash
         fi
     fi
+    _timer_elapsed $_start "bash completion"
 
 
     ### TURN OFF THE FRIGGIN' CONSOLE BELL.
@@ -671,22 +690,39 @@ if [[ "$-" == *i* ]]; then
     ######## END OF FUNCTIONS ########
 fi # end of interactive block
 
+# typeset -tx TZ=${TZ:-America/New_York}
 
-### ccache support
-if [[ -n "$(command -v ccache)" ]]; then
-    if [[ -d /usr/lib/ccache ]]; then
-        prepend_to_path /usr/lib/ccache
-    elif [[ -d /usr/lib64/ccache ]]; then
-        prepend_to_path /usr/lib64/ccache
-    else
-        ccache="$(command -v ccache)"
-        for i in gcc g++ cc c++; do
-            [[ -e "${HOME}/bin/${i}" ]] && continue
-            ln -s "$ccache" "${HOME}/bin/$i"
-        done
-        unset ccache
+# Use UTF-8.  It's the 21st century.
+# if [ -z "$LANG" ]; then
+#     typeset -tx LANG=en_US.UTF-8
+#     typeset -tx LC_CTYPE="$LANG"
+#     export LC_ALL="$LANG"
+# fi
+
+
+if [[ -n "$(command -v mise)" ]]; then
+    eval "$(~/.local/bin/mise activate bash --shims)"
+
+    if [[ "$-" == *i* ]]; then
+        mise completion --include-bash-completion-lib bash > "${XDG_DATA_HOME}/bash-completion/completions/mise"
     fi
 fi
+
+### ccache support
+# if [[ -n "$(command -v ccache)" ]]; then
+#     if [[ -d /usr/lib/ccache ]]; then
+#         prepend_to_path /usr/lib/ccache
+#     elif [[ -d /usr/lib64/ccache ]]; then
+#         prepend_to_path /usr/lib64/ccache
+#     else
+#         ccache="$(command -v ccache)"
+#         for i in gcc g++ cc c++; do
+#             [[ -e "${HOME}/bin/${i}" ]] && continue
+#             ln -s "$ccache" "${HOME}/bin/$i"
+#         done
+#         unset ccache
+#     fi
+# fi
 
 
 ### Emacs
@@ -705,105 +741,105 @@ if [[ "$-" == *i* ]]; then
             alias emacs='emacsclient --create-frame --alternate-editor ""'
         fi
     fi
-fi
 
-# Used for https://github.com/akermu/emacs-libvterm
-vterm_printf() {
-    if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ] ); then
-        # Tell tmux to pass the escape sequences through
-        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
-    elif [ "${TERM%%-*}" = "screen" ]; then
-        # GNU screen (screen, screen-256color, screen-256color-bce)
-        printf "\eP\e]%s\007\e\\" "$1"
-    else
-        printf "\e]%s\e\\" "$1"
+    # Used for https://github.com/akermu/emacs-libvterm
+    vterm_printf() {
+        if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ] ); then
+            # Tell tmux to pass the escape sequences through
+            printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+        elif [ "${TERM%%-*}" = "screen" ]; then
+            # GNU screen (screen, screen-256color, screen-256color-bce)
+            printf "\eP\e]%s\007\e\\" "$1"
+        else
+            printf "\e]%s\e\\" "$1"
+        fi
+    }
+
+    if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
+        clear() {
+            vterm_printf "51;Evterm-clear-scrollback"
+            tput clear
+        }
+
+        vterm_prompt_end() {
+            vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
+        }
+        PS1=$PS1'\[$(vterm_prompt_end)\]'
+
+        vterm_cmd() {
+            local vterm_elisp
+            vterm_elisp=""
+            while [ $# -gt 0 ]; do
+                vterm_elisp="$vterm_elisp""$(printf '"%s" ' "$(printf "%s" "$1" | sed -e 's|\\|\\\\|g' -e 's|"|\\"|g')")"
+                shift
+            done
+            vterm_printf "51;E$vterm_elisp"
+        }
+
+        find_file() {
+            vterm_cmd find-file "$(realpath "${@:-.}")"
+        }
+
+        open_file_below() {
+            vterm_cmd find-file-below "$(realpath "${@:-.}")"
+        }
     fi
-}
-
-if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
-    clear() {
-        vterm_printf "51;Evterm-clear-scrollback"
-        tput clear
-    }
-
-    vterm_prompt_end() {
-        vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
-    }
-    PS1=$PS1'\[$(vterm_prompt_end)\]'
-
-    vterm_cmd() {
-        local vterm_elisp
-        vterm_elisp=""
-        while [ $# -gt 0 ]; do
-            vterm_elisp="$vterm_elisp""$(printf '"%s" ' "$(printf "%s" "$1" | sed -e 's|\\|\\\\|g' -e 's|"|\\"|g')")"
-            shift
-        done
-        vterm_printf "51;E$vterm_elisp"
-    }
-
-    find_file() {
-        vterm_cmd find-file "$(realpath "${@:-.}")"
-    }
-
-    open_file_below() {
-        vterm_cmd find-file-below "$(realpath "${@:-.}")"
-    }
 fi
 
 ### Erlang (and probably Elixir?)
-prepend_to_path "${HOME}/.cache/rebar3/bin"
+#prepend_to_path "${HOME}/.cache/rebar3/bin"
 
 
 ### Go
-export GOENV_DISABLE_GOPATH=1
-export GOPATH="${HOME}/code/go"
-prepend_to_path "${GOPATH}/bin"
+typeset -tx GOENV_DISABLE_GOPATH=1
+typeset -tx GOPATH="${HOME}/code/go"
+#prepend_to_path "${GOPATH}/bin"
 
 
 ### Java
 prepend_to_path "${HOME}/code/jdk/Contents/Home/bin"
 
 ## Set a default JAVA_HOME.
-if [ -n "$(command -v java_home)" ]; then
-    java_home=$(command -v java_home)
-elif [ -x /usr/libexec/java_home ]; then
-    java_home=/usr/libexec/java_home
-fi
+# if [ -n "$(command -v java_home)" ]; then
+#     java_home=$(command -v java_home)
+# elif [ -x /usr/libexec/java_home ]; then
+#     java_home=/usr/libexec/java_home
+# fi
 
-if [[ -n $java_home ]]; then
-    JAVA_HOME=$($java_home --failfast --arch $(arch))
-    [[ -n $JAVA_HOME ]] && export JAVA_HOME || unset JAVA_HOME
-fi
+# if [[ -n $java_home ]]; then
+#     JAVA_HOME=$($java_home --failfast --arch $(arch))
+#     [[ -n $JAVA_HOME ]] && typeset -tx JAVA_HOME || unset JAVA_HOME
+# fi
 
 prepend_to_path "/usr/local/maven/bin"
 
 
 ### MacTex
-if [[ -r /Library/TeX/texbin ]]; then
+#if [[ -r /Library/TeX/texbin ]]; then
     # fully resolve the path here to get around an issue with makewhatis(1) getting upset that
     # /Library/TeX/texbin/man is a symlink instead of a directory.
-    append_to_path $(realpath /Library/TeX/texbin)
-fi
+    #append_to_path $(realpath /Library/TeX/texbin)
+#fi
 
 
 ## Node.js
-NVM_DIR="$XDG_CONFIG_HOME/nvm"
+# NVM_DIR="$XDG_CONFIG_HOME/nvm"
 
-if [[ -r ${NVM_DIR}/nvm.sh ]]; then
-    export NVM_DIR
+# if [[ -r ${NVM_DIR}/nvm.sh ]]; then
+#     export NVM_DIR
 
-    #shellcheck source=../../.config/nvm/nvm.sh
-    . "${NVM_DIR}"/nvm.sh
-else
-    unset NVM_DIR
-fi
+#     #shellcheck source=../../.config/nvm/nvm.sh
+#     . "${NVM_DIR}"/nvm.sh
+# else
+#     unset NVM_DIR
+# fi
 
-append_to_path "${HOME}/.npm-global/bin"
+#append_to_path "${HOME}/.npm-global/bin"
 
 
 ### Yarn
-prepend_to_path "$HOME/.yarn/bin"
-prepend_to_path "$HOME/.config/yarn/global/node_modules/.bin"
+#prepend_to_path "$HOME/.yarn/bin"
+#prepend_to_path "$HOME/.config/yarn/global/node_modules/.bin"
 
 
 ### PlatformIO
@@ -814,7 +850,7 @@ fi
 
 
 ### Python
-[[ -r "${HOME}/.pythonrc" ]] && export PYTHONSTARTUP="${HOME}/.pythonrc"
+# [[ -r "${HOME}/.pythonrc" ]] && typeset -tx PYTHONSTARTUP="${HOME}/.pythonrc"
 
 if [[ -d "${HOME}/.poetry/bin" ]]; then
     prepend_to_path "${HOME}/.poetry/bin"
@@ -825,7 +861,7 @@ fi
 
 
 ### Ruby
-export GEM_HOME="${HOME}/.gem"
+# export GEM_HOME="${HOME}/.gem"
 
 for d in ~/.gem/ruby/*; do
     prepend_to_path "$d/bin"
@@ -833,75 +869,63 @@ done
 
 
 ### Rust
-prepend_to_path "${HOME}/.cargo/bin"
+#prepend_to_path "${HOME}/.cargo/bin"
 if [[ "$-" == *i* ]]; then
     [[ -n "$(command -v rustup)" ]] && eval "$(rustup completions bash)"
 fi
 
 if [[ -n "$(command -v rustc)" ]]; then
     RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
-    [[ -d $RUST_SRC_PATH ]] && export RUST_SRC_PATH
+    [[ -d $RUST_SRC_PATH ]] && typeset -tx RUST_SRC_PATH
 fi
 
 
 ### SSH
-if [[ "$-" == *i* ]]; then
-    # Create a directory for SSH control sockets.
-    # To use this, you need to put the following line in your .ssh/config:
-    #
-    # ControlPath ~/.cache/ssh/ssh_mux_%C
-    [[ -w "${HOME}/.cache/ssh" ]] || mkdir -p "${HOME}/.cache/ssh"
+# if [[ "$-" == *i* ]]; then
+# Create a directory for SSH control sockets.
+# To use this, you need to put the following line in your .ssh/config:
+#
+# ControlPath ~/.cache/ssh/ssh_mux_%C
+[[ -w "${HOME}/.cache/ssh" ]] || mkdir -p "${HOME}/.cache/ssh"
 
-    export HOSTFILE=~/.config/hosts
+# typeset -tx HOSTFILE=~/.config/hosts
 
-    if [ -z "$SSH_CLIENT" ]; then
-        export SSH_AUTH_SOCK="${HOME}/.ssh/ssh-agent.sock"
-        ssh-add -l 2>/dev/null > /dev/null
-        if [ $? -ge 2 ]; then
-            pkill ssh-agent
-            rm -f "$SSH_AUTH_SOCK"
-            eval $(ssh-agent -a "$SSH_AUTH_SOCK") > /dev/null
-        fi
-    fi
-
-    case $UNAME in
-        "Darwin")
-            LIBYKCS11=/usr/local/lib/libykcs11.dylib
-            ;;
-        "Linux")
-            for dir in /usr/local/lib /usr/lib/x86_64-linux-gnu; do
-                if [[ -f "${dir}/libykcs11.so" ]]; then
-                    LIBYKCS11="${dir}/libykcs11.so"
-                    break
-                fi
-            done
-            ;;
-    esac
-
-    export LIBYCKS11
-
-    add-keys() {
-        ssh-add -D
-        ssh-add
-        if [ -n "$LIBYKCS11" ]; then
-            ssh-add -e "$LIBYKCS11"
-            ssh-add -s "$LIBYKCS11"
-        fi
-        ssh-add -l
-    }
+if [ -z "$SSH_CLIENT" ]; then
+    typeset -tx SSH_AUTH_SOCK="${HOME}/.ssh/ssh-agent.sock"
+    ssh-add -l 2>/dev/null > /dev/null
+    [ $? -ge 2 ] && ssh-agent -a "$SSH_AUTH_SOCK" > /dev/null
 fi
+
+case $UNAME in
+    "Darwin")
+        LIBYKCS11=/usr/local/lib/libykcs11.dylib
+        ;;
+    "Linux")
+        LIBYKCS11=/usr/local/lib/libykcs11.so
+esac
+
+export LIBYCKS11
+
+add-keys() {
+    ssh-add -D
+    ssh-add
+    if [ -n "$LIBYKCS11" ]; then
+        ssh-add -e "$LIBYKCS11"
+        ssh-add -s "$LIBYKCS11"
+    fi
+    ssh-add -l
+}
+# fi
 
 
 ### tmux
 if [[ "$-" == *i* ]]; then
     if [[ -n "$(command -v tmux)" ]]; then
         t() {
-            local session
+            local session="main"
             if [[ -n $1 ]]; then
                 # ksh doesn't like a shift if there isn't anything to shift...
                 session="${1}" ; shift
-            else
-                session="main"
             fi
             tmux new-session -A -s "$session" "$@"
         }
@@ -951,26 +975,24 @@ fi
 
 ### fly.io
 if [[ -r "${HOME}/.fly/bin/flyctl" ]]; then
-    append_to_path "${HOME}/.fly/bin"
+    #append_to_path "${HOME}/.fly/bin"
     export FLYCTL_INSTALL="/Users/seth/.fly"
 fi
 
 
 ### VSCode
-vsc_dir="/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-if [[ -r "$vsc_dir/code" ]]; then
-    prepend_to_path "$vsc_dir"
-fi
+#vsc_dir="/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+#if [[ -r "$vsc_dir/code" ]]; then
+    #prepend_to_path "$vsc_dir"
+#fi
 
 
 ### Flutter
-prepend_to_path "${HOME}/code/third-party/flutter/bin"
+#prepend_to_path "${HOME}/code/third-party/flutter/bin"
 
 
 ### Google SDK
-if [[ -d "${HOME}/google-cloud-sdk/bin" ]]; then
-    append_to_path "${HOME}/google-cloud-sdk/bin"
-fi
+#append_to_path "${HOME}/google-cloud-sdk/bin"
 
 
 ### Tailscale
@@ -982,7 +1004,7 @@ fi
 WASMTIME_HOME="$HOME/.wasmtime"
 if [[ -d "$WASMTIME_HOME" ]]; then
     export WASMTIME_HOME
-    prepend_to_path "$WASMTIME_HOME/bin"
+    #prepend_to_path "$WASMTIME_HOME/bin"
 fi
 
 # Wasmer. I don't like this but oh well.
@@ -996,9 +1018,28 @@ if [ -r "${HOME}/.local/lib/azure-cli/az.completion" ]; then
 fi
 
 # Firefox on Ubuntu 23.04 doesn't use Wayland by default(?), so tell it to:
-if [[ $UNAME == "Linux" ]]; then
+if [ "$UNAME" == "Linux" ]; then
     export MOZ_ENABLE_WAYLAND=1
 fi
+
+# dotnet
+if [ -d /usr/local/share/dotnet ]; then
+    #prepend_to_path /usr/local/share/dotnet
+    #prepend_to_path "${HOME}/.dotnet/tools"
+    export DOTNET_ROOT=/usr/local/share/dotnet
+fi
+
+## pixi.sh
+#prepend_to_path "${HOME}/.pixi/bin"
+
+# Roswell
+prepend_to_path "${HOME}/.roswell/bin"
+
+# Podman
+prepend_to_path /opt/podman/bin
+
+export SSL_CERT_DIR="${HOME}/.config/ca-certificates"
+prepend_to_path /opt/pkg/etc/openssl/certs SSL_CERT_DIR
 
 rc_source_file "${HOME}/.rc/local"
 
@@ -1006,4 +1047,24 @@ rc_source_file "${HOME}/.rc/local"
 prepend_to_path "${HOME}/.local/bin"
 prepend_to_path "${HOME}/bin"
 dedupe_path
-export PATH
+typeset -tx PATH
+
+_write_editor_vars() {
+    local var s
+    local f=$(mktemp)
+    [ -r "$f" ] || return 1
+    typeset -pt |
+    while IFS= read -r line; do
+        s=$(expr "$line" : '[^=]* \([[:alpha:]][_[:alnum:]]*=.*\)')
+        echo "$s" >> "$f"
+    done
+    mv -f "$f" "${HOME}/.rc/editor_vars" || rm -f "$f"
+}
+
+_write_editor_vars
+
+if [[ $- == *i* && -n "$(command -v mise)" ]]; then
+    eval "$(~/.local/bin/mise activate bash)"
+fi
+
+_timer_elapsed $__timer_init "full profile"
