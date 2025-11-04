@@ -1,13 +1,26 @@
 ;; -*- mode: lisp -*-
 
-(load #P"~/.lisprc")
+;;; The following lines added by ql:add-to-init-file:
+#-quicklisp
+(let ((quicklisp-init #P"~/.local/quicklisp/setup.lisp"))
+  (when (probe-file quicklisp-init)
+    (load quicklisp-init)))
 
-(if (member "--no-linedit" sb-ext:*posix-argv* :test 'equal)
-    (setf sb-ext:*posix-argv*
-        (remove "--no-linedit" sb-ext:*posix-argv* :test 'equal))
-    (when (interactive-stream-p *terminal-io*)
-        (require :sb-aclrepl)
-        (require :linedit)
-        (funcall (intern "INSTALL-REPL" :linedit) :wrap-current t :eof-quits t)))
+
+(push #P"~/code/mine/lisp" quicklisp:*local-project-directories*)
+
+;(ql:quickload :linedit :silent t)
+;(ql:quickload :linedit)
+
+;(if (member "--no-linedit" sb-ext:*posix-argv* :test 'equal)
+;  (setf sb-ext:*posix-argv*
+;    (remove "--no-linedit" sb-ext:*posix-argv* :test 'equal))
+;  (progn
+;    (require :sb-aclrepl)
+    ;(linedit:start-debug #P"~/linedit.log")
+;    (linedit:install-repl
+;      :wrap-current t 
+;      :eof-quits t
+;      :history (merge-pathnames ".sbcl_history" (user-homedir-pathname)))))
 
 (setf sb-impl::*default-external-format* :utf-8)
