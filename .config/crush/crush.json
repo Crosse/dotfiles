@@ -1,0 +1,64 @@
+{
+  "$schema": "https://charm.land/crush.json",
+
+  "options": {
+    "attribution": {
+      "trailer_style": "co-authored-by",
+      "generated_with": false
+    }
+  },
+
+  "permissions": {
+    "allowed_tools": [
+      "view",
+      "ls",
+      "grep",
+      "edit",
+      "mcp_context7_get_library_doc",
+      "environment_create"
+    ]
+  },
+
+  "lsp": {
+    "go": {
+      "command": "gopls",
+      "env": {
+        "GOTOOLCHAIN": "go1.24.5"
+      }
+    },
+    "typescript": {
+      "command": "typescript-language-server",
+      "args": ["--stdio"]
+    },
+    "rust-analyzer": {
+      "command": "rust-analyzer"
+    }
+  },
+
+  "mcp": {
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "tavily": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.tavily.com/mcp/?tavilyApiKey=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"
+      ]
+    },
+    "container-use": {
+      "type": "stdio",
+      "command": "container-use",
+      "args": ["stdio"],
+      "timeout": 120,
+      "env": {
+        "GIT_CONFIG_KEY_0": "commit.gpgsign",
+        "GIT_CONFIG_VALUE_0": "false",
+        "GIT_CONFIG_COUNT": "1"
+      }
+    }
+  }
+}

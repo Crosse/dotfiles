@@ -1,0 +1,104 @@
+[tools]
+"cargo:cargo-mutants" = "latest"
+"cargo:cargo-outdated" = "latest"
+"cargo:cargo-watch" = "latest"
+"cargo:cargo-xtask" = "latest"
+"github:github/smimesign" = "latest"
+"github:roswell/roswell" = "latest"
+"github:sqlc-dev/sqlc" = "latest"
+"go:github.com/Crosse/font-install" = "latest"
+"go:github.com/Crosse/sshsrv" = "latest"
+"go:golang.org/x/tools/cmd/goimports" = "latest"
+"go:golang.org/x/tools/gopls" = "latest"
+"pipx:isort" = "latest"
+"pipx:keyring" = "latest"
+"pipx:mcpo" = "latest"
+"pipx:pylint" = "latest"
+"pipx:pytest" = "latest"
+black = "latest"
+cargo-binstall = "latest"
+claude = "latest"
+cmake = "latest"
+container-use = "latest"
+cosign = "latest"
+delta = "latest"
+direnv = "latest"
+dotnet = "latest"
+gcloud = "latest"
+gh = "latest"
+go = "latest"
+golangci-lint = "latest"
+golines = "latest"
+hadolint = "latest"
+jq = "latest"
+lua = "latest"
+lua-language-server = "latest"
+luajit = "latest"
+ninja = "latest"
+nomad = "latest"
+oci = "latest"
+packer = "latest"
+pipx = "latest"
+poetry = "latest"
+powershell = "latest"
+python = "latest"
+ripgrep = "latest"
+shellcheck = "latest"
+shfmt = "latest"
+sqlite = "latest"
+terraform = "latest"
+terraform-ls = "latest"
+tmux = "latest"
+usage = "latest"
+uv = "latest"
+vault = "latest"
+act = "latest"
+"pipx:pipenv" = "latest"
+"pipx:borgbackup" = "latest"
+"pipx:borgmatic" = "latest"
+node = "25"
+java = "zulu-21"
+"cargo:tokei" = "latest"
+atuin = "latest"
+"github:akinomyoga/ble.sh" = "nightly"
+"pipx:aider-ce" = "latest"
+rust = { version = "latest", components = "rust-src,rust-analyzer,clippy" }
+dagger = "0.18.14"
+prettier = "latest"
+
+
+[tools."github:lxc/incus"]
+version = "latest"
+bin = "incus"
+
+[tools."github:lxc/incus".platforms]
+linux-arm64 = { asset_pattern = "bin.linux.incus.aarch64" }
+linux-x64 = { asset_pattern = "bin.linux.incus.x86_64" }
+macos-arm64 = { asset_pattern = "bin.macos.incus.aarch64" }
+
+[tools."github:asciinema/asciinema"]
+version = "latest"
+bin = "asciinema"
+
+[tools."github:asciinema/agg"]
+version = "latest"
+bin = "agg"
+
+[tools.ccache]
+version = "latest"
+postinstall = "for f in c{c,++} g{cc,++} clang{,++}; do ln -sf \"$MISE_TOOL_INSTALL_PATH/ccache\" \"$HOME/bin/$f\"; done"
+
+[env]
+GEM_HOME = "{{ env.HOME }}/.gem"
+GOPATH = "{{ env.HOME }}/code/go"
+HOSTFILE = "{{ xdg_config_home }}/hosts"
+JAVA_HOME = "{{ exec(command='/usr/libexec/java_home --failfast --arch ' ~ arch()) }}"
+LANG = "en_US.UTF-8"
+LC_ALL = "{{ env.LANG }}"
+LC_CTYPE = "{{ env.LANG }}"
+PYTHONSTARTUP = "{{ env.HOME }}/.pythonrc"
+TZ = "America/New_York"
+
+[settings]
+experimental = true
+lockfile = true
