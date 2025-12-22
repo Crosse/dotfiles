@@ -27,41 +27,40 @@ def timedelta_fmt(seconds: float) -> str:
     return f"{s} secs"
 
 
-def get_battery_icon(pct: int, state: str) -> int:
+def get_battery_icon(pct: int, state: str, adapter_attached: bool = False) -> int:
     """
-    Return the Nerd Font codepoint for the battery icon, based on percentage and state.
+    Return the Nerd Font codepoint for a unified battery icon that represents both battery and adapter status.
     States used: 'unknown', 'charging', 'discharging', 'fully_charged', 'pending_charge', 'pending_discharge'
     """
     state = (state or "unknown").lower().replace("-", "_")
 
-    # Base icon selection
-    if state in ("discharging", "pending_charge"):
-        icon = 0xF578
-    elif state == "charging":
-        icon = 0xF584
-    elif state == "fully_charged":
-        icon = 0xF578  # plug icon in original script
+    # If adapter is attached, use charging-related icons
+    if adapter_attached:
+        if state == "fully_charged":
+            # Fully charged with adapter: use plug icon
+            return 0xFBA3
+        else:
+            # Charging with adapter: use charging battery icons
+            icon = 0xF584
+            if pct < 40:
+                ofs = int(round(pct / 10.0))
+                icon += ofs
+            elif pct < 60:
+                icon = 0xF587
+            elif pct < 80:
+                icon = 0xF588
+            elif pct < 90:
+                icon = 0xF589
+            else:
+                icon = 0xF58A
+            return icon
     else:
-        icon = 0xF582  # battery with exclamation point
-
-    # Adjust based on percentage
-    ofs = int(round(pct / 10.0))
-    if state in ("discharging", "pending_charge"):
+        # Discharging: use battery icons
+        icon = 0xF578
+        ofs = int(round(pct / 10.0))
         if ofs < 10:
             icon += ofs
-    elif state == "charging":
-        if pct < 40:
-            icon += ofs
-        elif pct < 60:
-            icon = 0xF587
-        elif pct < 80:
-            icon = 0xF588
-        elif pct < 90:
-            icon = 0xF589
-        else:
-            icon = 0xF58A
-
-    return icon
+        return icon
 
 
 def batt_darwin() -> None:
@@ -74,10 +73,9 @@ def batt_darwin() -> None:
     adapter_attached = "Now drawing from 'AC Power'" in out
     batt_line = next((ln for ln in out.splitlines() if "InternalBattery" in ln), None)
 
-    # Adapter icons from original script
-    adapter_icon = 0xFBA3 if adapter_attached else 0xFBA4
-
     if not batt_line:
+        # No battery found, just show adapter status
+        adapter_icon = 0xFBA3 if adapter_attached else 0xFBA4
         print(chr(adapter_icon))
         return
 
@@ -97,8 +95,8 @@ def batt_darwin() -> None:
     else:
         state = "unknown"
 
-    icon = get_battery_icon(pct, state)
-    print(f"{chr(adapter_icon)} {chr(icon)} ({pct}%)")
+    icon = get_battery_icon(pct, state, adapter_attached)
+    print(f"{chr(icon)} ({pct}%)")
 
 
 def _find_upower_battery() -> Optional[str]:
@@ -159,6 +157,15 @@ def _parse_upower_info(dev: str) -> dict:
     return info
 
 
+def _is_adapter_attached() -> bool:
+    """Check if AC adapter is attached on Linux."""
+    try:
+        result = subprocess.check_output(["upower", "-e"], text=True)
+        return "line-power" in result.lower() and "warning-level" not in result.lower()
+    except Exception:
+        return False
+
+
 def batt_linux() -> None:
     dev = _find_upower_battery()
     if not dev:
@@ -169,6 +176,7 @@ def batt_linux() -> None:
     info = _parse_upower_info(dev)
     pct = info["percentage"] if info["percentage"] is not None else 0
     state = info["state"]
+    adapter_attached = _is_adapter_attached()
 
     # Try to compute a human-readable time
     time_str = None
@@ -177,7 +185,7 @@ def batt_linux() -> None:
     elif state == "charging" and info["time_to_full_hours"]:
         time_str = timedelta_fmt(info["time_to_full_hours"] * 3600.0)
 
-    icon = get_battery_icon(pct, state)
+    icon = get_battery_icon(pct, state, adapter_attached)
     if time_str:
         print(f"{chr(icon)} ({time_str})")
     elif info["energy_rate_w"] is not None:
