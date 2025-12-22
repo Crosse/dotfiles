@@ -4,6 +4,7 @@ import re
 import shutil
 import subprocess
 import sys
+from typing import Optional
 
 # Ensure UTF-8 output for Nerd Font icons
 try:
@@ -100,7 +101,7 @@ def batt_darwin() -> None:
     print(f"{chr(adapter_icon)} {chr(icon)} ({pct}%)")
 
 
-def _find_upower_battery() -> str | None:
+def _find_upower_battery() -> Optional[str]:
     if not shutil.which("upower"):
         return None
     try:
