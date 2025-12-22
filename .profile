@@ -392,6 +392,7 @@ if [[ "$-" == *i* ]]; then
         PS1="${PS1} "
         PS1="${PS1}$_g"                                     # git status, if available
         PS1="${PS1}${SHELL_COLORS[green]}\w$_reset"         # working directory
+        PS1="${PS1}\${MISE_ENV/?*/ (&)}"
         PS1="${PS1}\n"                                      # new line.
         PS1="${PS1}${SHELL_COLORS[black]}\$$_reset "        # Either '$' or '#'
         export PS1
@@ -949,7 +950,7 @@ if [[ "$-" == *i* ]]; then
                     fi
                 done < <(tmux show-environment)
             }
-            [[ "$PROMPT_COMMAND" == *update_tmux_env* ]] || PROMPT_COMMAND="update_tmux_env; $PROMPT_COMMAND"
+            [[ "$PROMPT_COMMAND" == *update_tmux_env* ]] || PROMPT_COMMAND="update_tmux_env;$PROMPT_COMMAND"
 
             _t() {
                 local IFS=$'\n'
@@ -1032,6 +1033,18 @@ prepend_to_path "${HOME}/.roswell/bin"
 
 # Podman
 prepend_to_path /opt/podman/bin
+
+# ble.sh
+# BLESH_PATH="$(mise where github:akinomyoga/ble.sh 2>/dev/null)"
+# if [ -d "$BLESH_PATH" ]; then
+#     [[ $- == *i* ]] && source -- "$BLESH_PATH"/ble.sh --attach=none
+#     [[ ! ${BLE_VERSION-} ]] || ble-attach
+# fi
+
+# Atuin
+# if [ -n "command -v atuin" ]; then
+#     eval "$(atuin init bash --disable-ctrl-r --disable-up-arrow)"
+# fi
 
 export SSL_CERT_DIR="${HOME}/.config/ca-certificates"
 prepend_to_path /opt/pkg/etc/openssl/certs SSL_CERT_DIR
