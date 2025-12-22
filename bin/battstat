@@ -1,154 +1,200 @@
-#!/usr/bin/env perl
+#!/usr/bin/env python3
+import platform
+import re
+import shutil
+import subprocess
+import sys
 
-use strict;
-use warnings;
-use v5.10.1;
-use feature qw{ say };
-no warnings 'experimental';
-
-use POSIX qw(uname);
-
-binmode(STDOUT, ":utf8");
+# Ensure UTF-8 output for Nerd Font icons
+try:
+    sys.stdout.reconfigure(encoding="utf-8")  # Python 3.7+
+except Exception:
+    pass
 
 
-my @UPOWER_STATE = qw(unknown charging discharging fully_charged
-               pending_charge pending_discharge);
-my %UPOWER_STATE = map {$UPOWER_STATE[$_] => $_} 0..$#UPOWER_STATE;
+def timedelta_fmt(seconds: float) -> str:
+    seconds = int(round(seconds))
+    m, s = divmod(seconds, 60)
+    h, m = divmod(m, 60)
+    d, h = divmod(h, 24)
+    if d > 0:
+        return f"{d}d {h}h"
+    if h > 0:
+        return f"{h}h {m}m"
+    if m > 0:
+        return f"{m} mins"
+    return f"{s} secs"
 
-my @uname = uname();
 
-given ($uname[0]) {
-    when ($_ eq "Linux") {
-        batt_linux();
-    }
-    when ($_ eq "Darwin") {
-        batt_darwin();
-    }
-    default {
-        print "Unknown!";
-        exit 1;
-    }
-}
+def get_battery_icon(pct: int, state: str) -> int:
+    """
+    Return the Nerd Font codepoint for the battery icon, based on percentage and state.
+    States used: 'unknown', 'charging', 'discharging', 'fully_charged', 'pending_charge', 'pending_discharge'
+    """
+    state = (state or "unknown").lower().replace("-", "_")
 
-sub timedelta {
-    my ($dif) = @_;
-    my ($s, $m, $h, $d);
+    # Base icon selection
+    if state in ("discharging", "pending_charge"):
+        icon = 0xF578
+    elif state == "charging":
+        icon = 0xF584
+    elif state == "fully_charged":
+        icon = 0xF578  # plug icon in original script
+    else:
+        icon = 0xF582  # battery with exclamation point
 
-    $dif -= $s = $dif % 60; $dif /= 60;
-    $dif -= $m = $dif % 60; $dif /= 60;
-    $dif -= $h = $dif % 24; $dif /= 24;
-    $d = $dif + 0;
-    if ($d > 0) { "${d}d ${h}h" }
-    elsif ($h > 0)  { "${h}h ${m}m" }
-    elsif ($m > 0)  { "${m} mins" }
-    else        { "${s} secs" }
-}
+    # Adjust based on percentage
+    ofs = int(round(pct / 10.0))
+    if state in ("discharging", "pending_charge"):
+        if ofs < 10:
+            icon += ofs
+    elif state == "charging":
+        if pct < 40:
+            icon += ofs
+        elif pct < 60:
+            icon = 0xF587
+        elif pct < 80:
+            icon = 0xF588
+        elif pct < 90:
+            icon = 0xF589
+        else:
+            icon = 0xF58A
 
-sub batt_darwin {
-    my $re = qr/InternalBattery.*?(\d+)%; ([^;]+); \(?((.*) remaining|no estimate|not charging)\)?/;
-    my @output = split "\n", `pmset -g ps`;
+    return icon
 
-    my $adapter_attached = 0;
-    foreach (@output) {
-        if ($_ =~ qr/Now drawing from 'AC Power'/) {
-            $adapter_attached = 1;
-            next;
-        }
 
-        if ($_ =~ $re) {
-            my $state;
+def batt_darwin() -> None:
+    try:
+        out = subprocess.check_output(["pmset", "-g", "ps"], text=True)
+    except Exception:
+        print("Unknown!")
+        sys.exit(1)
 
-            if ($2 eq "charged") {
-                $state = 3;
-            } elsif ($2 eq "AC attached" && $3 eq "not charging") {
-                # Probably macOS waiting to fully charge until later in the day.
-                $state = 4;
-            } else {
-                $state = $UPOWER_STATE{$3} || 0;
-            }
+    adapter_attached = "Now drawing from 'AC Power'" in out
+    batt_line = next((ln for ln in out.splitlines() if "InternalBattery" in ln), None)
 
-            my $icon = get_battery_icon($1, $state, $adapter_attached);
+    # Adapter icons from original script
+    adapter_icon = 0xFBA3 if adapter_attached else 0xFBA4
 
-            my $adapter;
-            if ($adapter_attached) {
-                $adapter = 0xfba3;
-            } else {
-                $adapter = 0xfba4;
-            }
-
-            printf("%s %s (%s%%)\n", chr($adapter), chr($icon), $1);
-            return;
-        }
-    }
-}
-
-sub get_battery_icon {
-    my ($pct, $state, $adapter_attached) = @_;
-
-    # The code points here refer icons in a Nerd Font-compatible font.
-
-    my ($icon, $adapter);
-    if ($state eq $UPOWER_STATE{discharging} ||
-        $state eq $UPOWER_STATE{pending_charge}) {
-        $icon = 0xf578;
-    } elsif ($state eq $UPOWER_STATE{charging}) {
-        $icon = 0xf584;
-    } elsif ($state eq $UPOWER_STATE{fully_charged}) {
-        $icon = 0xf578; # plug icon
-    } else {
-        $icon = 0xf582; # battery with exclamation point
-    }
-
-    if ($state == $UPOWER_STATE{discharging} || $UPOWER_STATE{pending_charge}) {
-        my $ofs = sprintf("%.0f", $pct / 10);
-        if ($ofs < 10) {
-            $icon += $ofs;
-        }
-    } elsif ($state == $UPOWER_STATE{charging}) {
-        my $ofs = sprintf("%.0f", $pct / 10);
-        if ($pct < 40) {
-            $icon += $ofs;
-        } elsif ($pct < 60) {
-            $icon = 0xf587;
-        } elsif ($pct < 80) {
-            $icon = 0xf588;
-        } elsif ($pct < 90) {
-            $icon = 0xf589;
-        } elsif ($pct >= 90) {
-            $icon = 0xf58a;
-        }
-    }
-
-    return $icon;
-}
-
-sub batt_linux {
-    BEGIN { require Net::DBus if $uname[0] eq "Linux" };
-    BEGIN { require Net::DBus::Dumper => qw(dbus_dump) if $uname[0] eq "Linux" };
-
-    my $upower_svc = Net::DBus->system->get_service("org.freedesktop.UPower");
-    my $upower = $upower_svc->get_object("/org/freedesktop/UPower");
-
-    if (scalar @{$upower->EnumerateDevices} == 0) {
-        printf("%s\n", chr(0xfba3));
+    if not batt_line:
+        print(chr(adapter_icon))
         return
+
+    m_pct = re.search(r"(\d+)%", batt_line)
+    pct = int(m_pct.group(1)) if m_pct else 0
+
+    lower = batt_line.lower()
+    # Determine state heuristically from the line content
+    if "not charging" in lower:
+        state = "pending_charge"
+    elif "charged" in lower and "charging" not in lower:
+        state = "fully_charged"
+    elif "discharging" in lower:
+        state = "discharging"
+    elif "charging" in lower:
+        state = "charging"
+    else:
+        state = "unknown"
+
+    icon = get_battery_icon(pct, state)
+    print(f"{chr(adapter_icon)} {chr(icon)} ({pct}%)")
+
+
+def _find_upower_battery() -> str | None:
+    if not shutil.which("upower"):
+        return None
+    try:
+        devices = subprocess.check_output(["upower", "-e"], text=True).splitlines()
+    except Exception:
+        return None
+    # Prefer devices that look like batteries
+    for dev in devices:
+        if "battery" in dev.lower() or "BAT" in dev:
+            return dev.strip()
+    return None
+
+
+def _parse_upower_info(dev: str) -> dict:
+    info = {
+        "percentage": None,
+        "state": "unknown",
+        "time_to_empty_hours": None,
+        "time_to_full_hours": None,
+        "energy_rate_w": None,
     }
+    try:
+        text = subprocess.check_output(["upower", "-i", dev], text=True)
+    except Exception:
+        return info
+
+    # Simple key-value parsing
+    for line in text.splitlines():
+        ln = line.strip().lower()
+        if ln.startswith("percentage:"):
+            m = re.search(r"(\d+)%", ln)
+            if m:
+                info["percentage"] = int(m.group(1))
+        elif ln.startswith("state:"):
+            st = ln.split(":", 1)[1].strip()
+            st = st.replace("-", "_")
+            if st == "fully_charged":
+                info["state"] = "fully_charged"
+            elif st in ("charging", "discharging", "pending_charge", "pending_discharge", "unknown"):
+                info["state"] = st
+            else:
+                info["state"] = "unknown"
+        elif ln.startswith("time to empty:"):
+            m = re.search(r"([0-9.]+)\s*hours", ln)
+            if m:
+                info["time_to_empty_hours"] = float(m.group(1))
+        elif ln.startswith("time to full:"):
+            m = re.search(r"([0-9.]+)\s*hours", ln)
+            if m:
+                info["time_to_full_hours"] = float(m.group(1))
+        elif ln.startswith("energy-rate:"):
+            m = re.search(r"([0-9.]+)\s*w", ln)
+            if m:
+                info["energy_rate_w"] = float(m.group(1))
+    return info
 
 
-    my $devices = upower->get_object("/org/freedesktop/UPower/devices");
-    my $batt = $devices->get_child_object("battery_BAT0");
+def batt_linux() -> None:
+    dev = _find_upower_battery()
+    if not dev:
+        # Fallback: show plug icon
+        print(chr(0xFBA3))
+        return
 
-    my $time;
-    my $icon = get_battery_icon($batt->Percentage, $batt->State);
-    if ($batt->State == $UPOWER_STATE{discharging}) {
-        $time = timedelta($batt->TimeToEmpty);
-    } elsif ($batt->State == $UPOWER_STATE{charging}) {
-        $time = timedelta($batt->TimeToFull);
-    }
+    info = _parse_upower_info(dev)
+    pct = info["percentage"] if info["percentage"] is not None else 0
+    state = info["state"]
 
-    if ($time) {
-        printf("%s (%s)\n", chr($icon), $time);
-    } else {
-        printf("%s (%.1fW)\n", chr($icon), $batt->EnergyRate);
-    }
-}
+    # Try to compute a human-readable time
+    time_str = None
+    if state == "discharging" and info["time_to_empty_hours"]:
+        time_str = timedelta_fmt(info["time_to_empty_hours"] * 3600.0)
+    elif state == "charging" and info["time_to_full_hours"]:
+        time_str = timedelta_fmt(info["time_to_full_hours"] * 3600.0)
+
+    icon = get_battery_icon(pct, state)
+    if time_str:
+        print(f"{chr(icon)} ({time_str})")
+    elif info["energy_rate_w"] is not None:
+        print(f"{chr(icon)} ({info['energy_rate_w']:.1f}W)")
+    else:
+        print(f"{chr(icon)} ({pct}%)")
+
+
+def main() -> None:
+    system = platform.system()
+    if system == "Linux":
+        batt_linux()
+    elif system == "Darwin":
+        batt_darwin()
+    else:
+        print("Unknown!")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
