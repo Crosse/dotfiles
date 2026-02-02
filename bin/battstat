@@ -63,6 +63,20 @@ def get_battery_icon(pct: int, state: str, adapter_attached: bool = False) -> in
         return icon
 
 
+def _parse_pmset_time(time_str: str) -> Optional[float]:
+    """
+    Parse time strings from pmset output (e.g., "2:30" or "1:15") and return seconds.
+    Returns None if parsing fails.
+    """
+    time_str = time_str.strip()
+    m = re.search(r"(\d+):(\d+)", time_str)
+    if m:
+        hours = int(m.group(1))
+        minutes = int(m.group(2))
+        return (hours * 3600) + (minutes * 60)
+    return None
+
+
 def batt_darwin() -> None:
     try:
         out = subprocess.check_output(["pmset", "-g", "ps"], text=True)
@@ -95,8 +109,33 @@ def batt_darwin() -> None:
     else:
         state = "unknown"
 
+    # Try to extract time estimate from pmset output
+    time_str = None
+    time_seconds = None
+    
+    # Look for "Time remaining" (discharging) or "Time until charged" (charging)
+    for line in out.splitlines():
+        line_lower = line.lower()
+        if "time remaining" in line_lower:
+            # Extract time value from line like "Time remaining: 2:30"
+            m = re.search(r"time remaining:\s*(.+?)(?:\s|$)", line, re.IGNORECASE)
+            if m:
+                time_seconds = _parse_pmset_time(m.group(1))
+                break
+        elif "time until charged" in line_lower:
+            # Extract time value from line like "Time until charged: 1:15"
+            m = re.search(r"time until charged:\s*(.+?)(?:\s|$)", line, re.IGNORECASE)
+            if m:
+                time_seconds = _parse_pmset_time(m.group(1))
+                break
+
     icon = get_battery_icon(pct, state, adapter_attached)
-    print(f"{chr(icon)} ({pct}%)")
+    
+    if time_seconds is not None:
+        time_str = timedelta_fmt(time_seconds)
+        print(f"{chr(icon)} ({time_str})")
+    else:
+        print(f"{chr(icon)} ({pct}%)")
 
 
 def _find_upower_battery() -> Optional[str]:
