@@ -5,6 +5,7 @@
     path = aliases
     path = colors
     path = ~/.gitconfig.extra
+    path = delta-themes.gitconfig
 
 [advice]
     detachedHead = false
@@ -17,11 +18,13 @@
     helper = /usr/local/share/gcm-core/git-credential-manager-core
 
 [delta]
-    light = true
-    syntax-theme = GitHub
+    navigate = true
+    features = arctic-fox
+    side-by-side = false
     line-numbers = true
-    commit-style = blue
-    commit-decoration-style = green
+
+[merge]
+    conflictStyle = zdiff3
 
 [diff]
     compactionHeuristic = true
