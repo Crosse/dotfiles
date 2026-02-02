@@ -5,3 +5,5 @@
 .rc/editor_vars
 .config/Code/User/History
 .config/Code/User/sync
+.aider/
+.aider.*
