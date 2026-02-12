@@ -504,16 +504,18 @@ if [[ "$-" == *i* ]]; then
             ;;
     esac
 
+    # for emacsclient
+	export ALTERNATE_EDITOR=""
+
     if [[ -n "$INSIDE_EMACS" && -x "${HOME}/bin/find_file_cmd" ]]; then
         export EDITOR="${HOME}/bin/find_file_cmd"
         export VISUAL=$EDITOR
         alias e=$EDITOR
     else
-        for editor in eclient emacsclient emacs vim nvi vi; do
+        for editor in emacsclient emacs vim nvi vi; do
             if command -v $editor >/dev/null; then
                 if [[ $editor == "emacsclient" ]]; then
                     editor='emacsclient -c -t -a ""'
-                    em() { emacsclient -c -a "" "$@" & disown; }
                 fi
                 export EDITOR=$editor VISUAL=$editor
                 alias e=$editor
@@ -899,13 +901,12 @@ fi
 
 case $UNAME in
     "Darwin")
-        LIBYKCS11=/usr/local/lib/libykcs11.dylib
+        export LIBYKCS11=/usr/local/lib/libykcs11.dylib
+        export SSH_SK_PROVIDER=/usr/lib/ssh-keychain.dylib
         ;;
     "Linux")
-        LIBYKCS11=/usr/local/lib/libykcs11.so
+        export LIBYKCS11=/usr/local/lib/libykcs11.so
 esac
-
-export LIBYCKS11
 
 add-keys() {
     ssh-add -D
@@ -913,6 +914,9 @@ add-keys() {
     if [ -n "$LIBYKCS11" ]; then
         ssh-add -e "$LIBYKCS11"
         ssh-add -s "$LIBYKCS11"
+    fi
+    if [ -n "$SSH_SK_PROVIDER" ]; then
+        ssh-add -K
     fi
     ssh-add -l
 }
