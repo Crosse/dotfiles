@@ -13,8 +13,10 @@ TAGS
 cscope.out
 tags
 
-# Sadly, for now
 .vscode/
 .#*
 .python-version
 compile_commands.json
+
+.aider/
+.aider.*
