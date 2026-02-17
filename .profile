@@ -1058,6 +1058,7 @@ prepend_to_path /opt/podman/bin
 export SSL_CERT_DIR="${HOME}/.config/ca-certificates"
 prepend_to_path /opt/pkg/etc/openssl/certs SSL_CERT_DIR
 
+mkdir -p "${HOME}/.rc"
 rc_source_file "${HOME}/.rc/local"
 
 # These are at the bottom because we always want them to be first in the search order.
