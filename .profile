@@ -1081,8 +1081,10 @@ _write_editor_vars() {
 
 _write_editor_vars
 
-if [[ $- == *i* && -n "$(command -v mise)" ]]; then
-    eval "$(~/.local/bin/mise activate bash)"
+MISE="$(command -v mise)"
+if [[ $- == *i* && -n "$MISE" ]]; then
+    eval "$($MISE activate bash)"
 fi
+unset MISE
 
 _timer_elapsed $__timer_init "full profile"
