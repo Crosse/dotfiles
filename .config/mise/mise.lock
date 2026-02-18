@@ -1,0 +1,75 @@
+[[tools.cosign]]
+version = "3.0.4"
+backend = "aqua:sigstore/cosign"
+"platforms.linux-arm64" = { checksum = "sha256:c12fc6150195758ec0b1aeb1aade3381a1d3a299584982b66543f22bab04535b", url = "https://github.com/sigstore/cosign/releases/download/v3.0.4/cosign-linux-arm64"}
+"platforms.linux-x64" = { checksum = "sha256:10dab2fd2170b5aa0d5c0673a9a2793304960220b314f6a873bf39c2f08287aa", url = "https://github.com/sigstore/cosign/releases/download/v3.0.4/cosign-linux-amd64"}
+"platforms.macos-arm64" = { checksum = "sha256:7098c46809c0818d970e63f7acd10f44c6919d3b4a261a63972a60694a9c9f66", url = "https://github.com/sigstore/cosign/releases/download/v3.0.4/cosign-darwin-arm64"}
+"platforms.macos-x64" = { checksum = "sha256:4dbafca16d29be06a6a740d517a9f63de67c78be3a64d048e42520401d88facc", url = "https://github.com/sigstore/cosign/releases/download/v3.0.4/cosign-darwin-amd64"}
+"platforms.windows-x64" = { checksum = "sha256:a3a0dc4e8c745f9bd855ec18db346538b78ab2c4d6d510ae4186bb4a03f35438", url = "https://github.com/sigstore/cosign/releases/download/v3.0.4/cosign-windows-amd64.exe"}
+
+[[tools.delta]]
+version = "0.18.2"
+backend = "aqua:dandavison/delta"
+"platforms.linux-arm64" = { url = "https://github.com/dandavison/delta/releases/download/0.18.2/delta-0.18.2-aarch64-unknown-linux-gnu.tar.gz"}
+"platforms.linux-x64" = { url = "https://github.com/dandavison/delta/releases/download/0.18.2/delta-0.18.2-x86_64-unknown-linux-musl.tar.gz"}
+"platforms.macos-arm64" = { url = "https://github.com/dandavison/delta/releases/download/0.18.2/delta-0.18.2-aarch64-apple-darwin.tar.gz"}
+"platforms.macos-x64" = { url = "https://github.com/dandavison/delta/releases/download/0.18.2/delta-0.18.2-x86_64-apple-darwin.tar.gz"}
+"platforms.windows-x64" = { url = "https://github.com/dandavison/delta/releases/download/0.18.2/delta-0.18.2-x86_64-pc-windows-msvc.zip"}
+
+[[tools."github:github/smimesign"]]
+version = "0.2.0"
+backend = "github:github/smimesign"
+"platforms.macos-arm64" = { url = "https://github.com/github/smimesign/releases/download/v0.2.0/smimesign-macos-v0.2.0.tgz", url_api = "https://api.github.com/repos/github/smimesign/releases/assets/46234741"}
+"platforms.macos-x64" = { url = "https://github.com/github/smimesign/releases/download/v0.2.0/smimesign-macos-v0.2.0.tgz", url_api = "https://api.github.com/repos/github/smimesign/releases/assets/46234741"}
+"platforms.windows-x64" = { url = "https://github.com/github/smimesign/releases/download/v0.2.0/smimesign-windows-amd64-v0.2.0.zip", url_api = "https://api.github.com/repos/github/smimesign/releases/assets/46235525"}
+
+[[tools.jq]]
+version = "1.8.1"
+backend = "aqua:jqlang/jq"
+"platforms.linux-arm64" = { checksum = "sha256:6bc62f25981328edd3cfcfe6fe51b073f2d7e7710d7ef7fcdac28d4e384fc3d4", url = "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-linux-arm64"}
+"platforms.linux-x64" = { checksum = "sha256:020468de7539ce70ef1bceaf7cde2e8c4f2ca6c3afb84642aabc5c97d9fc2a0d", url = "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-linux-amd64"}
+"platforms.macos-arm64" = { checksum = "sha256:a9fe3ea2f86dfc72f6728417521ec9067b343277152b114f4e98d8cb0e263603", url = "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-macos-arm64"}
+"platforms.macos-x64" = { checksum = "sha256:e80dbe0d2a2597e3c11c404f03337b981d74b4a8504b70586c354b7697a7c27f", url = "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-macos-amd64"}
+"platforms.windows-x64" = { checksum = "sha256:23cb60a1354eed6bcc8d9b9735e8c7b388cd1fdcb75726b93bc299ef22dd9334", url = "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-windows-amd64.exe"}
+
+[[tools.pipx]]
+version = "1.8.0"
+backend = "aqua:pypa/pipx"
+"platforms.linux-arm64" = { checksum = "sha256:b9eabd835dffe0677e36bd99416fc9837c592bd8c079235379bed3dfe043c601", url = "https://github.com/pypa/pipx/releases/download/1.8.0/pipx.pyz"}
+"platforms.linux-x64" = { checksum = "sha256:b9eabd835dffe0677e36bd99416fc9837c592bd8c079235379bed3dfe043c601", url = "https://github.com/pypa/pipx/releases/download/1.8.0/pipx.pyz"}
+"platforms.macos-arm64" = { checksum = "sha256:b9eabd835dffe0677e36bd99416fc9837c592bd8c079235379bed3dfe043c601", url = "https://github.com/pypa/pipx/releases/download/1.8.0/pipx.pyz"}
+"platforms.macos-x64" = { checksum = "sha256:b9eabd835dffe0677e36bd99416fc9837c592bd8c079235379bed3dfe043c601", url = "https://github.com/pypa/pipx/releases/download/1.8.0/pipx.pyz"}
+
+[[tools."pipx:pipenv"]]
+version = "2026.0.3"
+backend = "pipx:pipenv"
+
+[[tools.ripgrep]]
+version = "15.1.0"
+backend = "aqua:BurntSushi/ripgrep"
+"platforms.linux-arm64" = { checksum = "sha256:2b661c6ef508e902f388e9098d9c4c5aca72c87b55922d94abdba830b4dc885e", url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-aarch64-unknown-linux-gnu.tar.gz"}
+"platforms.linux-x64" = { checksum = "sha256:1c9297be4a084eea7ecaedf93eb03d058d6faae29bbc57ecdaf5063921491599", url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-x86_64-unknown-linux-musl.tar.gz"}
+"platforms.macos-arm64" = { checksum = "sha256:378e973289176ca0c6054054ee7f631a065874a352bf43f0fa60ef079b6ba715", url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-aarch64-apple-darwin.tar.gz"}
+"platforms.macos-x64" = { checksum = "sha256:64811cb24e77cac3057d6c40b63ac9becf9082eedd54ca411b475b755d334882", url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-x86_64-apple-darwin.tar.gz"}
+"platforms.windows-x64" = { checksum = "sha256:124510b94b6baa3380d051fdf4650eaa80a302c876d611e9dba0b2e18d87493a", url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-x86_64-pc-windows-msvc.zip"}
+
+[[tools.sqlite]]
+version = "3.51.2"
+backend = "asdf:sqlite"
+
+[[tools.tmux]]
+version = "3.6"
+backend = "asdf:tmux"
+
+[[tools.usage]]
+version = "2.16.1"
+backend = "aqua:jdx/usage"
+"platforms.linux-arm64" = { checksum = "sha256:29ab8f0cf07d94f4f852007413594714561de9d613fe4dbf12b287dfa1bee0ac", url = "https://github.com/jdx/usage/releases/download/v2.16.1/usage-aarch64-unknown-linux-musl.tar.gz"}
+"platforms.linux-x64" = { checksum = "sha256:9ff23ebae8b3fc049b4ed4fec29c417063597c79739bab094c390ddfe56e9623", url = "https://github.com/jdx/usage/releases/download/v2.16.1/usage-x86_64-unknown-linux-musl.tar.gz"}
+"platforms.macos-arm64" = { checksum = "sha256:3bba8d4916da22dbd4afe4ab6c59c988765d7e0374e1121b43ce8b1a282cfc78", url = "https://github.com/jdx/usage/releases/download/v2.16.1/usage-universal-apple-darwin.tar.gz"}
+"platforms.macos-x64" = { checksum = "sha256:3bba8d4916da22dbd4afe4ab6c59c988765d7e0374e1121b43ce8b1a282cfc78", url = "https://github.com/jdx/usage/releases/download/v2.16.1/usage-universal-apple-darwin.tar.gz"}
+"platforms.windows-x64" = { checksum = "sha256:e350777dac70476702bcea0abe4f8257133b6ce57004ddfb6f8c9d757f4f4300", url = "https://github.com/jdx/usage/releases/download/v2.16.1/usage-x86_64-pc-windows-msvc.zip"}
+
+[[tools.uv]]
+version = "0.9.28"
+backend = "asdf:uv"

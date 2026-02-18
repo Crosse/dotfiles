@@ -7,4 +7,5 @@
 .config/Code/User/sync
 .aider/
 .aider.*
-/.config/mise/config.local.toml
+config.local.toml
+mise.local.lock
