@@ -7,3 +7,4 @@
     name        = Seth Wright
     email       = seth@crosse.org
     signingkey  = ~/.ssh/id_yubikey-geode.pub
+    #signingkey  = ~/.ssh/id_ecdsa_sk_rk.pub

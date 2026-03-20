@@ -1,0 +1,7 @@
+[env]
+GIT_AUTHOR_EMAIL = "seth+ai@crosse.org"
+GIT_COMMITTER_EMAIL = "seth@crosse.org"
+GIT_COMMITTER_NAME = "Seth Wright"
+GIT_CONFIG_COUNT = "1"
+GIT_CONFIG_KEY_0 = "commit.gpgsign"
+GIT_CONFIG_VALUE_0 = "false"

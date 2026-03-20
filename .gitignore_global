@@ -20,3 +20,8 @@ compile_commands.json
 
 .aider/
 .aider.*
+opencode.json
+mise.local.toml
+
+# Letta Code personal settings
+.letta/settings.local.json

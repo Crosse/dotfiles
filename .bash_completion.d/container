@@ -1,0 +1,1165 @@
+#!/bin/bash
+
+__container_cursor_index_in_current_word() {
+    local remaining="${COMP_LINE}"
+
+    local word
+    for word in "${COMP_WORDS[@]::COMP_CWORD}"; do
+        remaining="${remaining##*([[:space:]])"${word}"*([[:space:]])}"
+    done
+
+    local -ir index="$((COMP_POINT - ${#COMP_LINE} + ${#remaining}))"
+    if [[ "${index}" -le 0 ]]; then
+        printf 0
+    else
+        printf %s "${index}"
+    fi
+}
+
+# positional arguments:
+#
+# - 1: the current (sub)command's count of positional arguments
+#
+# required variables:
+#
+# - flags: the flags that the current (sub)command can accept
+# - options: the options that the current (sub)command can accept
+# - positional_number: value ignored
+# - unparsed_words: unparsed words from the current command line
+#
+# modified variables:
+#
+# - flags: remove flags for this (sub)command that are already on the command line
+# - options: remove options for this (sub)command that are already on the command line
+# - positional_number: set to the current positional number
+# - unparsed_words: remove all flags, options, and option values for this (sub)command
+__container_offer_flags_options() {
+    local -ir positional_count="${1}"
+    positional_number=0
+
+    local was_flag_option_terminator_seen=false
+    local is_parsing_option_value=false
+
+    local -ar unparsed_word_indices=("${!unparsed_words[@]}")
+    local -i word_index
+    for word_index in "${unparsed_word_indices[@]}"; do
+        if "${is_parsing_option_value}"; then
+            # This word is an option value:
+            # Reset marker for next word iff not currently the last word
+            [[ "${word_index}" -ne "${unparsed_word_indices[${#unparsed_word_indices[@]} - 1]}" ]] && is_parsing_option_value=false
+            unset "unparsed_words[${word_index}]"
+            # Do not process this word as a flag or an option
+            continue
+        fi
+
+        local word="${unparsed_words["${word_index}"]}"
+        if ! "${was_flag_option_terminator_seen}"; then
+            case "${word}" in
+            --)
+                unset "unparsed_words[${word_index}]"
+                # by itself -- is a flag/option terminator, but if it is the last word, it is the start of a completion
+                if [[ "${word_index}" -ne "${unparsed_word_indices[${#unparsed_word_indices[@]} - 1]}" ]]; then
+                    was_flag_option_terminator_seen=true
+                fi
+                continue
+                ;;
+            -*)
+                # ${word} is a flag or an option
+                # If ${word} is an option, mark that the next word to be parsed is an option value
+                local option
+                for option in "${options[@]}"; do
+                    [[ "${word}" = "${option}" ]] && is_parsing_option_value=true && break
+                done
+
+                # Remove ${word} from ${flags} or ${options} so it isn't offered again
+                local not_found=true
+                local -i index
+                for index in "${!flags[@]}"; do
+                    if [[ "${flags[${index}]}" = "${word}" ]]; then
+                        unset "flags[${index}]"
+                        flags=("${flags[@]}")
+                        not_found=false
+                        break
+                    fi
+                done
+                if "${not_found}"; then
+                    for index in "${!options[@]}"; do
+                        if [[ "${options[${index}]}" = "${word}" ]]; then
+                            unset "options[${index}]"
+                            options=("${options[@]}")
+                            break
+                        fi
+                    done
+                fi
+                unset "unparsed_words[${word_index}]"
+                continue
+                ;;
+            esac
+        fi
+
+        # ${word} is neither a flag, nor an option, nor an option value
+        if [[ "${positional_number}" -lt "${positional_count}" ]]; then
+            # ${word} is a positional
+            ((positional_number++))
+            unset "unparsed_words[${word_index}]"
+        else
+            if [[ -z "${word}" ]]; then
+                # Could be completing a flag, option, or subcommand
+                positional_number=-1
+            else
+                # ${word} is a subcommand or invalid, so stop processing this (sub)command
+                positional_number=-2
+            fi
+            break
+        fi
+    done
+
+    unparsed_words=("${unparsed_words[@]}")
+
+    if\
+        ! "${was_flag_option_terminator_seen}"\
+        && ! "${is_parsing_option_value}"\
+        && [[ ("${cur}" = -* && "${positional_number}" -ge 0) || "${positional_number}" -eq -1 ]]
+    then
+        COMPREPLY+=($(compgen -W "${flags[*]} ${options[*]}" -- "${cur}"))
+    fi
+}
+
+__container_add_completions() {
+    local completion
+    while IFS='' read -r completion; do
+        COMPREPLY+=("${completion}")
+    done < <(IFS=$'\n' compgen "${@}" -- "${cur}")
+}
+
+__container_custom_complete() {
+    if [[ -n "${cur}" || -z ${COMP_WORDS[${COMP_CWORD}]} || "${COMP_LINE:${COMP_POINT}:1}" != ' ' ]]; then
+        local -ar words=("${COMP_WORDS[@]}")
+    else
+        local -ar words=("${COMP_WORDS[@]::${COMP_CWORD}}" '' "${COMP_WORDS[@]:${COMP_CWORD}}")
+    fi
+
+    "${COMP_WORDS[0]}" "${@}" "${words[@]}"
+}
+
+_container() {
+    trap "$(shopt -p);$(shopt -po)" RETURN
+    shopt -s extglob
+    set +o history +o posix
+
+    local -xr SAP_SHELL=bash
+    local -x SAP_SHELL_VERSION
+    SAP_SHELL_VERSION="$(IFS='.';printf %s "${BASH_VERSINFO[*]}")"
+    local -r SAP_SHELL_VERSION
+
+    local -r cur="${2}"
+    local -r prev="${3}"
+
+    local -i positional_number
+    local -a unparsed_words=("${COMP_WORDS[@]:1:${COMP_CWORD}}")
+
+    local -a flags=(--debug --version -h --help)
+    local -a options=()
+    __container_offer_flags_options 0
+
+    # Offer subcommand / subcommand argument completions
+    local -r subcommand="${unparsed_words[0]}"
+    unset 'unparsed_words[0]'
+    unparsed_words=("${unparsed_words[@]}")
+    case "${subcommand}" in
+    create|delete|exec|inspect|kill|list|logs|run|start|stats|stop|build|image|registry|volume|builder|network|system|help)
+        # Offer subcommand argument completions
+        "_container_${subcommand}"
+        ;;
+    *)
+        # Offer subcommand completions
+        COMPREPLY+=($(compgen -W 'create delete exec inspect kill list logs run start stats stop build image registry volume builder network system help' -- "${cur}"))
+        ;;
+    esac
+}
+
+_container_create() {
+    flags=(--interactive -i --tty -t --detach -d --no-dns --rm --remove --rosetta --ssh --virtualization --debug --version -h --help)
+    options=(--env -e --env-file --gid --user -u --uid -w --workdir --cwd --cpus -c --memory -m --arch -a --cidfile --dns --dns-domain --dns-option --dns-search --entrypoint --kernel -k -l --label --mount --name --network --os -p --publish --platform --publish-socket --tmpfs --volume -v --scheme --max-concurrent-downloads)
+    __container_offer_flags_options 2
+
+    # Offer option value completions
+    case "${prev}" in
+    '--env'|'-e')
+        return
+        ;;
+    '--env-file')
+        return
+        ;;
+    '--gid')
+        return
+        ;;
+    '--user'|'-u')
+        return
+        ;;
+    '--uid')
+        return
+        ;;
+    '-w'|'--workdir'|'--cwd')
+        return
+        ;;
+    '--cpus'|'-c')
+        return
+        ;;
+    '--memory'|'-m')
+        return
+        ;;
+    '--arch'|'-a')
+        return
+        ;;
+    '--cidfile')
+        return
+        ;;
+    '--dns')
+        return
+        ;;
+    '--dns-domain')
+        return
+        ;;
+    '--dns-option')
+        return
+        ;;
+    '--dns-search')
+        return
+        ;;
+    '--entrypoint')
+        return
+        ;;
+    '--kernel'|'-k')
+        __container_add_completions -f
+        return
+        ;;
+    '-l'|'--label')
+        return
+        ;;
+    '--mount')
+        return
+        ;;
+    '--name')
+        return
+        ;;
+    '--network')
+        return
+        ;;
+    '--os')
+        return
+        ;;
+    '-p'|'--publish')
+        return
+        ;;
+    '--platform')
+        return
+        ;;
+    '--publish-socket')
+        return
+        ;;
+    '--tmpfs')
+        return
+        ;;
+    '--volume'|'-v')
+        return
+        ;;
+    '--scheme')
+        return
+        ;;
+    '--max-concurrent-downloads')
+        return
+        ;;
+    esac
+}
+
+_container_delete() {
+    flags=(--all -a --force -f --debug --version -h --help)
+    options=()
+    __container_offer_flags_options 1
+}
+
+_container_exec() {
+    flags=(--interactive -i --tty -t --debug --detach -d --version -h --help)
+    options=(--env -e --env-file --gid --user -u --uid -w --workdir --cwd)
+    __container_offer_flags_options 2
+
+    # Offer option value completions
+    case "${prev}" in
+    '--env'|'-e')
+        return
+        ;;
+    '--env-file')
+        return
+        ;;
+    '--gid')
+        return
+        ;;
+    '--user'|'-u')
+        return
+        ;;
+    '--uid')
+        return
+        ;;
+    '-w'|'--workdir'|'--cwd')
+        return
+        ;;
+    esac
+}
+
+_container_inspect() {
+    flags=(--debug --version -h --help)
+    options=()
+    __container_offer_flags_options 1
+}
+
+_container_kill() {
+    flags=(--all -a --debug --version -h --help)
+    options=(--signal -s)
+    __container_offer_flags_options 1
+
+    # Offer option value completions
+    case "${prev}" in
+    '--signal'|'-s')
+        return
+        ;;
+    esac
+}
+
+_container_list() {
+    flags=(--all -a --quiet -q --debug --version -h --help)
+    options=(--format)
+    __container_offer_flags_options 0
+
+    # Offer option value completions
+    case "${prev}" in
+    '--format')
+        __container_add_completions -W 'json'$'\n''table'
+        return
+        ;;
+    esac
+}
+
+_container_logs() {
+    flags=(--boot --follow -f --debug --version -h --help)
+    options=(-n)
+    __container_offer_flags_options 1
+
+    # Offer option value completions
+    case "${prev}" in
+    '-n')
+        return
+        ;;
+    esac
+}
+
+_container_run() {
+    flags=(--interactive -i --tty -t --detach -d --no-dns --rm --remove --rosetta --ssh --virtualization --debug --version -h --help)
+    options=(--env -e --env-file --gid --user -u --uid -w --workdir --cwd --cpus -c --memory -m --arch -a --cidfile --dns --dns-domain --dns-option --dns-search --entrypoint --kernel -k -l --label --mount --name --network --os -p --publish --platform --publish-socket --tmpfs --volume -v --scheme --progress --max-concurrent-downloads)
+    __container_offer_flags_options 2
+
+    # Offer option value completions
+    case "${prev}" in
+    '--env'|'-e')
+        return
+        ;;
+    '--env-file')
+        return
+        ;;
+    '--gid')
+        return
+        ;;
+    '--user'|'-u')
+        return
+        ;;
+    '--uid')
+        return
+        ;;
+    '-w'|'--workdir'|'--cwd')
+        return
+        ;;
+    '--cpus'|'-c')
+        return
+        ;;
+    '--memory'|'-m')
+        return
+        ;;
+    '--arch'|'-a')
+        return
+        ;;
+    '--cidfile')
+        return
+        ;;
+    '--dns')
+        return
+        ;;
+    '--dns-domain')
+        return
+        ;;
+    '--dns-option')
+        return
+        ;;
+    '--dns-search')
+        return
+        ;;
+    '--entrypoint')
+        return
+        ;;
+    '--kernel'|'-k')
+        __container_add_completions -f
+        return
+        ;;
+    '-l'|'--label')
+        return
+        ;;
+    '--mount')
+        return
+        ;;
+    '--name')
+        return
+        ;;
+    '--network')
+        return
+        ;;
+    '--os')
+        return
+        ;;
+    '-p'|'--publish')
+        return
+        ;;
+    '--platform')
+        return
+        ;;
+    '--publish-socket')
+        return
+        ;;
+    '--tmpfs')
+        return
+        ;;
+    '--volume'|'-v')
+        return
+        ;;
+    '--scheme')
+        return
+        ;;
+    '--progress')
+        return
+        ;;
+    '--max-concurrent-downloads')
+        return
+        ;;
+    esac
+}
+
+_container_start() {
+    flags=(--attach -a --interactive -i --debug --version -h --help)
+    options=()
+    __container_offer_flags_options 1
+}
+
+_container_stats() {
+    flags=(--no-stream --debug --version -h --help)
+    options=(--format)
+    __container_offer_flags_options 1
+
+    # Offer option value completions
+    case "${prev}" in
+    '--format')
+        __container_add_completions -W 'json'$'\n''table'
+        return
+        ;;
+    esac
+}
+
+_container_stop() {
+    flags=(--all -a --debug --version -h --help)
+    options=(--signal -s --time -t)
+    __container_offer_flags_options 1
+
+    # Offer option value completions
+    case "${prev}" in
+    '--signal'|'-s')
+        return
+        ;;
+    '--time'|'-t')
+        return
+        ;;
+    esac
+}
+
+_container_build() {
+    flags=(--no-cache --quiet -q --version -h --help)
+    options=(--arch -a --build-arg --cpus -c --file -f --label -l --memory -m --output -o --os --platform --progress -t --tag --target --vsock-port)
+    __container_offer_flags_options 1
+
+    # Offer option value completions
+    case "${prev}" in
+    '--arch'|'-a')
+        return
+        ;;
+    '--build-arg')
+        return
+        ;;
+    '--cpus'|'-c')
+        return
+        ;;
+    '--file'|'-f')
+        return
+        ;;
+    '--label'|'-l')
+        return
+        ;;
+    '--memory'|'-m')
+        return
+        ;;
+    '--output'|'-o')
+        return
+        ;;
+    '--os')
+        return
+        ;;
+    '--platform')
+        return
+        ;;
+    '--progress')
+        return
+        ;;
+    '-t'|'--tag')
+        return
+        ;;
+    '--target')
+        return
+        ;;
+    '--vsock-port')
+        return
+        ;;
+    esac
+}
+
+_container_image() {
+    flags=(--version -h --help)
+    options=()
+    __container_offer_flags_options 0
+
+    # Offer subcommand / subcommand argument completions
+    local -r subcommand="${unparsed_words[0]}"
+    unset 'unparsed_words[0]'
+    unparsed_words=("${unparsed_words[@]}")
+    case "${subcommand}" in
+    delete|inspect|list|load|prune|pull|push|save|tag)
+        # Offer subcommand argument completions
+        "_container_image_${subcommand}"
+        ;;
+    *)
+        # Offer subcommand completions
+        COMPREPLY+=($(compgen -W 'delete inspect list load prune pull push save tag' -- "${cur}"))
+        ;;
+    esac
+}
+
+_container_image_delete() {
+    flags=(--all -a --debug --version -h --help)
+    options=()
+    __container_offer_flags_options 1
+}
+
+_container_image_inspect() {
+    flags=(--debug --version -h --help)
+    options=()
+    __container_offer_flags_options 1
+}
+
+_container_image_list() {
+    flags=(--quiet -q --verbose -v --debug --version -h --help)
+    options=(--format)
+    __container_offer_flags_options 0
+
+    # Offer option value completions
+    case "${prev}" in
+    '--format')
+        __container_add_completions -W 'json'$'\n''table'
+        return
+        ;;
+    esac
+}
+
+_container_image_load() {
+    flags=(--debug --version -h --help)
+    options=(--input -i)
+    __container_offer_flags_options 0
+
+    # Offer option value completions
+    case "${prev}" in
+    '--input'|'-i')
+        __container_add_completions -f
+        return
+        ;;
+    esac
+}
+
+_container_image_prune() {
+    flags=(--debug --all -a --version -h --help)
+    options=()
+    __container_offer_flags_options 0
+}
+
+_container_image_pull() {
+    flags=(--debug --version -h --help)
+    options=(--scheme --progress --max-concurrent-downloads --arch -a --os --platform)
+    __container_offer_flags_options 1
+
+    # Offer option value completions
+    case "${prev}" in
+    '--scheme')
+        return
+        ;;
+    '--progress')
+        return
+        ;;
+    '--max-concurrent-downloads')
+        return
+        ;;
+    '--arch'|'-a')
+        return
+        ;;
+    '--os')
+        return
+        ;;
+    '--platform')
+        return
+        ;;
+    esac
+}
+
+_container_image_push() {
+    flags=(--debug --version -h --help)
+    options=(--scheme --progress --arch -a --os --platform)
+    __container_offer_flags_options 1
+
+    # Offer option value completions
+    case "${prev}" in
+    '--scheme')
+        return
+        ;;
+    '--progress')
+        return
+        ;;
+    '--arch'|'-a')
+        return
+        ;;
+    '--os')
+        return
+        ;;
+    '--platform')
+        return
+        ;;
+    esac
+}
+
+_container_image_save() {
+    flags=(--debug --version -h --help)
+    options=(--arch -a --os --output -o --platform)
+    __container_offer_flags_options 1
+
+    # Offer option value completions
+    case "${prev}" in
+    '--arch'|'-a')
+        return
+        ;;
+    '--os')
+        return
+        ;;
+    '--output'|'-o')
+        __container_add_completions -f
+        return
+        ;;
+    '--platform')
+        return
+        ;;
+    esac
+}
+
+_container_image_tag() {
+    flags=(--debug --version -h --help)
+    options=()
+    __container_offer_flags_options 2
+}
+
+_container_registry() {
+    flags=(--version -h --help)
+    options=()
+    __container_offer_flags_options 0
+
+    # Offer subcommand / subcommand argument completions
+    local -r subcommand="${unparsed_words[0]}"
+    unset 'unparsed_words[0]'
+    unparsed_words=("${unparsed_words[@]}")
+    case "${subcommand}" in
+    login|logout)
+        # Offer subcommand argument completions
+        "_container_registry_${subcommand}"
+        ;;
+    *)
+        # Offer subcommand completions
+        COMPREPLY+=($(compgen -W 'login logout' -- "${cur}"))
+        ;;
+    esac
+}
+
+_container_registry_login() {
+    flags=(--password-stdin --debug --version -h --help)
+    options=(--scheme --username -u)
+    __container_offer_flags_options 1
+
+    # Offer option value completions
+    case "${prev}" in
+    '--scheme')
+        return
+        ;;
+    '--username'|'-u')
+        return
+        ;;
+    esac
+}
+
+_container_registry_logout() {
+    flags=(--debug --version -h --help)
+    options=()
+    __container_offer_flags_options 1
+}
+
+_container_volume() {
+    flags=(--version -h --help)
+    options=()
+    __container_offer_flags_options 0
+
+    # Offer subcommand / subcommand argument completions
+    local -r subcommand="${unparsed_words[0]}"
+    unset 'unparsed_words[0]'
+    unparsed_words=("${unparsed_words[@]}")
+    case "${subcommand}" in
+    create|delete|list|inspect|prune)
+        # Offer subcommand argument completions
+        "_container_volume_${subcommand}"
+        ;;
+    *)
+        # Offer subcommand completions
+        COMPREPLY+=($(compgen -W 'create delete list inspect prune' -- "${cur}"))
+        ;;
+    esac
+}
+
+_container_volume_create() {
+    flags=(--debug --version -h --help)
+    options=(--label --opt -s)
+    __container_offer_flags_options 1
+
+    # Offer option value completions
+    case "${prev}" in
+    '--label')
+        return
+        ;;
+    '--opt')
+        return
+        ;;
+    '-s')
+        return
+        ;;
+    esac
+}
+
+_container_volume_delete() {
+    flags=(--all -a --debug --version -h --help)
+    options=()
+    __container_offer_flags_options 1
+}
+
+_container_volume_list() {
+    flags=(--quiet -q --debug --version -h --help)
+    options=(--format)
+    __container_offer_flags_options 0
+
+    # Offer option value completions
+    case "${prev}" in
+    '--format')
+        __container_add_completions -W 'json'$'\n''table'
+        return
+        ;;
+    esac
+}
+
+_container_volume_inspect() {
+    flags=(--debug --version -h --help)
+    options=()
+    __container_offer_flags_options 1
+}
+
+_container_volume_prune() {
+    flags=(--debug --version -h --help)
+    options=()
+    __container_offer_flags_options 0
+}
+
+_container_builder() {
+    flags=(--version -h --help)
+    options=()
+    __container_offer_flags_options 0
+
+    # Offer subcommand / subcommand argument completions
+    local -r subcommand="${unparsed_words[0]}"
+    unset 'unparsed_words[0]'
+    unparsed_words=("${unparsed_words[@]}")
+    case "${subcommand}" in
+    start|status|stop|delete)
+        # Offer subcommand argument completions
+        "_container_builder_${subcommand}"
+        ;;
+    *)
+        # Offer subcommand completions
+        COMPREPLY+=($(compgen -W 'start status stop delete' -- "${cur}"))
+        ;;
+    esac
+}
+
+_container_builder_start() {
+    flags=(--debug --version -h --help)
+    options=(--cpus -c --memory -m)
+    __container_offer_flags_options 0
+
+    # Offer option value completions
+    case "${prev}" in
+    '--cpus'|'-c')
+        return
+        ;;
+    '--memory'|'-m')
+        return
+        ;;
+    esac
+}
+
+_container_builder_status() {
+    flags=(--quiet -q --debug --version -h --help)
+    options=(--format)
+    __container_offer_flags_options 0
+
+    # Offer option value completions
+    case "${prev}" in
+    '--format')
+        __container_add_completions -W 'json'$'\n''table'
+        return
+        ;;
+    esac
+}
+
+_container_builder_stop() {
+    flags=(--debug --version -h --help)
+    options=()
+    __container_offer_flags_options 0
+}
+
+_container_builder_delete() {
+    flags=(--force -f --debug --version -h --help)
+    options=()
+    __container_offer_flags_options 0
+}
+
+_container_network() {
+    flags=(--version -h --help)
+    options=()
+    __container_offer_flags_options 0
+
+    # Offer subcommand / subcommand argument completions
+    local -r subcommand="${unparsed_words[0]}"
+    unset 'unparsed_words[0]'
+    unparsed_words=("${unparsed_words[@]}")
+    case "${subcommand}" in
+    create|delete|list|inspect)
+        # Offer subcommand argument completions
+        "_container_network_${subcommand}"
+        ;;
+    *)
+        # Offer subcommand completions
+        COMPREPLY+=($(compgen -W 'create delete list inspect' -- "${cur}"))
+        ;;
+    esac
+}
+
+_container_network_create() {
+    flags=(--debug --version -h --help)
+    options=(--label --subnet)
+    __container_offer_flags_options 1
+
+    # Offer option value completions
+    case "${prev}" in
+    '--label')
+        return
+        ;;
+    '--subnet')
+        return
+        ;;
+    esac
+}
+
+_container_network_delete() {
+    flags=(--all -a --debug --version -h --help)
+    options=()
+    __container_offer_flags_options 1
+}
+
+_container_network_list() {
+    flags=(--quiet -q --debug --version -h --help)
+    options=(--format)
+    __container_offer_flags_options 0
+
+    # Offer option value completions
+    case "${prev}" in
+    '--format')
+        __container_add_completions -W 'json'$'\n''table'
+        return
+        ;;
+    esac
+}
+
+_container_network_inspect() {
+    flags=(--debug --version -h --help)
+    options=()
+    __container_offer_flags_options 1
+}
+
+_container_system() {
+    flags=(--version -h --help)
+    options=()
+    __container_offer_flags_options 0
+
+    # Offer subcommand / subcommand argument completions
+    local -r subcommand="${unparsed_words[0]}"
+    unset 'unparsed_words[0]'
+    unparsed_words=("${unparsed_words[@]}")
+    case "${subcommand}" in
+    df|dns|kernel|logs|property|start|status|stop)
+        # Offer subcommand argument completions
+        "_container_system_${subcommand}"
+        ;;
+    *)
+        # Offer subcommand completions
+        COMPREPLY+=($(compgen -W 'df dns kernel logs property start status stop' -- "${cur}"))
+        ;;
+    esac
+}
+
+_container_system_df() {
+    flags=(--debug --version -h --help)
+    options=(--format)
+    __container_offer_flags_options 0
+
+    # Offer option value completions
+    case "${prev}" in
+    '--format')
+        __container_add_completions -W 'json'$'\n''table'
+        return
+        ;;
+    esac
+}
+
+_container_system_dns() {
+    flags=(--version -h --help)
+    options=()
+    __container_offer_flags_options 0
+
+    # Offer subcommand / subcommand argument completions
+    local -r subcommand="${unparsed_words[0]}"
+    unset 'unparsed_words[0]'
+    unparsed_words=("${unparsed_words[@]}")
+    case "${subcommand}" in
+    create|delete|list)
+        # Offer subcommand argument completions
+        "_container_system_dns_${subcommand}"
+        ;;
+    *)
+        # Offer subcommand completions
+        COMPREPLY+=($(compgen -W 'create delete list' -- "${cur}"))
+        ;;
+    esac
+}
+
+_container_system_dns_create() {
+    flags=(--debug --version -h --help)
+    options=()
+    __container_offer_flags_options 1
+}
+
+_container_system_dns_delete() {
+    flags=(--debug --version -h --help)
+    options=()
+    __container_offer_flags_options 1
+}
+
+_container_system_dns_list() {
+    flags=(--quiet -q --debug --version -h --help)
+    options=(--format)
+    __container_offer_flags_options 0
+
+    # Offer option value completions
+    case "${prev}" in
+    '--format')
+        __container_add_completions -W 'json'$'\n''table'
+        return
+        ;;
+    esac
+}
+
+_container_system_kernel() {
+    flags=(--version -h --help)
+    options=()
+    __container_offer_flags_options 0
+
+    # Offer subcommand / subcommand argument completions
+    local -r subcommand="${unparsed_words[0]}"
+    unset 'unparsed_words[0]'
+    unparsed_words=("${unparsed_words[@]}")
+    case "${subcommand}" in
+    set)
+        # Offer subcommand argument completions
+        "_container_system_kernel_${subcommand}"
+        ;;
+    *)
+        # Offer subcommand completions
+        COMPREPLY+=($(compgen -W 'set' -- "${cur}"))
+        ;;
+    esac
+}
+
+_container_system_kernel_set() {
+    flags=(--force --recommended --debug --version -h --help)
+    options=(--arch --binary --tar)
+    __container_offer_flags_options 0
+
+    # Offer option value completions
+    case "${prev}" in
+    '--arch')
+        return
+        ;;
+    '--binary')
+        return
+        ;;
+    '--tar')
+        return
+        ;;
+    esac
+}
+
+_container_system_logs() {
+    flags=(--follow -f --debug --version -h --help)
+    options=(--last)
+    __container_offer_flags_options 0
+
+    # Offer option value completions
+    case "${prev}" in
+    '--last')
+        return
+        ;;
+    esac
+}
+
+_container_system_property() {
+    flags=(--version -h --help)
+    options=()
+    __container_offer_flags_options 0
+
+    # Offer subcommand / subcommand argument completions
+    local -r subcommand="${unparsed_words[0]}"
+    unset 'unparsed_words[0]'
+    unparsed_words=("${unparsed_words[@]}")
+    case "${subcommand}" in
+    clear|get|list|set)
+        # Offer subcommand argument completions
+        "_container_system_property_${subcommand}"
+        ;;
+    *)
+        # Offer subcommand completions
+        COMPREPLY+=($(compgen -W 'clear get list set' -- "${cur}"))
+        ;;
+    esac
+}
+
+_container_system_property_clear() {
+    flags=(--debug --version -h --help)
+    options=()
+    __container_offer_flags_options 1
+}
+
+_container_system_property_get() {
+    flags=(--debug --version -h --help)
+    options=()
+    __container_offer_flags_options 1
+}
+
+_container_system_property_list() {
+    flags=(--quiet -q --debug --version -h --help)
+    options=(--format)
+    __container_offer_flags_options 0
+
+    # Offer option value completions
+    case "${prev}" in
+    '--format')
+        __container_add_completions -W 'json'$'\n''table'
+        return
+        ;;
+    esac
+}
+
+_container_system_property_set() {
+    flags=(--debug --version -h --help)
+    options=()
+    __container_offer_flags_options 2
+}
+
+_container_system_start() {
+    flags=(--enable-kernel-install --disable-kernel-install --debug --version -h --help)
+    options=(--app-root -a --install-root)
+    __container_offer_flags_options 0
+
+    # Offer option value completions
+    case "${prev}" in
+    '--app-root'|'-a')
+        return
+        ;;
+    '--install-root')
+        return
+        ;;
+    esac
+}
+
+_container_system_status() {
+    flags=(--debug --version -h --help)
+    options=(--prefix -p)
+    __container_offer_flags_options 0
+
+    # Offer option value completions
+    case "${prev}" in
+    '--prefix'|'-p')
+        return
+        ;;
+    esac
+}
+
+_container_system_stop() {
+    flags=(--debug --version -h --help)
+    options=(--prefix -p)
+    __container_offer_flags_options 0
+
+    # Offer option value completions
+    case "${prev}" in
+    '--prefix'|'-p')
+        return
+        ;;
+    esac
+}
+
+_container_help() {
+    flags=(--version)
+    options=()
+    __container_offer_flags_options 1
+}
+
+complete -o filenames -F _container container

@@ -21,3 +21,4 @@ TZ = "America/New_York"
 [settings]
 experimental = true
 lockfile = true
+env_shell_expand = true
